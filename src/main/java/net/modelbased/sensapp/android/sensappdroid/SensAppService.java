@@ -1,5 +1,6 @@
 package net.modelbased.sensapp.android.sensappdroid;
 
+import net.modelbased.sensapp.android.sensappdroid.restservice.RESTExchangeThread;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;

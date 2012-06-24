@@ -1,4 +1,4 @@
-package net.modelbased.sensapp.android.sensappdroid;
+package net.modelbased.sensapp.android.sensappdroid.restservice;
 
 import net.modelbased.sensapp.android.sensappdroid.contentprovider.MeasureCP;
 import net.modelbased.sensapp.android.sensappdroid.database.MeasureTable;

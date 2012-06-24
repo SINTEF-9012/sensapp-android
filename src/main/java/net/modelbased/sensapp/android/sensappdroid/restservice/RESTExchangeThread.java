@@ -1,4 +1,5 @@
-package net.modelbased.sensapp.android.sensappdroid;
+package net.modelbased.sensapp.android.sensappdroid.restservice;
+
 
 public class RESTExchangeThread extends Thread {
 	
