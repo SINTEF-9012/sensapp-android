@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <TextView 
+        android:id="@+id/measure_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/measure_id" />
+        
+    <TextView 
+        android:id="@+id/measure_id_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:layout_toRightOf="@id/measure_id" />
+        
+    <TextView 
+        android:id="@+id/measure_sensor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/measure_id"
+        android:text="@string/measure_sensor" />
+        
+    <TextView 
+        android:id="@+id/measure_sensor_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:layout_below="@id/measure_id_value"
+        android:layout_toRightOf="@id/measure_sensor" />
+    
+    <TextView 
+        android:id="@+id/measure_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/measure_sensor"
+        android:text="@string/measure_value" />
+        
+    <TextView 
+        android:id="@+id/measure_value_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:layout_below="@id/measure_sensor_value"
+        android:layout_toRightOf="@id/measure_value" />
+    
+</RelativeLayout>

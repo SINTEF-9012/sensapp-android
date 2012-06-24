@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+   	<string name="hello">Hello World, SensApp!</string>
+	<string name="app_name">SensApp</string>
+	<string name="no_measures">Currently there are no measures maintained</string>
+	<string name="menu_insert">Add Item</string>
+	<string name="menu_delete">Delete measure</string>
+	<string name="measure_id">Id: </string>
+	<string name="measure_sensor">Sensor: </string>
+	<string name="measure_value">Value: </string>
+
+</resources>
