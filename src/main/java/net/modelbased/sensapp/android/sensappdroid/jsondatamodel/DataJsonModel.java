@@ -1,9 +1,14 @@
-package net.modelbased.sensapp.android.sensappdroid.jsonparser;
+package net.modelbased.sensapp.android.sensappdroid.jsondatamodel;
 
 public class DataJsonModel {
 	
 	private int v;
 	private long t;
+	
+	public DataJsonModel(int v, long t) {
+		this.v = v;
+		this.t = t;
+	}
 	
 	public int getV() {
 		return v;

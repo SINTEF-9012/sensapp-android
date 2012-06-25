@@ -1,4 +1,4 @@
-package net.modelbased.sensapp.android.sensappdroid.jsonparser;
+package net.modelbased.sensapp.android.sensappdroid.jsondatamodel;
 
 public class Measure {
 	
