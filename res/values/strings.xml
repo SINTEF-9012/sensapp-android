@@ -7,7 +7,14 @@
 	<string name="menu_insert">Add Item</string>
 	<string name="menu_delete">Delete measure</string>
 	<string name="measure_id">Id: </string>
-	<string name="measure_sensor">Sensor: </string>
-	<string name="measure_value">Value: </string>
-
+	<string name="measure_sensor">Sensor</string>
+	<string name="measure_value">Value</string>
+	<string name="measure_basetime">Basetime: </string>
+	<string name="measure_time">Time: </string>
+	<string name="measure_status">Status: </string>
+	<string name="measure_uploaded">Uploaded</string>
+	<string name="measure_notuploaded">Not uploaded</string>
+	<string name="toast_service_started">SensApp service started</string>
+	<string name="toast_service_stopped">SensApp service stopped</string>
+	
 </resources>

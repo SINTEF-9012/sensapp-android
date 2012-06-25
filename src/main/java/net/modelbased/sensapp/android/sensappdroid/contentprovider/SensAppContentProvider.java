@@ -9,14 +9,13 @@ import android.net.Uri;
 
 public class SensAppContentProvider extends ContentProvider {
 
-	protected static final String AUTHORITY = "com.fleurey.bdx.sensapp.contentprovider";
-	protected static final String BASE_PATH = "sensapp";
+	protected static final String AUTHORITY = "net.modelbased.sensapp.android.sensappdroid.contentprovider";
 	
 	private static final int MEASURE = 10;
 	private static final UriMatcher sensAppURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	static {
-		sensAppURIMatcher.addURI(AUTHORITY, BASE_PATH + "/measures", MEASURE);
-		sensAppURIMatcher.addURI(AUTHORITY, BASE_PATH + "/measures" + "/#", MEASURE);
+		sensAppURIMatcher.addURI(AUTHORITY, "measures", MEASURE);
+		sensAppURIMatcher.addURI(AUTHORITY, "measures" + "/#", MEASURE);
 	}
 
 	private MeasureCP measureCP;

@@ -25,7 +25,7 @@
         </activity>
         <provider
         	android:name=".contentprovider.SensAppContentProvider"
-            android:authorities="com.fleurey.bdx.sensapp.contentprovider" >
+            android:authorities="net.modelbased.sensapp.android.sensappdroid.contentprovider" >
         </provider>
         <service
 			android:name=".SensAppService" >

@@ -1,5 +1,6 @@
 package net.modelbased.sensapp.android.sensappdroid.jsondatamodel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MeasureJsonModel {
@@ -8,6 +9,19 @@ public class MeasureJsonModel {
 	private long bt;
 	private String bu;
 	private List<DataJsonModel> e;
+	
+	public MeasureJsonModel() {
+		bn = new String();
+		bu = new String();
+		e = new ArrayList<DataJsonModel>();
+	}
+	
+	public MeasureJsonModel(String bn, long bt, String bu) {
+		this.bn = bn;
+		this.bt = bt;
+		this.bu = bu;
+		e = new ArrayList<DataJsonModel>();
+	}
 	
 	public MeasureJsonModel(String bn, long bt, String bu, List<DataJsonModel> e) {
 		this.bn = bn;
@@ -41,11 +55,21 @@ public class MeasureJsonModel {
 		this.e = e;
 	}
 	
+	public MeasureJsonModel appendMeasure(int value, long time) {
+		e.add(new DataJsonModel(value, time));
+		return this;
+	}
+	
 	public MeasureJsonModel appendMeasure(Measure measure) {
 		if (!measure.getSensor().equals(bn)) {
 			throw new IllegalArgumentException("Incompatible sensor name: " + measure.getSensor());
 		} 
 		e.add(new DataJsonModel(measure.getValue(), measure.getTime()));
 		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "MEASURE MODEL/ bn: " + bn + " - bt: " + bt + " - bu: " + bu;
 	}
 }

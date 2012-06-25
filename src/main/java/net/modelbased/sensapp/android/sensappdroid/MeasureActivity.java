@@ -1,6 +1,6 @@
 package net.modelbased.sensapp.android.sensappdroid;
 
-import net.modelbased.sensapp.android.sensappdroid.contentprovider.MeasureCP;
+import net.modelbased.sensapp.android.sensappdroid.contentprovider.SensAppMeasureProviderContract;
 import net.modelbased.sensapp.android.sensappdroid.database.MeasureTable;
 import android.app.Activity;
 import android.database.Cursor;
@@ -16,6 +16,8 @@ public class MeasureActivity extends Activity {
 	private TextView tvId;
 	private TextView tvSensor;
 	private TextView tvValue;
+	private TextView tvTime;
+	private TextView tvStatus;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,18 +28,23 @@ public class MeasureActivity extends Activity {
 		tvSensor = (TextView) findViewById(R.id.measure_sensor_value);
 		tvValue = (TextView) findViewById(R.id.measure_value_value);
 		Bundle extras = getIntent().getExtras();
-		Uri measureUri = extras.getParcelable(MeasureCP.CONTENT_ITEM_TYPE);
+		Uri measureUri = extras.getParcelable(SensAppMeasureProviderContract.CONTENT_ITEM_TYPE);
 		fillData(measureUri);
 	}
 
 	private void fillData(Uri uri) {
-		String[] projection = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_SENSOR, MeasureTable.COLUMN_VALUE};
-		Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+		Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 		if (cursor != null) {
 			cursor.moveToFirst();
 			tvId.setText(cursor.getString(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_ID)));
-			tvSensor.setText(cursor.getString(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_SENSOR)));
+			tvSensor.setText(cursor.getInt(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_SENSOR)));
 			tvValue.setText(cursor.getString(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_VALUE)));
+			tvTime.setText(cursor.getInt(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_TIME)));
+			if (cursor.getInt(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_UPLOADED)) != 0) {
+				tvStatus.setText(R.string.measure_uploaded);
+			} else {
+				tvStatus.setText(R.string.measure_notuploaded);
+			}
 			cursor.close();
 		}
 	}

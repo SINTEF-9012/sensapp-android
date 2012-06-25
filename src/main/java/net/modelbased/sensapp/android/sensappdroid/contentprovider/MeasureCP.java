@@ -6,7 +6,6 @@ import java.util.HashSet;
 import net.modelbased.sensapp.android.sensappdroid.database.MeasureTable;
 import net.modelbased.sensapp.android.sensappdroid.database.SensAppDatabaseHelper;
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
@@ -17,14 +16,10 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 public class MeasureCP {
-
-	public static final String BASE_PATH = SensAppContentProvider.BASE_PATH + "/measures";
-	public static final Uri CONTENT_URI = Uri.parse("content://" + SensAppContentProvider.AUTHORITY + "/" + BASE_PATH);
-	public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/measures";
-	public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/measure";
 	
-	private final static int MEASURES = 10;
-	private final static int MEASURE_ID = 20;
+	private static final String BASE_PATH = "measures";
+	private static final int MEASURES = 10;
+	private static final int MEASURE_ID = 20;
 	private static final UriMatcher measureURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	static {
 		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH, MEASURES);

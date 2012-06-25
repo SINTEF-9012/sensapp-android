@@ -1,6 +1,6 @@
 package net.modelbased.sensapp.android.sensappdroid;
 
-import net.modelbased.sensapp.android.sensappdroid.contentprovider.MeasureCP;
+import net.modelbased.sensapp.android.sensappdroid.contentprovider.SensAppMeasureProviderContract;
 import net.modelbased.sensapp.android.sensappdroid.database.MeasureTable;
 import net.modelbased.sensapp.android.sensappdroid.restservice.PushDataTest;
 import android.app.ListActivity;
@@ -55,7 +55,7 @@ public class SensAppActivity extends ListActivity implements LoaderCallbacks<Cur
 		switch (item.getItemId()) {
 		case MENU_DELETE_ID:
 			AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-			Uri uri = Uri.parse(MeasureCP.CONTENT_URI + "/" + info.id);
+			Uri uri = Uri.parse(SensAppMeasureProviderContract.CONTENT_URI + "/" + info.id);
 			getContentResolver().delete(uri, null, null);
 			return true;
 		}
@@ -66,8 +66,8 @@ public class SensAppActivity extends ListActivity implements LoaderCallbacks<Cur
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		Intent i = new Intent(this, MeasureActivity.class);
-		Uri measureUri = Uri.parse(MeasureCP.CONTENT_URI + "/" + id);
-		i.putExtra(MeasureCP.CONTENT_ITEM_TYPE, measureUri);
+		Uri measureUri = Uri.parse(SensAppMeasureProviderContract.CONTENT_URI + "/" + id);
+		i.putExtra(SensAppMeasureProviderContract.CONTENT_ITEM_TYPE, measureUri);
 		startActivity(i);
 	}
 
@@ -107,7 +107,7 @@ public class SensAppActivity extends ListActivity implements LoaderCallbacks<Cur
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Log.d(TAG, "__ON_CREATE_LOADER__");
 		String[] projection = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_VALUE};
-		CursorLoader cursorLoader = new CursorLoader(this, MeasureCP.CONTENT_URI, projection, null, null, null);
+		CursorLoader cursorLoader = new CursorLoader(this, SensAppMeasureProviderContract.CONTENT_URI, projection, null, null, null);
 		return cursorLoader;
 	}
 

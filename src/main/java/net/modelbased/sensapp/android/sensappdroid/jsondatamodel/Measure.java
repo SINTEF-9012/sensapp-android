@@ -8,6 +8,10 @@ public class Measure {
 	private long time;
 	private boolean uploaded;
 	
+	public Measure() {
+		sensor = new String();
+	}
+	
 	public Measure(int id, String sensor, int value, long time, boolean uploaded) {
 		this.id = id;
 		this.sensor = sensor;
@@ -54,5 +58,10 @@ public class Measure {
 
 	public void setUploaded(boolean uploaded) {
 		this.uploaded = uploaded;
+	}
+
+	@Override
+	public String toString() {
+		return "MEASURE/ Id: " + id + " - Sensor: " + sensor + " - Value: " + value + " - Time: " + time + " - Uploaded:" + uploaded;
 	}
 }

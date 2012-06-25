@@ -5,9 +5,27 @@
     android:layout_height="match_parent" >
     
     <TextView 
+        android:id="@+id/measure_sensor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/measure_sensor" />
+        
+    <TextView 
+        android:id="@+id/measure_sensor_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/measure_sensor" />
+    
+    <TextView 
         android:id="@+id/measure_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="50dp"
+        android:paddingLeft="30dp"
+        android:layout_below="@id/measure_sensor_value"
         android:text="@string/measure_id" />
         
     <TextView 
@@ -15,36 +33,58 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
-        android:layout_toRightOf="@id/measure_id" />
-        
+        android:layout_toRightOf="@id/measure_id" 
+        android:layout_alignBottom="@id/measure_id"/>
+    
     <TextView 
-        android:id="@+id/measure_sensor"
+        android:id="@+id/measure_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="10dp"
         android:layout_below="@id/measure_id"
-        android:text="@string/measure_sensor" />
+        android:layout_alignRight="@id/measure_id"
+        android:text="@string/measure_time" />
         
     <TextView 
-        android:id="@+id/measure_sensor_value"
+        android:id="@+id/measure_time_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
-        android:layout_below="@id/measure_id_value"
-        android:layout_toRightOf="@id/measure_sensor" />
+		android:layout_alignBottom="@id/measure_time"
+        android:layout_alignRight="@id/measure_id_value" />
+    
+    <TextView 
+        android:id="@+id/measure_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:layout_below="@id/measure_time"
+        android:layout_alignRight="@id/measure_id"
+        android:text="@string/measure_status" />
+        
+    <TextView 
+        android:id="@+id/measure_status_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_alignBottom="@id/measure_status"
+        android:layout_alignRight="@id/measure_id_value" />
     
     <TextView 
         android:id="@+id/measure_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/measure_sensor"
+        android:paddingTop="50dp"
+        android:paddingRight="30dp"
+        android:layout_alignTop="@id/measure_id"
+        android:layout_alignParentRight="true"
         android:text="@string/measure_value" />
         
     <TextView 
         android:id="@+id/measure_value_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
-        android:layout_below="@id/measure_sensor_value"
-        android:layout_toRightOf="@id/measure_value" />
+        android:paddingTop="20dp"
+        android:paddingRight="30dp"
+        android:layout_below="@id/measure_value"
+        android:layout_alignParentRight="true" />
     
 </RelativeLayout>
