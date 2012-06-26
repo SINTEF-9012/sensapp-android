@@ -24,6 +24,8 @@ import android.widget.SimpleCursorAdapter;
 
 public class SensAppActivity extends ListActivity implements LoaderCallbacks<Cursor> {
 	
+	public static final String ACTION_UPLOAD = "net.modelbased.sensapp.android.sensappdroid.ACTION_UPLOAD";
+	
 	private static final String TAG = SensAppActivity.class.getName();
 	private static final int MENU_DELETE_ID = Menu.FIRST + 1;
 	
@@ -37,8 +39,6 @@ public class SensAppActivity extends ListActivity implements LoaderCallbacks<Cur
         setContentView(R.layout.measure_list);
         initAdapter();
 		registerForContextMenu(getListView());
-		intentService = new Intent(this, SensAppService.class); 
-		startService(intentService);
     }
 
     
@@ -47,6 +47,7 @@ public class SensAppActivity extends ListActivity implements LoaderCallbacks<Cur
 		Log.w(TAG, "Item context: " + v.getId());
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.add(0, MENU_DELETE_ID, 0, R.string.menu_delete);
+		intentService = new Intent(this, SensAppService.class);
 	}
 
 
@@ -84,6 +85,14 @@ public class SensAppActivity extends ListActivity implements LoaderCallbacks<Cur
 		case R.id.insert:
 			PushDataTest.push(this);
 			return true;
+		case R.id.upload:
+			Intent i = new Intent(this, SensAppService.class);
+			i.setAction(ACTION_UPLOAD);
+			startService(i);
+			return true;
+		case R.id.stop_service:
+			//stopService(intentService);
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -99,7 +108,6 @@ public class SensAppActivity extends ListActivity implements LoaderCallbacks<Cur
 	@Override
 	public void onDestroy() {
 		Log.d(TAG, "__ON_DESTROY__");
-		stopService(intentService);
 		super.onDestroy();
 	}
 	

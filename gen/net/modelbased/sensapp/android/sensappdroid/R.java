@@ -27,6 +27,8 @@ public final class R {
         public static final int measure_time_value=0x7f060007;
         public static final int measure_value=0x7f06000a;
         public static final int measure_value_value=0x7f06000b;
+        public static final int stop_service=0x7f06000e;
+        public static final int upload=0x7f06000d;
     }
     public static final class layout {
         public static final int main=0x7f030000;

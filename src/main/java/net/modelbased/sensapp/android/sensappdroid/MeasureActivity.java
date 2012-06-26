@@ -27,6 +27,8 @@ public class MeasureActivity extends Activity {
 		tvId = (TextView) findViewById(R.id.measure_id_value);
 		tvSensor = (TextView) findViewById(R.id.measure_sensor_value);
 		tvValue = (TextView) findViewById(R.id.measure_value_value);
+		tvTime = (TextView) findViewById(R.id.measure_time_value);
+		tvStatus = (TextView) findViewById(R.id.measure_status_value);
 		Bundle extras = getIntent().getExtras();
 		Uri measureUri = extras.getParcelable(SensAppMeasureProviderContract.CONTENT_ITEM_TYPE);
 		fillData(measureUri);
@@ -36,10 +38,10 @@ public class MeasureActivity extends Activity {
 		Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 		if (cursor != null) {
 			cursor.moveToFirst();
-			tvId.setText(cursor.getString(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_ID)));
-			tvSensor.setText(cursor.getInt(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_SENSOR)));
-			tvValue.setText(cursor.getString(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_VALUE)));
-			tvTime.setText(cursor.getInt(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_TIME)));
+			tvId.setText(cursor.getString(cursor.getColumnIndexOrThrow(SensAppMeasureProviderContract.ID)));
+			tvSensor.setText(cursor.getString(cursor.getColumnIndexOrThrow(SensAppMeasureProviderContract.SENSOR)));
+			tvValue.setText(cursor.getString(cursor.getColumnIndexOrThrow(SensAppMeasureProviderContract.VALUE)));
+			tvTime.setText(cursor.getString(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_TIME)));
 			if (cursor.getInt(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_UPLOADED)) != 0) {
 				tvStatus.setText(R.string.measure_uploaded);
 			} else {

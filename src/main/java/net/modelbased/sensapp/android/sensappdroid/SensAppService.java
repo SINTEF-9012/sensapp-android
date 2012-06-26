@@ -1,6 +1,7 @@
 package net.modelbased.sensapp.android.sensappdroid;
 
 import net.modelbased.sensapp.android.sensappdroid.restservice.RestAPI;
+import net.modelbased.sensapp.android.sensappdroid.restservice.RestRequestTask;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -17,16 +18,24 @@ public class SensAppService extends Service {
 	public void onCreate() {
 		Log.d(TAG, "__ON_CREATE__");
 		super.onCreate();
-		Toast.makeText(this, R.string.toast_service_started, Toast.LENGTH_LONG);
+		Toast.makeText(getApplicationContext(), R.string.toast_service_started, Toast.LENGTH_LONG);
 		restAPI = new RestAPI(this, "46.51.169.123", 80);
-		restAPI.pushNotUploadedMeasure();
 	}
-
+	
 	@Override
-	public void onStart(Intent intent, int startId) {
-		Log.d(TAG, "__ON_START__");
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		if (intent.getAction().equals(SensAppActivity.ACTION_UPLOAD)) {
+			Log.d(TAG, "Receive: ACTION_UPLOAD");
+			restAPI.pushNotUploadedMeasure();
+		} else if (intent.getAction().equals(RestRequestTask.ACTION_REQUEST_SUCCEED)) {
+			Log.d(TAG, "Receive: ACTION_REQUEST_SUCCEED");
+			//int mode = intent.getExtras().getInt(RestRequestTask.EXTRA_MODE);
+			Toast.makeText(getApplicationContext(), "Upload succeed", Toast.LENGTH_SHORT);
+			restAPI.setMeasureUploaded();
+		}
+		return START_STICKY;
 	}
-
+	
 	public IBinder onBind(Intent intent) {
 		return null;
 	}
@@ -34,8 +43,8 @@ public class SensAppService extends Service {
 	@Override
 	public void onDestroy() {
 		Log.d(TAG, "__ON_DESTROY__");
+		Toast.makeText(getApplicationContext(), R.string.toast_service_stopped, Toast.LENGTH_LONG);
 		super.onDestroy();
-		Toast.makeText(this, R.string.toast_service_stopped, Toast.LENGTH_LONG);
 	}
 	
 //	private Hashtable<Integer, Measure> getMeasureNotUploaded() {
