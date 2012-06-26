@@ -18,8 +18,8 @@ public class SensAppService extends Service {
 	public void onCreate() {
 		Log.d(TAG, "__ON_CREATE__");
 		super.onCreate();
-		Toast.makeText(getApplicationContext(), R.string.toast_service_started, Toast.LENGTH_LONG);
-		restAPI = new RestAPI(this, "46.51.169.123", 80);
+		Toast.makeText(getApplicationContext(), R.string.toast_service_started, Toast.LENGTH_LONG).show();
+		restAPI = new RestAPI(this, "46.51.169.123", 8080);
 	}
 	
 	@Override
@@ -27,12 +27,18 @@ public class SensAppService extends Service {
 		if (intent.getAction().equals(SensAppActivity.ACTION_UPLOAD)) {
 			Log.d(TAG, "Receive: ACTION_UPLOAD");
 			restAPI.pushNotUploadedMeasure();
+		} else if (intent.getAction().equals(SensAppActivity.ACTION_FLUSH_ALL)) {
+			Log.d(TAG, "Receive: ACTION_FLUSH_ALL");
+			restAPI.deleteAllMeasure();
+		} else if (intent.getAction().equals(SensAppActivity.ACTION_FLUSH_UPLOADED)) {
+			Log.d(TAG, "Receive: ACTION_FLUSH_UPLOADED");
+			restAPI.deleteUploaded();
 		} else if (intent.getAction().equals(RestRequestTask.ACTION_REQUEST_SUCCEED)) {
 			Log.d(TAG, "Receive: ACTION_REQUEST_SUCCEED");
 			//int mode = intent.getExtras().getInt(RestRequestTask.EXTRA_MODE);
-			Toast.makeText(getApplicationContext(), "Upload succeed", Toast.LENGTH_SHORT);
+			Toast.makeText(getApplicationContext(), "Upload succeed", Toast.LENGTH_LONG).show();
 			restAPI.setMeasureUploaded();
-		}
+		} 
 		return START_STICKY;
 	}
 	
@@ -43,7 +49,7 @@ public class SensAppService extends Service {
 	@Override
 	public void onDestroy() {
 		Log.d(TAG, "__ON_DESTROY__");
-		Toast.makeText(getApplicationContext(), R.string.toast_service_stopped, Toast.LENGTH_LONG);
+		Toast.makeText(getApplicationContext(), R.string.toast_service_stopped, Toast.LENGTH_LONG).show();
 		super.onDestroy();
 	}
 	

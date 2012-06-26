@@ -11,10 +11,20 @@
         android:showAsAction="always"
         android:title="Upload" >
     </item>
-     <item
+    <item
         android:id="@+id/stop_service"
         android:showAsAction="always"
         android:title="Stop service" >
+    </item>
+    <item
+        android:id="@+id/flush_database"
+        android:showAsAction="always"
+        android:title="Flush all" >
+    </item>
+    <item
+        android:id="@+id/flush_uploaded"
+        android:showAsAction="always"
+        android:title="Flush uploaded" >
     </item>
     
 </menu>

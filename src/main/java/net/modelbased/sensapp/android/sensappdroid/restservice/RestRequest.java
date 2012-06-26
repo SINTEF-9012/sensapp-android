@@ -52,6 +52,8 @@ public class RestRequest {
 	public static String putData(String server, int port, String data) {
 		Log.i(TAG, "PUT Data");
 		Log.v(TAG, "Content: " + data);
+		URI target = getURITarget(server, port, DISPATCHER_PATH);
+		Log.v(TAG, "Target: " + target.toString());
 		HttpClient client = new DefaultHttpClient();
 		HttpPut request = new HttpPut(getURITarget(server, port, DISPATCHER_PATH));
 		request.setHeader("Content-type", "application/json");

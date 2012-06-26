@@ -29,6 +29,15 @@ public class RestAPI {
 		ids = new ArrayList<Integer>();
 	}
 	
+	public void deleteAllMeasure() {
+		context.getContentResolver().delete(SensAppMeasureProviderContract.CONTENT_URI, null, null);
+	}
+	
+	public void deleteUploaded() {
+		String selection = SensAppMeasureProviderContract.UPLOADED + " = 1";
+		context.getContentResolver().delete(SensAppMeasureProviderContract.CONTENT_URI, selection, null);
+	}
+	
 	public void putMeasures(MeasureJsonModel measures) {
 		String jsonString = JsonParser.measureToJson(measures);
 		String[] params = {RestRequestTask.PUT_DATA, jsonString};
@@ -61,7 +70,7 @@ public class RestAPI {
 				int value = cursor.getInt(cursor.getColumnIndexOrThrow(SensAppMeasureProviderContract.VALUE));
 				long time = cursor.getLong(cursor.getColumnIndexOrThrow(SensAppMeasureProviderContract.TIME));
 				if (!jsonModels.containsKey(sensor)) {
-					jsonModels.put(sensor, new MeasureJsonModel(sensor, 0, "m"));
+					jsonModels.put(sensor, new MeasureJsonModel(sensor, 0, "count"));
 				}
 				jsonModels.get(sensor).appendMeasure(value, time);
 			}

@@ -14,6 +14,8 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
+        public static final int flush_database=0x7f06000f;
+        public static final int flush_uploaded=0x7f060010;
         public static final int icon=0x7f060000;
         public static final int insert=0x7f06000c;
         public static final int label=0x7f060001;

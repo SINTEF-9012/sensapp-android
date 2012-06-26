@@ -25,6 +25,8 @@ import android.widget.SimpleCursorAdapter;
 public class SensAppActivity extends ListActivity implements LoaderCallbacks<Cursor> {
 	
 	public static final String ACTION_UPLOAD = "net.modelbased.sensapp.android.sensappdroid.ACTION_UPLOAD";
+	public static final String ACTION_FLUSH_ALL = "net.modelbased.sensapp.android.sensappdroid.ACTION_FLUSH_ALL";
+	public static final String ACTION_FLUSH_UPLOADED = "net.modelbased.sensapp.android.sensappdroid.ACTION_FLUSH_UPLOADED";
 	
 	private static final String TAG = SensAppActivity.class.getName();
 	private static final int MENU_DELETE_ID = Menu.FIRST + 1;
@@ -39,15 +41,14 @@ public class SensAppActivity extends ListActivity implements LoaderCallbacks<Cur
         setContentView(R.layout.measure_list);
         initAdapter();
 		registerForContextMenu(getListView());
+		intentService = new Intent(this, SensAppService.class);
     }
 
     
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		Log.w(TAG, "Item context: " + v.getId());
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.add(0, MENU_DELETE_ID, 0, R.string.menu_delete);
-		intentService = new Intent(this, SensAppService.class);
 	}
 
 
@@ -81,17 +82,25 @@ public class SensAppActivity extends ListActivity implements LoaderCallbacks<Cur
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent i = new Intent(this, SensAppService.class);
 		switch (item.getItemId()) {
 		case R.id.insert:
 			PushDataTest.push(this);
 			return true;
 		case R.id.upload:
-			Intent i = new Intent(this, SensAppService.class);
 			i.setAction(ACTION_UPLOAD);
 			startService(i);
 			return true;
 		case R.id.stop_service:
-			//stopService(intentService);
+			stopService(intentService);
+			return true;
+		case R.id.flush_database:
+			i.setAction(ACTION_FLUSH_ALL);
+			startService(i);
+			return true;
+		case R.id.flush_uploaded:
+			i.setAction(ACTION_FLUSH_UPLOADED);
+			startService(i);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

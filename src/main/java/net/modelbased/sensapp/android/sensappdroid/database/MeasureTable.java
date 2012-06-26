@@ -20,7 +20,7 @@ public class MeasureTable {
 			+ COLUMN_VALUE + " INTEGER NOT NULL, "
 			+ COLUMN_TIME + " INTEGER NOT NULL, " 
 			+ COLUMN_UPLOADED + " INTEGER NOT NULL);";
-	private static final String DATABASE_DROP_TABLE = "DROP TABLE IF EXISTS" + TABLE_MEASURE;
+	private static final String DATABASE_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_MEASURE;
 	
 	public static void onCreate(SQLiteDatabase database) {
 		database.execSQL(DATABASE_CREATE_TABLE);
