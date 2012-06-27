@@ -19,7 +19,7 @@ public class SensAppService extends Service {
 		Log.d(TAG, "__ON_CREATE__");
 		super.onCreate();
 		Toast.makeText(getApplicationContext(), R.string.toast_service_started, Toast.LENGTH_LONG).show();
-		restAPI = new RestAPI(this, "46.51.169.123", 8080);
+		restAPI = new RestAPI(this, "46.51.169.123", 80);
 	}
 	
 	@Override
@@ -39,7 +39,7 @@ public class SensAppService extends Service {
 			Toast.makeText(getApplicationContext(), "Upload succeed", Toast.LENGTH_LONG).show();
 			restAPI.setMeasureUploaded();
 		} 
-		return START_STICKY;
+		return START_NOT_STICKY;
 	}
 	
 	public IBinder onBind(Intent intent) {
