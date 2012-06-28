@@ -1,6 +1,6 @@
 package net.modelbased.sensapp.android.sensappdroid.restservice;
 
-import net.modelbased.sensapp.android.sensappdroid.SensAppService;
+import net.modelbased.sensapp.android.sensappdroid.activities.SensAppService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -38,7 +38,7 @@ public class RestRequestTask extends AsyncTask<String, Void, Boolean> {
 		case MODE_PUT_DATA:
 			response = RestRequest.putData(server, port, jsonString);
 			if (response.trim().length() > 2) {
-				throw new IllegalArgumentException("Sensor is not registred: " + response);
+				throw new IllegalSensorNameException("Sensor is not registred: " + response);
 			} 
 			dataUploadSuccess(response);
 			return true;

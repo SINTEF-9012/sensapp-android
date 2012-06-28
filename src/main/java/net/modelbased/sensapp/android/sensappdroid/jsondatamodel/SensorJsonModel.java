@@ -7,6 +7,11 @@ public class SensorJsonModel {
 		private String backend;
 		private String template;
 		
+		public Schema(String backend, String template) {
+			this.backend = backend;
+			this.template = template;
+		}
+		
 		public String getBackend() {
 			return backend;
 		}
@@ -24,6 +29,12 @@ public class SensorJsonModel {
 	private String id;
 	private String descr;
 	private Schema schema;
+	
+	public SensorJsonModel(String id, String descr, Schema schema) {
+		this.id = id;
+		this.descr = descr;
+		this.schema = schema;
+	}
 	
 	public String getId() {
 		return id;

@@ -9,7 +9,7 @@ public class SensAppDatabaseHelper extends SQLiteOpenHelper {
 	
 	private static final String TAG = SensAppDatabaseHelper.class.getName();
 	private static final String DATABASE_NAME = "sensapp.db";
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION = 5;
 	
 	public SensAppDatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -19,11 +19,13 @@ public class SensAppDatabaseHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase database) {
 		Log.i(TAG, "Creating DATABASE " + DATABASE_NAME);
 		MeasureTable.onCreate(database);
+		SensorTable.onCreate(database);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
 		Log.i(TAG, "Updating DATABASE " + DATABASE_NAME + " from " + oldVersion + " to " + newVersion);
 		MeasureTable.onUpgrade(database, oldVersion, newVersion);
+		SensorTable.onUpgrade(database, oldVersion, newVersion);
 	}
 }

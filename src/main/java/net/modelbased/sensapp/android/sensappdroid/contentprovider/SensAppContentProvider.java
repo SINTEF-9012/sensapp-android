@@ -11,19 +11,24 @@ public class SensAppContentProvider extends ContentProvider {
 
 	protected static final String AUTHORITY = "net.modelbased.sensapp.android.sensappdroid.contentprovider";
 	
-	private static final int MEASURE = 10;
+	private static final int SENSOR = 10;
+	private static final int MEASURE = 20;
 	private static final UriMatcher sensAppURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	static {
-		sensAppURIMatcher.addURI(AUTHORITY, "measures", MEASURE);
-		sensAppURIMatcher.addURI(AUTHORITY, "measures" + "/#", MEASURE);
+		sensAppURIMatcher.addURI(AUTHORITY, SensorCP.BASE_PATH, SENSOR);
+		sensAppURIMatcher.addURI(AUTHORITY, SensorCP.BASE_PATH + "/*", SENSOR);
+		sensAppURIMatcher.addURI(AUTHORITY, MeasureCP.BASE_PATH, MEASURE);
+		sensAppURIMatcher.addURI(AUTHORITY, MeasureCP.BASE_PATH + "/#", MEASURE);
 	}
 
 	private MeasureCP measureCP;
+	private SensorCP sensorCP;
 	
 	@Override
 	public boolean onCreate() {
 		SensAppDatabaseHelper database = new SensAppDatabaseHelper(getContext());
 		measureCP = new MeasureCP(getContext(), database);
+		sensorCP = new SensorCP(getContext(), database);
 		return false;
 	}
 	
@@ -32,6 +37,8 @@ public class SensAppContentProvider extends ContentProvider {
 		switch (sensAppURIMatcher.match(uri)) {
 		case MEASURE:
 			return measureCP.query(uri, projection, selection, selectionArgs, sortOrder);
+		case SENSOR:
+			return sensorCP.query(uri, projection, selection, selectionArgs, sortOrder);
 		default:
 			throw new IllegalArgumentException("[0] Unknown URI: " + uri);
 		}
@@ -42,6 +49,8 @@ public class SensAppContentProvider extends ContentProvider {
 		switch (sensAppURIMatcher.match(uri)) {
 		case MEASURE:
 			return measureCP.getType(uri);
+		case SENSOR:
+			return sensorCP.getType(uri);
 		default:
 			throw new IllegalArgumentException("[0] Unknown URI: " + uri);
 		}
@@ -52,6 +61,8 @@ public class SensAppContentProvider extends ContentProvider {
 		switch (sensAppURIMatcher.match(uri)) {
 		case MEASURE:
 			return measureCP.update(uri, values, selection, selectionArgs);
+		case SENSOR:
+			return sensorCP.update(uri, values, selection, selectionArgs);
 		default:
 			throw new IllegalArgumentException("[0] Unknown URI: " + uri);
 		}
@@ -62,6 +73,8 @@ public class SensAppContentProvider extends ContentProvider {
 		switch (sensAppURIMatcher.match(uri)) {
 		case MEASURE:
 			return measureCP.insert(uri, values);
+		case SENSOR:
+			return sensorCP.insert(uri, values);
 		default:
 			throw new IllegalArgumentException("[0] Unknown URI: " + uri);
 		}
@@ -72,6 +85,8 @@ public class SensAppContentProvider extends ContentProvider {
 		switch (sensAppURIMatcher.match(uri)) {
 		case MEASURE:
 			return measureCP.delete(uri, selection, selectionArgs);
+		case SENSOR:
+			return sensorCP.delete(uri, selection, selectionArgs);
 		default:
 			throw new IllegalArgumentException("[0] Unknown URI: " + uri);
 		}

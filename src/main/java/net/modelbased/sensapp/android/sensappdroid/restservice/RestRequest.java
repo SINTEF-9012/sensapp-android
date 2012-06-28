@@ -29,8 +29,10 @@ public class RestRequest {
 	public static String postSensor(String server, int port, String content) {
 		Log.i(TAG, "POST Sensor");
 		Log.v(TAG, "Content: " + content);
+		URI target = getURITarget(server, port, SENSOR_PATH);
+		Log.v(TAG, "Target: " + target.toString());
 		HttpClient client = new DefaultHttpClient();
-		HttpPost request = new HttpPost(getURITarget(server, port, SENSOR_PATH));
+		HttpPost request = new HttpPost(target);
 		request.setHeader("Content-type", "application/json");
 		String response = null;
 		try {

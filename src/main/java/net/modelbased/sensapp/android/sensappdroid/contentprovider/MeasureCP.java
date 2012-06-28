@@ -17,7 +17,8 @@ import android.text.TextUtils;
 
 public class MeasureCP {
 	
-	private static final String BASE_PATH = "measures";
+	protected static final String BASE_PATH = "measures";
+	
 	private static final int MEASURES = 10;
 	private static final int MEASURE_ID = 20;
 	private static final UriMatcher measureURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -35,7 +36,7 @@ public class MeasureCP {
 	}
 	
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-		checkColumns(projection);
+		//checkColumns(projection);
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 		queryBuilder.setTables(MeasureTable.TABLE_MEASURE);
 		switch (measureURIMatcher.match(uri)) {

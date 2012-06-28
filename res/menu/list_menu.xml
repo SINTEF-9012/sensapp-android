@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/insert"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="Insert" >
     </item>
     <item
@@ -13,18 +13,23 @@
     </item>
     <item
         android:id="@+id/stop_service"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="Stop service" >
     </item>
     <item
         android:id="@+id/flush_database"
-        android:showAsAction="always"
+        android:showAsAction="never"
         android:title="Flush all" >
     </item>
     <item
         android:id="@+id/flush_uploaded"
         android:showAsAction="always"
         android:title="Flush uploaded" >
+    </item>
+    <item
+        android:id="@+id/view"
+        android:showAsAction="always"
+        android:title="Change view" >
     </item>
     
 </menu>

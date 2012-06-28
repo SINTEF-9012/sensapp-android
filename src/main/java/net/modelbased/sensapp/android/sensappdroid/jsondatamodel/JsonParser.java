@@ -22,4 +22,18 @@ public class JsonParser {
 		}
 		return jsonString;
 	}
+	
+	public static String sensorToJson(SensorJsonModel sensor) {
+		String jsonString = null;
+		try {
+			jsonString = mapper.writeValueAsString(sensor);
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return jsonString;
+	}
 }
