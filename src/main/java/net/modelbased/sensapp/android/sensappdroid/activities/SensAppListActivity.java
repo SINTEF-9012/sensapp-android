@@ -2,10 +2,10 @@ package net.modelbased.sensapp.android.sensappdroid.activities;
 
 import net.modelbased.sensapp.android.sensappdroid.R;
 import net.modelbased.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
-import net.modelbased.sensapp.android.sensappdroid.database.DatabaseException;
 import net.modelbased.sensapp.android.sensappdroid.database.MeasureTable;
 import net.modelbased.sensapp.android.sensappdroid.database.SensorTable;
 import net.modelbased.sensapp.android.sensappdroid.restservice.PushDataTest;
+import net.modelbased.sensapp.android.sensappdroid.utils.DeleteMeasuresTask;
 import android.app.ListActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
@@ -64,8 +64,7 @@ public class SensAppListActivity extends ListActivity implements LoaderCallbacks
 		switch (item.getItemId()) {
 		case MENU_DELETE_ID:
 			AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-			Uri uri = Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + info.id);
-			getContentResolver().delete(uri, null, null);
+			new DeleteMeasuresTask(this, (int) info.id).execute();
 			return true;
 		}
 		return super.onContextItemSelected(item);
@@ -94,11 +93,6 @@ public class SensAppListActivity extends ListActivity implements LoaderCallbacks
 		Intent i = new Intent(this, SensAppService.class);
 		switch (item.getItemId()) {
 		case R.id.insert:
-			try {
-				PushDataTest.pushSensor(this);
-			} catch (DatabaseException e) {
-				e.printStackTrace();
-			}
 			PushDataTest.pushData(this);
 			return true;
 		case R.id.upload:

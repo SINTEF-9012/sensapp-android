@@ -36,7 +36,7 @@ public class MeasureCP {
 	}
 	
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-		//checkColumns(projection);
+		checkColumns(projection);
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 		queryBuilder.setTables(MeasureTable.TABLE_MEASURE);
 		switch (measureURIMatcher.match(uri)) {
@@ -117,7 +117,7 @@ public class MeasureCP {
 	}
 	
 	private void checkColumns(String[] projection) {
-		String[] available = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_SENSOR, MeasureTable.COLUMN_VALUE, MeasureTable.COLUMN_TIME, MeasureTable.COLUMN_UPLOADED};
+		String[] available = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_SENSOR, "DISTINCT " + MeasureTable.COLUMN_SENSOR, MeasureTable.COLUMN_VALUE, MeasureTable.COLUMN_TIME, MeasureTable.COLUMN_BASETIME, "DISTINCT " + MeasureTable.COLUMN_BASETIME, MeasureTable.COLUMN_UPLOADED};
 		if (projection != null) {
 			HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
 			HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));

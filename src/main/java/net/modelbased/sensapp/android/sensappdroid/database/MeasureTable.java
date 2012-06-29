@@ -10,6 +10,7 @@ public class MeasureTable {
 	public static final String COLUMN_SENSOR = "sensor";
 	public static final String COLUMN_VALUE = "value";
 	public static final String COLUMN_TIME = "time";
+	public static final String COLUMN_BASETIME = "basetime";
 	public static final String COLUMN_UPLOADED ="uploaded";
 	
 	private static final String TAG = MeasureTable.class.getName();
@@ -18,7 +19,8 @@ public class MeasureTable {
 			+ COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " 
 			+ COLUMN_SENSOR + " TEXT NOT NULL, "
 			+ COLUMN_VALUE + " INTEGER NOT NULL, "
-			+ COLUMN_TIME + " INTEGER NOT NULL, " 
+			+ COLUMN_TIME + " INTEGER NOT NULL, "
+			+ COLUMN_BASETIME + " INTEGER NOT NULL, "
 			+ COLUMN_UPLOADED + " INTEGER NOT NULL);";
 	private static final String DATABASE_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_MEASURE;
 	
@@ -28,7 +30,7 @@ public class MeasureTable {
 	}
 	
 	public static void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
-		Log.w(TAG, "Upgrading table " + TABLE_MEASURE + "from " + oldVersion + " version to " + newVersion + "version");
+		Log.w(TAG, "Upgrading table " + TABLE_MEASURE + " from version " + oldVersion + " to version " + newVersion);
 		database.execSQL(DATABASE_DROP_TABLE);
 		Log.i(TAG, "Table " + TABLE_MEASURE + " dropped");
 		onCreate(database);

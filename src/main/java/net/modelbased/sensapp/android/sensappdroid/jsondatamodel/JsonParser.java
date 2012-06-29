@@ -1,6 +1,10 @@
 package net.modelbased.sensapp.android.sensappdroid.jsondatamodel;
 
 import java.io.IOException;
+
+
+import net.modelbased.sensapp.android.sensappdroid.models.Sensor;
+
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -9,10 +13,10 @@ public class JsonParser {
 
 	private static ObjectMapper mapper = new ObjectMapper();
 	
-	public static String measureToJson(MeasureJsonModel measure) {
+	public static String measuresToJson(MeasureJsonModel jsonModel) {
 		String jsonString = null;
 		try {
-			jsonString = mapper.writeValueAsString(measure);
+			jsonString = mapper.writeValueAsString(jsonModel);
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -23,10 +27,12 @@ public class JsonParser {
 		return jsonString;
 	}
 	
-	public static String sensorToJson(SensorJsonModel sensor) {
+	public static String sensorToJson(Sensor sensor) {
 		String jsonString = null;
+		SensorJsonModel.Schema schema = new SensorJsonModel.Schema(sensor.getBackend(), sensor.getTemplate());
+		SensorJsonModel jsonSensor = new SensorJsonModel(sensor.getName(), sensor.getDescription(), schema);
 		try {
-			jsonString = mapper.writeValueAsString(sensor);
+			jsonString = mapper.writeValueAsString(jsonSensor);
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {

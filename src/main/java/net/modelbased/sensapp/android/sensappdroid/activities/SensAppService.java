@@ -1,9 +1,13 @@
 package net.modelbased.sensapp.android.sensappdroid.activities;
 
 import net.modelbased.sensapp.android.sensappdroid.R;
-import net.modelbased.sensapp.android.sensappdroid.database.DatabaseException;
-import net.modelbased.sensapp.android.sensappdroid.restservice.RestAPI;
-import net.modelbased.sensapp.android.sensappdroid.restservice.RestRequestTask;
+import net.modelbased.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import net.modelbased.sensapp.android.sensappdroid.models.Sensor;
+import net.modelbased.sensapp.android.sensappdroid.restservice.PostSensorTask;
+import net.modelbased.sensapp.android.sensappdroid.restservice.PushDataTest;
+import net.modelbased.sensapp.android.sensappdroid.restservice.PutMeasuresTask;
+import net.modelbased.sensapp.android.sensappdroid.restservice.RequestTask;
+import net.modelbased.sensapp.android.sensappdroid.utils.DeleteMeasuresTask;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -12,88 +16,64 @@ import android.widget.Toast;
 
 public class SensAppService extends Service {
 
-	static final private String TAG = SensAppService.class.getName();
+	// "46.51.169.123" 80
 	
-	private RestAPI restAPI;
+	static final private String TAG = SensAppService.class.getSimpleName();
 	
 	@Override
 	public void onCreate() {
 		Log.d(TAG, "__ON_CREATE__");
 		super.onCreate();
+		Sensor test = new Sensor("sa_test", "First", "raw", "Numerical", "s", false);
+		PushDataTest.pushSensor(this);
+		//new PostSensorTask(this, "46.51.169.123", 80).execute(test);
 		Toast.makeText(getApplicationContext(), R.string.toast_service_started, Toast.LENGTH_LONG).show();
-		restAPI = new RestAPI(this, "46.51.169.123", 80);
 	}
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		if (intent.getAction().equals(SensAppListActivity.ACTION_UPLOAD)) {
 			Log.d(TAG, "Receive: ACTION_UPLOAD");
-			try {
-				restAPI.pushNotUploadedMeasure();
-			} catch (DatabaseException e) {
-				e.printStackTrace();
-			}
+			new PutMeasuresTask(this, "46.51.169.123", 80, "sa_test").execute();
 		} else if (intent.getAction().equals(SensAppListActivity.ACTION_FLUSH_ALL)) {
 			Log.d(TAG, "Receive: ACTION_FLUSH_ALL");
-			restAPI.deleteAllMeasure();
+			new DeleteMeasuresTask(this, null).execute();
 		} else if (intent.getAction().equals(SensAppListActivity.ACTION_FLUSH_UPLOADED)) {
 			Log.d(TAG, "Receive: ACTION_FLUSH_UPLOADED");
-			restAPI.deleteUploaded();
-		} else if (intent.getAction().equals(RestRequestTask.ACTION_REQUEST_SUCCEED)) {
+			new DeleteMeasuresTask(this, SensAppCPContract.Measure.UPLOADED + " = 1").execute();
+		} else if (intent.getAction().equals(RequestTask.ACTION_REQUEST_SUCCEED)) {
 			Log.d(TAG, "Receive: ACTION_REQUEST_SUCCEED");
-			//int mode = intent.getExtras().getInt(RestRequestTask.EXTRA_MODE);
-			Toast.makeText(getApplicationContext(), "Upload succeed", Toast.LENGTH_LONG).show();
-			restAPI.setMeasureUploaded();
-		} 
+			int mode = intent.getExtras().getInt(RequestTask.EXTRA_REQUEST_CODE);
+			if (mode == RequestTask.CODE_POST_SENSOR) {
+				Log.i(TAG, "Post sensor succed");
+				Toast.makeText(getApplicationContext(), "Sensor registred", Toast.LENGTH_LONG).show();
+			} else if (mode == RequestTask.CODE_PUT_MEASURE) {
+				Log.i(TAG, "Put data succed");
+				Toast.makeText(getApplicationContext(), "Upload succeed", Toast.LENGTH_LONG).show();
+			}
+		} else if (intent.getAction().equals(RequestTask.ACTION_REQUEST_FAILURE)) {
+			Log.d(TAG, "Receive: ACTION_REQUEST_FAILURE");
+			int mode = intent.getExtras().getInt(RequestTask.EXTRA_REQUEST_CODE);
+			if (mode == RequestTask.CODE_POST_SENSOR) {
+				Log.e(TAG, "Post sensor error");
+				Toast.makeText(getApplicationContext(), "Upload failed", Toast.LENGTH_LONG).show();
+			} else if (mode == RequestTask.CODE_PUT_MEASURE) {
+				Log.e(TAG, "Put data error");
+				Toast.makeText(getApplicationContext(), "Upload failed", Toast.LENGTH_LONG).show();
+			}
+		}
 		return START_NOT_STICKY;
 	}
 	
+	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
 	}
-
+	
 	@Override
 	public void onDestroy() {
 		Log.d(TAG, "__ON_DESTROY__");
 		Toast.makeText(getApplicationContext(), R.string.toast_service_stopped, Toast.LENGTH_LONG).show();
 		super.onDestroy();
 	}
-	
-//	private Hashtable<Integer, Measure> getMeasureNotUploaded() {
-//		Hashtable<Integer, Measure> measures = null;
-//		String selection = MeasureTable.COLUMN_UPLOADED + " = ?";
-//		String[] selectionArgs = {"0"};
-//		Cursor cursor = getContentResolver().query(SensAppMeasureProviderContract.CONTENT_URI, null, selection, selectionArgs, null);
-//		if (cursor != null) {
-//			Log.e(TAG, "Cursor count: " + cursor.getCount());
-//			measures = buildMeasuresFromCursor(cursor);
-//			cursor.close();
-//		}
-//		return measures;
-//	}
-//	
-//	private void updateMeasureUploaded(Measure m) {
-//		ContentValues newValues = new ContentValues();
-//		newValues.put(MeasureTable.COLUMN_UPLOADED, 1);
-//		String selection = MeasureTable.COLUMN_ID + " = " + m.getId();
-//		getContentResolver().update(SensAppMeasureProviderContract.CONTENT_URI, newValues, selection, null);
-//	}
-//	
-//	private Hashtable<Integer, Measure> buildMeasuresFromCursor(Cursor cursor) {
-//		Hashtable<Integer, Measure> measures = new Hashtable<Integer, Measure>();
-//		while (cursor.moveToNext()) {
-//			Measure m = new Measure();
-//			m.setId(cursor.getInt(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_ID)));
-//			m.setSensor(cursor.getString(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_SENSOR)));
-//			m.setValue(cursor.getInt(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_VALUE)));
-//			m.setTime(cursor.getLong(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_TIME)));
-//			if (cursor.getInt(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_UPLOADED)) != 0) {
-//				m.setUploaded(true);
-//			} else {
-//				m.setUploaded(false);
-//			}
-//			measures.put(m.getId(), m);
-//		}
-//		return measures;
-//	}
 }

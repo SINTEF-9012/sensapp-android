@@ -30,7 +30,7 @@ public class SensorTable {
 	}
 	
 	public static void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
-		Log.w(TAG, "Upgrading table " + TABLE_SENSOR + "from " + oldVersion + " version to " + newVersion + "version");
+		Log.w(TAG, "Upgrading table " + TABLE_SENSOR + " from version " + oldVersion + " to version " + newVersion);
 		database.execSQL(DATABASE_DROP_TABLE);
 		Log.i(TAG, "Table " + TABLE_SENSOR + " dropped");
 		onCreate(database);

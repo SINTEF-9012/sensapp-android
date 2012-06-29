@@ -17,6 +17,7 @@ public final class SensAppCPContract {
 		public static final String SENSOR = "sensor";
 		public static final String VALUE = "value";
 		public static final String TIME = "time";
+		public static final String BASETIME = "basetime";
 		public static final String UPLOADED ="uploaded";
 	}
 	

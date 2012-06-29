@@ -26,7 +26,7 @@ public class RestRequest {
 	private static final String SENSOR_PATH = "/registry/sensors";
 	private static final String DISPATCHER_PATH = "/dispatch";
 	
-	public static String postSensor(String server, int port, String content) {
+	public static String postSensor(String server, int port, String content) throws RequestErrorException {
 		Log.i(TAG, "POST Sensor");
 		Log.v(TAG, "Content: " + content);
 		URI target = getURITarget(server, port, SENSOR_PATH);
@@ -48,10 +48,13 @@ public class RestRequest {
 			e.printStackTrace();
 		}
 		Log.e(TAG, "Post sensor result: " + response);
+		if (!response.equals(target)) {
+			throw new RequestErrorException("Sensor registry error");
+		}
 		return response; 
 	}
 	
-	public static String putData(String server, int port, String data) {
+	public static String putData(String server, int port, String data) throws RequestErrorException {
 		Log.i(TAG, "PUT Data");
 		Log.v(TAG, "Content: " + data);
 		URI target = getURITarget(server, port, DISPATCHER_PATH);
@@ -73,6 +76,9 @@ public class RestRequest {
 			e.printStackTrace();
 		}
 		Log.e(TAG, "Put data result: " + response);
+		if (response.trim().length() > 2) {
+			throw new RequestErrorException("Sensor not registred: " + response);
+		}
 		return response; 
 	}
 	
@@ -106,31 +112,29 @@ public class RestRequest {
 		return sb.toString();
 	}
 	
-	private static String resolveResponse(HttpResponse response) {
+	private static String resolveResponse(HttpResponse response) throws RequestErrorException {
 		StatusLine status = response.getStatusLine();
-		if (status.getStatusCode() != 200) {
+		HttpEntity entity = response.getEntity();
+		String result = null;
+		if (entity != null) {
+			InputStream inputStream = null;
 			try {
-				throw new IOException("Invalid response from server: " + status.toString());
+				inputStream = entity.getContent();
+				result = convertStreamToString(inputStream);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-		HttpEntity entity = response.getEntity();
-		InputStream inputStream = null;
-		String result = null;
-		try {
-			inputStream = entity.getContent();
-			result = convertStreamToString(inputStream);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				inputStream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		if (status.getStatusCode() != 200) {
+			throw new RequestErrorException("Invalid response from server: " + result, new IOException("Invalid response code: " + status.toString()));
 		}
 		return result;
 	}

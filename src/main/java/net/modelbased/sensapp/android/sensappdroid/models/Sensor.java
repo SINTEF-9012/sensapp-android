@@ -23,7 +23,7 @@ public class Sensor {
 			throw new DatabaseException("Null cursor");
 		}
 		if (!cursor.moveToFirst()) {
-			throw new DatabaseException("Sensor is not registred: " + name);
+			throw new DatabaseException("Sensor does not exist: " + name);
 		}
 		String description = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.DESCRIPTION));
 		String backend = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.BACKEND));
