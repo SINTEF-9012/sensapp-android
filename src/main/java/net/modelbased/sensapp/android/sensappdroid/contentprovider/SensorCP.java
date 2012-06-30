@@ -117,7 +117,7 @@ public class SensorCP {
 	}
 	
 	private void checkColumns(String[] projection) {
-		String[] available = {SensorTable.COLUMN_NAME, SensorTable.COLUMN_DESCRIPTION,SensorTable.COLUMN_BACKEND, SensorTable.COLUMN_UNIT, SensorTable.COLUMN_TEMPLATE, SensorTable.COLUMN_UPLOADED};
+		String[] available = {SensorTable.COLUMN_NAME, SensorTable.COLUMN_URI, SensorTable.COLUMN_DESCRIPTION,SensorTable.COLUMN_BACKEND, SensorTable.COLUMN_UNIT, SensorTable.COLUMN_TEMPLATE, SensorTable.COLUMN_UPLOADED};
 		if (projection != null) {
 			HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
 			HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));

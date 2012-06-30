@@ -7,6 +7,10 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import net.modelbased.sensapp.android.sensappdroid.jsondatamodel.JsonParser;
+import net.modelbased.sensapp.android.sensappdroid.models.Sensor;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -17,19 +21,26 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.net.Uri;
 import android.util.Log;
 
 public class RestRequest {
 	
 	private static final String TAG = RestRequest.class.getName(); 
-	private static final String PROTOCOLE = "http";
 	private static final String SENSOR_PATH = "/registry/sensors";
 	private static final String DISPATCHER_PATH = "/dispatch";
 	
-	public static String postSensor(String server, int port, String content) throws RequestErrorException {
+	public static String postSensor(Uri uri, Sensor sensor) throws RequestErrorException {
+		String content = JsonParser.sensorToJson(sensor);
 		Log.i(TAG, "POST Sensor");
 		Log.v(TAG, "Content: " + content);
-		URI target = getURITarget(server, port, SENSOR_PATH);
+		URI target;
+		try {
+			target = new URI(uri.toString() + SENSOR_PATH);
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+			throw new RequestErrorException(e1.getMessage());
+		}
 		Log.v(TAG, "Target: " + target.toString());
 		HttpClient client = new DefaultHttpClient();
 		HttpPost request = new HttpPost(target);
@@ -42,22 +53,31 @@ public class RestRequest {
 			response = resolveResponse(client.execute(request));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
+			throw new RequestErrorException(e.getMessage());
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
+			throw new RequestErrorException(e.getMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
+			throw new RequestErrorException(e.getMessage());
 		}
 		Log.e(TAG, "Post sensor result: " + response);
-		if (!response.equals(target)) {
+		if (!response.trim().equals(target.toString() + "/" + sensor.getName())) {
 			throw new RequestErrorException("Sensor registry error");
 		}
 		return response; 
 	}
 	
-	public static String putData(String server, int port, String data) throws RequestErrorException {
+	public static String putData(Uri uri, String data) throws RequestErrorException {
 		Log.i(TAG, "PUT Data");
 		Log.v(TAG, "Content: " + data);
-		URI target = getURITarget(server, port, DISPATCHER_PATH);
+		URI target;
+		try {
+			target = new URI(uri.toString() + DISPATCHER_PATH);
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+			throw new RequestErrorException(e1.getMessage());
+		}
 		Log.v(TAG, "Target: " + target.toString());
 		HttpClient client = new DefaultHttpClient();
 		HttpPut request = new HttpPut(target);
@@ -70,26 +90,19 @@ public class RestRequest {
 			response = resolveResponse(client.execute(request));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
+			throw new RequestErrorException(e.getMessage());
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
+			throw new RequestErrorException(e.getMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
+			throw new RequestErrorException(e.getMessage());
 		}
-		Log.e(TAG, "Put data result: " + response);
+		Log.i(TAG, "Put data result: " + response);
 		if (response.trim().length() > 2) {
 			throw new RequestErrorException("Sensor not registred: " + response);
 		}
 		return response; 
-	}
-	
-	private static URI getURITarget(String server, int port, String path) {
-		URI target = null;
-		try {
-			target = new URI(PROTOCOLE, null, server, port, path, null, null);
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		return target;
 	}
 	
 	private static String convertStreamToString(InputStream is) {

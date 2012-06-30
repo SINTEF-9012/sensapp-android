@@ -7,6 +7,7 @@ public class SensorTable {
 
 	public static final String TABLE_SENSOR = "SENSOR";
 	public static final String COLUMN_NAME = "_id";
+	public static final String COLUMN_URI = "uri";
 	public static final String COLUMN_DESCRIPTION = "desc";
 	public static final String COLUMN_BACKEND = "backend";
 	public static final String COLUMN_TEMPLATE = "template";
@@ -16,7 +17,8 @@ public class SensorTable {
 	private static final String TAG = SensorTable.class.getSimpleName();
 	private static final String DATABASE_CREATE_TABLE = "CREATE TABLE " 
 			+ TABLE_SENSOR + " (" 
-			+ COLUMN_NAME + " STRING PRIMARY KEY, " 
+			+ COLUMN_NAME + " STRING PRIMARY KEY, "
+			+ COLUMN_URI + " TEXT NOT NULL, "
 			+ COLUMN_DESCRIPTION + " TEXT, "
 			+ COLUMN_BACKEND + " TEXT NOT NULL, "
 			+ COLUMN_TEMPLATE + " TEXT NOT NULL, "

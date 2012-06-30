@@ -11,26 +11,24 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
-public class PutMeasuresTask extends AsyncTask<Void, Integer, Void> {
+public class PutMeasuresTask extends AsyncTask<String, Integer, Void> {
+	
+	private static final String TAG = PutMeasuresTask.class.getSimpleName();
 	
 	private Context context;
-	private String server;
-	private int port;
-	private String sensorName;
 	
-	public PutMeasuresTask(Context context, String server, int port, String sensorName) {
+	public PutMeasuresTask(Context context) {
 		super();
 		this.context = context;
-		this.server = server;
-		this.port = port;
-		this.sensorName = sensorName;
 	}
 
 	private String getUnit(String sensorName) {
 		String[] projection = {SensAppCPContract.Sensor.UNIT};
 		Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + sensorName), projection, null, null, null); 
 		if (cursor == null) {
+			Log.e(TAG, "Null cursor");
 			RequestTask.uploadFailure(context, RequestTask.CODE_PUT_MEASURE, null);
 			return null;
 		} 
@@ -38,6 +36,20 @@ public class PutMeasuresTask extends AsyncTask<Void, Integer, Void> {
 		String unit = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.UNIT));
 		cursor.close();
 		return unit;
+	}
+	
+	private Uri getUri(String sensorName) {
+		String[] projection = {SensAppCPContract.Sensor.URI};
+		Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + sensorName), projection, null, null, null); 
+		if (cursor == null) {
+			Log.e(TAG, "Null cursor");
+			RequestTask.uploadFailure(context, RequestTask.CODE_PUT_MEASURE, null);
+			return null;
+		} 
+		cursor.moveToFirst();
+		String uri = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.URI));
+		cursor.close();
+		return Uri.parse(uri);
 	}
 	
 	private List<Long> getBasetimes(String sensorName) {
@@ -62,6 +74,7 @@ public class PutMeasuresTask extends AsyncTask<Void, Integer, Void> {
 		String selection = SensAppCPContract.Measure.SENSOR + " = \"" + model.getBn() + "\"" + " AND " + SensAppCPContract.Measure.BASETIME + " = " + model.getBt() + " AND " + SensAppCPContract.Measure.UPLOADED + " = 0";
 		Cursor cursor = context.getContentResolver().query(SensAppCPContract.Measure.CONTENT_URI, projection, selection, null, null);
 		if (cursor == null) {
+			Log.e(TAG, "Null cursor");
 			RequestTask.uploadFailure(context, RequestTask.CODE_PUT_MEASURE, null);
 			return null;
 		}
@@ -76,16 +89,18 @@ public class PutMeasuresTask extends AsyncTask<Void, Integer, Void> {
 	}
 	
 	@Override
-	protected Void doInBackground(Void... params) {
+	protected Void doInBackground(String... params) {
+		String sensorName = params[0];
 		String response = null;
 		String unit = getUnit(sensorName);
+		Uri uri = getUri(sensorName);
 		for (Long basetime : getBasetimes(sensorName)) {
 			MeasureJsonModel model = new MeasureJsonModel(sensorName, basetime, unit);
 			List<Integer> ids = fillMeasureJsonModel(model);
 			try {
-				response = RestRequest.putData(server, port, JsonParser.measuresToJson(model));
+				response = RestRequest.putData(uri, JsonParser.measuresToJson(model));
 			} catch (RequestErrorException e) {
-				e.printStackTrace();
+				Log.e(TAG, e.getMessage());
 				RequestTask.uploadFailure(context, RequestTask.CODE_PUT_MEASURE, response);
 				return null;
 			}

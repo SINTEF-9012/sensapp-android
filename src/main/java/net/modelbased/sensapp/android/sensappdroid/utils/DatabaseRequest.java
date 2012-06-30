@@ -3,6 +3,7 @@ package net.modelbased.sensapp.android.sensappdroid.utils;
 import java.util.Hashtable;
 
 import net.modelbased.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import net.modelbased.sensapp.android.sensappdroid.models.Sensor;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -13,6 +14,7 @@ public class DatabaseRequest {
 	
 	private static final Uri S_CONTENT_URI = SensAppCPContract.Sensor.CONTENT_URI;
 	private static final String S_NAME = SensAppCPContract.Sensor.NAME;
+	private static final String S_URI = SensAppCPContract.Sensor.URI;
 	private static final String S_DESCRIPTION = SensAppCPContract.Sensor.DESCRIPTION;
 	private static final String S_BACKEND = SensAppCPContract.Sensor.BACKEND;
 	private static final String S_TEMPLATE = SensAppCPContract.Sensor.TEMPLATE;
@@ -63,6 +65,7 @@ public class DatabaseRequest {
 					cv.put(M_UPLOADED, cursor.getInt(cursor.getColumnIndexOrThrow(M_UPLOADED)));
 					measures.put((Integer) cv.get(M_ID), cv);
 				}
+				cursor.close();
 			}
 			return measures;
 		}
@@ -90,6 +93,7 @@ public class DatabaseRequest {
 				while (cursor.moveToNext()) {
 					ContentValues cv = new ContentValues();
 					cv.put(S_NAME, cursor.getString(cursor.getColumnIndexOrThrow(S_NAME)));
+					cv.put(S_URI, cursor.getString(cursor.getColumnIndexOrThrow(S_URI)));
 					cv.put(S_DESCRIPTION, cursor.getString(cursor.getColumnIndexOrThrow(S_DESCRIPTION)));
 					cv.put(S_BACKEND, cursor.getString(cursor.getColumnIndexOrThrow(S_BACKEND)));
 					cv.put(S_TEMPLATE, cursor.getString(cursor.getColumnIndexOrThrow(S_TEMPLATE)));
@@ -97,8 +101,27 @@ public class DatabaseRequest {
 					cv.put(S_UPLOADED, cursor.getInt(cursor.getColumnIndexOrThrow(S_UPLOADED)));
 					sensors.put((String) cv.get(S_NAME), cv);
 				}
+				cursor.close();
 			}
 			return sensors;
+		}
+		
+		public static Sensor getSensor(Context context, String name) {
+			String[] projection = {SensAppCPContract.Sensor.URI, SensAppCPContract.Sensor.DESCRIPTION, SensAppCPContract.Sensor.BACKEND, SensAppCPContract.Sensor.TEMPLATE, SensAppCPContract.Sensor.UNIT, SensAppCPContract.Sensor.UPLOADED};
+			Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + name), projection, null, null, null);
+			Sensor sensor = null;
+			if (cursor != null) {
+				cursor.moveToFirst();
+				Uri uri = Uri.parse(cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.URI)));
+				String description = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.DESCRIPTION));
+				String backend = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.BACKEND));
+				String template = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.TEMPLATE));
+				String unit = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.UNIT));
+				int uploaded = cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.UPLOADED));
+				cursor.close();
+				sensor = new Sensor(name, uri, description, backend, template, unit, uploaded == 0 ? false : true);
+			}
+			return sensor;
 		}
 	}
 }

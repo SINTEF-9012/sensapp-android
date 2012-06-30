@@ -8,7 +8,7 @@ import android.net.Uri;
 public class PushDataTest {
 	public static Uri pushData(Context context) {
 		ContentValues values = new ContentValues();
-		values.put(SensAppCPContract.Measure.SENSOR, "sa_test");
+		values.put(SensAppCPContract.Measure.SENSOR, "sa_test_unregistred_sensor8080");
 		values.put(SensAppCPContract.Measure.VALUE, 25);
 		values.put(SensAppCPContract.Measure.TIME, 256000041);
 		values.put(SensAppCPContract.Measure.BASETIME, 0);
@@ -18,7 +18,8 @@ public class PushDataTest {
 
 	public static void pushSensor(Context context) {
 		ContentValues values = new ContentValues();
-		values.put(SensAppCPContract.Sensor.NAME, "sa_test");
+		values.put(SensAppCPContract.Sensor.NAME, "sa_test_unregistred_sensor8080");
+		values.put(SensAppCPContract.Sensor.URI, "http://46.51.169.123:8080");
 		values.put(SensAppCPContract.Sensor.DESCRIPTION, "First test");
 		values.put(SensAppCPContract.Sensor.BACKEND, "raw");
 		values.put(SensAppCPContract.Sensor.TEMPLATE, "Numerical");

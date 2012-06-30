@@ -10,29 +10,12 @@ import net.modelbased.sensapp.android.sensappdroid.database.DatabaseException;
 public class Sensor {
 	
 	private String name;
+	private Uri uri;
 	private String description;
 	private String backend;
 	private String template;
 	private String unit;
 	private boolean uploaded;
-	
-	public static Sensor fromDatabase(Context context, String name) throws DatabaseException {
-		String[] projection = {SensAppCPContract.Sensor.DESCRIPTION, SensAppCPContract.Sensor.BACKEND, SensAppCPContract.Sensor.TEMPLATE, SensAppCPContract.Sensor.UNIT, SensAppCPContract.Sensor.UPLOADED};
-		Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + name), projection, null, null, null);
-		if (cursor == null) {
-			throw new DatabaseException("Null cursor");
-		}
-		if (!cursor.moveToFirst()) {
-			throw new DatabaseException("Sensor does not exist: " + name);
-		}
-		String description = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.DESCRIPTION));
-		String backend = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.BACKEND));
-		String template = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.TEMPLATE));
-		String unit = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.UNIT));
-		int uploaded = cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.UPLOADED));
-		cursor.close();
-		return new Sensor(name, description, backend, template, unit, uploaded == 0 ? false : true);
-	}
 	
 	public Sensor() {
 		name = new String();
@@ -43,8 +26,9 @@ public class Sensor {
 		uploaded = false;
 	}
 	
-	public Sensor(String name, String description, String backend, String template, String unit, boolean uploaded) {
+	public Sensor(String name, Uri uri, String description, String backend, String template, String unit, boolean uploaded) {
 		this.name = name;
+		this.uri = uri;
 		this.description = description;
 		this.backend = backend;
 		this.template = template;
@@ -60,6 +44,14 @@ public class Sensor {
 		this.name = name;
 	}
 	
+	public Uri getUri() {
+		return uri;
+	}
+
+	public void setUri(Uri uri) {
+		this.uri = uri;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -108,6 +100,7 @@ public class Sensor {
 		}
 		ContentValues cv = new ContentValues();
 		cv.put(SensAppCPContract.Sensor.NAME, name);
+		cv.put(SensAppCPContract.Sensor.URI, uri.toString());
 		cv.put(SensAppCPContract.Sensor.DESCRIPTION, description);
 		cv.put(SensAppCPContract.Sensor.BACKEND, backend);
 		cv.put(SensAppCPContract.Sensor.TEMPLATE, template);

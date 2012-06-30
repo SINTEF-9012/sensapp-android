@@ -2,7 +2,6 @@ package net.modelbased.sensapp.android.sensappdroid.activities;
 
 import net.modelbased.sensapp.android.sensappdroid.R;
 import net.modelbased.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
-import net.modelbased.sensapp.android.sensappdroid.models.Sensor;
 import net.modelbased.sensapp.android.sensappdroid.restservice.PostSensorTask;
 import net.modelbased.sensapp.android.sensappdroid.restservice.PushDataTest;
 import net.modelbased.sensapp.android.sensappdroid.restservice.PutMeasuresTask;
@@ -24,9 +23,8 @@ public class SensAppService extends Service {
 	public void onCreate() {
 		Log.d(TAG, "__ON_CREATE__");
 		super.onCreate();
-		Sensor test = new Sensor("sa_test", "First", "raw", "Numerical", "s", false);
 		PushDataTest.pushSensor(this);
-		//new PostSensorTask(this, "46.51.169.123", 80).execute(test);
+		new PostSensorTask(this).execute("sa_test_unregistred_sensor8080");
 		Toast.makeText(getApplicationContext(), R.string.toast_service_started, Toast.LENGTH_LONG).show();
 	}
 	
@@ -34,7 +32,7 @@ public class SensAppService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		if (intent.getAction().equals(SensAppListActivity.ACTION_UPLOAD)) {
 			Log.d(TAG, "Receive: ACTION_UPLOAD");
-			new PutMeasuresTask(this, "46.51.169.123", 80, "sa_test").execute();
+			new PutMeasuresTask(this).execute("sa_test_unregistred_sensor");
 		} else if (intent.getAction().equals(SensAppListActivity.ACTION_FLUSH_ALL)) {
 			Log.d(TAG, "Receive: ACTION_FLUSH_ALL");
 			new DeleteMeasuresTask(this, null).execute();

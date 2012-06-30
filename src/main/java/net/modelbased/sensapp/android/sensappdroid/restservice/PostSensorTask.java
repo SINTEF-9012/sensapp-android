@@ -1,30 +1,32 @@
 package net.modelbased.sensapp.android.sensappdroid.restservice;
 
-import net.modelbased.sensapp.android.sensappdroid.jsondatamodel.JsonParser;
 import net.modelbased.sensapp.android.sensappdroid.models.Sensor;
+import net.modelbased.sensapp.android.sensappdroid.utils.DatabaseRequest;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
-public class PostSensorTask extends AsyncTask<Sensor, Integer, Uri> {
+public class PostSensorTask extends AsyncTask<String, Void, Uri> {
+	
+	private static final String TAG = PostSensorTask.class.getSimpleName();
 	
 	private Context context;
-	private String server;
-	private int port;
 	
-	public PostSensorTask(Context context, String server, int port) {
+	public PostSensorTask(Context context) {
 		super();
 		this.context = context;
-		this.server = server;
-		this.port = port;
 	}
 
 	@Override
-	protected Uri doInBackground(Sensor... params) {
+	protected Uri doInBackground(String... params) {
+		String sensorName = params[0];
+		Sensor sensor = DatabaseRequest.SensorRQ.getSensor(context, sensorName);
 		String response = null;
 		try {
-			response = RestRequest.postSensor(server, port, JsonParser.sensorToJson(params[0]));
+			response = RestRequest.postSensor(sensor.getUri(), sensor);
 		} catch (RequestErrorException e) {
+			Log.e(TAG, e.getMessage());
 			e.printStackTrace();
 			RequestTask.uploadFailure(context, RequestTask.CODE_POST_SENSOR, response);
 			return null;

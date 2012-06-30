@@ -28,6 +28,7 @@ public final class SensAppCPContract {
 		public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/sensor";
 		
 		public static final String NAME = "_id";
+		public static final String URI = "uri";
 		public static final String DESCRIPTION = "desc";
 		public static final String BACKEND = "backend";
 		public static final String TEMPLATE = "template";
