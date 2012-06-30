@@ -8,7 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import net.modelbased.sensapp.android.sensappdroid.jsondatamodel.JsonParser;
+import net.modelbased.sensapp.android.sensappdroid.json.JsonPrinter;
 import net.modelbased.sensapp.android.sensappdroid.models.Sensor;
 
 import org.apache.http.HttpEntity;
@@ -31,7 +31,7 @@ public class RestRequest {
 	private static final String DISPATCHER_PATH = "/dispatch";
 	
 	public static String postSensor(Uri uri, Sensor sensor) throws RequestErrorException {
-		String content = JsonParser.sensorToJson(sensor);
+		String content = JsonPrinter.sensorToJson(sensor);
 		Log.i(TAG, "POST Sensor");
 		Log.v(TAG, "Content: " + content);
 		URI target;

@@ -1,4 +1,4 @@
-package net.modelbased.sensapp.android.sensappdroid.jsondatamodel;
+package net.modelbased.sensapp.android.sensappdroid.json;
 
 import java.util.ArrayList;
 import java.util.List;

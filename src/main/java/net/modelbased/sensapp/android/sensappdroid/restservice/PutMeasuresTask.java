@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.modelbased.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
-import net.modelbased.sensapp.android.sensappdroid.jsondatamodel.JsonParser;
-import net.modelbased.sensapp.android.sensappdroid.jsondatamodel.MeasureJsonModel;
+import net.modelbased.sensapp.android.sensappdroid.json.JsonPrinter;
+import net.modelbased.sensapp.android.sensappdroid.json.MeasureJsonModel;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -98,7 +98,7 @@ public class PutMeasuresTask extends AsyncTask<String, Integer, Void> {
 			MeasureJsonModel model = new MeasureJsonModel(sensorName, basetime, unit);
 			List<Integer> ids = fillMeasureJsonModel(model);
 			try {
-				response = RestRequest.putData(uri, JsonParser.measuresToJson(model));
+				response = RestRequest.putData(uri, JsonPrinter.measuresToJson(model));
 			} catch (RequestErrorException e) {
 				Log.e(TAG, e.getMessage());
 				RequestTask.uploadFailure(context, RequestTask.CODE_PUT_MEASURE, response);
