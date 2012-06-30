@@ -4,6 +4,7 @@
    	<string name="hello">Hello World, SensApp!</string>
 	<string name="app_name">SensApp</string>
 	<string name="no_measures">Currently there are no measures maintained</string>
+	<string name="no_sensors">Currently there are no sensors maintained</string>
 	<string name="menu_insert">Add Item</string>
 	<string name="menu_delete">Delete measure</string>
 	<string name="measure_id">Id: </string>
