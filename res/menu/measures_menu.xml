@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/insert"
+        android:id="@+id/insert_measure"
         android:showAsAction="ifRoom"
         android:title="Insert" >
     </item>
@@ -12,24 +12,14 @@
         android:title="Upload" >
     </item>
     <item
-        android:id="@+id/stop_service"
-        android:showAsAction="ifRoom"
-        android:title="Stop service" >
-    </item>
-    <item
-        android:id="@+id/flush_database"
+        android:id="@+id/delete_all_measures"
         android:showAsAction="never"
-        android:title="Flush all" >
+        android:title="Delete all" >
     </item>
     <item
-        android:id="@+id/flush_uploaded"
-        android:showAsAction="always"
+        android:id="@+id/delete_uploaded_measures"
+        android:showAsAction="ifRoom"
         android:title="Flush uploaded" >
-    </item>
-    <item
-        android:id="@+id/view"
-        android:showAsAction="always"
-        android:title="Change view" >
     </item>
     
 </menu>

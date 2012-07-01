@@ -58,7 +58,7 @@ public class RestRequest {
 			e.printStackTrace();
 			throw new RequestErrorException(e.getMessage());
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			throw new RequestErrorException(e.getMessage());
 		}
 		Log.e(TAG, "Post sensor result: " + response);

@@ -45,6 +45,12 @@ public class DatabaseRequest {
 			return rows;
 		}
 
+		public static int updateMeasure(Context context, int id, ContentValues values) {
+			int rows = context.getContentResolver().update(Uri.parse(M_CONTENT_URI + "/" + id), values, null, null);
+			Log.i(TAG, "TABLE_MEASURE: " + rows + " rows updated");
+			return rows;
+		}
+		
 		public static int updateMeasures(Context context, String selection, ContentValues values) {
 			int rows = context.getContentResolver().update(M_CONTENT_URI, values, selection, null);
 			Log.i(TAG, "TABLE_MEASURE: " + rows + " rows updated");
@@ -80,6 +86,12 @@ public class DatabaseRequest {
 			return rowMeasures + rowSensors;
 		}
 
+		public static int updateSensor(Context context, String name, ContentValues values) {
+			int rows = context.getContentResolver().update(Uri.parse(S_CONTENT_URI + "/" + name), values, null, null);
+			Log.i(TAG, "TABLE_SENSOR: " + rows + " rows updated");
+			return rows;
+		}
+		
 		public static int updateSensors(Context context, String selection, ContentValues values) {
 			int rows = context.getContentResolver().update(S_CONTENT_URI, values, selection, null);
 			Log.i(TAG, "TABLE_SENSOR: " + rows + " rows updated");

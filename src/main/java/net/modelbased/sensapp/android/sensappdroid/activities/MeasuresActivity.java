@@ -14,9 +14,9 @@ import android.view.MenuItem;
 
 public class MeasuresActivity extends Activity implements OnMesureSelectedListener {
 	
-	public static final String ACTION_UPLOAD = "net.modelbased.sensapp.android.sensappdroid.ACTION_UPLOAD";
-	public static final String ACTION_FLUSH_ALL = "net.modelbased.sensapp.android.sensappdroid.ACTION_FLUSH_ALL";
-	public static final String ACTION_FLUSH_UPLOADED = "net.modelbased.sensapp.android.sensappdroid.ACTION_FLUSH_UPLOADED";
+	public static final String ACTION_UPLOAD = "net.modelbased.sensapp.android.sensappdroid.measuresactivity.ACTION_UPLOAD";
+	public static final String ACTION_FLUSH_ALL = "net.modelbased.sensapp.android.sensappdroid.measuresactivity.ACTION_FLUSH_ALL";
+	public static final String ACTION_FLUSH_UPLOADED = "net.modelbased.sensapp.android.sensappdroid.measuresactivity.ACTION_FLUSH_UPLOADED";
 	
 	private static final String TAG = MeasuresActivity.class.getSimpleName();
 	
@@ -30,7 +30,7 @@ public class MeasuresActivity extends Activity implements OnMesureSelectedListen
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.list_menu, menu);
+		inflater.inflate(R.menu.measures_menu, menu);
 		return true;
 	}
 
@@ -38,25 +38,21 @@ public class MeasuresActivity extends Activity implements OnMesureSelectedListen
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent i = new Intent(this, SensAppService.class);
 		switch (item.getItemId()) {
-		case R.id.insert:
+		case R.id.insert_measure:
 			PushDataTest.pushData(this);
 			return true;
 		case R.id.upload:
 			i.setAction(ACTION_UPLOAD);
 			startService(i);
 			return true;
-		case R.id.stop_service:
-			stopService(i);
-			return true;
-		case R.id.flush_database:
+		case R.id.delete_all_measures:
 			i.setAction(ACTION_FLUSH_ALL);
 			startService(i);
 			return true;
-		case R.id.flush_uploaded:
+		case R.id.delete_uploaded_measures:
 			i.setAction(ACTION_FLUSH_UPLOADED);
 			startService(i);
 			return true;
-		case R.id.view:
 		}
 		return super.onOptionsItemSelected(item);
 	}

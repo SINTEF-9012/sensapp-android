@@ -14,10 +14,6 @@ import android.view.MenuItem;
 
 public class SensorsActivity extends Activity implements OnSensorSelectedListener {
 	
-	public static final String ACTION_UPLOAD = "net.modelbased.sensapp.android.sensappdroid.ACTION_UPLOAD";
-	public static final String ACTION_FLUSH_ALL = "net.modelbased.sensapp.android.sensappdroid.ACTION_FLUSH_ALL";
-	public static final String ACTION_FLUSH_UPLOADED = "net.modelbased.sensapp.android.sensappdroid.ACTION_FLUSH_UPLOADED";
-	
 	private static final String TAG = SensorsActivity.class.getSimpleName();
 	
     @Override
@@ -30,33 +26,19 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.list_menu, menu);
+		inflater.inflate(R.menu.sensors_menu, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent i = new Intent(this, SensAppService.class);
 		switch (item.getItemId()) {
-		case R.id.insert:
-			PushDataTest.pushData(this);
+		case R.id.insert_sensor:
+			PushDataTest.pushSensor(this);;
 			return true;
-		case R.id.upload:
-			i.setAction(ACTION_UPLOAD);
-			startService(i);
+		case R.id.change_view_to_measures:
+			startActivity(new Intent(this, MeasuresActivity.class));
 			return true;
-		case R.id.stop_service:
-			stopService(i);
-			return true;
-		case R.id.flush_database:
-			i.setAction(ACTION_FLUSH_ALL);
-			startService(i);
-			return true;
-		case R.id.flush_uploaded:
-			i.setAction(ACTION_FLUSH_UPLOADED);
-			startService(i);
-			return true;
-		case R.id.view:
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -70,6 +52,6 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
 	@Override
 	public void onSensorSelected(Uri uri) {
 		Log.d(TAG, "Uri: " + uri.toString());
-		startActivity(new Intent(this, MeasuresActivity.class));
+		
 	}
 }
