@@ -15,16 +15,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 public class MeasureListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
 
-	private static String TAG = MeasureListFragment.class.getName();
+	private static String TAG = MeasureListFragment.class.getSimpleName();
 	private static final int MENU_DELETE_ID = Menu.FIRST + 1;
 
 	private SimpleCursorAdapter adapter;
@@ -50,6 +52,11 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 		Log.d(TAG, "__ON_CREATE__");
 		super.onCreate(savedInstanceState);
 		
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.measure_list, container, false);
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package net.modelbased.sensapp.android.sensappdroid.fragments;
 import net.modelbased.sensapp.android.sensappdroid.R;
 import net.modelbased.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import net.modelbased.sensapp.android.sensappdroid.database.SensorTable;
+import net.modelbased.sensapp.android.sensappdroid.utils.DeleteSensorsTask;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -66,7 +67,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		menu.add(0, MENU_DELETE_ID, 0, R.string.menu_delete);
+		menu.add(0, MENU_DELETE_ID, 0, "Delete sensor");
 	}
 
 	@Override
@@ -74,7 +75,9 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 		switch (item.getItemId()) {
 		case MENU_DELETE_ID:
 			AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-			Log.e(TAG, "Id: " + info.id);
+			Cursor c = adapter.getCursor();
+			c.moveToPosition(info.position);
+			new DeleteSensorsTask(getActivity()).execute(c.getString(c.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME)));
 			return true;
 		}
 		return super.onContextItemSelected(item);

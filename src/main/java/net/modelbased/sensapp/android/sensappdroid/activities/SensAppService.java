@@ -24,19 +24,19 @@ public class SensAppService extends Service {
 		Log.d(TAG, "__ON_CREATE__");
 		super.onCreate();
 		PushDataTest.pushSensor(this);
-		new PostSensorTask(this).execute("sa_test_unregistred_sensor8080");
+		//new PostSensorTask(this).execute("sa_test_unregistred_sensor8080");
 		Toast.makeText(getApplicationContext(), R.string.toast_service_started, Toast.LENGTH_LONG).show();
 	}
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		if (intent.getAction().equals(SensAppListActivity.ACTION_UPLOAD)) {
+		if (intent.getAction().equals(SensorsActivity.ACTION_UPLOAD)) {
 			Log.d(TAG, "Receive: ACTION_UPLOAD");
-			new PutMeasuresTask(this).execute("sa_test_unregistred_sensor");
-		} else if (intent.getAction().equals(SensAppListActivity.ACTION_FLUSH_ALL)) {
+			new PutMeasuresTask(this).execute("sa_test_unregistred_sensor8080");
+		} else if (intent.getAction().equals(SensorsActivity.ACTION_FLUSH_ALL)) {
 			Log.d(TAG, "Receive: ACTION_FLUSH_ALL");
 			new DeleteMeasuresTask(this, null).execute();
-		} else if (intent.getAction().equals(SensAppListActivity.ACTION_FLUSH_UPLOADED)) {
+		} else if (intent.getAction().equals(SensorsActivity.ACTION_FLUSH_UPLOADED)) {
 			Log.d(TAG, "Receive: ACTION_FLUSH_UPLOADED");
 			new DeleteMeasuresTask(this, SensAppCPContract.Measure.UPLOADED + " = 1").execute();
 		} else if (intent.getAction().equals(RequestTask.ACTION_REQUEST_SUCCEED)) {

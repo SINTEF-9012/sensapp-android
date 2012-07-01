@@ -18,7 +18,7 @@ public final class R {
         public static final int flush_uploaded=0x7f060013;
         public static final int fragment_measure_details=0x7f06000d;
         public static final int fragment_measures_list=0x7f06000c;
-        public static final int fragment_view=0x7f06000e;
+        public static final int fragment_sensor_list=0x7f06000e;
         public static final int icon=0x7f060000;
         public static final int insert=0x7f06000f;
         public static final int label=0x7f060001;

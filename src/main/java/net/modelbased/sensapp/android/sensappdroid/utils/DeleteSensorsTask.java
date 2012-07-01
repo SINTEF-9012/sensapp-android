@@ -3,18 +3,16 @@ package net.modelbased.sensapp.android.sensappdroid.utils;
 import android.content.Context;
 import android.os.AsyncTask;
 
-public class DeleteSensorsTask extends AsyncTask<Void, Void, Integer> {
+public class DeleteSensorsTask extends AsyncTask<String, Void, Integer> {
 
 	private Context context;
-	private String name;
 	
-	public DeleteSensorsTask(Context context, String name) {
+	public DeleteSensorsTask(Context context) {
 		this.context = context;
-		this.name = name;
 	}
 	
 	@Override
-	protected Integer doInBackground(Void... params) {
-		return DatabaseRequest.SensorRQ.deleteSensor(context, name);
+	protected Integer doInBackground(String... params) {
+		return DatabaseRequest.SensorRQ.deleteSensor(context, params[0]);
 	}
 }

@@ -82,9 +82,9 @@ public class SensorCP {
 		case SENSOR_ID:
 			String id = uri.getLastPathSegment();
 			if (TextUtils.isEmpty(selection)) {
-				rowsDeleted = db.delete(SensorTable.TABLE_SENSOR, SensorTable.COLUMN_NAME + " = " + id, null);
+				rowsDeleted = db.delete(SensorTable.TABLE_SENSOR, SensorTable.COLUMN_NAME + " = \"" + id + "\"", null);
 			} else {
-				rowsDeleted = db.delete(SensorTable.TABLE_SENSOR, SensorTable.COLUMN_NAME + " = " + id + " and " + selection, selectionArgs);
+				rowsDeleted = db.delete(SensorTable.TABLE_SENSOR, SensorTable.COLUMN_NAME + " = \"" + id + "\" and " + selection, selectionArgs);
 			}
 			break;
 		default:
@@ -104,9 +104,9 @@ public class SensorCP {
 		case SENSOR_ID:
 			String id = uri.getLastPathSegment();
 			if (TextUtils.isEmpty(selection)) {
-				rowsUpdated = db.update(SensorTable.TABLE_SENSOR, values, SensorTable.COLUMN_NAME + " = " + id, null);
+				rowsUpdated = db.update(SensorTable.TABLE_SENSOR, values, SensorTable.COLUMN_NAME + " = \"" + id + "\"", null);
 			} else {
-				rowsUpdated = db.update(SensorTable.TABLE_SENSOR, values, SensorTable.COLUMN_NAME + " = " + id + " and " + selection, selectionArgs);
+				rowsUpdated = db.update(SensorTable.TABLE_SENSOR, values, SensorTable.COLUMN_NAME + " = \"" + id + "\" and " + selection, selectionArgs);
 			}
 			break;
 		default:
