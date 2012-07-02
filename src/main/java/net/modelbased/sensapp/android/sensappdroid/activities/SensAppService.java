@@ -7,6 +7,7 @@ import net.modelbased.sensapp.android.sensappdroid.restservice.RequestTask;
 import net.modelbased.sensapp.android.sensappdroid.utils.DeleteMeasuresTask;
 import android.app.Service;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
@@ -28,7 +29,15 @@ public class SensAppService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		if (intent.getAction().equals(MeasuresActivity.ACTION_UPLOAD)) {
 			Log.d(TAG, "Receive: ACTION_UPLOAD");
-			new PutMeasuresTask(this).execute("sa_test_unregistred_sensor8080");
+			Cursor cursor = getContentResolver().query(SensAppCPContract.Sensor.CONTENT_URI, new String[]{SensAppCPContract.Sensor.NAME}, null, null, null);
+			if (cursor != null && cursor.getCount() > 0) {
+				while (cursor.moveToNext()) {
+					new PutMeasuresTask(this).execute((cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME))));
+					cursor.close();
+				}
+			} else {
+				Log.e(TAG, "No sensors to upload");
+			}
 		} else if (intent.getAction().equals(MeasuresActivity.ACTION_FLUSH_ALL)) {
 			Log.d(TAG, "Receive: ACTION_FLUSH_ALL");
 			new DeleteMeasuresTask(this, null).execute();

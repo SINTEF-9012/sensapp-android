@@ -14,15 +14,13 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int change_view_to_measures=0x7f060014;
-        public static final int delete_all_measures=0x7f060011;
-        public static final int delete_uploaded_measures=0x7f060012;
+        public static final int change_view_to_measures=0x7f060012;
+        public static final int delete_all_measures=0x7f060010;
+        public static final int delete_uploaded_measures=0x7f060011;
         public static final int fragment_measure_details=0x7f06000d;
         public static final int fragment_measures_list=0x7f06000c;
         public static final int fragment_sensor_list=0x7f06000e;
         public static final int icon=0x7f060000;
-        public static final int insert_measure=0x7f06000f;
-        public static final int insert_sensor=0x7f060013;
         public static final int label=0x7f060001;
         public static final int measure_id=0x7f060004;
         public static final int measure_id_value=0x7f060005;
@@ -34,7 +32,7 @@ public final class R {
         public static final int measure_time_value=0x7f060007;
         public static final int measure_value=0x7f06000a;
         public static final int measure_value_value=0x7f06000b;
-        public static final int upload=0x7f060010;
+        public static final int upload=0x7f06000f;
     }
     public static final class layout {
         public static final int measure_list=0x7f030000;

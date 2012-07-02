@@ -2,7 +2,6 @@ package net.modelbased.sensapp.android.sensappdroid.activities;
 
 import net.modelbased.sensapp.android.sensappdroid.R;
 import net.modelbased.sensapp.android.sensappdroid.fragments.MeasureListFragment.OnMesureSelectedListener;
-import net.modelbased.sensapp.android.sensappdroid.restservice.PushDataTest;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -38,9 +37,9 @@ public class MeasuresActivity extends Activity implements OnMesureSelectedListen
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent i = new Intent(this, SensAppService.class);
 		switch (item.getItemId()) {
-		case R.id.insert_measure:
-			PushDataTest.pushData(this);
-			return true;
+//		case R.id.insert_measure:
+//			PushDataTest.pushData(this);
+//			return true;
 		case R.id.upload:
 			i.setAction(ACTION_UPLOAD);
 			startService(i);

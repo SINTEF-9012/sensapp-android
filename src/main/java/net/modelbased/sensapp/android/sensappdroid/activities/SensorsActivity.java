@@ -2,7 +2,6 @@ package net.modelbased.sensapp.android.sensappdroid.activities;
 
 import net.modelbased.sensapp.android.sensappdroid.R;
 import net.modelbased.sensapp.android.sensappdroid.fragments.SensorListFragment.OnSensorSelectedListener;
-import net.modelbased.sensapp.android.sensappdroid.restservice.PushDataTest;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -33,9 +32,9 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.insert_sensor:
-			PushDataTest.pushSensor(this);;
-			return true;
+//		case R.id.insert_sensor:
+//			PushDataTest.pushSensor(this);;
+//			return true;
 		case R.id.change_view_to_measures:
 			startActivity(new Intent(this, MeasuresActivity.class));
 			return true;
