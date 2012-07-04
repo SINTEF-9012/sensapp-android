@@ -30,9 +30,9 @@ public class MeasureActivity extends Activity {
 		tvValue = (TextView) findViewById(R.id.measure_value_value);
 		tvTime = (TextView) findViewById(R.id.measure_time_value);
 		tvStatus = (TextView) findViewById(R.id.measure_status_value);
-		Bundle extras = getIntent().getExtras();
-		Uri measureUri = extras.getParcelable(SensAppCPContract.Measure.CONTENT_ITEM_TYPE);
-		fillData(measureUri);
+		Uri uri = getIntent().getData();		
+		Log.e(TAG, uri.toString());
+		fillData(uri);
 	}
 
 	private void fillData(Uri uri) {

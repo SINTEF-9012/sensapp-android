@@ -17,7 +17,7 @@ public class SensorTable {
 	private static final String TAG = SensorTable.class.getSimpleName();
 	private static final String DATABASE_CREATE_TABLE = "CREATE TABLE " 
 			+ TABLE_SENSOR + " (" 
-			+ COLUMN_NAME + " STRING PRIMARY KEY, "
+			+ COLUMN_NAME + " TEXT PRIMARY KEY, "
 			+ COLUMN_URI + " TEXT NOT NULL, "
 			+ COLUMN_DESCRIPTION + " TEXT, "
 			+ COLUMN_BACKEND + " TEXT NOT NULL, "

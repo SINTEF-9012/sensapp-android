@@ -100,7 +100,7 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Log.d(TAG, "__ON_CREATE_LOADER__");
 			String[] projection = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_VALUE};
-			CursorLoader cursorLoader = new CursorLoader(getActivity(), SensAppCPContract.Measure.CONTENT_URI, projection, null, null, null);
+			CursorLoader cursorLoader = new CursorLoader(getActivity(), getActivity().getIntent().getData(), projection, null, null, null);
 			return cursorLoader;
 	}
 

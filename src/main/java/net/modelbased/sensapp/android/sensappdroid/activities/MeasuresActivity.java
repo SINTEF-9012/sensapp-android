@@ -64,6 +64,9 @@ public class MeasuresActivity extends Activity implements OnMesureSelectedListen
 
 	@Override
 	public void onMeasureSelected(Uri uri) {
-		Log.e(TAG, "Uri: " + uri.toString());
+		Log.i(TAG, "Selected uri: " + uri.toString());
+		Intent i = new Intent(this, MeasureActivity.class);
+		i.setData(uri);
+		startActivity(i);
 	}
 }

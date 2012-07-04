@@ -3,9 +3,8 @@ package net.modelbased.sensapp.android.sensappdroid.contentprovider;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import net.modelbased.sensapp.android.sensappdroid.database.MeasureTable;
+import net.modelbased.sensapp.android.sensappdroid.database.MetadataTable;
 import net.modelbased.sensapp.android.sensappdroid.database.SensAppDatabaseHelper;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
@@ -15,24 +14,22 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
-public class MeasureCP {
+public class MetadataCP {
 	
-	protected static final String BASE_PATH = "measures";
+	protected static final String BASE_PATH = "metadata";
 	
-	private static final int MEASURES = 10;
-	private static final int MEASURE_ID = 20;
-	private static final int MEASURE_SENSOR = 30;
+	private static final int METADATA = 10;
+	private static final int METADATA_ID = 20;
 	private static final UriMatcher measureURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	static {
-		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH, MEASURES);
-		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/#", MEASURE_ID);
-		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/*", MEASURE_SENSOR);
+		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH, METADATA);
+		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/#", METADATA_ID);
 	}
 
 	private SensAppDatabaseHelper database;
 	private Context context;
 	
-	public MeasureCP(Context context, SensAppDatabaseHelper database) {
+	public MetadataCP(Context context, SensAppDatabaseHelper database) {
 		this.context = context;
 		this.database = database;
 	}
@@ -40,15 +37,12 @@ public class MeasureCP {
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		checkColumns(projection);
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-		queryBuilder.setTables(MeasureTable.TABLE_MEASURE);
+		queryBuilder.setTables(MetadataTable.TABLE_METADATA);
 		switch (measureURIMatcher.match(uri)) {
-		case MEASURES:
+		case METADATA:
 			break;
-		case MEASURE_ID:
-			queryBuilder.appendWhere(MeasureTable.COLUMN_ID + "=" + uri.getLastPathSegment());
-			break;
-		case MEASURE_SENSOR:
-			queryBuilder.appendWhere(MeasureTable.COLUMN_SENSOR + "= \"" + uri.getLastPathSegment() + "\"");
+		case METADATA_ID:
+			queryBuilder.appendWhere(MetadataTable.COLUMN_ID + "=" + uri.getLastPathSegment());
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -67,8 +61,8 @@ public class MeasureCP {
 		SQLiteDatabase db = database.getWritableDatabase();
 		long id = 0;
 		switch (measureURIMatcher.match(uri)) {
-		case MEASURES:
-			id = db.insert(MeasureTable.TABLE_MEASURE, null, values);
+		case METADATA:
+			id = db.insert(MetadataTable.TABLE_METADATA, null, values);
 			break;
 		default:
 			throw new IllegalArgumentException("Bad URI: " + uri);
@@ -81,23 +75,15 @@ public class MeasureCP {
 		SQLiteDatabase db = database.getWritableDatabase();
 		int rowsDeleted = 0;
 		switch (measureURIMatcher.match(uri)) {
-		case MEASURES:
-			rowsDeleted = db.delete(MeasureTable.TABLE_MEASURE, selection, selectionArgs);
+		case METADATA:
+			rowsDeleted = db.delete(MetadataTable.TABLE_METADATA, selection, selectionArgs);
 			break;
-		case MEASURE_ID:
+		case METADATA_ID:
 			String id = uri.getLastPathSegment();
 			if (TextUtils.isEmpty(selection)) {
-				rowsDeleted = db.delete(MeasureTable.TABLE_MEASURE, MeasureTable.COLUMN_ID + "=" + id, null);
+				rowsDeleted = db.delete(MetadataTable.TABLE_METADATA, MetadataTable.COLUMN_ID + "=" + id, null);
 			} else {
-				rowsDeleted = db.delete(MeasureTable.TABLE_MEASURE, MeasureTable.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
-			}
-			break;
-		case MEASURE_SENSOR:
-			String name = uri.getLastPathSegment();
-			if (TextUtils.isEmpty(selection)) {
-				rowsDeleted = db.delete(MeasureTable.TABLE_MEASURE, MeasureTable.COLUMN_SENSOR + "= \"" + name + "\"", null);
-			} else {
-				rowsDeleted = db.delete(MeasureTable.TABLE_MEASURE, MeasureTable.COLUMN_SENSOR + "= \"" + name + "\" and " + selection, selectionArgs);
+				rowsDeleted = db.delete(MetadataTable.TABLE_METADATA, MetadataTable.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
 			}
 			break;
 		default:
@@ -111,23 +97,15 @@ public class MeasureCP {
 		SQLiteDatabase db = database.getWritableDatabase();
 		int rowsUpdated = 0;
 		switch (measureURIMatcher.match(uri)) {
-		case MEASURES:
-			rowsUpdated = db.update(MeasureTable.TABLE_MEASURE, values, selection, selectionArgs);
+		case METADATA:
+			rowsUpdated = db.update(MetadataTable.TABLE_METADATA, values, selection, selectionArgs);
 			break;
-		case MEASURE_ID:
+		case METADATA_ID:
 			String id = uri.getLastPathSegment();
 			if (TextUtils.isEmpty(selection)) {
-				rowsUpdated = db.update(MeasureTable.TABLE_MEASURE, values, MeasureTable.COLUMN_ID + "=" + id, null);
+				rowsUpdated = db.update(MetadataTable.TABLE_METADATA, values, MetadataTable.COLUMN_ID + "=" + id, null);
 			} else {
-				rowsUpdated = db.update(MeasureTable.TABLE_MEASURE, values, MeasureTable.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
-			}
-			break;
-		case MEASURE_SENSOR:
-			String name = uri.getLastPathSegment();
-			if (TextUtils.isEmpty(selection)) {
-				rowsUpdated = db.update(MeasureTable.TABLE_MEASURE, values, MeasureTable.COLUMN_SENSOR + "= \"" + name + "\"", null);
-			} else {
-				rowsUpdated = db.update(MeasureTable.TABLE_MEASURE, values, MeasureTable.COLUMN_SENSOR + "= \"" + name + "\" and " + selection, selectionArgs);
+				rowsUpdated = db.update(MetadataTable.TABLE_METADATA, values, MetadataTable.COLUMN_ID + "=" + id + " and " + selection, selectionArgs);
 			}
 			break;
 		default:
@@ -138,7 +116,7 @@ public class MeasureCP {
 	}
 	
 	private void checkColumns(String[] projection) {
-		String[] available = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_SENSOR, "DISTINCT " + MeasureTable.COLUMN_SENSOR, MeasureTable.COLUMN_VALUE, MeasureTable.COLUMN_TIME, MeasureTable.COLUMN_BASETIME, "DISTINCT " + MeasureTable.COLUMN_BASETIME, MeasureTable.COLUMN_UPLOADED};
+		String[] available = {MetadataTable.COLUMN_ID, MetadataTable.COLUMN_SENSOR, MetadataTable.COLUMN_KEY, MetadataTable.COLUMN_VALUE};
 		if (projection != null) {
 			HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
 			HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));

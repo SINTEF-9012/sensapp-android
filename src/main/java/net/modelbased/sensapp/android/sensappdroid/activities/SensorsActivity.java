@@ -1,6 +1,7 @@
 package net.modelbased.sensapp.android.sensappdroid.activities;
 
 import net.modelbased.sensapp.android.sensappdroid.R;
+import net.modelbased.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import net.modelbased.sensapp.android.sensappdroid.fragments.SensorListFragment.OnSensorSelectedListener;
 import android.app.Activity;
 import android.content.Intent;
@@ -36,7 +37,9 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
 //			PushDataTest.pushSensor(this);;
 //			return true;
 		case R.id.change_view_to_measures:
-			startActivity(new Intent(this, MeasuresActivity.class));
+			Intent i = new Intent(this, MeasuresActivity.class);
+			i.setData(SensAppCPContract.Measure.CONTENT_URI);
+			startActivity(i);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -51,6 +54,8 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
 	@Override
 	public void onSensorSelected(Uri uri) {
 		Log.d(TAG, "Uri: " + uri.toString());
-		
+		Intent i = new Intent(this, MeasuresActivity.class);
+		i.setData(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + uri.getLastPathSegment()));
+		startActivity(i);
 	}
 }

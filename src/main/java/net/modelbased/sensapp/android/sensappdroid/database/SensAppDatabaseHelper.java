@@ -20,6 +20,7 @@ public class SensAppDatabaseHelper extends SQLiteOpenHelper {
 		Log.i(TAG, "Creating DATABASE " + DATABASE_NAME);
 		MeasureTable.onCreate(database);
 		SensorTable.onCreate(database);
+		MetadataTable.onCreate(database);
 	}
 
 	@Override
@@ -27,5 +28,6 @@ public class SensAppDatabaseHelper extends SQLiteOpenHelper {
 		Log.i(TAG, "Updating DATABASE " + DATABASE_NAME + " from " + oldVersion + " to " + newVersion);
 		MeasureTable.onUpgrade(database, oldVersion, newVersion);
 		SensorTable.onUpgrade(database, oldVersion, newVersion);
+		MetadataTable.onUpgrade(database, oldVersion, newVersion);
 	}
 }
