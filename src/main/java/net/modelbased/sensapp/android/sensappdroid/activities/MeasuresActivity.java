@@ -36,6 +36,7 @@ public class MeasuresActivity extends Activity implements OnMesureSelectedListen
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent i = new Intent(this, SensAppService.class);
+		i.setData(getIntent().getData());
 		switch (item.getItemId()) {
 //		case R.id.insert_measure:
 //			PushDataTest.pushData(this);

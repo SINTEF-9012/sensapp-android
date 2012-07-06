@@ -40,10 +40,10 @@ public class SensAppService extends Service {
 			}
 		} else if (intent.getAction().equals(MeasuresActivity.ACTION_FLUSH_ALL)) {
 			Log.d(TAG, "Receive: ACTION_FLUSH_ALL");
-			new DeleteMeasuresTask(this, null).execute();
+			new DeleteMeasuresTask(this, intent.getData()).execute();
 		} else if (intent.getAction().equals(MeasuresActivity.ACTION_FLUSH_UPLOADED)) {
 			Log.d(TAG, "Receive: ACTION_FLUSH_UPLOADED");
-			new DeleteMeasuresTask(this, SensAppCPContract.Measure.UPLOADED + " = 1").execute();
+			new DeleteMeasuresTask(this, intent.getData()).execute(SensAppCPContract.Measure.UPLOADED + " = 1");
 		} else if (intent.getAction().equals(RequestTask.ACTION_REQUEST_SUCCEED)) {
 			Log.d(TAG, "Receive: ACTION_REQUEST_SUCCEED");
 			int mode = intent.getExtras().getInt(RequestTask.EXTRA_REQUEST_CODE);

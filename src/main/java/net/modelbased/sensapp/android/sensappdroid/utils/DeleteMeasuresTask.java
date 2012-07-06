@@ -1,33 +1,34 @@
 package net.modelbased.sensapp.android.sensappdroid.utils;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
-public class DeleteMeasuresTask extends AsyncTask<Void, Void, Integer> {
+public class DeleteMeasuresTask extends AsyncTask<String, Void, Integer> {
 
+	private static final String TAG = DeleteMeasuresTask.class.getSimpleName(); 
+	
 	private Context context;
-	private int id;
-	private String selection;
-	private boolean idMode;
+	private Uri uri;
 	
-	public DeleteMeasuresTask(Context context, int id) {
+	public DeleteMeasuresTask(Context context, Uri uri) {
 		this.context = context;
-		this.id = id;
-		idMode = true;
-	}
-	
-	public DeleteMeasuresTask(Context context, String selection) {
-		this.context = context;
-		this.selection = selection;
-		idMode = false;
+		this.uri = uri;
 	}
 
 	@Override
-	protected Integer doInBackground(Void... params) {
-		if (idMode) {
-			return DatabaseRequest.MeasureRQ.deleteMeasure(context, id);
-		} else {
-			return DatabaseRequest.MeasureRQ.deleteMeasures(context, selection);
+	protected Integer doInBackground(String... params) {
+		String selection = null;
+		if (params.length > 0) {
+			selection = params[0];
 		}
+		return context.getContentResolver().delete(uri, selection, null);
+	}
+
+	@Override
+	protected void onPostExecute(Integer result) {
+		super.onPostExecute(result);
+		Log.i(TAG, "Uri: " + uri + " - " + result + " rows deleted");
 	}
 }

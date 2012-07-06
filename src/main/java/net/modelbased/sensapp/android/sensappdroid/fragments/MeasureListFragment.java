@@ -84,7 +84,7 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 		switch (item.getItemId()) {
 		case MENU_DELETE_ID:
 			AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-			new DeleteMeasuresTask(getActivity(), (int) info.id).execute();
+			new DeleteMeasuresTask(getActivity(), Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + info.id)).execute();
 			return true;
 		}
 		return super.onContextItemSelected(item);
