@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-  <!--   <item
-        android:id="@+id/insert_sensor"
+  	<item
+        android:id="@+id/upload_all"
         android:showAsAction="always"
-        android:title="Insert" >
-    </item> -->
+        android:title="Upload" >
+    </item>
     <item
         android:id="@+id/change_view_to_measures"
         android:showAsAction="always"

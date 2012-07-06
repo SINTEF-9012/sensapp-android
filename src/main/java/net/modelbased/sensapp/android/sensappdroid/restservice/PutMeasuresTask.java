@@ -15,15 +15,17 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class PutMeasuresTask extends AsyncTask<String, Integer, Void> {
+public class PutMeasuresTask extends AsyncTask<Void, Integer, Void> {
 	
 	private static final String TAG = PutMeasuresTask.class.getSimpleName();
 	
 	private Context context;
+	private Uri uri;
 	
-	public PutMeasuresTask(Context context) {
+	public PutMeasuresTask(Context context, Uri uri) {
 		super();
 		this.context = context;
+		this.uri = uri;
 	}
 
 	private String getUnit(String sensorName) {
@@ -106,52 +108,63 @@ public class PutMeasuresTask extends AsyncTask<String, Integer, Void> {
 	}
 	
 	@Override
-	protected Void doInBackground(String... params) {
-		String sensorName = params[0];
-		String response = null;
-		Uri postSensorResult = null;
-		if (!isSensorUploaded(sensorName)) {
-			try {
-				postSensorResult = new PostSensorTask(context).executeOnExecutor(THREAD_POOL_EXECUTOR, sensorName).get();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				e.printStackTrace();
+	protected Void doInBackground(Void... params) {
+		ArrayList<String> sensorNames = new ArrayList<String>();
+		Cursor cursor = context.getContentResolver().query(uri, new String[]{"DISTINCT " + SensAppCPContract.Measure.SENSOR}, null, null, null);
+		if (cursor != null) {
+			while (cursor.moveToNext()) {
+				sensorNames.add(cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.SENSOR)));
 			}
-			if (postSensorResult == null) {
-				Log.e(TAG, "Post sensor failed");
-				RequestTask.uploadFailure(context, RequestTask.CODE_PUT_MEASURE, response);
-				return null;
-			}
-			ContentValues values = new ContentValues();
-			values.put(SensAppCPContract.Sensor.UPLOADED, 1);
-			DatabaseRequest.SensorRQ.updateSensor(context, sensorName, values);
+			cursor.close();
 		}
-		String unit = getUnit(sensorName);
-		Uri uri = getUri(sensorName);
-		for (Long basetime : getBasetimes(sensorName)) {
-			MeasureJsonModel model = new MeasureJsonModel(sensorName, basetime, unit);
-			List<Integer> ids = fillMeasureJsonModel(model);
-			try {
-				response = RestRequest.putData(uri, JsonPrinter.measuresToJson(model));
-			} catch (RequestErrorException e) {
-				if (e.getCode() == RequestErrorException.CODE_CONFLICT) {
-					Log.w(TAG, e.getCause().getMessage());
-				} else {
-					Log.e(TAG, e.getMessage());
-					if (e.getCause() != null) {
-						Log.e(TAG, e.getCause().getMessage());
-					}
+		
+		for (String sensorName : sensorNames) { 
+			String response = null;
+			Uri postSensorResult = null;
+			if (!isSensorUploaded(sensorName)) {
+				try {
+					postSensorResult = new PostSensorTask(context).executeOnExecutor(THREAD_POOL_EXECUTOR, sensorName).get();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					e.printStackTrace();
+				}
+				if (postSensorResult == null) {
+					Log.e(TAG, "Post sensor failed");
 					RequestTask.uploadFailure(context, RequestTask.CODE_PUT_MEASURE, response);
 					return null;
 				}
+				ContentValues values = new ContentValues();
+				values.put(SensAppCPContract.Sensor.UPLOADED, 1);
+				DatabaseRequest.SensorRQ.updateSensor(context, sensorName, values);
 			}
-			ContentValues values = new ContentValues();
-			values.put(SensAppCPContract.Measure.UPLOADED, 1);
-			for (int id : ids) {
-				DatabaseRequest.MeasureRQ.updateMeasure(context, id, values);
+			String unit = getUnit(sensorName);
+			Uri uri = getUri(sensorName);
+			List<Integer> ids;
+			for (Long basetime : getBasetimes(sensorName)) {
+				MeasureJsonModel model = new MeasureJsonModel(sensorName, basetime, unit);
+				ids = fillMeasureJsonModel(model);
+				try {
+					response = RestRequest.putData(uri, JsonPrinter.measuresToJson(model));
+				} catch (RequestErrorException e) {
+					if (e.getCode() == RequestErrorException.CODE_CONFLICT) {
+						Log.w(TAG, e.getCause().getMessage());
+					} else {
+						Log.e(TAG, e.getMessage());
+						if (e.getCause() != null) {
+							Log.e(TAG, e.getCause().getMessage());
+						}
+						RequestTask.uploadFailure(context, RequestTask.CODE_PUT_MEASURE, response);
+						return null;
+					}
+				}
+				ContentValues values = new ContentValues();
+				values.put(SensAppCPContract.Measure.UPLOADED, 1);
+				for (int id : ids) {
+					DatabaseRequest.MeasureRQ.updateMeasure(context, id, values);
+				}
+				RequestTask.uploadSuccess(context, RequestTask.CODE_PUT_MEASURE, response);
 			}
-			RequestTask.uploadSuccess(context, RequestTask.CODE_PUT_MEASURE, response);
 		}
 		return null;
 	}

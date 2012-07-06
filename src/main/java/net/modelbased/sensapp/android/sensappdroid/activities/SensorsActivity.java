@@ -32,12 +32,16 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent i;
 		switch (item.getItemId()) {
-//		case R.id.insert_sensor:
-//			PushDataTest.pushSensor(this);;
-//			return true;
+		case R.id.upload_all:
+			i = new Intent(this, SensAppService.class);
+			i.setAction(MeasuresActivity.ACTION_UPLOAD);
+			i.setData(SensAppCPContract.Measure.CONTENT_URI);
+			startService(i);
+			return true;
 		case R.id.change_view_to_measures:
-			Intent i = new Intent(this, MeasuresActivity.class);
+			i = new Intent(this, MeasuresActivity.class);
 			i.setData(SensAppCPContract.Measure.CONTENT_URI);
 			startActivity(i);
 			return true;
