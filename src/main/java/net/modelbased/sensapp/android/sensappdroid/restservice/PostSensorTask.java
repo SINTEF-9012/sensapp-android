@@ -6,6 +6,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 public class PostSensorTask extends AsyncTask<String, Void, Uri> {
 	
@@ -35,5 +36,17 @@ public class PostSensorTask extends AsyncTask<String, Void, Uri> {
 		}
 		RequestTask.uploadSuccess(context, RequestTask.CODE_POST_SENSOR, response);
 		return Uri.parse(response);
+	}
+
+	@Override
+	protected void onPostExecute(Uri result) {
+		super.onPostExecute(result);
+		if (result == null) {
+			Log.e(TAG, "Post sensor error");
+			Toast.makeText(context, "Upload failed", Toast.LENGTH_LONG).show();
+		} else {
+			Log.i(TAG, "Post sensor succed: " + result.toString());
+			Toast.makeText(context, result.getLastPathSegment() + " uploaded", Toast.LENGTH_LONG).show();
+		}
 	}
 }

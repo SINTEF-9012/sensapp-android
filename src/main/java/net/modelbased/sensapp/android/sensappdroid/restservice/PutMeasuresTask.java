@@ -14,8 +14,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
-public class PutMeasuresTask extends AsyncTask<Void, Integer, Void> {
+public class PutMeasuresTask extends AsyncTask<Void, Integer, Integer> {
 	
 	private static final String TAG = PutMeasuresTask.class.getSimpleName();
 	
@@ -36,10 +37,8 @@ public class PutMeasuresTask extends AsyncTask<Void, Integer, Void> {
 			String unit = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.UNIT));
 			cursor.close();
 			return unit;
-		} else {
-			Log.e(TAG, "Null cursor");
-			return null;
-		}
+		} 
+		return null;
 	}
 	
 	private Uri getUri(String sensorName) {
@@ -50,65 +49,56 @@ public class PutMeasuresTask extends AsyncTask<Void, Integer, Void> {
 			String uri = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.URI));
 			cursor.close();
 			return Uri.parse(uri);
-		} else {
-			Log.e(TAG, "Null cursor");
-			return null;
-		}
+		} 
+		return null;
 	}
 	
 	private boolean isSensorUploaded(String sensorName) {
-		String[] projection = {SensAppCPContract.Sensor.UPLOADED};
-		Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + sensorName), projection, null, null, null); 
+		String[] projection = {SensAppCPContract.Sensor.NAME};
+		String selection = SensAppCPContract.Sensor.UPLOADED + " = 1";
+		Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + sensorName), projection, selection, null, null); 
 		if (cursor != null) {
-			cursor.moveToFirst();
-			int uploaded = cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.UPLOADED));
+			boolean uploaded = cursor.getCount() > 0;
 			cursor.close();
-			return uploaded == 1;
-		} else {
-			Log.e(TAG, "Null cursor");
-			return false;
+			return uploaded;
 		}
+		return false;
 	}
 	
 	private List<Long> getBasetimes(String sensorName) {
+		List<Long> basetimes = new ArrayList<Long>();
 		String[] projection = {"DISTINCT " + SensAppCPContract.Measure.BASETIME};
-		String selection = SensAppCPContract.Measure.SENSOR + " = \"" + sensorName + "\"";
-		Cursor cursor = context.getContentResolver().query(SensAppCPContract.Measure.CONTENT_URI, projection, selection, null, null);
+		Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + sensorName), projection, null, null, null);
 		if (cursor != null) {
-			List<Long> basetimes = new ArrayList<Long>();
 			while (cursor.moveToNext()) {
 				basetimes.add(cursor.getLong(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.BASETIME)));
 			}
 			cursor.close();
-			return basetimes;	
-		} else {
-			Log.e(TAG, "Null cursor");
-			return null;
 		}
+		return basetimes;
 	}
 	
 	private List<Integer> fillMeasureJsonModel(MeasureJsonModel model) {
 		List<Integer> ids = new ArrayList<Integer>();
 		String[] projection = {SensAppCPContract.Measure.ID, SensAppCPContract.Measure.VALUE, SensAppCPContract.Measure.TIME};
-		String selection = SensAppCPContract.Measure.SENSOR + " = \"" + model.getBn() + "\"" + " AND " + SensAppCPContract.Measure.BASETIME + " = " + model.getBt() + " AND " + SensAppCPContract.Measure.UPLOADED + " = 0";
-		Cursor cursor = context.getContentResolver().query(SensAppCPContract.Measure.CONTENT_URI, projection, selection, null, null);
-		if (cursor == null) {
-			Log.e(TAG, "Null cursor");
-			RequestTask.uploadFailure(context, RequestTask.CODE_PUT_MEASURE, null);
-			return null;
+		String selection = SensAppCPContract.Measure.BASETIME + " = " + model.getBt() + " AND " + SensAppCPContract.Measure.UPLOADED + " = 0";
+		Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + model.getBn()), projection, selection, null, null);
+		if (cursor != null) {
+			while (cursor.moveToNext()) {
+				ids.add(cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.ID)));
+				int value = cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.VALUE));
+				long time = cursor.getLong(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.TIME));
+				model.appendMeasure(value, time);
+			}
+			cursor.close();
 		}
-		while (cursor.moveToNext()) {
-			ids.add(cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.ID)));
-			int value = cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.VALUE));
-			long time = cursor.getLong(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.TIME));
-			model.appendMeasure(value, time);
-		}
-		cursor.close();
 		return ids;
 	}
 	
 	@Override
-	protected Void doInBackground(Void... params) {
+	protected Integer doInBackground(Void... params) {
+		int rowsUploaded = 0;
+		
 		ArrayList<String> sensorNames = new ArrayList<String>();
 		Cursor cursor = context.getContentResolver().query(uri, new String[]{"DISTINCT " + SensAppCPContract.Measure.SENSOR}, null, null, null);
 		if (cursor != null) {
@@ -119,9 +109,9 @@ public class PutMeasuresTask extends AsyncTask<Void, Integer, Void> {
 		}
 		
 		for (String sensorName : sensorNames) { 
-			String response = null;
-			Uri postSensorResult = null;
+			
 			if (!isSensorUploaded(sensorName)) {
+				Uri postSensorResult = null;
 				try {
 					postSensorResult = new PostSensorTask(context).executeOnExecutor(THREAD_POOL_EXECUTOR, sensorName).get();
 				} catch (InterruptedException e) {
@@ -131,41 +121,45 @@ public class PutMeasuresTask extends AsyncTask<Void, Integer, Void> {
 				}
 				if (postSensorResult == null) {
 					Log.e(TAG, "Post sensor failed");
-					RequestTask.uploadFailure(context, RequestTask.CODE_PUT_MEASURE, response);
 					return null;
 				}
 				ContentValues values = new ContentValues();
 				values.put(SensAppCPContract.Sensor.UPLOADED, 1);
 				DatabaseRequest.SensorRQ.updateSensor(context, sensorName, values);
 			}
-			String unit = getUnit(sensorName);
+			
 			Uri uri = getUri(sensorName);
-			List<Integer> ids;
+			List<Integer> ids = new ArrayList<Integer>();
 			for (Long basetime : getBasetimes(sensorName)) {
-				MeasureJsonModel model = new MeasureJsonModel(sensorName, basetime, unit);
+				MeasureJsonModel model = new MeasureJsonModel(sensorName, basetime, getUnit(sensorName));
 				ids = fillMeasureJsonModel(model);
 				try {
-					response = RestRequest.putData(uri, JsonPrinter.measuresToJson(model));
+					RestRequest.putData(uri, JsonPrinter.measuresToJson(model));
 				} catch (RequestErrorException e) {
-					if (e.getCode() == RequestErrorException.CODE_CONFLICT) {
-						Log.w(TAG, e.getCause().getMessage());
-					} else {
-						Log.e(TAG, e.getMessage());
-						if (e.getCause() != null) {
-							Log.e(TAG, e.getCause().getMessage());
-						}
-						RequestTask.uploadFailure(context, RequestTask.CODE_PUT_MEASURE, response);
-						return null;
+					Log.e(TAG, e.getMessage());
+					if (e.getCause() != null) {
+						Log.e(TAG, e.getCause().getMessage());
 					}
+					return null;
 				}
-				ContentValues values = new ContentValues();
-				values.put(SensAppCPContract.Measure.UPLOADED, 1);
-				for (int id : ids) {
-					DatabaseRequest.MeasureRQ.updateMeasure(context, id, values);
-				}
-				RequestTask.uploadSuccess(context, RequestTask.CODE_PUT_MEASURE, response);
 			}
+			ContentValues values = new ContentValues();
+			values.put(SensAppCPContract.Measure.UPLOADED, 1);
+			String selection = SensAppCPContract.Measure.ID + " IN " + ids.toString().replace('[', '(').replace(']', ')');
+			rowsUploaded += context.getContentResolver().update(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" +  sensorName), values, selection, null);
 		}
-		return null;
+		return rowsUploaded;
+	}
+
+	@Override
+	protected void onPostExecute(Integer result) {
+		super.onPostExecute(result);
+		if (result == null) {
+			Log.e(TAG, "Put data error");
+			Toast.makeText(context, "Upload failed", Toast.LENGTH_LONG).show();
+		} else {
+			Log.i(TAG, "Put data succed: " + result + " measures uploaded");
+			Toast.makeText(context, "Upload succeed", Toast.LENGTH_LONG).show();
+		}
 	}
 }
