@@ -26,9 +26,9 @@ import android.util.Log;
 
 public class RestRequest {
 	
-	private static final String TAG = RestRequest.class.getName(); 
-	private static final String SENSOR_PATH = "/registry/sensors";
-	private static final String DISPATCHER_PATH = "/dispatch";
+	private static final String TAG = RestRequest.class.getSimpleName(); 
+	private static final String SENSOR_PATH = "/sensapp/registry/sensors";
+	private static final String DISPATCHER_PATH = "/sensapp/dispatch";
 	
 	public static String postSensor(Uri uri, Sensor sensor) throws RequestErrorException {
 		String content = JsonPrinter.sensorToJson(sensor);
@@ -58,12 +58,7 @@ public class RestRequest {
 			e.printStackTrace();
 			throw new RequestErrorException(e.getMessage());
 		} catch (IOException e) {
-			//e.printStackTrace();
 			throw new RequestErrorException(e.getMessage());
-		}
-		Log.e(TAG, "Post sensor result: " + response);
-		if (!response.trim().equals(target.toString() + "/" + sensor.getName())) {
-			throw new RequestErrorException("Sensor registry error");
 		}
 		return response; 
 	}
@@ -146,9 +141,14 @@ public class RestRequest {
 				}
 			}
 		}
-		if (status.getStatusCode() != 200) {
-			throw new RequestErrorException("Invalid response from server: " + result, new IOException("Invalid response code: " + status.toString()));
+		if (status.getStatusCode() == 200) {
+			return result;
+		} else if (status.getStatusCode() == 409) {
+			Log.w(TAG, status.toString());
+			Log.w(TAG, result);
+			return result;
+		} else {
+			throw new RequestErrorException("Invalid response from server: " + result, new IOException(status.toString()), status.getStatusCode());
 		}
-		return result;
 	}
 }

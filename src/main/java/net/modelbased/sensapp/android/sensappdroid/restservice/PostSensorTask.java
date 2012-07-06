@@ -27,6 +27,9 @@ public class PostSensorTask extends AsyncTask<String, Void, Uri> {
 			response = RestRequest.postSensor(sensor.getUri(), sensor);
 		} catch (RequestErrorException e) {
 			Log.e(TAG, e.getMessage());
+			if (e.getCause() != null) {
+				Log.e(TAG, e.getCause().getMessage());
+			}
 			RequestTask.uploadFailure(context, RequestTask.CODE_POST_SENSOR, response);
 			return null;
 		}

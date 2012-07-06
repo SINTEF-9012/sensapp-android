@@ -33,8 +33,8 @@ public class SensAppService extends Service {
 			if (cursor != null && cursor.getCount() > 0) {
 				while (cursor.moveToNext()) {
 					new PutMeasuresTask(this).execute((cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME))));
-					cursor.close();
 				}
+				cursor.close();
 			} else {
 				Log.e(TAG, "No sensors to upload");
 			}

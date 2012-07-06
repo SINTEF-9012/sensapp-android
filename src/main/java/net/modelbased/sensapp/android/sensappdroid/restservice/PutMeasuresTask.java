@@ -135,9 +135,16 @@ public class PutMeasuresTask extends AsyncTask<String, Integer, Void> {
 			try {
 				response = RestRequest.putData(uri, JsonPrinter.measuresToJson(model));
 			} catch (RequestErrorException e) {
-				Log.e(TAG, e.getMessage());
-				RequestTask.uploadFailure(context, RequestTask.CODE_PUT_MEASURE, response);
-				return null;
+				if (e.getCode() == RequestErrorException.CODE_CONFLICT) {
+					Log.w(TAG, e.getCause().getMessage());
+				} else {
+					Log.e(TAG, e.getMessage());
+					if (e.getCause() != null) {
+						Log.e(TAG, e.getCause().getMessage());
+					}
+					RequestTask.uploadFailure(context, RequestTask.CODE_PUT_MEASURE, response);
+					return null;
+				}
 			}
 			ContentValues values = new ContentValues();
 			values.put(SensAppCPContract.Measure.UPLOADED, 1);
