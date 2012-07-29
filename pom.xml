@@ -12,7 +12,14 @@
     <name>sensappdroid</name>
 
     <properties>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      
         <platform.version> 4.0.1.2 </platform.version>
+	
+	<sign.keystore>/home/fabien/bin/android-sdk-linux/ffrelease.keystore</sign.keystore>
+	<sign.alias>ffrelease</sign.alias>
+	<sign.storepass>store.sanzay79</sign.storepass>
+	<sign.keypass>key.sanzay79</sign.keypass>
     </properties>
 
     <dependencies>
@@ -22,11 +29,12 @@
             <version>${platform.version}</version>
             <scope>provided</scope>
         </dependency>
+	
         <dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-jaxrs</artifactId>
-			<version>1.9.7</version>
-		</dependency>
+	  <groupId>org.codehaus.jackson</groupId>
+	  <artifactId>jackson-jaxrs</artifactId>
+	  <version>1.9.7</version>
+	</dependency>
     </dependencies>
 
     <build>
@@ -44,19 +52,58 @@
                         <path>/home/fabien/bin/android-sdk-linux</path>
                         <platform>15</platform>
                     </sdk>
-                                        <undeployBeforeDeploy>true</undeployBeforeDeploy>
+                    <undeployBeforeDeploy>true</undeployBeforeDeploy>
+		    
+		    <proguard>
+		      <skip>false</skip>
+		      <config>proguard.cfg</config>
+		    </proguard>
+	   
+		    <sign>
+		      <debug>false</debug>
+		    </sign>
+	  
+		    <zipalign>
+		      <verbose>true</verbose>
+		      <inputApk>${project.build.directory}/${project.artifactId}-${project.version}.apk</inputApk>
+		      <outputApk>${project.build.directory}/${project.artifactId}-aligned.apk</outputApk>
+		    </zipalign>
                 </configuration>
-                <extensions>true</extensions>
+		
+		<executions>
+		  <execution>
+		    <id>alignApk</id>
+		      <phase>install</phase>
+		      <goals>
+			<goal>zipalign</goal>
+		      </goals>
+		  </execution>
+		</executions>
+	      <extensions>true</extensions>
             </plugin>
 
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-jarsigner-plugin</artifactId>
+	      <version>1.2</version>
+	    <executions>
+	      <execution>
+		<id>sign-and-verify</id>
+		<goals>
+		  <goal>sign</goal>
+		  <goal>verify</goal>
+		</goals>
+	      </execution>
+	    </executions>
+	
+	    <configuration>
+	      <removeExistingSignatures>true</removeExistingSignatures>
+	      <keystore>${sign.keystore}</keystore>
+	      <alias>${sign.alias}</alias>
+	      <storepass>${sign.storepass}</storepass>
+	      <keypass>${sign.keypass}</keypass>
+	    </configuration>
+	  </plugin>
         </plugins>
     </build>
 </project>
