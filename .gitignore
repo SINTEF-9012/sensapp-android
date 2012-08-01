@@ -1,5 +1,8 @@
 *~
 
+app/.classpath
+app/.project
+
 app/bin/*
 app/gen/*
 app/target
