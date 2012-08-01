@@ -1,1 +1,5 @@
+*~
+
 app/bin/*
+app/gen/*
+app/target
