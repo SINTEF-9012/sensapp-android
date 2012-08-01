@@ -76,6 +76,7 @@
 	<maven-checkstyle-plugin.configLocation>${project.basedir}/checkstyle.xml</maven-checkstyle-plugin.configLocation>
 	<maven-pmd-plugin.configLocation>${project.basedir}/pmd.xml</maven-pmd-plugin.configLocation>
 
+	<proguard.skip>false</proguard.skip>
         <checkstyle.skip>false</checkstyle.skip>
         <findbugs.skip>false</findbugs.skip>
 	<cobertura.skip>false</cobertura.skip>
@@ -237,7 +238,7 @@
                     <undeployBeforeDeploy>true</undeployBeforeDeploy>
 		    
 		    <proguard>
-		      <skip>false</skip>
+		      <skip>${proguard.skip}</skip>
 		      <config>proguard.cfg</config>
 		    </proguard>
 	   
@@ -293,7 +294,24 @@
                 <version>${plugin.site.version}</version>
                 <configuration>
                     <attach>true</attach>
-                    <reportPlugins>
+                    
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-descriptor</id>
+                        <goals>
+                            <goal>attach-descriptor</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+	  
+	  
+        </plugins>
+    </build>
+    
+    <reporting>
+      <plugins>
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-project-info-reports-plugin</artifactId>
@@ -308,7 +326,7 @@
                             <artifactId>maven-changelog-plugin</artifactId>
                             <configuration>
                                 <type>range</type>
-                                <range>10</range>
+                                <range>30</range>
                                 <displayFileDetailUrl>${project.scm.url}/tree/master/%FILE%</displayFileDetailUrl>
                                 <headingDateFormat>MM-dd-yyyy</headingDateFormat>
                                 <outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
@@ -377,20 +395,7 @@
                                 </reportSet>
                             </reportSets>
                         </plugin>
-			
-                    </reportPlugins>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-descriptor</id>
-                        <goals>
-                            <goal>attach-descriptor</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-	  
-	  
-        </plugins>
-    </build>
+		      </plugins>
+                    </reporting>
+		    
 </project>
