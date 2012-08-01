@@ -24,6 +24,11 @@
         <url>http://${github.host}/${repositoryOwner}/${repositoryName}</url>
     </scm>
     
+    <ciManagement>
+      <system>jenkins</system>
+      <url>http://bdx.fleurey.com/jenkins/job/SensAppDroid</url>
+    </ciManagement>
+    
     <issueManagement>
         <url>https://github.com/${repositoryOwner}/${repositoryName}/issues</url>
         <system>GitHub Issues</system>
