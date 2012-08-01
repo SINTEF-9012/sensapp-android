@@ -3,7 +3,7 @@ package org.sensapp.android.sensappdroid.activities;
 import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.fragments.SensorListFragment.OnSensorSelectedListener;
 
-import net.modelbased.sensapp.android.sensappdroid.R;
+import org.sensapp.android.sensappdroid.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;

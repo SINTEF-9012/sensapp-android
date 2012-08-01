@@ -4,7 +4,7 @@ import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.database.MeasureTable;
 import org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask;
 
-import net.modelbased.sensapp.android.sensappdroid.R;
+import org.sensapp.android.sensappdroid.R;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.app.LoaderManager.LoaderCallbacks;

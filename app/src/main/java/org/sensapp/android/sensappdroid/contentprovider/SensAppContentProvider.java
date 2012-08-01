@@ -10,7 +10,7 @@ import android.net.Uri;
 
 public class SensAppContentProvider extends ContentProvider {
 
-	protected static final String AUTHORITY = "net.modelbased.sensapp.android.sensappdroid.contentprovider";
+	protected static final String AUTHORITY = "org.sensapp.android.sensappdroid.contentprovider";
 	
 	private static final int SENSOR = 10;
 	private static final int MEASURE = 20;

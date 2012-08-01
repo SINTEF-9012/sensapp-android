@@ -5,7 +5,7 @@ import android.net.Uri;
 
 public final class SensAppCPContract {
 	
-	public static final String AUTHORITY = "net.modelbased.sensapp.android.sensappdroid.contentprovider";
+	public static final String AUTHORITY = "org.sensapp.android.sensappdroid.contentprovider";
 	
 	public static class Measure {
 		public static final String BASE_PATH = "measures";

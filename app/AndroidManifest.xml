@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.modelbased.sensapp.android.sensappdroid"
+    package="org.sensapp.android.sensappdroid"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -26,15 +26,15 @@
             android:label="@string/app_name" >
         </activity>
          <activity
-            android:name="org.sensapp.android.sensappdroid.activities.MeasureActivity"
+            android:name=".activities.MeasureActivity"
             android:label="@string/app_name" >
         </activity>
         <provider
-        	android:name="org.sensapp.android.sensappdroid.contentprovider.SensAppContentProvider"
-            android:authorities="net.modelbased.sensapp.android.sensappdroid.contentprovider" >
+        	android:name=".contentprovider.SensAppContentProvider"
+            android:authorities="org.sensapp.android.sensappdroid.contentprovider" >
         </provider>
         <service
-			android:name="org.sensapp.android.sensappdroid.activities.SensAppService" >
+			android:name=".activities.SensAppService" >
 		</service>
     </application>
 

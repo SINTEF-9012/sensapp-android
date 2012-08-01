@@ -4,7 +4,7 @@ import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask;
 import org.sensapp.android.sensappdroid.restservice.PutMeasuresTask;
 
-import net.modelbased.sensapp.android.sensappdroid.R;
+import org.sensapp.android.sensappdroid.R;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
