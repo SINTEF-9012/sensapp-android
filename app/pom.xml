@@ -68,8 +68,6 @@
 	
 	<sign.keystore>/home/fabien/bin/android-sdk-linux/ffrelease.keystore</sign.keystore>
 	<sign.alias>ffrelease</sign.alias>
-	<sign.storepass>${sign.strorepass}</sign.storepass>
-	<sign.keypass>${sign.keypass}</sign.keypass>
     </properties>
 
     <dependencies>
