@@ -13,12 +13,14 @@
   </skin>
   
   <bannerLeft>
-    <name>SensApp Android Application</name>
-    <src>http://maven.apache.org/images/apache-maven-project.png</src>
-    <href>http://maven.apache.org/</href>
+    <name>SensApp Android Logo</name>
+    <src>images/sensApp_trans.png</src>
+    <href>http://android.sensapp.org/</href>
   </bannerLeft>
   <bannerRight>
-    <src>http://maven.apache.org/images/maven-small.gif</src>
+    <name>SensApp Logo</name>
+    <src>images/sensApp_trans.png</src>
+    <href>http://www.sensapp.org/</href>
   </bannerRight>
 
   <body>
