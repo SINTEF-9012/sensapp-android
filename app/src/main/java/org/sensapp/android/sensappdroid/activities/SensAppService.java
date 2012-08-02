@@ -6,7 +6,10 @@ import org.sensapp.android.sensappdroid.restservice.PutMeasuresTask;
 
 import org.sensapp.android.sensappdroid.R;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -31,7 +34,7 @@ public class SensAppService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		if (intent.getAction().equals(ACTION_UPLOAD)) {
 			Log.d(TAG, "Receive: ACTION_UPLOAD");
-			new PutMeasuresTask(this, intent.getData()).execute();
+			uploadMeasureUri(intent.getData());
 		} else if (intent.getAction().equals(ACTION_DELETE_LOCAL)) {
 			Log.d(TAG, "Receive: ACTION_DELETE_LOCAL");
 			Bundle extra = intent.getExtras();
@@ -42,6 +45,27 @@ public class SensAppService extends Service {
 			}
 		}
 		return START_NOT_STICKY;
+	}
+	
+	private void uploadMeasureUri(Uri uri) {
+		if (!isDataConnectionAvailable()) {
+			Log.e(TAG, "No data connection available");
+			Toast.makeText(this, "No data connection available", Toast.LENGTH_LONG).show();
+		} else {
+			new PutMeasuresTask(this, uri).execute();
+		}
+	}
+	
+	private boolean isDataConnectionAvailable() {
+		ConnectivityManager connec = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    android.net.NetworkInfo wifi = connec.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+	    android.net.NetworkInfo mobile = connec.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+	    if (wifi.isConnected()) {
+	        return true;
+	    } else if (mobile.isConnected()) {
+	        return true;
+	    }
+	    return false;
 	}
 	
 	@Override
