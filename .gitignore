@@ -1,5 +1,9 @@
 *~
 
+SensAppDroidTest/bin/*
+SensAppDroidTest/gen/*
+SensAppDroidTest/target
+
 app/bin/*
 app/gen/*
 app/.settings
