@@ -14,10 +14,6 @@ import android.view.MenuItem;
 
 public class MeasuresActivity extends Activity implements OnMesureSelectedListener {
 	
-	public static final String ACTION_UPLOAD = "net.modelbased.sensapp.android.sensappdroid.measuresactivity.ACTION_UPLOAD";
-	public static final String ACTION_FLUSH_ALL = "net.modelbased.sensapp.android.sensappdroid.measuresactivity.ACTION_FLUSH_ALL";
-	public static final String ACTION_FLUSH_UPLOADED = "net.modelbased.sensapp.android.sensappdroid.measuresactivity.ACTION_FLUSH_UPLOADED";
-	
 	private static final String TAG = MeasuresActivity.class.getSimpleName();
 	
     @Override
@@ -39,19 +35,17 @@ public class MeasuresActivity extends Activity implements OnMesureSelectedListen
 		Intent i = new Intent(this, SensAppService.class);
 		i.setData(getIntent().getData());
 		switch (item.getItemId()) {
-//		case R.id.insert_measure:
-//			PushDataTest.pushData(this);
-//			return true;
 		case R.id.upload:
-			i.setAction(ACTION_UPLOAD);
+			i.setAction(SensAppService.ACTION_UPLOAD);
 			startService(i);
 			return true;
 		case R.id.delete_all_measures:
-			i.setAction(ACTION_FLUSH_ALL);
+			i.setAction(SensAppService.ACTION_DELETE_LOCAL);
 			startService(i);
 			return true;
 		case R.id.delete_uploaded_measures:
-			i.setAction(ACTION_FLUSH_UPLOADED);
+			i.setAction(SensAppService.ACTION_DELETE_LOCAL);
+			i.putExtra(SensAppService.EXTRA_UPLOADED_FILTER, true);
 			startService(i);
 			return true;
 		}

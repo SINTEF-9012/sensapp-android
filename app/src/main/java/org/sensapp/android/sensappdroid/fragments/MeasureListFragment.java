@@ -1,14 +1,15 @@
 package org.sensapp.android.sensappdroid.fragments;
 
+import org.sensapp.android.sensappdroid.R;
+import org.sensapp.android.sensappdroid.activities.SensAppService;
 import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.database.MeasureTable;
-import org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask;
 
-import org.sensapp.android.sensappdroid.R;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -85,7 +86,9 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 		switch (item.getItemId()) {
 		case MENU_DELETE_ID:
 			AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-			new DeleteMeasuresTask(getActivity(), Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + info.id)).execute();
+			Intent i = new Intent(SensAppService.ACTION_DELETE_LOCAL);
+			i.setData(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + info.id));
+			getActivity().startService(i);
 			return true;
 		}
 		return super.onContextItemSelected(item);

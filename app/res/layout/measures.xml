@@ -5,7 +5,7 @@
     android:orientation="horizontal" >
 
     <fragment 
-  	    android:name="net.modelbased.sensapp.android.sensappdroid.fragments.MeasureListFragment"
+  	    android:name="org.sensapp.android.sensappdroid.fragments.MeasureListFragment"
         android:id="@+id/fragment_measures_list"
         android:layout_weight="1"
         android:layout_width="wrap_content"

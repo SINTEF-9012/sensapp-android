@@ -7,11 +7,16 @@ import org.sensapp.android.sensappdroid.restservice.PutMeasuresTask;
 import org.sensapp.android.sensappdroid.R;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
 public class SensAppService extends Service {
+	
+	public static final String ACTION_UPLOAD = SensAppService.class.getName() + ".ACTION_UPLOAD";
+	public static final String ACTION_DELETE_LOCAL = SensAppService.class.getName() + ".ACTION_DELETE_LOCAL";
+	public static final String EXTRA_UPLOADED_FILTER = SensAppService.class.getName() + ".EXTRA_UPLOADED_FILTER";
 	
 	static final private String TAG = SensAppService.class.getSimpleName();
 	
@@ -24,15 +29,17 @@ public class SensAppService extends Service {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		if (intent.getAction().equals(MeasuresActivity.ACTION_UPLOAD)) {
+		if (intent.getAction().equals(ACTION_UPLOAD)) {
 			Log.d(TAG, "Receive: ACTION_UPLOAD");
 			new PutMeasuresTask(this, intent.getData()).execute();
-		} else if (intent.getAction().equals(MeasuresActivity.ACTION_FLUSH_ALL)) {
-			Log.d(TAG, "Receive: ACTION_FLUSH_ALL");
-			new DeleteMeasuresTask(this, intent.getData()).execute();
-		} else if (intent.getAction().equals(MeasuresActivity.ACTION_FLUSH_UPLOADED)) {
-			Log.d(TAG, "Receive: ACTION_FLUSH_UPLOADED");
-			new DeleteMeasuresTask(this, intent.getData()).execute(SensAppCPContract.Measure.UPLOADED + " = 1");
+		} else if (intent.getAction().equals(ACTION_DELETE_LOCAL)) {
+			Log.d(TAG, "Receive: ACTION_DELETE_LOCAL");
+			Bundle extra = intent.getExtras();
+			if (extra == null) {
+				new DeleteMeasuresTask(this, intent.getData()).execute();
+			} else if (extra.getBoolean(EXTRA_UPLOADED_FILTER)) {
+				new DeleteMeasuresTask(this, intent.getData()).execute(SensAppCPContract.Measure.UPLOADED + " = 1");
+			}
 		}
 		return START_NOT_STICKY;
 	}

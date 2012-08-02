@@ -37,7 +37,7 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
 		switch (item.getItemId()) {
 		case R.id.upload_all:
 			i = new Intent(this, SensAppService.class);
-			i.setAction(MeasuresActivity.ACTION_UPLOAD);
+			i.setAction(SensAppService.ACTION_UPLOAD);
 			i.setData(SensAppCPContract.Measure.CONTENT_URI);
 			startService(i);
 			return true;
