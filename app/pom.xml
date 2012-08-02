@@ -47,6 +47,7 @@
 	
 	<plugin.android-maven.version>3.1.1</plugin.android-maven.version>
 	<plugin.maven-jarsigner.version>1.2</plugin.maven-jarsigner.version>
+	<plugin.jodconverter-maven.version>2.2.1</plugin.jodconverter-maven.version>
 	
 	<plugin.site.version>3.0</plugin.site.version>
 	<plugin.project-info-reports.version>2.4</plugin.project-info-reports.version>
@@ -76,12 +77,12 @@
 	<maven-checkstyle-plugin.configLocation>${project.basedir}/checkstyle.xml</maven-checkstyle-plugin.configLocation>
 	<maven-pmd-plugin.configLocation>${project.basedir}/pmd.xml</maven-pmd-plugin.configLocation>
 
-	<proguard.skip>false</proguard.skip>
-        <checkstyle.skip>false</checkstyle.skip>
-        <findbugs.skip>false</findbugs.skip>
-	<cobertura.skip>false</cobertura.skip>
-        <javadocs.skip>false</javadocs.skip>
-        <pmd.skip>false</pmd.skip>
+	<proguard.skip>true</proguard.skip>
+        <checkstyle.skip>true</checkstyle.skip>
+        <findbugs.skip>true</findbugs.skip>
+	<cobertura.skip>true</cobertura.skip>
+        <javadocs.skip>true</javadocs.skip>
+        <pmd.skip>true</pmd.skip>
 	
 	<sign.keystore>/home/fabien/bin/android-sdk-linux/ffrelease.keystore</sign.keystore>
 	<sign.alias>ffrelease</sign.alias>
@@ -168,6 +169,12 @@
 	      <groupId>org.apache.maven.plugins</groupId>
 	      <artifactId>maven-jarsigner-plugin</artifactId>
 	      <version>${plugin.maven-jarsigner.version}</version>
+	    </plugin>
+	    
+	    <plugin>
+	      <groupId>com.artofsolving</groupId>
+	      <artifactId>jodconverter-maven-plugin</artifactId>
+	      <version>${plugin.jodconverter-maven.version}</version>
 	    </plugin>
 	    
 	    <plugin>
@@ -287,7 +294,26 @@
 	    </configuration>
 	  </plugin>
 	  
-	  
+	  <plugin>
+	    <groupId>com.artofsolving</groupId>
+	    <artifactId>jodconverter-maven-plugin</artifactId>
+	      <configuration>
+	      <sourceDirectory>${basedir}/../doc</sourceDirectory>
+	      <outputDirectory>${project.reporting.outputDirectory}</outputDirectory>
+	      <include>**/*.odp</include>
+	      <outputFormat>swf</outputFormat>
+	      <port>8100</port>
+	    </configuration>
+	    <executions>
+	      <execution>
+		<id>convert </id>
+		<phase>pre-site</phase>
+		  <goals>
+		    <goal>convert</goal>
+		  </goals>
+	      </execution>
+	    </executions>
+	  </plugin>
 	  
 	  <plugin>
                 <artifactId>maven-site-plugin</artifactId>
@@ -310,11 +336,12 @@
         </plugins>
     </build>
     
-    <reporting>
+    <reporting> 
       <plugins>
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-project-info-reports-plugin</artifactId>
+			    <version>${plugin.project-info-reports.version}</version>
                             <configuration>
                                 <dependencyDetailsEnabled>true</dependencyDetailsEnabled>
                                 <dependencyLocationsEnabled>true</dependencyLocationsEnabled>
@@ -324,6 +351,7 @@
 			<plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-changelog-plugin</artifactId>
+			    <version>${plugin.maven-changelog.version}</version>
                             <configuration>
                                 <type>range</type>
                                 <range>30</range>
@@ -336,11 +364,13 @@
 			<plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-jxr-plugin</artifactId>
+			    <version>${plugin.jxr.version}</version>
                         </plugin>
 			
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-checkstyle-plugin</artifactId>
+			    <version>${plugin.checkstyle.version}</version>
                             <configuration>
                                 <skip>${checkstyle.skip}</skip>
                                 <configLocation>${maven-checkstyle-plugin.configLocation}</configLocation>
@@ -353,6 +383,7 @@
 			<plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-javadoc-plugin</artifactId>
+			    <version>${plugin.javadoc.version}</version>
                             <configuration>
                                 <skip>${javadocs.skip}</skip>
                                 <failOnError>false</failOnError>
@@ -362,6 +393,7 @@
 			<plugin>
                             <groupId>org.codehaus.mojo</groupId>
                             <artifactId>findbugs-maven-plugin</artifactId>
+			    <version>${plugin.findbugs-maven.version}</version>
                             <configuration>
                                 <skip>${findbugs.skip}</skip>
                                 <xmlOutput>true</xmlOutput>
@@ -371,6 +403,7 @@
 			<plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-pmd-plugin</artifactId>
+			    <version>${plugin.pmd-plugin.version}</version>
                             <configuration>
                                 <skip>${pmd.skip}</skip>
                                 <targetJdk>${maven.compiler.source}</targetJdk>
@@ -385,6 +418,7 @@
 			<plugin>
                             <groupId>org.codehaus.mojo</groupId>
                             <artifactId>versions-maven-plugin</artifactId>
+			    <version>${plugin.versions-maven.version}</version>
                             <reportSets>
                                 <reportSet>
                                     <reports>
