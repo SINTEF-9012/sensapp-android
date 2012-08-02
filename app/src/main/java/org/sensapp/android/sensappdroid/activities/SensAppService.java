@@ -4,7 +4,6 @@ import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask;
 import org.sensapp.android.sensappdroid.restservice.PutMeasuresTask;
 
-import org.sensapp.android.sensappdroid.R;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -27,7 +26,6 @@ public class SensAppService extends Service {
 	public void onCreate() {
 		Log.d(TAG, "__ON_CREATE__");
 		super.onCreate();
-		Toast.makeText(getApplicationContext(), R.string.toast_service_started, Toast.LENGTH_LONG).show();
 	}
 	
 	@Override
@@ -76,7 +74,6 @@ public class SensAppService extends Service {
 	@Override
 	public void onDestroy() {
 		Log.d(TAG, "__ON_DESTROY__");
-		Toast.makeText(getApplicationContext(), R.string.toast_service_stopped, Toast.LENGTH_LONG).show();
 		super.onDestroy();
 	}
 }
