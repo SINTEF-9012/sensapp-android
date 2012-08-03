@@ -16,18 +16,26 @@ public class UploadUITest extends ActivityInstrumentationTestCase2<SensorsActivi
 		super(SensorsActivity.class);
 	}
 	
+	@Override
 	public void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 	
-	public void testUploadMeasures() {
+	public void testUploadMeasuresBySensors() {
 		DataManager.insertMeasures(getActivity().getContentResolver(), nbMeasures, nbSensors);
 		DataManager.insertSensors(getActivity().getContentResolver(), nbSensors);
-		solo.clickOnText("testSensor0");
-		solo.clickOnButton("Upload");
-		solo.waitForText("Upload", 2, 20000);
-		assertTrue(solo.searchText("Upload succeed"));
-		solo.goBack();
+		for (int id = 0 ; id < nbSensors ; id ++) {
+			solo.clickOnText("testSensor" + id);
+			solo.clickOnButton("Upload");
+			solo.waitForText("Upload", 2, 20000);
+			assertTrue(solo.searchText("Upload succeed"));
+			solo.goBack();
+		}
+	}
+	
+	public void testUploadAllMeasures() {
+		DataManager.insertMeasures(getActivity().getContentResolver(), nbMeasures, nbSensors);
+		DataManager.insertSensors(getActivity().getContentResolver(), nbSensors);
 		solo.clickOnButton("Upload");
 		solo.waitForText("Upload", 2, 20000);
 		assertTrue(solo.searchText("Upload succeed"));
