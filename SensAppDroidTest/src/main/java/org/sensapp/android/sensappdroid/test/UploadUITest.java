@@ -20,7 +20,7 @@ public class UploadUITest extends ActivityInstrumentationTestCase2<SensorsActivi
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 	
-	public void testMeasuresViews() {
+	public void testUploadMeasures() {
 		DataManager.insertMeasures(getActivity().getContentResolver(), nbMeasures, nbSensors);
 		DataManager.insertSensors(getActivity().getContentResolver(), nbSensors);
 		solo.clickOnText("testSensor0");
