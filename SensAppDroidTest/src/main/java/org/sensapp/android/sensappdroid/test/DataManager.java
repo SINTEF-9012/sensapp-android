@@ -7,6 +7,7 @@ import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
+import android.util.Log;
 
 public class DataManager {
 
