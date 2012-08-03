@@ -134,14 +134,16 @@ public class PutMeasuresTask extends AsyncTask<Void, Integer, Integer> {
 			for (Long basetime : getBasetimes(sensorName)) {
 				MeasureJsonModel model = new MeasureJsonModel(sensorName, basetime, getUnit(sensorName));
 				ids = fillMeasureJsonModel(model);
-				try {
-					RestRequest.putData(uri, JsonPrinter.measuresToJson(model));
-				} catch (RequestErrorException e) {
-					Log.e(TAG, e.getMessage());
-					if (e.getCause() != null) {
-						Log.e(TAG, e.getCause().getMessage());
+				if (ids.size() > 0) {
+					try {
+						RestRequest.putData(uri, JsonPrinter.measuresToJson(model));
+					} catch (RequestErrorException e) {
+						Log.e(TAG, e.getMessage());
+						if (e.getCause() != null) {
+							Log.e(TAG, e.getCause().getMessage());
+						}
+						return null;
 					}
-					return null;
 				}
 			}
 			ContentValues values = new ContentValues();
