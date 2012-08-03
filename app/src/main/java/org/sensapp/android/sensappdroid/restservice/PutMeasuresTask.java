@@ -133,7 +133,7 @@ public class PutMeasuresTask extends AsyncTask<Void, Integer, Integer> {
 			List<Integer> ids = new ArrayList<Integer>();
 			for (Long basetime : getBasetimes(sensorName)) {
 				MeasureJsonModel model = new MeasureJsonModel(sensorName, basetime, getUnit(sensorName));
-				ids = fillMeasureJsonModel(model);
+				ids.addAll(fillMeasureJsonModel(model));
 				if (ids.size() > 0) {
 					try {
 						RestRequest.putData(uri, JsonPrinter.measuresToJson(model));
