@@ -100,7 +100,6 @@
 	  <groupId>org.codehaus.jackson</groupId>
 	  <artifactId>jackson-jaxrs</artifactId>
 	  <version>${jackson.version}</version>
-	  <scope>provide</scope>
 	</dependency>
     </dependencies>
 
