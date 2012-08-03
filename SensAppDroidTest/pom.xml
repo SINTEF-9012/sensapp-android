@@ -42,7 +42,7 @@
     	<artifactId>robotium-solo</artifactId>
     	<version>3.3</version>
     </dependency>
-  </dependencies>
+    </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
