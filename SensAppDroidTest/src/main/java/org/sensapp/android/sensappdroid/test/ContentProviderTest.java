@@ -6,7 +6,6 @@ import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.contentprovider.SensAppContentProvider;
 
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.test.ProviderTestCase2;
@@ -82,7 +81,7 @@ public class ContentProviderTest extends ProviderTestCase2<SensAppContentProvide
 	
 	//////***** ----- *****//////
 	
-	/////***** Insert tests *****//////
+	/////***** CRUD tests *****//////
 	
 	private final int sensorsInsertNb = 2;
 	private final int measuresInsertNb = 10;
@@ -94,7 +93,7 @@ public class ContentProviderTest extends ProviderTestCase2<SensAppContentProvide
 		assertNotNull(cursor);
 		assertEquals(0, cursor.getCount());
 		cursor.close();
-		insertMeasures(resolver, measuresInsertNb, sensorsInsertNb);
+		DataManager.insertMeasures(resolver, measuresInsertNb, sensorsInsertNb);
 		cursor = resolver.query(uri, null, null, null, null);
 		assertNotNull(cursor);
 		assertEquals(measuresInsertNb, cursor.getCount());
@@ -108,38 +107,25 @@ public class ContentProviderTest extends ProviderTestCase2<SensAppContentProvide
 		assertNotNull(cursor);
 		assertEquals(0, cursor.getCount());
 		cursor.close();
-		insertSensors(resolver, sensorsInsertNb);
+		DataManager.insertSensors(resolver, sensorsInsertNb);
 		cursor = resolver.query(uri, null, null, null, null);
 		assertNotNull(cursor);
 		assertEquals(sensorsInsertNb, cursor.getCount());
 		cursor.close();
 	}
 	
-	private void insertMeasures(ContentResolver resolver, int nbMeasure, int nbSensors) {
-		ContentValues values;
-		for (int count = 0 ; count < nbMeasure ; count ++) {
-			values = new ContentValues();
-			values.put(SensAppCPContract.Measure.SENSOR, "testSensor" + String.valueOf(new Random().nextInt(nbSensors)));
-			values.put(SensAppCPContract.Measure.BASETIME, new Random().nextLong());
-			values.put(SensAppCPContract.Measure.TIME, new Random().nextLong());
-			values.put(SensAppCPContract.Measure.VALUE, new Random().nextInt());
-			values.put(SensAppCPContract.Measure.UPLOADED, new Random().nextInt(2));
-			resolver.insert(SensAppCPContract.Measure.CONTENT_URI, values);
+	public void testQueryMeasuresBySensorNamesUri() {
+		ContentResolver resolver = getMockContentResolver();
+		DataManager.insertMeasures(resolver, measuresInsertNb, sensorsInsertNb);
+		int nbMeasure = 0;
+		Uri uri = SensAppCPContract.Measure.CONTENT_URI;
+		Cursor cursor = null;
+		for (int sensorId = 0 ; sensorId < sensorsInsertNb ; sensorId ++) {
+			cursor = resolver.query(Uri.parse(uri + "/testSensor" + String.valueOf(sensorId)), null, null, null, null);
+			assertNotNull(cursor);
+			nbMeasure += cursor.getCount();
+			cursor.close();
 		}
-	}
-	
-	private void insertSensors(ContentResolver resolver, int nbSensors) {
-		ContentValues values;
-		for (int count = 0 ; count < nbSensors ; count ++) {
-			values = new ContentValues();
-			values.put(SensAppCPContract.Sensor.NAME, "testSensor" + String.valueOf(count));
-			values.put(SensAppCPContract.Sensor.DESCRIPTION, "Test description " + String.valueOf(count));
-			values.put(SensAppCPContract.Sensor.BACKEND, "raw");
-			values.put(SensAppCPContract.Sensor.TEMPLATE, "numerical");
-			values.put(SensAppCPContract.Sensor.URI, "http://sensapp.fleurey.com:80");
-			values.put(SensAppCPContract.Sensor.UNIT, "count");
-			values.put(SensAppCPContract.Sensor.UPLOADED, new Random().nextInt(2));
-			resolver.insert(SensAppCPContract.Sensor.CONTENT_URI, values);
-		}
+		assertEquals(measuresInsertNb, nbMeasure);
 	}
 }
