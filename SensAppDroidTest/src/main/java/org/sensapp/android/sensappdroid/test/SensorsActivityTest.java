@@ -1,12 +1,10 @@
 package org.sensapp.android.sensappdroid.test;
 
-import junit.framework.Assert;
-
 import org.sensapp.android.sensappdroid.activities.SensorsActivity;
 
-import com.jayway.android.robotium.solo.Solo;
-
 import android.test.ActivityInstrumentationTestCase2;
+
+import com.jayway.android.robotium.solo.Solo;
 
 public class SensorsActivityTest extends ActivityInstrumentationTestCase2<SensorsActivity> {
 
@@ -23,10 +21,6 @@ public class SensorsActivityTest extends ActivityInstrumentationTestCase2<Sensor
 	public void testActivityTestCaseSetUpProperly() {
         assertNotNull("activity should be launched successfully", getActivity());
     }
-	
-	public void testPreferenceIsSaved() throws Exception {
-		Assert.assertTrue(solo.searchText("Upload"));
-	}
 	
 	@Override
 	public void tearDown() throws Exception {
