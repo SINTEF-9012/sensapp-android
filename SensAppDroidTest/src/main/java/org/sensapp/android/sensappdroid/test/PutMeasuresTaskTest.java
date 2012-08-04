@@ -6,7 +6,7 @@ import java.util.concurrent.TimeoutException;
 
 import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.contentprovider.SensAppContentProvider;
-import org.sensapp.android.sensappdroid.restservice.PutMeasuresTask;
+import org.sensapp.android.sensappdroid.restrequests.PutMeasuresTask;
 
 import android.content.ContentValues;
 import android.net.Uri;

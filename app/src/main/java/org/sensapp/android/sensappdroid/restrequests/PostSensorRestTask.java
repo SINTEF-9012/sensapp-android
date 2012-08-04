@@ -1,4 +1,4 @@
-package org.sensapp.android.sensappdroid.restservice;
+package org.sensapp.android.sensappdroid.restrequests;
 
 import org.sensapp.android.sensappdroid.datarequests.DatabaseRequest;
 import org.sensapp.android.sensappdroid.models.Sensor;

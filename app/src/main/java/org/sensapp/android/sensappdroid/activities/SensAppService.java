@@ -2,7 +2,7 @@ package org.sensapp.android.sensappdroid.activities;
 
 import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask;
-import org.sensapp.android.sensappdroid.restservice.PutMeasuresTask;
+import org.sensapp.android.sensappdroid.restrequests.PutMeasuresTask;
 
 import android.app.Service;
 import android.content.Context;

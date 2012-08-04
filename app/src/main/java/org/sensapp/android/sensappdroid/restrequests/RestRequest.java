@@ -1,4 +1,4 @@
-package org.sensapp.android.sensappdroid.restservice;
+package org.sensapp.android.sensappdroid.restrequests;
 
 import java.io.BufferedReader;
 import java.io.IOException;

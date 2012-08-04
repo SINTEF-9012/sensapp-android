@@ -1,4 +1,4 @@
-package org.sensapp.android.sensappdroid.restservice;
+package org.sensapp.android.sensappdroid.restrequests;
 
 public class RequestErrorException extends Exception {
 	
