@@ -124,15 +124,17 @@ public class DatabaseRequest {
 			Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + name), projection, null, null, null);
 			Sensor sensor = null;
 			if (cursor != null) {
-				cursor.moveToFirst();
-				Uri uri = Uri.parse(cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.URI)));
-				String description = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.DESCRIPTION));
-				String backend = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.BACKEND));
-				String template = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.TEMPLATE));
-				String unit = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.UNIT));
-				int uploaded = cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.UPLOADED));
+				if (cursor.getCount() > 0) {
+					cursor.moveToFirst();
+					Uri uri = Uri.parse(cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.URI)));
+					String description = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.DESCRIPTION));
+					String backend = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.BACKEND));
+					String template = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.TEMPLATE));
+					String unit = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.UNIT));
+					int uploaded = cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.UPLOADED));
+					sensor = new Sensor(name, uri, description, backend, template, unit, uploaded == 0 ? false : true);
+				}
 				cursor.close();
-				sensor = new Sensor(name, uri, description, backend, template, unit, uploaded == 0 ? false : true);
 			}
 			return sensor;
 		}

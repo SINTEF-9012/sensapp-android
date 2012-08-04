@@ -14,6 +14,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
@@ -50,6 +51,34 @@ public class RestRequest {
 			StringEntity seContent = new StringEntity(content);
 			seContent.setContentType("text/json");  
 			request.setEntity(seContent);  
+			response = resolveResponse(client.execute(request));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			throw new RequestErrorException(e.getMessage());
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+			throw new RequestErrorException(e.getMessage());
+		} catch (IOException e) {
+			throw new RequestErrorException(e.getMessage());
+		}
+		return response; 
+	}
+	
+	public static String deleteSensor(Uri uri, Sensor sensor) throws RequestErrorException {
+		Log.i(TAG, "DELETE Sensor " + sensor.getName());
+		URI target;
+		try {
+			target = new URI(uri.toString() + SENSOR_PATH + "/" + sensor.getName());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+			throw new RequestErrorException(e.getMessage());
+		}
+		Log.v(TAG, "Target: " + target.toString());
+		HttpClient client = new DefaultHttpClient();
+		HttpDelete request = new HttpDelete(target);
+		request.setHeader("Content-type", "application/json");
+		String response = null;
+		try {
 			response = resolveResponse(client.execute(request));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
