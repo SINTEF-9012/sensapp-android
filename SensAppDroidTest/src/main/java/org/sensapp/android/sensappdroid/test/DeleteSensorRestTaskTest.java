@@ -32,7 +32,7 @@ public class DeleteSensorRestTaskTest extends AndroidTestCase {
 	
 	@Override
 	public void tearDown() throws Exception {
-		DataManager.cleanAll(getContext().getContentResolver(), 1);
+		DataManager.cleanAll(getContext());
 	}
 	
 }

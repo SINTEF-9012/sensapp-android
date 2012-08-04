@@ -3,9 +3,15 @@ package org.sensapp.android.sensappdroid.test;
 import java.util.Random;
 
 import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.datarequests.DatabaseRequest;
+import org.sensapp.android.sensappdroid.models.Sensor;
+import org.sensapp.android.sensappdroid.restrequests.RequestErrorException;
+import org.sensapp.android.sensappdroid.restrequests.RestRequest;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 
 public class DataManager {
@@ -38,20 +44,40 @@ public class DataManager {
 		}
 	}
 	
-	protected static void cleanMeasures(ContentResolver resolver, int nbSensors) {
-		for (int sensorId = 0 ; sensorId < nbSensors ; sensorId ++) {
-			resolver.delete(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/testSensor" + String.valueOf(sensorId)), null, null);
+	protected static void cleanMeasure(Context context) {
+		Cursor cursor = context.getContentResolver().query(SensAppCPContract.Measure.CONTENT_URI, new String[]{"DISTINCT " + SensAppCPContract.Measure.SENSOR}, null, null, null);
+		if (cursor != null) {
+			String name = null;
+			while (cursor.moveToNext()) {
+				name = cursor.getString(cursor.getColumnIndex(SensAppCPContract.Measure.SENSOR));
+				if (name.startsWith("test")) {
+					context.getContentResolver().delete(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + name), null, null);
+				}
+			}
+			cursor.close();
 		}
 	}
 	
-	protected static void cleanSensors(ContentResolver resolver, int nbSensors) {
-		for (int sensorId = 0 ; sensorId < nbSensors ; sensorId ++) {
-			resolver.delete(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/testSensor" + String.valueOf(sensorId)), null, null);
+	protected static void cleanSensors(Context context) throws IllegalArgumentException, RequestErrorException {
+		Cursor cursor = context.getContentResolver().query(SensAppCPContract.Sensor.CONTENT_URI, new String[]{SensAppCPContract.Sensor.NAME, SensAppCPContract.Sensor.URI, SensAppCPContract.Sensor.UPLOADED}, null, null, null);
+		if (cursor != null) {
+			String name = null;
+			while (cursor.moveToNext()) {
+				name = cursor.getString(cursor.getColumnIndex(SensAppCPContract.Sensor.NAME));
+				if (name.startsWith("test")) {
+					if (cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.UPLOADED)) == 1) {
+						Sensor sensor = DatabaseRequest.SensorRQ.getSensor(context, name);
+						RestRequest.deleteSensor(Uri.parse(cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.URI))), sensor);
+					}
+					context.getContentResolver().delete(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + name), null, null);
+				}
+			}
+			cursor.close();
 		}
 	}
 	
-	protected static void cleanAll(ContentResolver resolver, int nbSensors) {
-		cleanMeasures(resolver, nbSensors);
-		cleanSensors(resolver, nbSensors);
+	protected static void cleanAll(Context context) throws IllegalArgumentException, RequestErrorException {
+		cleanMeasure(context);
+		cleanSensors(context);
 	}
 }

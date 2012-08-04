@@ -44,6 +44,6 @@ public class UploadUITest extends ActivityInstrumentationTestCase2<SensorsActivi
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
-		DataManager.cleanAll(getActivity().getContentResolver(), nbSensors);
+		DataManager.cleanAll(getActivity());
 	}
 }

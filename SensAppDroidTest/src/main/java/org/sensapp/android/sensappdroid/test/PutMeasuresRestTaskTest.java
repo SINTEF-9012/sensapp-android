@@ -65,6 +65,6 @@ public class PutMeasuresRestTaskTest extends ProviderTestCase2<SensAppContentPro
 	
 	@Override
 	public void tearDown() throws Exception {
-		DataManager.cleanAll(getContext().getContentResolver(), 3);
+		DataManager.cleanAll(getContext());
 	}
 }
