@@ -32,8 +32,7 @@ public class PutMeasuresTaskTest extends ProviderTestCase2<SensAppContentProvide
 		values.put(SensAppCPContract.Measure.VALUE, 999);
 		values.put(SensAppCPContract.Measure.UPLOADED, 0);
 		getContext().getContentResolver().insert(SensAppCPContract.Measure.CONTENT_URI, values);
-		int nbUploaded = 0;//new PutMeasuresTask(getContext(), SensAppCPContract.Measure.CONTENT_URI).execute().get(5000, TimeUnit.MILLISECONDS);
-		assertEquals(1, nbUploaded);
+		assertNull(new PutMeasuresTask(getContext(), SensAppCPContract.Measure.CONTENT_URI).execute().get(5000, TimeUnit.MILLISECONDS));
 	}
 	
 	public void testMeasureById() throws InterruptedException, ExecutionException, TimeoutException {

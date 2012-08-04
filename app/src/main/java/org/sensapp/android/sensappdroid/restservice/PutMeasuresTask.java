@@ -54,6 +54,17 @@ public class PutMeasuresTask extends AsyncTask<Void, Integer, Integer> {
 		return null;
 	}
 	
+	private boolean sensorExists(String sensorName) {
+		String[] projection = {SensAppCPContract.Sensor.NAME};
+		Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + sensorName), projection, null, null, null); 
+		if (cursor != null) {
+			boolean exists =  cursor.getCount() > 0;
+			cursor.close();
+			return exists;
+		}
+		return false;
+	}
+	
 	private boolean isSensorUploaded(String sensorName) {
 		String[] projection = {SensAppCPContract.Sensor.NAME};
 		String selection = SensAppCPContract.Sensor.UPLOADED + " = 1";
@@ -109,7 +120,12 @@ public class PutMeasuresTask extends AsyncTask<Void, Integer, Integer> {
 			cursor.close();
 		}
 		
-		for (String sensorName : sensorNames) { 
+		for (String sensorName : sensorNames) {
+			
+			if (!sensorExists(sensorName)) {
+				Log.e(TAG, "Incorrect database: sensor " + sensorName + " does not exit");
+				return null;
+			}
 			
 			if (!isSensorUploaded(sensorName)) {
 				Uri postSensorResult = null;
