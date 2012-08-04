@@ -12,9 +12,9 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.test.ProviderTestCase2;
 
-public class PutMeasuresTaskTest extends ProviderTestCase2<SensAppContentProvider> {
+public class PutMeasuresRestTaskTest extends ProviderTestCase2<SensAppContentProvider> {
 
-	public PutMeasuresTaskTest() {
+	public PutMeasuresRestTaskTest() {
 		super(SensAppContentProvider.class, SensAppCPContract.AUTHORITY);
 	}
 
