@@ -27,6 +27,20 @@ public class JsonPrinter {
 		return jsonString;
 	}
 	
+	public static String stringMeasuresToJson(StringMeasureJsonModel jsonModel) {
+		String jsonString = null;
+		try {
+			jsonString = mapper.writeValueAsString(jsonModel);
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return jsonString;
+	}
+	
 	public static String sensorToJson(Sensor sensor) {
 		String jsonString = null;
 		SensorJsonModel.Schema schema = new SensorJsonModel.Schema(sensor.getBackend(), sensor.getTemplate());

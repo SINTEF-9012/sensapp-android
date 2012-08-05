@@ -8,6 +8,9 @@ import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.datarequests.DatabaseRequest;
 import org.sensapp.android.sensappdroid.json.JsonPrinter;
 import org.sensapp.android.sensappdroid.json.MeasureJsonModel;
+import org.sensapp.android.sensappdroid.json.NumericalMeasureJsonModel;
+import org.sensapp.android.sensappdroid.json.StringMeasureJsonModel;
+import org.sensapp.android.sensappdroid.models.Sensor;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -98,9 +101,14 @@ public class PutMeasuresTask extends AsyncTask<Void, Integer, Integer> {
 		if (cursor != null) {
 			while (cursor.moveToNext()) {
 				ids.add(cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.ID)));
-				int value = cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.VALUE));
 				long time = cursor.getLong(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.TIME));
-				model.appendMeasure(value, time);
+				if (model instanceof NumericalMeasureJsonModel) {
+					int value = cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.VALUE));
+					((NumericalMeasureJsonModel) model).appendMeasure(value, time);
+				} else if (model instanceof StringMeasureJsonModel) {
+					String value = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.VALUE));
+					((StringMeasureJsonModel) model).appendMeasure(value, time);
+				}
 			}
 			cursor.close();
 		}
@@ -120,12 +128,16 @@ public class PutMeasuresTask extends AsyncTask<Void, Integer, Integer> {
 			cursor.close();
 		}
 		
+		
+		Sensor sensor;
 		for (String sensorName : sensorNames) {
 			
 			if (!sensorExists(sensorName)) {
 				Log.e(TAG, "Incorrect database: sensor " + sensorName + " does not exit");
 				return null;
 			}
+		
+			sensor = DatabaseRequest.SensorRQ.getSensor(context, sensorName);
 			
 			if (!isSensorUploaded(sensorName)) {
 				Uri postSensorResult = null;
@@ -147,8 +159,18 @@ public class PutMeasuresTask extends AsyncTask<Void, Integer, Integer> {
 			
 			Uri uri = getUri(sensorName);
 			List<Integer> ids = new ArrayList<Integer>();
+			MeasureJsonModel model = null;
+			if (sensor.getTemplate().equals("Numerical")) {
+				model = new NumericalMeasureJsonModel(sensorName, getUnit(sensorName));
+			} else if (sensor.getTemplate().equals("String")) {
+				model = new StringMeasureJsonModel(sensorName, getUnit(sensorName));
+			} else {
+				Log.e(TAG, "Incorrect sensor template");
+				return null;
+			}
+			
 			for (Long basetime : getBasetimes(sensorName)) {
-				MeasureJsonModel model = new MeasureJsonModel(sensorName, basetime, getUnit(sensorName));
+				model.setBt(basetime);
 				ids.addAll(fillMeasureJsonModel(model));
 				if (ids.size() > 0) {
 					try {

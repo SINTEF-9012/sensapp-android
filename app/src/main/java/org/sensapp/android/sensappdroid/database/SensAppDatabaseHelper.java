@@ -9,7 +9,7 @@ public class SensAppDatabaseHelper extends SQLiteOpenHelper {
 	
 	private static final String TAG = SensAppDatabaseHelper.class.getName();
 	private static final String DATABASE_NAME = "sensapp.db";
-	private static final int DATABASE_VERSION = 8;
+	private static final int DATABASE_VERSION = 9;
 	
 	public SensAppDatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);

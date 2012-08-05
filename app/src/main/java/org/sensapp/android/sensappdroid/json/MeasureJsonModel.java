@@ -3,10 +3,8 @@ package org.sensapp.android.sensappdroid.json;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sensapp.android.sensappdroid.models.Measure;
 
-
-public class MeasureJsonModel {
+abstract public class MeasureJsonModel {
 
 	private String bn;
 	private long bt;
@@ -19,9 +17,8 @@ public class MeasureJsonModel {
 		e = new ArrayList<ValueJsonModel>();
 	}
 	
-	public MeasureJsonModel(String bn, long bt, String bu) {
+	public MeasureJsonModel(String bn, String bu) {
 		this.bn = bn;
-		this.bt = bt;
 		this.bu = bu;
 		e = new ArrayList<ValueJsonModel>();
 	}
@@ -56,19 +53,6 @@ public class MeasureJsonModel {
 	}
 	public void setE(List<ValueJsonModel> e) {
 		this.e = e;
-	}
-	
-	public MeasureJsonModel appendMeasure(int value, long time) {
-		e.add(new ValueJsonModel(value, time));
-		return this;
-	}
-	
-	public MeasureJsonModel appendMeasure(Measure measure) {
-		if (!measure.getSensor().equals(bn)) {
-			throw new IllegalArgumentException("Incompatible sensor name: " + measure.getSensor());
-		} 
-		e.add(new ValueJsonModel(measure.getValue(), measure.getTime()));
-		return this;
 	}
 
 	@Override

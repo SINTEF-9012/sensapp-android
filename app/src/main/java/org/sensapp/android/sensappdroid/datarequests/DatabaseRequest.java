@@ -132,7 +132,7 @@ public class DatabaseRequest {
 					String template = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.TEMPLATE));
 					String unit = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.UNIT));
 					int uploaded = cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.UPLOADED));
-					sensor = new Sensor(name, uri, description, backend, template, unit, uploaded == 0 ? false : true);
+					sensor = new Sensor(name, uri, description, backend, template, unit, uploaded == 1);
 				}
 				cursor.close();
 			}
