@@ -5,6 +5,7 @@ public class NumericalValueJsonModel extends ValueJsonModel {
 	private int v;
 	
 	public NumericalValueJsonModel() {
+		super();
 	}
 	
 	public NumericalValueJsonModel(int v, long t) {
