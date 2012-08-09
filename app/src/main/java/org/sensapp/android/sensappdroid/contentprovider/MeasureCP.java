@@ -6,7 +6,6 @@ import java.util.HashSet;
 import org.sensapp.android.sensappdroid.database.MeasureTable;
 import org.sensapp.android.sensappdroid.database.SensAppDatabaseHelper;
 
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;

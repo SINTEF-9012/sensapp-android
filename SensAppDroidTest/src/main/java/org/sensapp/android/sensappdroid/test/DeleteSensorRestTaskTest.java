@@ -24,7 +24,7 @@ public class DeleteSensorRestTaskTest extends AndroidTestCase {
 	
 	public void testSensorEmptyUploaded() throws InterruptedException, ExecutionException, TimeoutException {
 		DataManager.insertSensors(getContext().getContentResolver(), 1);
-		assertNotNull(new PostSensorRestTask(getContext()).execute("testSensor0").get(15, TimeUnit.SECONDS));
+		assertNotNull(new PostSensorRestTask(getContext(), "testSensor0").execute().get(15, TimeUnit.SECONDS));
 		String result = new DeleteSensorRestTask(getContext()).execute("testSensor0").get(5, TimeUnit.SECONDS);
 		assertNotNull(result);
 		assertTrue(result.trim().equals("true"));

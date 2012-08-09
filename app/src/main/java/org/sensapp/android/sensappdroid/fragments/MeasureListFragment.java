@@ -1,15 +1,14 @@
 package org.sensapp.android.sensappdroid.fragments;
 
 import org.sensapp.android.sensappdroid.R;
-import org.sensapp.android.sensappdroid.activities.SensAppService;
 import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.database.MeasureTable;
+import org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask;
 
 import android.app.Activity;
 import android.app.ListFragment;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -65,8 +64,8 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		adapter = new SimpleCursorAdapter(getActivity(), R.layout.measure_row, null, new String[]{SensAppCPContract.Measure.VALUE}, new int[]{R.id.label}, 0);
-		setListAdapter(adapter);
 		getLoaderManager().initLoader(0, null, this);
+		setListAdapter(adapter);
 		registerForContextMenu(getListView());
 	}
 
@@ -84,11 +83,9 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case MENU_DELETE_ID:
+		case MENU_DELETE_ID:			
 			AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-			Intent i = new Intent(SensAppService.ACTION_DELETE_LOCAL);
-			i.setData(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + info.id));
-			getActivity().startService(i);
+			new DeleteMeasuresTask(getActivity(), SensAppCPContract.Measure.CONTENT_URI).execute(SensAppCPContract.Measure.ID + " = " + info.id);
 			return true;
 		}
 		return super.onContextItemSelected(item);
@@ -103,9 +100,9 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Log.d(TAG, "__ON_CREATE_LOADER__");
-			String[] projection = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_VALUE};
-			CursorLoader cursorLoader = new CursorLoader(getActivity(), getActivity().getIntent().getData(), projection, null, null, null);
-			return cursorLoader;
+		String[] projection = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_VALUE};
+		CursorLoader cursorLoader = new CursorLoader(getActivity(), getActivity().getIntent().getData(), projection, null, null, null);
+		return cursorLoader;
 	}
 
 	@Override

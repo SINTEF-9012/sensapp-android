@@ -1,28 +1,31 @@
 package org.sensapp.android.sensappdroid.restrequests;
 
+import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.datarequests.DatabaseRequest;
 import org.sensapp.android.sensappdroid.models.Sensor;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-public class PostSensorRestTask extends AsyncTask<String, Void, Uri> {
+public class PostSensorRestTask extends AsyncTask<Void, Void, Uri> {
 	
 	private static final String TAG = PostSensorRestTask.class.getSimpleName();
 	
 	private Context context;
+	private String sensorName;
 	
-	public PostSensorRestTask(Context context) {
+	public PostSensorRestTask(Context context, String sensorName) {
 		super();
 		this.context = context;
+		this.sensorName = sensorName;
 	}
 
 	@Override
-	protected Uri doInBackground(String... params) {
-		String sensorName = params[0];
+	protected Uri doInBackground(Void... params) {
 		Sensor sensor = DatabaseRequest.SensorRQ.getSensor(context, sensorName);
 		String response = null;
 		try {
@@ -42,10 +45,13 @@ public class PostSensorRestTask extends AsyncTask<String, Void, Uri> {
 		super.onPostExecute(result);
 		if (result == null) {
 			Log.e(TAG, "Post sensor error");
-			Toast.makeText(context, "Upload failed", Toast.LENGTH_LONG).show();
+			Toast.makeText(context, "Post sensor: " + sensorName +  " failed", Toast.LENGTH_LONG).show();
 		} else {
+			ContentValues values = new ContentValues();
+			values.put(SensAppCPContract.Sensor.UPLOADED, 1);
+			DatabaseRequest.SensorRQ.updateSensor(context, sensorName, values);
 			Log.i(TAG, "Post sensor succed: " + result.toString());
-			Toast.makeText(context, result.getLastPathSegment() + " uploaded", Toast.LENGTH_LONG).show();
+			Toast.makeText(context, "Sensor " + sensorName + " registred", Toast.LENGTH_LONG).show();
 		}
 	}
 }

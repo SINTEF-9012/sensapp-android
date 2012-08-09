@@ -90,7 +90,7 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 			if (sensor.isUploaded()) {
 				Uri postSensorResult = null;
 				try {
-					postSensorResult = new PostSensorRestTask(context).executeOnExecutor(THREAD_POOL_EXECUTOR, sensorName).get();
+					postSensorResult = new PostSensorRestTask(context, sensorName).executeOnExecutor(THREAD_POOL_EXECUTOR).get();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} catch (ExecutionException e) {
@@ -100,9 +100,6 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 					Log.e(TAG, "Post sensor failed");
 					return null;
 				}
-				ContentValues values = new ContentValues();
-				values.put(SensAppCPContract.Sensor.UPLOADED, 1);
-				DatabaseRequest.SensorRQ.updateSensor(context, sensorName, values);
 			}
 			
 			MeasureJsonModel model = null;
@@ -175,7 +172,7 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 			Toast.makeText(context, "Upload failed", Toast.LENGTH_LONG).show();
 		} else {
 			Log.i(TAG, "Put data succed: " + result + " measures uploaded");
-			Toast.makeText(context, "Upload succeed", Toast.LENGTH_LONG).show();
+			Toast.makeText(context, "Upload succeed: " + result + " measures uploaded", Toast.LENGTH_LONG).show();
 		}
 	}
 }
