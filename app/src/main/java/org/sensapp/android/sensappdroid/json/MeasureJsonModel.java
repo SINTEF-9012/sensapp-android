@@ -55,6 +55,10 @@ abstract public class MeasureJsonModel {
 		this.e = e;
 	}
 
+	public void clearValues() {
+		e.clear();
+	}
+	
 	@Override
 	public String toString() {
 		return "MEASURE MODEL/ bn: " + bn + " - bt: " + bt + " - bu: " + bu;

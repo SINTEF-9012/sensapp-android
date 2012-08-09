@@ -58,7 +58,6 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
 
 	@Override
 	public void onSensorSelected(Uri uri) {
-		Log.d(TAG, "Uri: " + uri.toString());
 		Intent i = new Intent(this, MeasuresActivity.class);
 		i.setData(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + uri.getLastPathSegment()));
 		startActivity(i);
