@@ -78,11 +78,11 @@
 	<maven-pmd-plugin.configLocation>${project.basedir}/pmd.xml</maven-pmd-plugin.configLocation>
 
 	<proguard.skip>true</proguard.skip>
-        <checkstyle.skip>true</checkstyle.skip>
-        <findbugs.skip>true</findbugs.skip>
-	<cobertura.skip>true</cobertura.skip>
-        <javadocs.skip>true</javadocs.skip>
-        <pmd.skip>true</pmd.skip>
+        <checkstyle.skip>false</checkstyle.skip>
+        <findbugs.skip>false</findbugs.skip>
+	<cobertura.skip>false</cobertura.skip>
+        <javadocs.skip>false</javadocs.skip>
+        <pmd.skip>false</pmd.skip>
 	
 	<sign.keystore>/home/fabien/bin/android-sdk-linux/ffrelease.keystore</sign.keystore>
 	<sign.alias>ffrelease</sign.alias>
