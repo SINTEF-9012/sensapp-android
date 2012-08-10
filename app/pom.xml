@@ -77,7 +77,7 @@
 	<maven-checkstyle-plugin.configLocation>${project.basedir}/checkstyle.xml</maven-checkstyle-plugin.configLocation>
 	<maven-pmd-plugin.configLocation>${project.basedir}/pmd.xml</maven-pmd-plugin.configLocation>
 
-	<proguard.skip>true</proguard.skip>
+	<proguard.skip>false</proguard.skip>
         <checkstyle.skip>false</checkstyle.skip>
         <findbugs.skip>false</findbugs.skip>
 	<cobertura.skip>false</cobertura.skip>
