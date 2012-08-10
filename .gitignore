@@ -4,7 +4,7 @@ SensAppDroidTest/bin/*
 SensAppDroidTest/gen/*
 SensAppDroidTest/target
 
-app/bin/*
-app/gen/*
-app/.settings
-app/target
+SensAppDroid/bin/*
+SensAppDroid/gen/*
+SensAppDroid/.settings
+SensAppDroid/target
