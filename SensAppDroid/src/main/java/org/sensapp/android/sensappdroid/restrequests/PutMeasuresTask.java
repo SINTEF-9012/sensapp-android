@@ -122,9 +122,7 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 					if (cursor.getCount() > 0) {
 						int size = 0;
 						while (size == 0) {
-							//Log.w(TAG, "New batch!");
 							while (cursor.moveToNext()) {
-								//Log.w(TAG, "New measure");
 								ids.add(cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.ID)));
 								long time = cursor.getLong(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.TIME));
 								if (model instanceof NumericalMeasureJsonModel) {
@@ -155,7 +153,7 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 							ContentValues values = new ContentValues();
 							values.put(SensAppCPContract.Measure.UPLOADED, 1);
 							selection = SensAppCPContract.Measure.ID + " IN " + ids.toString().replace('[', '(').replace(']', ')');
-							rowsUploaded += context.getContentResolver().update(uri, values, SensAppCPContract.Measure.SENSOR + " = \"" +  sensorName + "\"", null);
+							rowsUploaded += context.getContentResolver().update(uri, values, selection, null);
 							ids.clear();
 							model.clearValues();
 						}

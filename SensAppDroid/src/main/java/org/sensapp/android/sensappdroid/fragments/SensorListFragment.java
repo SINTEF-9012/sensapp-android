@@ -1,11 +1,11 @@
 package org.sensapp.android.sensappdroid.fragments;
 
+import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.activities.SensAppService;
 import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.database.SensorTable;
 import org.sensapp.android.sensappdroid.datarequests.DeleteSensorsTask;
 
-import org.sensapp.android.sensappdroid.R;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -15,7 +15,6 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -29,7 +28,6 @@ import android.widget.SimpleCursorAdapter;
 
 public class SensorListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
 
-	private static String TAG = SensorListFragment.class.getName();
 	private static final int MENU_DELETE_ID = Menu.FIRST + 1;
 	private static final int MENU_UPLOAD_ID = Menu.FIRST + 2;
 
@@ -102,13 +100,11 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 
 	@Override
 	public void onDestroy() {
-		Log.d(TAG, "__ON_DESTROY__");
 		super.onDestroy();
 	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		Log.d(TAG, "__ON_CREATE_LOADER__");
 		String[] projection = {SensorTable.COLUMN_NAME};
 		CursorLoader cursorLoader = new CursorLoader(getActivity(), SensAppCPContract.Sensor.CONTENT_URI, projection, null, null, null);
 		return cursorLoader;
@@ -116,13 +112,11 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		Log.d(TAG, "__ON_LOAD_FINISHED__");
 		adapter.swapCursor(data);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-		Log.d(TAG, "__ON_LOAD_RESET__");
 		adapter.swapCursor(null);
 	}
 
