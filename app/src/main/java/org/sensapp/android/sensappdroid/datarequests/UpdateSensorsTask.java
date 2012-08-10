@@ -3,6 +3,7 @@ package org.sensapp.android.sensappdroid.datarequests;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 public class UpdateSensorsTask extends AsyncTask<Void, Void, Integer> {
 
@@ -19,5 +20,11 @@ public class UpdateSensorsTask extends AsyncTask<Void, Void, Integer> {
 	@Override
 	protected Integer doInBackground(Void... params) {
 		return DatabaseRequest.SensorRQ.updateSensors(context, selection, values);
+	}
+	
+	@Override
+	protected void onPostExecute(Integer result) {
+		super.onPostExecute(result);
+			Toast.makeText(context, result + " sensors reverted", Toast.LENGTH_SHORT).show();
 	}
 }

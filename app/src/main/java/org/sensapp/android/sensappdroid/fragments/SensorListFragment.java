@@ -1,5 +1,6 @@
 package org.sensapp.android.sensappdroid.fragments;
 
+import org.sensapp.android.sensappdroid.activities.SensAppService;
 import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.database.SensorTable;
 import org.sensapp.android.sensappdroid.datarequests.DeleteSensorsTask;
@@ -9,6 +10,7 @@ import android.app.Activity;
 import android.app.ListFragment;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -29,6 +31,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 
 	private static String TAG = SensorListFragment.class.getName();
 	private static final int MENU_DELETE_ID = Menu.FIRST + 1;
+	private static final int MENU_UPLOAD_ID = Menu.FIRST + 2;
 
 	private SimpleCursorAdapter adapter;
 	private OnSensorSelectedListener sensorSelectedListener;
@@ -69,18 +72,25 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.add(0, MENU_DELETE_ID, 0, "Delete sensor");
+		menu.add(0, MENU_UPLOAD_ID, 0, "Upload measures");
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		Cursor c = adapter.getCursor();
+		c.moveToPosition(info.position);
 		switch (item.getItemId()) {
 		case MENU_DELETE_ID:
-			AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-			Cursor c = adapter.getCursor();
-			c.moveToPosition(info.position);
 			new DeleteSensorsTask(getActivity()).execute(c.getString(c.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME)));
 			return true;
-		}
+		case MENU_UPLOAD_ID:
+			Intent i = new Intent(getActivity(), SensAppService.class);
+			i.setAction(SensAppService.ACTION_UPLOAD);
+			i.setData(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + c.getString(c.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME))));
+			getActivity().startService(i);
+			return true;
+	}
 		return super.onContextItemSelected(item);
 	}
 	

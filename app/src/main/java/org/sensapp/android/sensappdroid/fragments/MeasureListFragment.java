@@ -4,6 +4,7 @@ import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.database.MeasureTable;
 import org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask;
+import org.sensapp.android.sensappdroid.restrequests.PutMeasuresTask;
 
 import android.app.Activity;
 import android.app.ListFragment;
@@ -29,6 +30,7 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 
 	private static String TAG = MeasureListFragment.class.getSimpleName();
 	private static final int MENU_DELETE_ID = Menu.FIRST + 1;
+	private static final int MENU_UPLOAD_ID = Menu.FIRST + 2;
 
 	private SimpleCursorAdapter adapter;
 	private OnMesureSelectedListener measureSelectedListener;
@@ -78,14 +80,18 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.add(0, MENU_DELETE_ID, 0, R.string.menu_delete);
+		menu.add(0, MENU_UPLOAD_ID, 0, "Upload measure");
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		switch (item.getItemId()) {
 		case MENU_DELETE_ID:			
-			AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 			new DeleteMeasuresTask(getActivity(), SensAppCPContract.Measure.CONTENT_URI).execute(SensAppCPContract.Measure.ID + " = " + info.id);
+			return true;
+		case MENU_UPLOAD_ID:			
+			new PutMeasuresTask(getActivity(), Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + info.id)).execute();
 			return true;
 		}
 		return super.onContextItemSelected(item);

@@ -1,10 +1,13 @@
 package org.sensapp.android.sensappdroid.activities;
 
 import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.datarequests.UpdateMeasuresTask;
+import org.sensapp.android.sensappdroid.datarequests.UpdateSensorsTask;
 import org.sensapp.android.sensappdroid.fragments.SensorListFragment.OnSensorSelectedListener;
 
 import org.sensapp.android.sensappdroid.R;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -45,6 +48,14 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
 			i = new Intent(this, MeasuresActivity.class);
 			i.setData(SensAppCPContract.Measure.CONTENT_URI);
 			startActivity(i);
+			return true;
+		case R.id.set_not_uploaded:
+			ContentValues valuesS = new ContentValues();
+			valuesS.put(SensAppCPContract.Sensor.UPLOADED, 0);
+			new UpdateSensorsTask(this, SensAppCPContract.Sensor.UPLOADED + " = 1", valuesS).execute();
+			ContentValues valuesM = new ContentValues();
+			valuesM.put(SensAppCPContract.Measure.UPLOADED, 0);
+			new UpdateMeasuresTask(this, SensAppCPContract.Measure.UPLOADED + " = 1", valuesM).execute();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

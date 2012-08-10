@@ -3,6 +3,7 @@ package org.sensapp.android.sensappdroid.datarequests;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 public class UpdateMeasuresTask extends AsyncTask<Void, Void, Integer> {
 
@@ -19,5 +20,11 @@ public class UpdateMeasuresTask extends AsyncTask<Void, Void, Integer> {
 	@Override
 	protected Integer doInBackground(Void... params) {
 		return DatabaseRequest.MeasureRQ.updateMeasures(context, selection, values);
+	}
+	
+	@Override
+	protected void onPostExecute(Integer result) {
+		super.onPostExecute(result);
+		Toast.makeText(context, result + " measures reverted", Toast.LENGTH_SHORT).show();
 	}
 }

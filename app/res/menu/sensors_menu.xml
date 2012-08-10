@@ -11,5 +11,10 @@
         android:showAsAction="always"
         android:title="Measures" >
     </item>
+    <item
+        android:id="@+id/set_not_uploaded"
+        android:showAsAction="never"
+        android:title="Reset uploaded" >
+    </item>
     
 </menu>
