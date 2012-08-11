@@ -3,433 +3,113 @@
     xmlns="http://maven.apache.org/POM/4.0.0" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    
-    <modelVersion>4.0.0</modelVersion>
+  
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>sensappdroid</artifactId>
+  <packaging>apk</packaging>
+  <version>1.2-SNAPSHOT</version>
+  <name>${project.artifactId}</name>
+  <description>SensApp android application</description>
+  <url>http://android.sensapp.org</url>
+  
+  <parent>
+    <artifactId>parent</artifactId>
     <groupId>org.sensapp.android</groupId>
-    <artifactId>sensappdroid</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>apk</packaging>
-    <name>SensApp</name>
-    <description>SensApp android application</description>
-    <url>http://android.sensapp.org</url>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
 
-    <developers>
-        <developer>
-            <name>Fabien Fleurey</name>
-        </developer>
-    </developers>
-    
-    <scm>
-        <connection>scm:git://${github.host}/${repositoryOwner}/${repositoryName}.git</connection>
-        <url>http://${github.host}/${repositoryOwner}/${repositoryName}</url>
-    </scm>
-    
-    <ciManagement>
-      <system>jenkins</system>
-      <url>http://bdx.fleurey.com/jenkins/job/SensAppDroid</url>
-    </ciManagement>
-    
-    <issueManagement>
-        <url>https://github.com/${repositoryOwner}/${repositoryName}/issues</url>
-        <system>GitHub Issues</system>
-    </issueManagement>
-    
-    <properties>
-	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	
-	<repositoryName>sensapp-android</repositoryName>
-        <repositoryOwner>SINTEF-9012</repositoryOwner>
-        <github.host>github.com</github.host>
-	
-	<platform.version>4.0.1.2</platform.version>
-	<jackson.version>1.9.7</jackson.version>
-	
-	<plugin.android-maven.version>3.1.1</plugin.android-maven.version>
-	<plugin.maven-jarsigner.version>1.2</plugin.maven-jarsigner.version>
-	<plugin.jodconverter-maven.version>2.2.1</plugin.jodconverter-maven.version>
-	
-	<plugin.site.version>3.0</plugin.site.version>
-	<plugin.project-info-reports.version>2.4</plugin.project-info-reports.version>
-	<plugin.checkstyle.version>2.8</plugin.checkstyle.version>
-	<plugin.findbugs-maven.version>2.4.0</plugin.findbugs-maven.version>
-	<plugin.jxr.version>2.3</plugin.jxr.version>
-    <plugin.pmd-plugin.version>2.7.1</plugin.pmd-plugin.version>
-	<plugin.maven-changelog.version>2.2</plugin.maven-changelog.version>
-	<plugin.versions-maven.version>1.3.1</plugin.versions-maven.version>
-	<plugin.javadoc.version>2.8.1</plugin.javadoc.version>
-	
-	<plugin.maven-assembly.version>2.3</plugin.maven-assembly.version>
-	<plugin.maven-ressource.version>2.5</plugin.maven-ressource.version>
-	<plugin.maven-jar.version>2.4</plugin.maven-jar.version>
-        <plugin.compiler.version>2.3.2</plugin.compiler.version>
-	<plugin.clean.version>2.4</plugin.clean.version>
-	<plugin.install.version>2.3.1</plugin.install.version>
-        <plugin.dependency.version>2.4</plugin.dependency.version>
-        <plugin.deploy.version>2.7</plugin.deploy.version>
-        <plugin.enforcer.version>1.0.1</plugin.enforcer.version>
-        <plugin.release.version>2.2.2</plugin.release.version>
-        <plugin.source.version>2.1.2</plugin.source.version>
-        <plugin.surefire.version>2.12</plugin.surefire.version>
-        <plugin.failsafe.version>2.12</plugin.failsafe.version>
-        <plugin.wagon-ssh.version>2.2</plugin.wagon-ssh.version>
-	
-	<maven-checkstyle-plugin.configLocation>${project.basedir}/checkstyle.xml</maven-checkstyle-plugin.configLocation>
-	<maven-pmd-plugin.configLocation>${project.basedir}/pmd.xml</maven-pmd-plugin.configLocation>
+  <ciManagement>
+    <system>jenkins</system>
+    <url>http://bdx.fleurey.com/jenkins/job/SensAppDroid</url>
+  </ciManagement>
+  
+  <properties>
+    <jackson.version>1.9.7</jackson.version>
+    <maven-checkstyle-plugin.configLocation>../reports/checkstyle.xml</maven-checkstyle-plugin.configLocation>
+    <maven-pmd-plugin.configLocation>../reports/pmd.xml</maven-pmd-plugin.configLocation>
+  </properties>
 
-	<proguard.skip>false</proguard.skip>
-        <checkstyle.skip>false</checkstyle.skip>
-        <findbugs.skip>false</findbugs.skip>
-	<cobertura.skip>false</cobertura.skip>
-        <javadocs.skip>false</javadocs.skip>
-        <pmd.skip>false</pmd.skip>
-	
-	<sign.keystore>/home/fabien/bin/android-sdk-linux/ffrelease.keystore</sign.keystore>
-	<sign.alias>ffrelease</sign.alias>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.google.android</groupId>
-            <artifactId>android</artifactId>
-            <version>${platform.version}</version>
-            <scope>provided</scope>
-        </dependency>
-	
-        <dependency>
-	  <groupId>org.codehaus.jackson</groupId>
-	  <artifactId>jackson-jaxrs</artifactId>
-	  <version>${jackson.version}</version>
-	</dependency>
+  <dependencyManagement>
+    <dependencies> 
+      <dependency>
+	<groupId>org.codehaus.jackson</groupId>
+	<artifactId>jackson-jaxrs</artifactId>
+	<version>${jackson.version}</version>
+      </dependency>
     </dependencies>
+  </dependencyManagement>
 
-    <build>
-      
-	<pluginManagement>
-	  <plugins>
-	    
-	    <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-assembly-plugin</artifactId>
-	      <version>${plugin.maven-assembly.version}</version>
-            </plugin>
-            <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-resources-plugin</artifactId>
-              <version>${plugin.maven-ressource.version}</version>
-	    </plugin>
-	    <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-jar-plugin</artifactId>
-              <version>${plugin.maven-jar.version}</version>
-            </plugin>
-	    <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-compiler-plugin</artifactId>
-              <version>${plugin.compiler.version}</version>
-            </plugin>
-            <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-surefire-plugin</artifactId>
-              <version>${plugin.surefire.version}</version>
-	    </plugin>
-	    <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-release-plugin</artifactId>
-              <version>${plugin.release.version}</version>
-            </plugin>
-            <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-dependency-plugin</artifactId>
-              <version>${plugin.dependency.version}</version>
-            </plugin>
-	    <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-clean-plugin</artifactId>
-              <version>${plugin.clean.version}</version>
-            </plugin>
-	    <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-install-plugin</artifactId>
-              <version>${plugin.install.version}</version>
-            </plugin>
-            <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-deploy-plugin</artifactId>
-              <version>${plugin.deploy.version}</version>
-            </plugin>
-	    
-	    <plugin>
-                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-                <artifactId>android-maven-plugin</artifactId>
-                <version>${plugin.android-maven.version}</version>
-	    </plugin>
-	    
-	    <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-	      <artifactId>maven-jarsigner-plugin</artifactId>
-	      <version>${plugin.maven-jarsigner.version}</version>
-	    </plugin>
-	    
-	    <plugin>
-	      <groupId>com.artofsolving</groupId>
-	      <artifactId>jodconverter-maven-plugin</artifactId>
-	      <version>${plugin.jodconverter-maven.version}</version>
-	    </plugin>
-	    
-	    <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-	      <artifactId>maven-project-info-reports-plugin</artifactId>
-	      <version>${plugin.project-info-reports.version}</version>
-	    </plugin>
-	    
-	    <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-changelog-plugin</artifactId>
-              <version>${plugin.maven-changelog.version}</version>
-            </plugin>
-	    
-	    <plugin>
-	      <groupId>org.codehaus.mojo</groupId>
-              <artifactId>versions-maven-plugin</artifactId>
-              <version>${plugin.versions-maven.version}</version>
-            </plugin>
-	    
-	    <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-jxr-plugin</artifactId>
-              <version>${plugin.jxr.version}</version>
-            </plugin>
-	    
-	    <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-checkstyle-plugin</artifactId>
-              <version>${plugin.checkstyle.version}</version>
-	    </plugin>
-	    
-	    <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-pmd-plugin</artifactId>
-              <version>${plugin.pmd-plugin.version}</version>
-            </plugin>
-	    
-	    <plugin>
-	      <groupId>org.codehaus.mojo</groupId>
-	      <artifactId>findbugs-maven-plugin</artifactId>
-	      <version>${plugin.findbugs-maven.version}</version>
-	    </plugin>
-	    
-            <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-javadoc-plugin</artifactId>
-              <version>${plugin.javadoc.version}</version>
-            </plugin>
-	  
-	  </plugins>
-	</pluginManagement>
-	
-      
-        <plugins>
-            <plugin>
-                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-                <artifactId>android-maven-plugin</artifactId>
-                <configuration>
-                    <androidManifestFile>${project.basedir}/AndroidManifest.xml</androidManifestFile>
-                    <assetsDirectory>${project.basedir}/assets</assetsDirectory>
-                    <resourceDirectory>${project.basedir}/res</resourceDirectory>
-                    <nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory>
-                    <sdk>
-                        <path>/home/fabien/bin/android-sdk-linux</path>
-                        <platform>15</platform>
-                    </sdk>
-                    <undeployBeforeDeploy>true</undeployBeforeDeploy>
-		    
-		    <proguard>
-		      <skip>${proguard.skip}</skip>
-		      <config>proguard.cfg</config>
-		    </proguard>
-	   
-		    <sign>
-		      <debug>false</debug>
-		    </sign>
-	  
-		    <zipalign>
-		      <verbose>true</verbose>
-		      <inputApk>${project.build.directory}/${project.artifactId}-${project.version}.apk</inputApk>
-		      <outputApk>${project.build.directory}/${project.artifactId}-aligned.apk</outputApk>
-		    </zipalign>
-                </configuration>
-		
-		<executions>
-		  <execution>
-		    <id>alignApk</id>
-		      <phase>install</phase>
-		      <goals>
-			<goal>zipalign</goal>
-		      </goals>
-		  </execution>
-		</executions>
-	      <extensions>true</extensions>
-            </plugin>
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-jaxrs</artifactId>
+    </dependency>
+  </dependencies>
 
-            <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-	      <artifactId>maven-jarsigner-plugin</artifactId>
-	    <executions>
-	      <execution>
-		<id>sign-and-verify</id>
-		<goals>
-		  <goal>sign</goal>
-		  <goal>verify</goal>
-		</goals>
-	      </execution>
-	    </executions>
-	
-	    <configuration>
-	      <removeExistingSignatures>true</removeExistingSignatures>
-	      <keystore>${sign.keystore}</keystore>
-	      <alias>${sign.alias}</alias>
-	      <storepass>${sign.storepass}</storepass>
-	      <keypass>${sign.keypass}</keypass>
-	    </configuration>
-	  </plugin>
+  <build>
+    <plugins>
+      <plugin>
+	<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+	<artifactId>android-maven-plugin</artifactId>
+	<configuration>
+	  <androidManifestFile>${project.basedir}/AndroidManifest.xml</androidManifestFile>
+	  <assetsDirectory>${project.basedir}/assets</assetsDirectory>
+	  <resourceDirectory>${project.basedir}/res</resourceDirectory>
+	  <nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory>
+	  <sdk>
+	    <path>/home/fabien/bin/android-sdk-linux</path>
+	    <platform>15</platform>
+	  </sdk>
+	  <undeployBeforeDeploy>true</undeployBeforeDeploy>
 	  
-	  <plugin>
-	    <groupId>com.artofsolving</groupId>
-	    <artifactId>jodconverter-maven-plugin</artifactId>
-	      <configuration>
-	      <sourceDirectory>${basedir}/../doc</sourceDirectory>
-	      <outputDirectory>${project.reporting.outputDirectory}</outputDirectory>
-	      <include>**/*.odp</include>
-	      <outputFormat>swf</outputFormat>
-	      <port>8100</port>
-	    </configuration>
-	    <executions>
-	      <execution>
-		<id>convert </id>
-		<phase>pre-site</phase>
-		  <goals>
-		    <goal>convert</goal>
-		  </goals>
-	      </execution>
-	    </executions>
-	  </plugin>
+	  <proguard>
+	    <skip>${proguard.skip}</skip>
+	    <config>${project.basedir}/proguard.cfg</config>
+	  </proguard>
 	  
-	  <plugin>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>${plugin.site.version}</version>
-                <configuration>
-                    <attach>true</attach>
-                    
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-descriptor</id>
-                        <goals>
-                            <goal>attach-descriptor</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+	  <sign>
+	    <debug>false</debug>
+	  </sign>
 	  
-	  
-        </plugins>
-    </build>
-    
-    <reporting> 
-      <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-project-info-reports-plugin</artifactId>
-			    <version>${plugin.project-info-reports.version}</version>
-                            <configuration>
-                                <dependencyDetailsEnabled>true</dependencyDetailsEnabled>
-                                <dependencyLocationsEnabled>true</dependencyLocationsEnabled>
-                            </configuration>
-                        </plugin>
-			
-			<plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-changelog-plugin</artifactId>
-			    <version>${plugin.maven-changelog.version}</version>
-                            <configuration>
-                                <type>range</type>
-                                <range>30</range>
-                                <displayFileDetailUrl>${project.scm.url}/tree/master/%FILE%</displayFileDetailUrl>
-                                <headingDateFormat>MM-dd-yyyy</headingDateFormat>
-                                <outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
-                            </configuration>
-                        </plugin>
-			
-			<plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-jxr-plugin</artifactId>
-			    <version>${plugin.jxr.version}</version>
-                        </plugin>
-			
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-checkstyle-plugin</artifactId>
-			    <version>${plugin.checkstyle.version}</version>
-                            <configuration>
-                                <skip>${checkstyle.skip}</skip>
-                                <configLocation>${maven-checkstyle-plugin.configLocation}</configLocation>
-                                <failsOnError>false</failsOnError>
-                                <enableRulesSummary>true</enableRulesSummary>
-                                <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                            </configuration>
-                        </plugin>
-			
-			<plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-javadoc-plugin</artifactId>
-			    <version>${plugin.javadoc.version}</version>
-                            <configuration>
-                                <skip>${javadocs.skip}</skip>
-                                <failOnError>false</failOnError>
-                            </configuration>
-                        </plugin>
-			
-			<plugin>
-                            <groupId>org.codehaus.mojo</groupId>
-                            <artifactId>findbugs-maven-plugin</artifactId>
-			    <version>${plugin.findbugs-maven.version}</version>
-                            <configuration>
-                                <skip>${findbugs.skip}</skip>
-                                <xmlOutput>true</xmlOutput>
-                            </configuration>
-                        </plugin>
-			
-			<plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-pmd-plugin</artifactId>
-			    <version>${plugin.pmd-plugin.version}</version>
-                            <configuration>
-                                <skip>${pmd.skip}</skip>
-                                <targetJdk>${maven.compiler.source}</targetJdk>
-                                <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
-                                <rulesets>
-                                    <ruleset>${maven-pmd-plugin.configLocation}</ruleset>
-                                </rulesets>
-                                <failOnViolation>false</failOnViolation>
-                            </configuration>
-                        </plugin>
-			
-			<plugin>
-                            <groupId>org.codehaus.mojo</groupId>
-                            <artifactId>versions-maven-plugin</artifactId>
-			    <version>${plugin.versions-maven.version}</version>
-                            <reportSets>
-                                <reportSet>
-                                    <reports>
-                                        <report>dependency-updates-report</report>
-                                        <report>plugin-updates-report</report>
-                                        <report>property-updates-report</report>
-                                    </reports>
-                                </reportSet>
-                            </reportSets>
-                        </plugin>
-		      </plugins>
-                    </reporting>
-		    
+	  <zipalign>
+	    <verbose>true</verbose>
+	    <inputApk>${project.build.directory}/${project.artifactId}-${project.version}.apk</inputApk>
+	    <outputApk>${project.build.directory}/${project.artifactId}-aligned.apk</outputApk>
+	  </zipalign>
+	</configuration>
+	<executions>
+	  <execution>
+	    <id>alignApk</id>
+	    <phase>install</phase>
+	    <goals>
+	      <goal>zipalign</goal>
+	    </goals>
+	  </execution>
+	</executions>
+	<extensions>true</extensions>
+      </plugin>
+
+      <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-jarsigner-plugin</artifactId>
+	<executions>
+	  <execution>
+	    <id>sign-and-verify</id>
+	    <goals>
+	      <goal>sign</goal>
+	      <goal>verify</goal>
+	    </goals>
+	  </execution>
+	</executions>
+	<configuration>
+	  <removeExistingSignatures>true</removeExistingSignatures>
+	  <keystore>${sign.keystore}</keystore>
+	  <alias>${sign.alias}</alias>
+	  <storepass>${sign.storepass}</storepass>
+	  <keypass>${sign.keypass}</keypass>
+	</configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

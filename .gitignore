@@ -1,5 +1,7 @@
 *~
 
+target/
+
 SensAppDroidTest/bin/*
 SensAppDroidTest/gen/*
 SensAppDroidTest/target

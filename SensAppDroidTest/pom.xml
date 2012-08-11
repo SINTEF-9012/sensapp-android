@@ -1,60 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project
-  xmlns='http://maven.apache.org/POM/4.0.0'
-  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-  xsi:schemaLocation='http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd'
->
+    xmlns='http://maven.apache.org/POM/4.0.0'
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xsi:schemaLocation='http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd'>
+
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.sensapp.android</groupId>
   <artifactId>sensappdroid-test</artifactId>
   <packaging>apk</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>SensApp android application test</name>
+  <version>1.0-SNAPSHOT</version>
+  <name>${project.artifactId}</name>
+  
+  <parent>
+    <artifactId>parent</artifactId>
+    <groupId>org.sensapp.android</groupId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>..</relativePath>
+  </parent>
+
+  <properties>
+    <maven-checkstyle-plugin.configLocation>../reports/checkstyle.xml</maven-checkstyle-plugin.configLocation>
+    <maven-pmd-plugin.configLocation>../reports/pmd.xml</maven-pmd-plugin.configLocation>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+	<groupId>com.google.android</groupId>
+	<artifactId>android-test</artifactId>
+	<version>4.0.1.2</version>
+	<scope>provided</scope>
+      </dependency>
+      <dependency>
+	<groupId>org.sensapp.android</groupId>
+	<artifactId>sensappdroid</artifactId>
+	<scope>provided</scope>
+	<type>apk</type>
+	<version>1.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+	<groupId>org.sensapp.android</groupId>
+	<artifactId>sensappdroid</artifactId>
+	<scope>provided</scope>
+	<type>jar</type>
+	<version>1.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+	<groupId>com.jayway.android.robotium</groupId>
+	<artifactId>robotium-solo</artifactId>
+	<version>3.3</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>  
+
   <dependencies>
     <dependency>
       <groupId>com.google.android</groupId>
-      <artifactId>android</artifactId>
-      <version>4.0.1.2</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.android</groupId>
       <artifactId>android-test</artifactId>
-      <version>4.0.1.2</version>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.sensapp.android</groupId>
       <artifactId>sensappdroid</artifactId>
-      <scope>provided</scope>
       <type>apk</type>
-      <version>0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.sensapp.android</groupId>
       <artifactId>sensappdroid</artifactId>
-      <scope>provided</scope>
       <type>jar</type>
-      <version>0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
-    	<groupId>com.jayway.android.robotium</groupId>
-    	<artifactId>robotium-solo</artifactId>
-    	<version>3.3</version>
+      <groupId>com.jayway.android.robotium</groupId>
+      <artifactId>robotium-solo</artifactId>
     </dependency>
-    </dependencies>
+  </dependencies>
+
   <build>
-    <sourceDirectory>src</sourceDirectory>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-        </configuration>
-      </plugin>
       <plugin>
         <groupId>com.jayway.maven.plugins.android.generation2</groupId>
         <artifactId>android-maven-plugin</artifactId>

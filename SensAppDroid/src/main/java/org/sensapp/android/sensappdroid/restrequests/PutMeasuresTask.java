@@ -64,9 +64,9 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 	protected Integer doInBackground(Integer... params) {
 		int rowsUploaded = 0;
 		int sizeLimit = DEFAULT_SIZE_LIMIT;
-		if (params.length > 0) {
-			sizeLimit = params[0];
-		}
+//		if (params.length > 0) {
+//			sizeLimit = params[0];
+//		}
 		
 		ArrayList<String> sensorNames = new ArrayList<String>();
 		Cursor cursor = context.getContentResolver().query(uri, new String[]{"DISTINCT " + SensAppCPContract.Measure.SENSOR}, null, null, null);
