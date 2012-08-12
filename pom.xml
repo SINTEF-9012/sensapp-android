@@ -15,8 +15,8 @@
 
   <distributionManagement> 
     <site> 
-      <id>www.yourcompany.com</id> 
-      <url>scp://www.yourcompany.com/www/docs/project/</url> 
+      <id>GitHub pages</id> 
+      <url>http://sintef-9012.github.com/sensapp-android</url> 
     </site> 
   </distributionManagement>
 
@@ -28,6 +28,7 @@
   
   <scm>
     <connection>scm:git://${github.host}/${repositoryOwner}/${repositoryName}.git</connection>
+    <developerConnection>scm:git:ssh://${github.host}/${repositoryOwner}/${repositoryName}.git</developerConnection>
     <url>http://${github.host}/${repositoryOwner}/${repositoryName}</url>
   </scm>
   
