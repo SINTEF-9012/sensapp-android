@@ -28,7 +28,7 @@
   
   <scm>
     <connection>scm:git://${github.host}/${repositoryOwner}/${repositoryName}.git</connection>
-    <developerConnection>scm:git:ssh://${github.host}/${repositoryOwner}/${repositoryName}.git</developerConnection>
+    <developerConnection>scm:git@${github.host}/${repositoryOwner}/${repositoryName}.git</developerConnection>
     <url>http://${github.host}/${repositoryOwner}/${repositoryName}</url>
   </scm>
   
@@ -314,6 +314,7 @@
 	<artifactId>findbugs-maven-plugin</artifactId>
 	<version>${plugin.findbugs-maven.version}</version>
 	<configuration>
+          <targetJdk>1.5</targetJdk>
 	  <skip>${findbugs.skip}</skip>
 	  <xmlOutput>true</xmlOutput>
 	</configuration>
