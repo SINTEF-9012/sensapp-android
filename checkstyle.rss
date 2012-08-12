@@ -393,7 +393,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://android.sensapp.org/checkstyle.html#org.sensapp.android.sensappdroid.json.NumericalMeasureJsonModel.java">org/sensapp/android/sensappdroid/json/NumericalMeasureJsonModel.java</a>
+                  <a href="http://android.sensapp.org/checkstyle.html#ensapp.android.sensappdroid.datarequests.DeleteSensorsTask.java">ensapp/android/sensappdroid/datarequests/DeleteSensorsTask.java</a>
                 </td>
                 <td>
                   0
@@ -407,7 +407,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://android.sensapp.org/checkstyle.html#ensapp.android.sensappdroid.datarequests.DeleteSensorsTask.java">ensapp/android/sensappdroid/datarequests/DeleteSensorsTask.java</a>
+                  <a href="http://android.sensapp.org/checkstyle.html#org.sensapp.android.sensappdroid.json.NumericalMeasureJsonModel.java">org/sensapp/android/sensappdroid/json/NumericalMeasureJsonModel.java</a>
                 </td>
                 <td>
                   0
@@ -715,20 +715,6 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://android.sensapp.org/checkstyle.html#ensapp.android.sensappdroid.json.NumericalMeasureJsonModel.java">ensapp/android/sensappdroid/json/NumericalMeasureJsonModel.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://android.sensapp.org/checkstyle.html#org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract.java">org/sensapp/android/sensappdroid/contentprovider/SensAppCPContract.java</a>
                 </td>
                 <td>
@@ -744,6 +730,20 @@
                           <tr>
                 <td>
                   <a href="http://android.sensapp.org/checkstyle.html#ensapp.android.sensappdroid.models.StringMeasure.java">ensapp/android/sensappdroid/models/StringMeasure.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://android.sensapp.org/checkstyle.html#ensapp.android.sensappdroid.json.NumericalMeasureJsonModel.java">ensapp/android/sensappdroid/json/NumericalMeasureJsonModel.java</a>
                 </td>
                 <td>
                   0
@@ -799,7 +799,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://android.sensapp.org/checkstyle.html#rc.main.java.org.sensapp.android.sensappdroid.activities.MeasureActivity.java">rc/main/java/org/sensapp/android/sensappdroid/activities/MeasureActivity.java</a>
+                  <a href="http://android.sensapp.org/checkstyle.html#rc.main.java.org.sensapp.android.sensappdroid.database.MetadataTable.java">rc/main/java/org/sensapp/android/sensappdroid/database/MetadataTable.java</a>
                 </td>
                 <td>
                   0
@@ -813,7 +813,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://android.sensapp.org/checkstyle.html#rc.main.java.org.sensapp.android.sensappdroid.database.MetadataTable.java">rc/main/java/org/sensapp/android/sensappdroid/database/MetadataTable.java</a>
+                  <a href="http://android.sensapp.org/checkstyle.html#rc.main.java.org.sensapp.android.sensappdroid.activities.MeasureActivity.java">rc/main/java/org/sensapp/android/sensappdroid/activities/MeasureActivity.java</a>
                 </td>
                 <td>
                   0
@@ -1597,20 +1597,6 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://android.sensapp.org/checkstyle.html#ensapp.android.sensappdroid.activities.SensorsActivity.java">ensapp/android/sensappdroid/activities/SensorsActivity.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://android.sensapp.org/checkstyle.html#ensapp.android.sensappdroid.database.MetadataTable.java">ensapp/android/sensappdroid/database/MetadataTable.java</a>
                 </td>
                 <td>
@@ -1621,6 +1607,20 @@
                 </td>
                 <td>
                   1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://android.sensapp.org/checkstyle.html#ensapp.android.sensappdroid.activities.SensorsActivity.java">ensapp/android/sensappdroid/activities/SensorsActivity.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
                 </td>
               </tr>
                           <tr>
@@ -1639,7 +1639,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://android.sensapp.org/checkstyle.html#org.sensapp.android.sensappdroid.contentprovider.MeasureCP.java">org/sensapp/android/sensappdroid/contentprovider/MeasureCP.java</a>
+                  <a href="http://android.sensapp.org/checkstyle.html#ensapp.android.sensappdroid.models.Sensor.java">ensapp/android/sensappdroid/models/Sensor.java</a>
                 </td>
                 <td>
                   0
@@ -1653,7 +1653,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://android.sensapp.org/checkstyle.html#ensapp.android.sensappdroid.models.Sensor.java">ensapp/android/sensappdroid/models/Sensor.java</a>
+                  <a href="http://android.sensapp.org/checkstyle.html#org.sensapp.android.sensappdroid.contentprovider.MeasureCP.java">org/sensapp/android/sensappdroid/contentprovider/MeasureCP.java</a>
                 </td>
                 <td>
                   0
@@ -1891,7 +1891,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://android.sensapp.org/checkstyle.html#rc.main.java.org.sensapp.android.sensappdroid.json.NumericalValueJsonModel.java">rc/main/java/org/sensapp/android/sensappdroid/json/NumericalValueJsonModel.java</a>
+                  <a href="http://android.sensapp.org/checkstyle.html#org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask.java">org/sensapp/android/sensappdroid/datarequests/DeleteMeasuresTask.java</a>
                 </td>
                 <td>
                   0
@@ -1905,7 +1905,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="http://android.sensapp.org/checkstyle.html#org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask.java">org/sensapp/android/sensappdroid/datarequests/DeleteMeasuresTask.java</a>
+                  <a href="http://android.sensapp.org/checkstyle.html#rc.main.java.org.sensapp.android.sensappdroid.json.NumericalValueJsonModel.java">rc/main/java/org/sensapp/android/sensappdroid/json/NumericalValueJsonModel.java</a>
                 </td>
                 <td>
                   0
