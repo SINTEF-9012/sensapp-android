@@ -13,21 +13,20 @@
   </skin>
   
   <bannerLeft>
-    <name>SensApp Android Logo</name>
-    <src>images/sensApp_trans.png</src>
+    <name>SensApp Android</name>
     <href>http://android.sensapp.org/</href>
   </bannerLeft>
   <bannerRight>
     <name>SensApp Logo</name>
-    <src>images/sensApp_trans.png</src>
+    <src>https://raw.github.com/SINTEF-9012/sensapp-android/master/logo/sensApp_trans.png</src>
     <href>http://www.sensapp.org/</href>
   </bannerRight>
 
   <body>
+
     <links>
-      <item name="Apache" href="http://www.apache.org/" />
-      <item name="Maven 1.0" href="http://maven.apache.org/"/>
-      <item name="Maven 2" href="http://maven.apache.org/maven2/"/>
+      <item name="GitHub page" href="https://github.com/SINTEF-9012/sensapp-android" />
+      <item name="Play Store page" href="https://play.google.com/store/apps/details?id=org.sensapp.android.sensappdroid"/>
     </links>
 
     <menu name="Project Overview">
@@ -38,5 +37,7 @@
     
     <menu ref="reports"/>
     
+    <menu ref="modules" />
+
   </body>
 </project>

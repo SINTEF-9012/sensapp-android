@@ -2,11 +2,11 @@
 
 target/
 
-SensAppDroidTest/bin/*
-SensAppDroidTest/gen/*
-SensAppDroidTest/target
+sensappdroid-test/bin/*
+sensappdroid-test/gen/*
+sensappdroid-test/target
 
-SensAppDroid/bin/*
-SensAppDroid/gen/*
-SensAppDroid/.settings
-SensAppDroid/target
+sensappdroid/bin/*
+sensappdroid/gen/*
+sensappdroid/.settings
+sensappdroid/target

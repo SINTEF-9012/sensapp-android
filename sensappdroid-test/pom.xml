@@ -9,7 +9,8 @@
   <packaging>apk</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>${project.artifactId}</name>
-  
+  <description>SensApp android test application</description>  
+
   <parent>
     <artifactId>parent</artifactId>
     <groupId>org.sensapp.android</groupId>
@@ -17,9 +18,14 @@
     <relativePath>..</relativePath>
   </parent>
 
+  <ciManagement>
+    <system>jenkins</system>
+    <url>http://bdx.fleurey.com/jenkins/job/sensappdroid-test</url>
+  </ciManagement>
+
   <properties>
-    <maven-checkstyle-plugin.configLocation>../reports/checkstyle.xml</maven-checkstyle-plugin.configLocation>
-    <maven-pmd-plugin.configLocation>../reports/pmd.xml</maven-pmd-plugin.configLocation>
+    <maven-checkstyle-plugin.configLocation>../reporting/checkstyle.xml</maven-checkstyle-plugin.configLocation>
+    <maven-pmd-plugin.configLocation>../reporting/pmd.xml</maven-pmd-plugin.configLocation>
   </properties>
 
   <dependencyManagement>
