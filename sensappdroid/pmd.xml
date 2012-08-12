@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.3" timestamp="2012-08-12T17:21:15.354">
+<pmd version="4.3" timestamp="2012-08-12T17:36:21.690">
 <file name="/var/lib/jenkins/jobs/SensAppSite/workspace/sensappdroid/src/main/java/org/sensapp/android/sensappdroid/json/JsonPrinter.java">
 <violation beginline="21" endline="21" begincolumn="25" endcolumn="43" rule="AvoidPrintStackTrace" ruleset="Java Logging Rules" package="org.sensapp.android.sensappdroid.json" class="JsonPrinter" method="measuresToJson" externalInfoUrl="http://pmd.sourceforge.net/rules/logging-java.html#AvoidPrintStackTrace" priority="3">
 Avoid printStackTrace(); use a logger call instead.
