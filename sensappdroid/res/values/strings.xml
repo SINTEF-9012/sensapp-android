@@ -17,5 +17,6 @@
 	<string name="measure_notuploaded">Not uploaded</string>
 	<string name="toast_service_started">SensApp service started</string>
 	<string name="toast_service_stopped">SensApp service stopped</string>
+	<string name="status_icon_description">status_icon_description</string>
 	
 </resources>
