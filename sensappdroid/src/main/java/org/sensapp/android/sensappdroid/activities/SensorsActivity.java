@@ -4,6 +4,7 @@ import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.datarequests.UpdateMeasuresTask;
 import org.sensapp.android.sensappdroid.datarequests.UpdateSensorsTask;
 import org.sensapp.android.sensappdroid.fragments.SensorListFragment.OnSensorSelectedListener;
+import org.sensapp.android.sensappdroid.restrequests.PutMeasuresTask;
 
 import org.sensapp.android.sensappdroid.R;
 import android.app.Activity;
