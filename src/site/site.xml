@@ -28,12 +28,6 @@
       <item name="GitHub" href="https://github.com/SINTEF-9012/sensapp-android" />
       <item name="Play Store" href="https://play.google.com/store/apps/details?id=org.sensapp.android.sensappdroid"/>
     </links>
-
-    <menu name="Project Overview">
-      <item name="APT Format" href="format.html"/>
-      <item name="FAQ" href="faq.html"/>
-      <item name="Xdoc Example" href="xdoc.html"/>
-    </menu>
     
     <menu ref="parent" inherit="top" />
 
