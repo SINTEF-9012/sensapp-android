@@ -1,0 +1,27 @@
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+            android:title="Auto upload">
+
+        <CheckBoxPreference
+                android:key="@string/pref_auto_upload_key"
+                android:title="Active" 
+                android:defaultValue="false"/>
+    
+        <EditTextPreference 
+            android:key="@string/pref_autoupload_delay_key"
+            android:title="Interval"
+            android:dialogTitle="Set the delay between two upload"
+            android:numeric="integer"
+            android:defaultValue="30"/>
+        
+    <MultiSelectListPreference
+                android:key="@string/pref_list_autoupload_sensor_key"
+                android:title="Sensors"
+                android:summary="Choose sensors to auto upload"
+                android:dialogTitle="Choose sensors to auto upload" 
+                android:persistent="true" />
+
+    </PreferenceCategory>
+</PreferenceScreen>
