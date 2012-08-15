@@ -12,6 +12,11 @@
         android:title="Measures" >
     </item>
     <item
+        android:id="@+id/preferences"
+        android:showAsAction="ifRoom"
+        android:title="Settings" >
+    </item>
+    <item
         android:id="@+id/set_not_uploaded"
         android:showAsAction="never"
         android:title="Reset uploaded" >

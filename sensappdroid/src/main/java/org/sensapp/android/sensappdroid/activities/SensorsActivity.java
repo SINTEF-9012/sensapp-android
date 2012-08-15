@@ -5,6 +5,7 @@ import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.datarequests.UpdateMeasuresTask;
 import org.sensapp.android.sensappdroid.datarequests.UpdateSensorsTask;
 import org.sensapp.android.sensappdroid.fragments.SensorListFragment.OnSensorSelectedListener;
+import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -25,6 +26,7 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
     	Log.d(TAG, "__ON_CREATE__");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sensors);
+        startService(new Intent(this, SensAppService.class));
     }
 
 	@Override
@@ -56,6 +58,9 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
 			ContentValues valuesM = new ContentValues();
 			valuesM.put(SensAppCPContract.Measure.UPLOADED, 0);
 			new UpdateMeasuresTask(this, SensAppCPContract.Measure.UPLOADED + " = 1", valuesM).execute();
+			return true;
+		case R.id.preferences:
+			startActivity(new Intent(this, PreferencesActivity.class));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
