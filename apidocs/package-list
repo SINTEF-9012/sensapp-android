@@ -6,5 +6,6 @@ org.sensapp.android.sensappdroid.datarequests
 org.sensapp.android.sensappdroid.fragments
 org.sensapp.android.sensappdroid.json
 org.sensapp.android.sensappdroid.models
+org.sensapp.android.sensappdroid.preferences
 org.sensapp.android.sensappdroid.restrequests
 org.sensapp.android.sensappdroid.test

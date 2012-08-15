@@ -8,8 +8,8 @@
     <language>en-us</language>
     <copyright>&#169;2012</copyright>
     <item>
-      <title>File: 138,
-             Errors: 14,
+      <title>File: 144,
+             Errors: 18,
              Warnings: 0,
              Infos: 0
       </title>
@@ -58,6 +58,20 @@
                           <tr>
                 <td>
                   <a href="http://android.sensapp.org/checkstyle.html#rc.main.java.org.sensapp.android.sensappdroid.json.NumericalMeasureJsonModel.java">rc/main/java/org/sensapp/android/sensappdroid/json/NumericalMeasureJsonModel.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://android.sensapp.org/checkstyle.html#rc.main.java.org.sensapp.android.sensappdroid.preferences.UploadPrefFragment.java">rc/main/java/org/sensapp/android/sensappdroid/preferences/UploadPrefFragment.java</a>
                 </td>
                 <td>
                   0
@@ -421,6 +435,20 @@
               </tr>
                           <tr>
                 <td>
+                  <a href="http://android.sensapp.org/checkstyle.html#rc.main.java.org.sensapp.android.sensappdroid.preferences.PreferencesActivity.java">rc/main/java/org/sensapp/android/sensappdroid/preferences/PreferencesActivity.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://android.sensapp.org/checkstyle.html#rc.main.java.org.sensapp.android.sensappdroid.restrequests.RestRequest.java">rc/main/java/org/sensapp/android/sensappdroid/restrequests/RestRequest.java</a>
                 </td>
                 <td>
@@ -436,6 +464,20 @@
                           <tr>
                 <td>
                   <a href="http://android.sensapp.org/checkstyle.html#ensapp.android.sensappdroid.contentprovider.MeasureCP.java">ensapp/android/sensappdroid/contentprovider/MeasureCP.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://android.sensapp.org/checkstyle.html#org.sensapp.android.sensappdroid.preferences.UploadPrefFragment.java">org/sensapp/android/sensappdroid/preferences/UploadPrefFragment.java</a>
                 </td>
                 <td>
                   0
@@ -967,6 +1009,20 @@
               </tr>
                           <tr>
                 <td>
+                  <a href="http://android.sensapp.org/checkstyle.html#ensapp.android.sensappdroid.preferences.PreferencesActivity.java">ensapp/android/sensappdroid/preferences/PreferencesActivity.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://android.sensapp.org/checkstyle.html#org.sensapp.android.sensappdroid.json.NumericalValueJsonModel.java">org/sensapp/android/sensappdroid/json/NumericalValueJsonModel.java</a>
                 </td>
                 <td>
@@ -1005,6 +1061,20 @@
                 </td>
                 <td>
                   0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://android.sensapp.org/checkstyle.html#ensapp.android.sensappdroid.preferences.UploadPrefFragment.java">ensapp/android/sensappdroid/preferences/UploadPrefFragment.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
                 </td>
               </tr>
                           <tr>
@@ -1536,7 +1606,7 @@
                   0
                 </td>
                 <td>
-                  0
+                  2
                 </td>
               </tr>
                           <tr>
@@ -1822,6 +1892,20 @@
                           <tr>
                 <td>
                   <a href="http://android.sensapp.org/checkstyle.html#org.sensapp.android.sensappdroid.restrequests.DeleteSensorRestTask.java">org/sensapp/android/sensappdroid/restrequests/DeleteSensorRestTask.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://android.sensapp.org/checkstyle.html#org.sensapp.android.sensappdroid.preferences.PreferencesActivity.java">org/sensapp/android/sensappdroid/preferences/PreferencesActivity.java</a>
                 </td>
                 <td>
                   0

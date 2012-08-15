@@ -8,8 +8,8 @@
     <language>en-us</language>
     <copyright>&#169;2012</copyright>
     <item>
-      <title>File: 40,
-             Errors: 10,
+      <title>File: 42,
+             Errors: 14,
              Warnings: 0,
              Infos: 0
       </title>
@@ -178,7 +178,7 @@
                   0
                 </td>
                 <td>
-                  0
+                  2
                 </td>
               </tr>
                           <tr>
@@ -361,6 +361,20 @@
                 </td>
                 <td>
                   1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://android.sensapp.org/sensappdroid/checkstyle.html#org.sensapp.android.sensappdroid.preferences.PreferencesActivity.java">org/sensapp/android/sensappdroid/preferences/PreferencesActivity.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
                 </td>
               </tr>
                           <tr>
@@ -557,6 +571,20 @@
                 </td>
                 <td>
                   0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://android.sensapp.org/sensappdroid/checkstyle.html#org.sensapp.android.sensappdroid.preferences.UploadPrefFragment.java">org/sensapp/android/sensappdroid/preferences/UploadPrefFragment.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
                 </td>
               </tr>
                           <tr>
