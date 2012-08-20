@@ -100,6 +100,7 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 		notificationManager.notify(NOTIFICATION_ID, notification);
 		
 		int rowsUploaded = 0;
+		int progress = 0;
 		int sizeLimit = DEFAULT_SIZE_LIMIT;
 		if (params.length > 0) {
 			sizeLimit = params[0];
@@ -187,14 +188,15 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 								}
 								return null;
 							}
-							ContentValues values = new ContentValues();
-							values.put(SensAppCPContract.Measure.UPLOADED, 1);
-							selection = SensAppCPContract.Measure.ID + " IN " + ids.toString().replace('[', '(').replace(']', ')');
-							rowsUploaded += context.getContentResolver().update(uri, values, selection, null);
-							publishProgress((int) ((float) rowsUploaded / rowTotal * 100));
-							ids.clear();
 							model.clearValues();
+							publishProgress((int) ((float) (progress + ids.size()) / rowTotal * 100));
 						}
+						ContentValues values = new ContentValues();
+						values.put(SensAppCPContract.Measure.UPLOADED, 1);
+						selection = SensAppCPContract.Measure.ID + " IN " + ids.toString().replace('[', '(').replace(']', ')');
+						rowsUploaded += context.getContentResolver().update(uri, values, selection, null);
+						progress += ids.size();
+						ids.clear();
 					}
 					cursor.close();
 				}
