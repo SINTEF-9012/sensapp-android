@@ -3,8 +3,18 @@
 
   	<item
         android:id="@+id/upload_all"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="Upload" >
+    </item>
+    <item
+        android:id="@+id/composites"
+        android:showAsAction="ifRoom"
+        android:title="Composites" >
+    </item>
+    <item
+        android:id="@+id/new_composite"
+        android:showAsAction="ifRoom"
+        android:title="New composite" >
     </item>
     <item
         android:id="@+id/change_view_to_measures"

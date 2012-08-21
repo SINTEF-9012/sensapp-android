@@ -24,6 +24,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.CompositesActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name=".activities.MeasuresActivity"
             android:label="@string/app_name" >
         </activity>
