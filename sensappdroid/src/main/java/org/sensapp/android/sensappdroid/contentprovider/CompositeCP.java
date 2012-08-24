@@ -42,10 +42,17 @@ public class CompositeCP {
 		if (measureURIMatcher.match(uri) == MANAGESENSORS) {
 			SQLiteDatabase db = database.getWritableDatabase();
 			String query = "SELECT " 
+					+ SensorTable.TABLE_SENSOR + "." + SensorTable.COLUMN_NAME 
+					+ ", (SELECT CASE WHEN "
+					+ ComposeTable.TABLE_COMPOSE + "." + ComposeTable.COLUMN_SENSOR 
+					+ " IS NULL THEN '0' ELSE '1' END) 'status'"
+					+ " FROM " + SensorTable.TABLE_SENSOR 
+					+ " LEFT OUTER JOIN " + ComposeTable.TABLE_COMPOSE 
+					+ " ON " + ComposeTable.TABLE_COMPOSE + "."
+					+ ComposeTable.COLUMN_SENSOR + " = " + SensorTable.TABLE_SENSOR + "." 
 					+ SensorTable.COLUMN_NAME 
-					+ ", (SELECT count(" + ComposeTable.COLUMN_SENSOR + ") FROM " + ComposeTable.TABLE_COMPOSE 
-					+ " WHERE " + ComposeTable.COLUMN_COMPOSITE + " = \"" + uri.getLastPathSegment() 
-					+ "\") 'comp' FROM " + SensorTable.TABLE_SENSOR;
+					+ " AND " + ComposeTable.COLUMN_COMPOSITE + " = \"" + uri.getLastPathSegment() 
+					+ "\"";
 			return db.rawQuery(query, null);	
 		} else {
 			SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
