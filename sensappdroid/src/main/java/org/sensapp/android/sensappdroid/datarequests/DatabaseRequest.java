@@ -30,6 +30,11 @@ public class DatabaseRequest {
 	private static final String M_BASETIME = SensAppCPContract.Measure.BASETIME;
 	private static final String M_UPLOADED = SensAppCPContract.Measure.UPLOADED;
 	
+	private static final Uri C_CONTENT_URI = SensAppCPContract.Compose.CONTENT_URI;
+	private static final String C_COMPOSITE = SensAppCPContract.Compose.COMPOSITE;
+	
+	private static final Uri CTE_CONTENT_URI = SensAppCPContract.Composite.CONTENT_URI;
+	
 	private static final String TAG = DatabaseRequest.class.getSimpleName();
 	
 	public static class MeasureRQ {
@@ -137,6 +142,24 @@ public class DatabaseRequest {
 				cursor.close();
 			}
 			return sensor;
+		}
+	}
+	
+	public static class ComposeRQ {
+		public static int deleteCompose(Context context, String selection) {
+			int rows = context.getContentResolver().delete(C_CONTENT_URI, selection, null);
+			Log.i(TAG, "TABLE_COMPOSE: " + rows + " rows deleted");
+			return rows;
+		}
+	}
+	
+	public static class CompositeRQ {
+
+		public static int deleteComposite(Context context, String name) {
+			int rowCompose = ComposeRQ.deleteCompose(context, C_COMPOSITE + " = \"" + name + "\"");
+			int rowComposite = context.getContentResolver().delete(Uri.parse(CTE_CONTENT_URI + "/" + name), null, null);
+			Log.i(TAG, "TABLE_COMPOSITE: " + rowComposite + " rows deleted");
+			return rowCompose + rowComposite;
 		}
 	}
 }

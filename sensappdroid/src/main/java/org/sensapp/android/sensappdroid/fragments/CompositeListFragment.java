@@ -2,6 +2,7 @@ package org.sensapp.android.sensappdroid.fragments;
 
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.datarequests.DeleteCompositeTask;
 
 import android.app.Activity;
 import android.app.ListFragment;
@@ -79,13 +80,13 @@ public class CompositeListFragment extends ListFragment implements LoaderCallbac
 		c.moveToPosition(info.position);
 		switch (item.getItemId()) {
 		case MENU_DELETE_ID:
-			getActivity().getContentResolver().delete(Uri.parse(SensAppCPContract.Composite.CONTENT_URI + "/" + c.getString(c.getColumnIndexOrThrow(SensAppCPContract.Composite.NAME))), null, null);
-			// TODO Move in a asyncTack and take care to destroy all the compose relation.
+			new DeleteCompositeTask(getActivity()).execute(c.getString(c.getColumnIndexOrThrow(SensAppCPContract.Composite.NAME)));
 			return true;
 		case MENU_MANAGESENSORS_ID:
 			compositeSelectedListener.onCompositeSensorsManagement(Uri.parse(SensAppCPContract.Composite.CONTENT_URI + "/" + c.getString(c.getColumnIndexOrThrow(SensAppCPContract.Composite.NAME))));
 			return false;
 		case MENU_UPLOAD_ID:
+			// TODO Create a upload AsyncTask.
 			return true;
 		}
 		return super.onContextItemSelected(item);

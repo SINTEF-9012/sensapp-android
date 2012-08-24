@@ -80,8 +80,6 @@ public class CompositesActivity extends Activity implements OnCompositeSelectedL
 		return null;
 	}
 
-	
-	
 	@Override
 	protected Dialog onCreateDialog(int id, final Bundle args) {
 		switch (id) {
