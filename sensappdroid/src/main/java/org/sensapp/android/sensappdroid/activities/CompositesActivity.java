@@ -86,13 +86,17 @@ public class CompositesActivity extends Activity implements OnCompositeSelectedL
 	protected Dialog onCreateDialog(int id, final Bundle args) {
 		switch (id) {
 		case DIALOG_ADD_SENSORS_TO_COMPOSITE:
-			final String name = args.getString(SensAppCPContract.Composite.NAME);
-			final Cursor cursor = getContentResolver().query(Uri.parse(SensAppCPContract.Composite.CONTENT_URI + "/managesensors/" + name), null, null, null, null);
+			final String compositeName = args.getString(SensAppCPContract.Composite.NAME);
+			final Cursor cursor = getContentResolver().query(Uri.parse(SensAppCPContract.Composite.CONTENT_URI + "/managesensors/" + compositeName), null, null, null, null);
+			String[] sensorNames = new String[cursor.getCount()];
+			boolean[] sensorStatus = new boolean[cursor.getCount()];
+			for (int i = 0 ; cursor.moveToNext() ; i ++) {
+				sensorNames[i] = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME));
+				sensorStatus[i] = cursor.getInt(cursor.getColumnIndexOrThrow("status")) == 1;
+			}
 			AlertDialog.Builder builder = new AlertDialog.Builder(CompositesActivity.this)
-                .setTitle("Add sensors to " + name + " composite")
-                .setMultiChoiceItems(cursor,
-                		"status", 
-                        SensAppCPContract.Sensor.NAME,
+                .setTitle("Add sensors to " + compositeName + " composite")
+                .setMultiChoiceItems(sensorNames, sensorStatus, 
                         new DialogInterface.OnMultiChoiceClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton, boolean isChecked) {
                             	cursor.moveToPosition(whichButton);
@@ -100,21 +104,18 @@ public class CompositesActivity extends Activity implements OnCompositeSelectedL
                             	if (isChecked) {
                             		ContentValues values = new ContentValues();
                             		values.put(SensAppCPContract.Compose.SENSOR, sensorName);
-                            		values.put(SensAppCPContract.Compose.COMPOSITE, name);
+                            		values.put(SensAppCPContract.Compose.COMPOSITE, compositeName);
                             		getContentResolver().insert(SensAppCPContract.Compose.CONTENT_URI, values);
-                            		removeDialog(CompositesActivity.DIALOG_ADD_SENSORS_TO_COMPOSITE);
-                            		showDialog(CompositesActivity.DIALOG_ADD_SENSORS_TO_COMPOSITE, args);
                             	} else {
-                            		String where = SensAppCPContract.Compose.SENSOR + " = \"" + sensorName + "\" AND " + SensAppCPContract.Compose.COMPOSITE + " = \"" + name + "\"";
-                            		getContentResolver().delete(SensAppCPContract.Compose.CONTENT_URI, where, null);
-                            		removeDialog(CompositesActivity.DIALOG_ADD_SENSORS_TO_COMPOSITE);
-                            		showDialog(CompositesActivity.DIALOG_ADD_SENSORS_TO_COMPOSITE, args);
+                            		String where = SensAppCPContract.Compose.SENSOR + " = \"" + sensorName + "\" AND " + SensAppCPContract.Compose.COMPOSITE + " = \"" + compositeName + "\"";
+                            		getContentResolver().delete(SensAppCPContract.Compose.CONTENT_URI, where, null);	
                             	}
                             }
                         })
                 .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                     	removeDialog(CompositesActivity.DIALOG_ADD_SENSORS_TO_COMPOSITE);
+                    	cursor.close();
                     }
                 });
 			return builder.create();
