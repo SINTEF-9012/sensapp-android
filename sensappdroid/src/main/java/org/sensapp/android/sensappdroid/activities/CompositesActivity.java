@@ -61,7 +61,6 @@ public class CompositesActivity extends Activity implements OnCompositeSelectedL
                 .setView(newCompositeView)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                       //showDialog(DIALOG_ADD_SENSORS_TO_COMPOSITE);
                     	String name = ((EditText) newCompositeView.findViewById(R.id.composite_name_edit)).getText().toString();
                     	String description = ((EditText) newCompositeView.findViewById(R.id.composite_description_edit)).getText().toString();
                     	ContentValues values = new ContentValues();

@@ -44,6 +44,26 @@ public class DataManager {
 		}
 	}
 	
+	protected static void insertComposite(ContentResolver resolver, int nbComposite) {
+		ContentValues values;
+		for (int count = 0 ; count < nbComposite ; count ++) {
+			values = new ContentValues();
+			values.put(SensAppCPContract.Composite.NAME, "testComposite" + String.valueOf(count));
+			values.put(SensAppCPContract.Composite.DESCRIPTION, "Test composite description " + String.valueOf(count));
+			resolver.insert(SensAppCPContract.Composite.CONTENT_URI, values);
+		}
+	}
+	
+	protected static void insertCompose(ContentResolver resolver, int nbCompose, int nbComposite, int nbSensor) {
+		ContentValues values;
+		for (int count = 0 ; count < nbCompose ; count ++) {
+			values = new ContentValues();
+			values.put(SensAppCPContract.Compose.COMPOSITE, "testComposite" + String.valueOf(new Random().nextInt(nbComposite)));
+			values.put(SensAppCPContract.Compose.SENSOR, "testSensor" + String.valueOf(new Random().nextInt(nbSensor)));
+			resolver.insert(SensAppCPContract.Compose.CONTENT_URI, values);
+		}
+	}
+	
 	protected static void cleanMeasure(Context context) {
 		Cursor cursor = context.getContentResolver().query(SensAppCPContract.Measure.CONTENT_URI, new String[]{"DISTINCT " + SensAppCPContract.Measure.SENSOR}, null, null, null);
 		if (cursor != null) {
@@ -76,8 +96,40 @@ public class DataManager {
 		}
 	}
 	
+	protected static void cleanComposite(Context context) {
+		Cursor cursor = context.getContentResolver().query(SensAppCPContract.Composite.CONTENT_URI, new String[]{SensAppCPContract.Composite.NAME}, null, null, null);
+		if (cursor != null) {
+			String name = null;
+			while (cursor.moveToNext()) {
+				name = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Composite.NAME));
+				if (name.startsWith("test")) {
+					context.getContentResolver().delete(Uri.parse(SensAppCPContract.Composite.CONTENT_URI + "/" + name), null, null);
+				}
+			}
+			cursor.close();
+		}
+	}
+	
+	protected static void cleanCompose(Context context) {
+		Cursor cursor = context.getContentResolver().query(SensAppCPContract.Compose.CONTENT_URI, new String[]{SensAppCPContract.Compose.ID, SensAppCPContract.Compose.COMPOSITE}, null, null, null);
+		if (cursor != null) {
+			String name = null;
+			int id = 0;
+			while (cursor.moveToNext()) {
+				name = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Compose.COMPOSITE));
+				id = cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Compose.ID));
+				if (name.startsWith("test")) {
+					context.getContentResolver().delete(Uri.parse(SensAppCPContract.Compose.CONTENT_URI + "/" + String.valueOf(id)), null, null);
+				}
+			}
+			cursor.close();
+		}
+	}
+	
 	protected static void cleanAll(Context context) throws IllegalArgumentException, RequestErrorException {
 		cleanMeasure(context);
 		cleanSensors(context);
+		cleanComposite(context);
+		cleanCompose(context);
 	}
 }
