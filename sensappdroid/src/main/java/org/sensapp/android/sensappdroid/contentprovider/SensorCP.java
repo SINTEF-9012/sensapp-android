@@ -2,6 +2,7 @@ package org.sensapp.android.sensappdroid.contentprovider;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Hashtable;
 
 import org.sensapp.android.sensappdroid.database.ComposeTable;
 import org.sensapp.android.sensappdroid.database.SensAppDatabaseHelper;
@@ -47,9 +48,18 @@ public class SensorCP {
 			queryBuilder.setTables(SensorTable.TABLE_SENSOR);
 			break;
 		case COMPOSITE_SENSORS:
+			Hashtable<String, String> columnMap = new Hashtable<String, String>();
+			columnMap.put(SensorTable.COLUMN_NAME, SensorTable.TABLE_SENSOR + "." + SensorTable.COLUMN_NAME);
+			columnMap.put(SensorTable.COLUMN_BACKEND, SensorTable.TABLE_SENSOR + "." + SensorTable.COLUMN_BACKEND);
+			columnMap.put(SensorTable.COLUMN_DESCRIPTION, SensorTable.TABLE_SENSOR + "." + SensorTable.COLUMN_DESCRIPTION);
+			columnMap.put(SensorTable.COLUMN_TEMPLATE, SensorTable.TABLE_SENSOR + "." + SensorTable.COLUMN_TEMPLATE);
+			columnMap.put(SensorTable.COLUMN_UNIT, SensorTable.TABLE_SENSOR + "." + SensorTable.COLUMN_UNIT);
+			columnMap.put(SensorTable.COLUMN_UPLOADED, SensorTable.TABLE_SENSOR + "." + SensorTable.COLUMN_UPLOADED);
+			columnMap.put(SensorTable.COLUMN_URI, SensorTable.TABLE_SENSOR + "." + SensorTable.COLUMN_URI);
+			queryBuilder.setProjectionMap(columnMap);
 			queryBuilder.setTables(SensorTable.TABLE_SENSOR + ", " + ComposeTable.TABLE_COMPOSE);
-			queryBuilder.appendWhere(SensorTable.COLUMN_NAME + " = " + ComposeTable.COLUMN_SENSOR);
-			queryBuilder.appendWhere(ComposeTable.COLUMN_COMPOSITE + " = \"" + uri.getLastPathSegment() + "\"");
+			queryBuilder.appendWhere(SensorTable.TABLE_SENSOR + "." + SensorTable.COLUMN_NAME + " = " + ComposeTable.COLUMN_SENSOR
+					 + " AND " + ComposeTable.COLUMN_COMPOSITE + " = \"" + uri.getLastPathSegment() + "\"");
 			break;
 		case SENSOR_ID:
 			queryBuilder.setTables(SensorTable.TABLE_SENSOR);

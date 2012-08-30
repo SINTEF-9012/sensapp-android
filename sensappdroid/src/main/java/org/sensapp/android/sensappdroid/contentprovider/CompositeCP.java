@@ -1,5 +1,7 @@
 package org.sensapp.android.sensappdroid.contentprovider;
 
+import java.util.Hashtable;
+
 import org.sensapp.android.sensappdroid.database.ComposeTable;
 import org.sensapp.android.sensappdroid.database.CompositeTable;
 import org.sensapp.android.sensappdroid.database.MeasureTable;
@@ -63,9 +65,13 @@ public class CompositeCP {
 				queryBuilder.setTables(CompositeTable.TABLE_COMPOSITE);
 				break;
 			case SENSOR_COMPOSITES:
+				Hashtable<String, String> columnMap = new Hashtable<String, String>();
+				columnMap.put(CompositeTable.COLUMN_NAME, CompositeTable.TABLE_COMPOSITE + "." + CompositeTable.COLUMN_NAME);
+				columnMap.put(CompositeTable.COLUMN_DESCRIPTION, CompositeTable.TABLE_COMPOSITE + "." + CompositeTable.COLUMN_DESCRIPTION);
+				queryBuilder.setProjectionMap(columnMap);
 				queryBuilder.setTables(CompositeTable.TABLE_COMPOSITE + ", " + ComposeTable.TABLE_COMPOSE);
-				queryBuilder.appendWhere(CompositeTable.COLUMN_NAME + " = " + ComposeTable.COLUMN_COMPOSITE);
-				queryBuilder.appendWhere(ComposeTable.COLUMN_SENSOR + " = \"" + uri.getLastPathSegment() + "\"");
+				queryBuilder.appendWhere(CompositeTable.TABLE_COMPOSITE + "." + CompositeTable.COLUMN_NAME + " = " + ComposeTable.COLUMN_COMPOSITE
+						+ " AND " + ComposeTable.COLUMN_SENSOR + " = \"" + uri.getLastPathSegment() + "\"");
 				break;
 			case COMPOSITE:
 				queryBuilder.setTables(CompositeTable.TABLE_COMPOSITE);

@@ -7,18 +7,18 @@
         android:title="Upload" >
     </item>
     <item
-        android:id="@+id/composites"
+        android:id="@+id/sensors"
         android:showAsAction="ifRoom"
-        android:title="Composites" >
+        android:title="Sensors" >
     </item>
     <item
-        android:id="@+id/change_view_to_measures"
-        android:showAsAction="always"
-        android:title="Measures" >
+        android:id="@+id/new_composite"
+        android:showAsAction="ifRoom"
+        android:title="New composite" >
     </item>
     <item
         android:id="@+id/preferences"
-        android:showAsAction="ifRoom"
+        android:showAsAction="always"
         android:title="Settings" >
     </item>
     <item
