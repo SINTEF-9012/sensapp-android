@@ -45,12 +45,12 @@ public class DataManager {
 	}
 	
 	protected static void insertComposite(ContentResolver resolver, int nbComposite) {
-		ContentValues values;
+		ContentValues values = new ContentValues();
 		for (int count = 0 ; count < nbComposite ; count ++) {
-			values = new ContentValues();
-			values.put(SensAppCPContract.Composite.NAME, "testComposite" + String.valueOf(count));
-			values.put(SensAppCPContract.Composite.DESCRIPTION, "Test composite description " + String.valueOf(count));
+			values.put(SensAppCPContract.Composite.NAME, "testComposite" + count);
+			values.put(SensAppCPContract.Composite.DESCRIPTION, "Test composite description " + count);
 			resolver.insert(SensAppCPContract.Composite.CONTENT_URI, values);
+			values.clear();
 		}
 	}
 	
@@ -58,8 +58,8 @@ public class DataManager {
 		ContentValues values;
 		for (int count = 0 ; count < nbCompose ; count ++) {
 			values = new ContentValues();
-			values.put(SensAppCPContract.Compose.COMPOSITE, "testComposite" + String.valueOf(new Random().nextInt(nbComposite)));
-			values.put(SensAppCPContract.Compose.SENSOR, "testSensor" + String.valueOf(new Random().nextInt(nbSensor)));
+			values.put(SensAppCPContract.Compose.COMPOSITE, "testComposite" + new Random().nextInt(nbComposite));
+			values.put(SensAppCPContract.Compose.SENSOR, "testSensor" + new Random().nextInt(nbSensor));
 			resolver.insert(SensAppCPContract.Compose.CONTENT_URI, values);
 		}
 	}
