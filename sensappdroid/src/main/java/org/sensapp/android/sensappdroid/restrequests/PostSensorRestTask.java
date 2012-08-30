@@ -29,7 +29,7 @@ public class PostSensorRestTask extends AsyncTask<Void, Void, Uri> {
 		Sensor sensor = DatabaseRequest.SensorRQ.getSensor(context, sensorName);
 		String response = null;
 		try {
-			response = RestRequest.postSensor(sensor.getUri(), sensor);
+			response = RestRequest.postSensor(sensor);
 		} catch (RequestErrorException e) {
 			Log.e(TAG, e.getMessage());
 			if (e.getCause() != null) {

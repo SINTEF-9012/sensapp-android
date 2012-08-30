@@ -72,6 +72,17 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 		return basetimes;
 	}
 	
+	private boolean isRegistred(Sensor sensor) {
+		boolean registered = false;
+		try {
+			registered = RestRequest.isSensorRegistred(sensor);
+		} catch (RequestErrorException e) {
+			Log.e(TAG, e.getMessage());
+			return false;
+		}
+		return registered;
+	}
+	
 	@Override
 	protected void onPreExecute() {
 	        final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, SensorsActivity.class), 0);
@@ -125,7 +136,7 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 		
 			sensor = DatabaseRequest.SensorRQ.getSensor(context, sensorName);
 			
-			if (!sensor.isUploaded()) {
+			if (!isRegistred(sensor)) {
 				Uri postSensorResult = null;
 				try {
 					postSensorResult = new PostSensorRestTask(context, sensorName).executeOnExecutor(THREAD_POOL_EXECUTOR).get();
