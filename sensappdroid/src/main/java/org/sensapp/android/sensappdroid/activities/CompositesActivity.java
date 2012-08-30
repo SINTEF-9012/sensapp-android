@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -128,9 +129,9 @@ public class CompositesActivity extends Activity implements OnCompositeSelectedL
 
 	@Override
 	public void onCompositeSelected(Uri uri) {
-//		Intent i = new Intent(this, CompositeActivity.class);
-//		i.setData(Uri.parse(SensAppCPContract.Composite.CONTENT_URI + "/" + uri.getLastPathSegment()));
-//		startActivity(i);
+		Intent i = new Intent(this, SensorsActivity.class);
+		i.setData(Uri.parse(SensAppCPContract.Composite.CONTENT_URI + "/" + uri.getLastPathSegment()));
+		startActivity(i);
 	}
 
 	@Override

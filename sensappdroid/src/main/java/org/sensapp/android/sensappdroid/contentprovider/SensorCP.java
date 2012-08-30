@@ -3,6 +3,7 @@ package org.sensapp.android.sensappdroid.contentprovider;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import org.sensapp.android.sensappdroid.database.ComposeTable;
 import org.sensapp.android.sensappdroid.database.SensAppDatabaseHelper;
 import org.sensapp.android.sensappdroid.database.SensorTable;
 
@@ -21,10 +22,12 @@ public class SensorCP {
 	protected static final String BASE_PATH = "sensors";
 	
 	private static final int SENSORS = 10;
-	private static final int SENSOR_ID = 20;
+	private static final int COMPOSITE_SENSORS = 20;
+	private static final int SENSOR_ID = 30;
 	private static final UriMatcher measureURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	static {
 		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH, SENSORS);
+		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/composite/*", COMPOSITE_SENSORS);
 		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/*", SENSOR_ID);
 	}
 
@@ -39,11 +42,17 @@ public class SensorCP {
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		checkColumns(projection);
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-		queryBuilder.setTables(SensorTable.TABLE_SENSOR);
 		switch (measureURIMatcher.match(uri)) {
 		case SENSORS:
+			queryBuilder.setTables(SensorTable.TABLE_SENSOR);
+			break;
+		case COMPOSITE_SENSORS:
+			queryBuilder.setTables(SensorTable.TABLE_SENSOR + ", " + ComposeTable.TABLE_COMPOSE);
+			queryBuilder.appendWhere(SensorTable.COLUMN_NAME + " = " + ComposeTable.COLUMN_SENSOR);
+			queryBuilder.appendWhere(ComposeTable.COLUMN_COMPOSITE + " = \"" + uri.getLastPathSegment() + "\"");
 			break;
 		case SENSOR_ID:
+			queryBuilder.setTables(SensorTable.TABLE_SENSOR);
 			queryBuilder.appendWhere(SensorTable.COLUMN_NAME + " = \"" + uri.getLastPathSegment() + "\"");
 			break;
 		default:

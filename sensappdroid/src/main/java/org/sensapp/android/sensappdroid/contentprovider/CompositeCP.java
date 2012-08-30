@@ -22,11 +22,13 @@ public class CompositeCP {
 	private static final int COMPOSITES = 10;
 	private static final int COMPOSITE = 20;
 	private static final int MANAGESENSORS = 30;
+	private static final int SENSOR_COMPOSITES = 40;
 	
 	private static final UriMatcher measureURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	static {
 		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH, COMPOSITES);
 		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/managesensors/*", MANAGESENSORS);
+		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/sensor/*", SENSOR_COMPOSITES);
 		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/*", COMPOSITE);
 	}
 
@@ -59,6 +61,11 @@ public class CompositeCP {
 			switch (measureURIMatcher.match(uri)) {
 			case COMPOSITES:
 				queryBuilder.setTables(CompositeTable.TABLE_COMPOSITE);
+				break;
+			case SENSOR_COMPOSITES:
+				queryBuilder.setTables(CompositeTable.TABLE_COMPOSITE + ", " + ComposeTable.TABLE_COMPOSE);
+				queryBuilder.appendWhere(CompositeTable.COLUMN_NAME + " = " + ComposeTable.COLUMN_COMPOSITE);
+				queryBuilder.appendWhere(ComposeTable.COLUMN_SENSOR + " = \"" + uri.getLastPathSegment() + "\"");
 				break;
 			case COMPOSITE:
 				queryBuilder.setTables(CompositeTable.TABLE_COMPOSITE);

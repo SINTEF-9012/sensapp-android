@@ -106,7 +106,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		String[] projection = {SensorTable.COLUMN_NAME};
-		CursorLoader cursorLoader = new CursorLoader(getActivity(), SensAppCPContract.Sensor.CONTENT_URI, projection, null, null, null);
+		CursorLoader cursorLoader = new CursorLoader(getActivity(), getActivity().getIntent().getData(), projection, null, null, null);
 		return cursorLoader;
 	}
 

@@ -1,10 +1,8 @@
 package org.sensapp.android.sensappdroid.contentprovider;
 
 import org.sensapp.android.sensappdroid.database.ComposeTable;
-import org.sensapp.android.sensappdroid.database.CompositeTable;
 import org.sensapp.android.sensappdroid.database.MeasureTable;
 import org.sensapp.android.sensappdroid.database.SensAppDatabaseHelper;
-import org.sensapp.android.sensappdroid.database.SensorTable;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -21,14 +19,10 @@ public class ComposeCP {
 	
 	private static final int COMPOSES = 10;
 	private static final int COMPOSE = 20;
-	private static final int COMPOSE_SENSOR = 30;
-	private static final int COMPOSE_COMPOSITE = 40;
 	private static final UriMatcher measureURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	static {
 		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH, COMPOSES);
 		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/#", COMPOSE);
-		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/sensor/*", COMPOSE_SENSOR);
-		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/composite/*", COMPOSE_COMPOSITE);
 	}
 
 	private SensAppDatabaseHelper database;
@@ -49,15 +43,6 @@ public class ComposeCP {
 		case COMPOSE:
 			queryBuilder.setTables(ComposeTable.TABLE_COMPOSE);
 			queryBuilder.appendWhere(ComposeTable.COLUMN_ID + " = " + uri.getLastPathSegment());
-			break;
-		case COMPOSE_SENSOR:
-			//db.rawQuery("SELECT ", selectionArgs)
-			queryBuilder.setTables(ComposeTable.TABLE_COMPOSE + ", " + CompositeTable.TABLE_COMPOSITE);
-			queryBuilder.appendWhere(ComposeTable.COLUMN_SENSOR + " = \"" + uri.getLastPathSegment() + "\" AND " + ComposeTable.COLUMN_COMPOSITE + " = " + CompositeTable.COLUMN_NAME);
-			break;
-		case COMPOSE_COMPOSITE:
-			queryBuilder.setTables(ComposeTable.TABLE_COMPOSE + ", " + SensorTable.TABLE_SENSOR);
-			queryBuilder.appendWhere(ComposeTable.COLUMN_COMPOSITE + " = \"" + uri.getLastPathSegment() + "\" AND " + ComposeTable.COLUMN_SENSOR + " = " + SensorTable.COLUMN_NAME);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
