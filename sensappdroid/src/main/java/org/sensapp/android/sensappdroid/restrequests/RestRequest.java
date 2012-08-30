@@ -21,6 +21,7 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.sensapp.android.sensappdroid.json.JsonPrinter;
+import org.sensapp.android.sensappdroid.models.Composite;
 import org.sensapp.android.sensappdroid.models.Sensor;
 
 import android.net.Uri;
@@ -28,8 +29,10 @@ import android.util.Log;
 
 public class RestRequest {
 	
+	public static final String SENSOR_PATH = "/sensapp/registry/sensors";
+	public static final String COMPOSITE_PATH = "/sensapp/registry/composite/sensors";
+	
 	private static final String TAG = RestRequest.class.getSimpleName(); 
-	private static final String SENSOR_PATH = "/sensapp/registry/sensors";
 	private static final String DISPATCHER_PATH = "/sensapp/dispatch";
 	
 	public static boolean isSensorRegistred(Sensor sensor) throws RequestErrorException {
@@ -157,6 +160,70 @@ public class RestRequest {
 		Log.i(TAG, "Put data result: " + response);
 		if (response.trim().length() > 2) {
 			throw new RequestErrorException("Sensor not registred: " + response);
+		}
+		return response; 
+	}
+	
+	public static boolean isCompositeRegistred(Composite composite) throws RequestErrorException {
+		URI target;
+		try {
+			target = new URI(composite.getUri().toString() + COMPOSITE_PATH + "/" + composite.getName());
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+			throw new RequestErrorException(e1.getMessage());
+		}
+		Log.v(TAG, "Target: " + target.toString());
+		HttpClient client = new DefaultHttpClient();
+		HttpGet request = new HttpGet(target);
+		StatusLine status;
+		try {
+			status = client.execute(request).getStatusLine();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			throw new RequestErrorException(e.getMessage());
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+			throw new RequestErrorException(e.getMessage());
+		} catch (IOException e) {
+			throw new RequestErrorException(e.getMessage());
+		}
+		if (status.getStatusCode() == 200) {
+			Log.i(TAG, "Sensor " + composite.getName() + " already registered");
+			return true;
+		}
+		Log.w(TAG, "Sensor " + composite.getName() + " not yet registered");
+		return false;
+	}
+	
+	public static String postComposite(Composite composite) throws RequestErrorException {
+		String content = JsonPrinter.compositeToJson(composite);
+		Log.i(TAG, "POST Composite");
+		Log.v(TAG, "Content: " + content);
+		URI target;
+		try {
+			target = new URI(composite.getUri().toString() + COMPOSITE_PATH);
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+			throw new RequestErrorException(e1.getMessage());
+		}
+		Log.v(TAG, "Target: " + target.toString());
+		HttpClient client = new DefaultHttpClient();
+		HttpPost request = new HttpPost(target);
+		request.setHeader("Content-type", "application/json");
+		String response = null;
+		try {
+			StringEntity seContent = new StringEntity(content);
+			seContent.setContentType("text/json");  
+			request.setEntity(seContent);  
+			response = resolveResponse(client.execute(request));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			throw new RequestErrorException(e.getMessage());
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+			throw new RequestErrorException(e.getMessage());
+		} catch (IOException e) {
+			throw new RequestErrorException(e.getMessage());
 		}
 		return response; 
 	}

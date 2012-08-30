@@ -3,6 +3,7 @@ package org.sensapp.android.sensappdroid.fragments;
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.datarequests.DeleteCompositeTask;
+import org.sensapp.android.sensappdroid.restrequests.PostCompositeRestTask;
 
 import android.app.Activity;
 import android.app.ListFragment;
@@ -78,15 +79,16 @@ public class CompositeListFragment extends ListFragment implements LoaderCallbac
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		Cursor c = adapter.getCursor();
 		c.moveToPosition(info.position);
+		String name = c.getString(c.getColumnIndexOrThrow(SensAppCPContract.Composite.NAME));
 		switch (item.getItemId()) {
 		case MENU_DELETE_ID:
-			new DeleteCompositeTask(getActivity()).execute(c.getString(c.getColumnIndexOrThrow(SensAppCPContract.Composite.NAME)));
+			new DeleteCompositeTask(getActivity()).execute(name);
 			return true;
 		case MENU_MANAGESENSORS_ID:
-			compositeSelectedListener.onCompositeSensorsManagement(Uri.parse(SensAppCPContract.Composite.CONTENT_URI + "/" + c.getString(c.getColumnIndexOrThrow(SensAppCPContract.Composite.NAME))));
+			compositeSelectedListener.onCompositeSensorsManagement(Uri.parse(SensAppCPContract.Composite.CONTENT_URI + "/" + name));
 			return false;
 		case MENU_UPLOAD_ID:
-			// TODO Create a upload AsyncTask.
+			new PostCompositeRestTask(getActivity(), name).execute();
 			return true;
 		}
 		return super.onContextItemSelected(item);

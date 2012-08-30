@@ -75,7 +75,7 @@ public class CompositeCP {
 				break;
 			case COMPOSITE:
 				queryBuilder.setTables(CompositeTable.TABLE_COMPOSITE);
-				queryBuilder.appendWhere(MeasureTable.COLUMN_ID + " = " + uri.getLastPathSegment());
+				queryBuilder.appendWhere(MeasureTable.COLUMN_ID + " = \"" + uri.getLastPathSegment() + "\"");
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown URI: " + uri);

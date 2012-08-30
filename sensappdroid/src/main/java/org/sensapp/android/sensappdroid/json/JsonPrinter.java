@@ -1,13 +1,17 @@
 package org.sensapp.android.sensappdroid.json;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.sensapp.android.sensappdroid.models.Composite;
 import org.sensapp.android.sensappdroid.models.Sensor;
+
+import android.net.Uri;
 
 public class JsonPrinter {
 
@@ -47,6 +51,25 @@ public class JsonPrinter {
 		SensorJsonModel jsonSensor = new SensorJsonModel(sensor.getName(), sensor.getDescription(), schema);
 		try {
 			jsonString = mapper.writeValueAsString(jsonSensor);
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return jsonString;
+	}
+	
+	public static String compositeToJson(Composite composite) {
+		String jsonString = null;
+		ArrayList<String> sensors = new ArrayList<String>();
+		for (Uri uri : composite.getSensors()) {
+			sensors.add(uri.toString());
+		}
+		ComposititeJsonModel jsonComposite = new ComposititeJsonModel(composite.getName(), composite.getDescription(), sensors);
+		try {
+			jsonString = mapper.writeValueAsString(jsonComposite);
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
