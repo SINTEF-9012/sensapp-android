@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Binder;
 
 public class SensAppContentProvider extends ContentProvider {
 
@@ -48,6 +49,14 @@ public class SensAppContentProvider extends ContentProvider {
 		return false;
 	}
 	
+	private String[] getCallingPackages() {
+	     int caller = Binder.getCallingUid();
+	     if (caller == 0) {
+	         return null;
+	     }
+	     return getContext().getPackageManager().getPackagesForUid(caller);
+	 }
+	
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		switch (sensAppURIMatcher.match(uri)) {
@@ -82,17 +91,27 @@ public class SensAppContentProvider extends ContentProvider {
 	
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-		switch (sensAppURIMatcher.match(uri)) {
-		case MEASURE:
-			return measureCP.update(uri, values, selection, selectionArgs);
-		case SENSOR:
-			return sensorCP.update(uri, values, selection, selectionArgs);
-		case COMPOSITE:
-			return compositeCP.update(uri, values, selection, selectionArgs);
-		case COMPOSE:
-			return composeCP.update(uri, values, selection, selectionArgs);
-		default:
-			throw new IllegalArgumentException("[0] Unknown URI: " + uri);
+		boolean permission = false;
+		for (String s : getCallingPackages()) {
+			if ("org.sensapp.android.sensappdroid".equals(s)) {
+				permission = true;
+			}
+		}
+		if (permission) {
+			switch (sensAppURIMatcher.match(uri)) {
+			case MEASURE:
+				return measureCP.update(uri, values, selection, selectionArgs);
+			case SENSOR:
+				return sensorCP.update(uri, values, selection, selectionArgs);
+			case COMPOSITE:
+				return compositeCP.update(uri, values, selection, selectionArgs);
+			case COMPOSE:
+				return composeCP.update(uri, values, selection, selectionArgs);
+			default:
+				throw new IllegalArgumentException("[0] Unknown URI: " + uri);
+			}
+		} else {
+			throw new IllegalAccessError("Update requests are forbiden");
 		}
 	}
 
@@ -114,17 +133,27 @@ public class SensAppContentProvider extends ContentProvider {
 	
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		switch (sensAppURIMatcher.match(uri)) {
-		case MEASURE:
-			return measureCP.delete(uri, selection, selectionArgs);
-		case SENSOR:
-			return sensorCP.delete(uri, selection, selectionArgs);
-		case COMPOSITE:
-			return compositeCP.delete(uri, selection, selectionArgs);
-		case COMPOSE:
-			return composeCP.delete(uri, selection, selectionArgs);
-		default:
-			throw new IllegalArgumentException("[0] Unknown URI: " + uri);
+		boolean permission = false;
+		for (String s : getCallingPackages()) {
+			if ("org.sensapp.android.sensappdroid".equals(s)) {
+				permission = true;
+			}
+		}
+		if (permission) {
+			switch (sensAppURIMatcher.match(uri)) {
+			case MEASURE:
+				return measureCP.delete(uri, selection, selectionArgs);
+			case SENSOR:
+				return sensorCP.delete(uri, selection, selectionArgs);
+			case COMPOSITE:
+				return compositeCP.delete(uri, selection, selectionArgs);
+			case COMPOSE:
+				return composeCP.delete(uri, selection, selectionArgs);
+			default:
+				throw new IllegalArgumentException("[0] Unknown URI: " + uri);
+			}
+		} else {
+			throw new IllegalAccessError("Delete requests are forbiden");
 		}
 	}
 }
