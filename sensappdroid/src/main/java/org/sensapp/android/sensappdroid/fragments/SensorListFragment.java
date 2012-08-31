@@ -15,6 +15,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 public class SensorListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
 
@@ -81,6 +83,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 		switch (item.getItemId()) {
 		case MENU_DELETE_ID:
 			new DeleteSensorsTask(getActivity()).execute(c.getString(c.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME)));
+			//getLoaderManager().restartLoader(0, null, this);
 			return true;
 		case MENU_UPLOAD_ID:
 			Intent i = new Intent(getActivity(), SensAppService.class);
@@ -106,7 +109,13 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		String[] projection = {SensorTable.COLUMN_NAME};
-		CursorLoader cursorLoader = new CursorLoader(getActivity(), getActivity().getIntent().getData(), projection, null, null, null);
+		Uri uri = getActivity().getIntent().getData();
+		if (uri == null) {
+			uri = SensAppCPContract.Sensor.CONTENT_URI;
+		} else {
+			((TextView) getActivity().findViewById(android.R.id.empty)).setText(getString(R.string.no_sensors) + " in " + uri.getLastPathSegment() + " composite");
+		}
+		CursorLoader cursorLoader = new CursorLoader(getActivity(), uri, projection, null, null, null);
 		return cursorLoader;
 	}
 

@@ -98,6 +98,8 @@ public class SensorCP {
 		switch (measureURIMatcher.match(uri)) {
 		case SENSORS:
 			rowsDeleted = db.delete(SensorTable.TABLE_SENSOR, selection, selectionArgs);
+			// Clean composites
+			db.delete(ComposeTable.TABLE_COMPOSE, null, null);
 			break;
 		case SENSOR_ID:
 			String id = uri.getLastPathSegment();
@@ -106,11 +108,14 @@ public class SensorCP {
 			} else {
 				rowsDeleted = db.delete(SensorTable.TABLE_SENSOR, SensorTable.COLUMN_NAME + " = \"" + id + "\" and " + selection, selectionArgs);
 			}
+			// Clean composites
+			db.delete(ComposeTable.TABLE_COMPOSE, ComposeTable.COLUMN_SENSOR + " = \"" + id + "\"", null);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
 		}
 		context.getContentResolver().notifyChange(uri, null);
+		context.getContentResolver().notifyChange(Uri.parse("content://" + SensAppContentProvider.AUTHORITY + "/" + BASE_PATH + "/composite"), null);
 		return rowsDeleted;
 	}
 

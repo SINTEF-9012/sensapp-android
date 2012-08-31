@@ -12,8 +12,7 @@
 
     <TextView
         android:id="@android:id/empty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/empty_list"
         android:text="@string/no_measures" />
 
 </LinearLayout>
