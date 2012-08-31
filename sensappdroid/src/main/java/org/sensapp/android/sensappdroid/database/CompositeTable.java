@@ -8,12 +8,14 @@ public class CompositeTable {
 	public static final String TABLE_COMPOSITE = "COMPOSITE";
 	public static final String COLUMN_NAME = "_id";
 	public static final String COLUMN_DESCRIPTION = "desc";
+	public static final String COLUMN_URI = "uri";
 	
 	private static final String TAG = CompositeTable.class.getSimpleName();
 	private static final String DATABASE_CREATE_TABLE = "CREATE TABLE " 
 			+ TABLE_COMPOSITE + " (" 
 			+ COLUMN_NAME + " TEXT PRIMARY KEY, "
-			+ COLUMN_DESCRIPTION + " TEXT);"; 
+			+ COLUMN_DESCRIPTION + " TEXT, "
+			+ COLUMN_URI + " TEXT);";
 	private static final String DATABASE_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_COMPOSITE;
 	
 	public static void onCreate(SQLiteDatabase database) {

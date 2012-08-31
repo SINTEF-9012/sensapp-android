@@ -7,6 +7,7 @@ import java.util.TimerTask;
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask;
+import org.sensapp.android.sensappdroid.preferences.GeneralPrefFragment;
 import org.sensapp.android.sensappdroid.restrequests.PutMeasuresTask;
 
 import android.app.Service;
@@ -47,6 +48,7 @@ public class SensAppService extends Service {
 		if (intent.getAction() != null) {
 			if (intent.getAction().equals(ACTION_UPLOAD)) {
 				Log.d(TAG, "Receive: ACTION_UPLOAD");
+				GeneralPrefFragment.updateUri(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()), getResources(), getContentResolver());
 				uploadMeasureUri(intent.getData());
 			} else if (intent.getAction().equals(ACTION_DELETE_LOCAL)) {
 				Log.d(TAG, "Receive: ACTION_DELETE_LOCAL");

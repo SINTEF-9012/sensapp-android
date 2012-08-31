@@ -44,6 +44,7 @@ public final class SensAppCPContract {
 
 		public static final String NAME = "_id";
 		public static final String DESCRIPTION = "desc";
+		public static final String URI = "uri";
 	}
 	
 	public static class Compose {

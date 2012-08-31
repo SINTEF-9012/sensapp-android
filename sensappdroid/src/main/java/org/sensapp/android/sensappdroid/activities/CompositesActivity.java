@@ -52,9 +52,7 @@ public class CompositesActivity extends Activity implements OnCompositeSelectedL
 			showDialog(DIALOG_NEW_COMPOSITE, null);
 			return true;
 		case R.id.sensors:
-			i = new Intent(this, SensorsActivity.class);
-			//i.setData(SensAppCPContract.Sensor.CONTENT_URI);
-			startActivity(i);
+			startActivity(new Intent(this, SensorsActivity.class));
 			return true;
 		case R.id.upload_all:
 			i = new Intent(this, SensAppService.class);

@@ -18,7 +18,7 @@ public class SensorTable {
 	private static final String DATABASE_CREATE_TABLE = "CREATE TABLE " 
 			+ TABLE_SENSOR + " (" 
 			+ COLUMN_NAME + " TEXT PRIMARY KEY, "
-			+ COLUMN_URI + " TEXT NOT NULL, "
+			+ COLUMN_URI + " TEXT, "
 			+ COLUMN_DESCRIPTION + " TEXT, "
 			+ COLUMN_BACKEND + " TEXT NOT NULL, "
 			+ COLUMN_TEMPLATE + " TEXT NOT NULL, "
