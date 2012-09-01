@@ -4,15 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -49,13 +46,7 @@ public class RestRequest {
 		StatusLine status;
 		try {
 			status = client.execute(request).getStatusLine();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			throw new RequestErrorException(e.getMessage());
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-			throw new RequestErrorException(e.getMessage());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new RequestErrorException(e.getMessage());
 		}
 		if (status.getStatusCode() == 200) {
@@ -87,13 +78,7 @@ public class RestRequest {
 			seContent.setContentType("text/json");  
 			request.setEntity(seContent);  
 			response = resolveResponse(client.execute(request));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			throw new RequestErrorException(e.getMessage());
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-			throw new RequestErrorException(e.getMessage());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new RequestErrorException(e.getMessage());
 		}
 		return response; 
@@ -115,13 +100,7 @@ public class RestRequest {
 		String response = null;
 		try {
 			response = resolveResponse(client.execute(request));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			throw new RequestErrorException(e.getMessage());
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-			throw new RequestErrorException(e.getMessage());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new RequestErrorException(e.getMessage());
 		}
 		return response; 
@@ -147,14 +126,7 @@ public class RestRequest {
 			seContent.setContentType("text/json");  
 			request.setEntity(seContent);  
 			response = resolveResponse(client.execute(request));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			throw new RequestErrorException(e.getMessage());
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-			throw new RequestErrorException(e.getMessage());
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
 			throw new RequestErrorException(e.getMessage());
 		}
 		Log.i(TAG, "Put data result: " + response);
@@ -178,13 +150,7 @@ public class RestRequest {
 		StatusLine status;
 		try {
 			status = client.execute(request).getStatusLine();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			throw new RequestErrorException(e.getMessage());
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-			throw new RequestErrorException(e.getMessage());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new RequestErrorException(e.getMessage());
 		}
 		if (status.getStatusCode() == 200) {
@@ -216,15 +182,9 @@ public class RestRequest {
 			seContent.setContentType("text/json");  
 			request.setEntity(seContent);  
 			response = resolveResponse(client.execute(request));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
 			throw new RequestErrorException(e.getMessage());
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-			throw new RequestErrorException(e.getMessage());
-		} catch (IOException e) {
-			throw new RequestErrorException(e.getMessage());
-		}
+		} 
 		return response; 
 	}
 	
