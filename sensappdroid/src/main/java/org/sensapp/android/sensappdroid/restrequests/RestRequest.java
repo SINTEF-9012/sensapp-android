@@ -39,9 +39,9 @@ public class RestRequest {
 		URI target;
 		try {
 			target = new URI(sensor.getUri().toString() + SENSOR_PATH + "/" + sensor.getName());
-		} catch (URISyntaxException e1) {
-			e1.printStackTrace();
-			throw new RequestErrorException(e1.getMessage());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+			throw new RequestErrorException(e.getMessage());
 		}
 		Log.v(TAG, "Target: " + target.toString());
 		HttpClient client = new DefaultHttpClient();

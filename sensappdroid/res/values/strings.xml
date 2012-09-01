@@ -24,5 +24,6 @@
 	<string name="pref_autoupload_delay_key">pref_autoupload_delay_key</string>
 	<string name="pref_default_server_key">pref_default_server_key</string>
 	<string name="pref_default_port_key">pref_default_port_key</string>
+	<string name="pref_server_default_value">http://mysensapp.org</string>
 	
 </resources>

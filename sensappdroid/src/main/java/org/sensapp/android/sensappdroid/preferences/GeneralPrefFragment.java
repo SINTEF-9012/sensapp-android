@@ -18,7 +18,7 @@ public class GeneralPrefFragment extends PreferenceFragment {
 	private static final String TAG = GeneralPrefFragment.class.getSimpleName(); 
 	
 	private SharedPreferences preferences;
-	private EditTextPreference server;
+	private EditTextServerPreference server;
 	private EditTextPreference port;
 	
 	@Override
@@ -26,7 +26,7 @@ public class GeneralPrefFragment extends PreferenceFragment {
 		super.onCreate(savedInstanceState);
 		preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		addPreferencesFromResource(R.xml.pref_general_fragment);
-		server = (EditTextPreference) findPreference(getString(R.string.pref_default_server_key));
+		server = (EditTextServerPreference) findPreference(getString(R.string.pref_default_server_key));
 		port = (EditTextPreference) findPreference(getString(R.string.pref_default_port_key));
 	}
 	

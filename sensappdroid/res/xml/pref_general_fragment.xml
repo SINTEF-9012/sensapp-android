@@ -4,12 +4,12 @@
     <PreferenceCategory
             android:title="SensApp web instance">
     
-        <EditTextPreference 
+        <org.sensapp.android.sensappdroid.preferences.EditTextServerPreference 
             android:key="@string/pref_default_server_key"
             android:title="Default server"
             android:dialogTitle="Set the default SensApp server"
             android:summary="Set the default SensApp server"
-            android:defaultValue="http://"/>
+            android:defaultValue="@string/pref_server_default_value"/>
     
     <EditTextPreference
                 android:key="@string/pref_default_port_key"
