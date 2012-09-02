@@ -2,13 +2,18 @@ package org.sensapp.android.sensappdroid.preferences;
 
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.datarequests.UpdateMeasuresTask;
+import org.sensapp.android.sensappdroid.datarequests.UpdateSensorsTask;
 
+import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.MultiSelectListPreference;
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -30,6 +35,19 @@ public class UploadPrefFragment extends PreferenceFragment {
 		sensors = (MultiSelectListPreference) findPreference(getString(R.string.pref_list_autoupload_sensor_key));
 		delay.setDependency(active.getKey());
 		sensors.setDependency(active.getKey());
+		
+		findPreference(getString(R.string.pref_undo_upload_key)).setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				ContentValues values = new ContentValues();
+				values.put(SensAppCPContract.Sensor.UPLOADED, 0);
+				new UpdateSensorsTask(getActivity().getApplicationContext(), SensAppCPContract.Sensor.UPLOADED + " = 1", values).execute();
+				values.clear();
+				values.put(SensAppCPContract.Measure.UPLOADED, 0);
+				new UpdateMeasuresTask(getActivity().getApplicationContext(), SensAppCPContract.Measure.UPLOADED + " = 1", values).execute();
+				return true;
+			}
+		});
 	}
 	
 	SharedPreferences.OnSharedPreferenceChangeListener spChanged = new SharedPreferences.OnSharedPreferenceChangeListener() {

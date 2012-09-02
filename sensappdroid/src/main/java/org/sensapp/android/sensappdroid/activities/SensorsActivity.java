@@ -2,13 +2,10 @@ package org.sensapp.android.sensappdroid.activities;
 
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
-import org.sensapp.android.sensappdroid.datarequests.UpdateMeasuresTask;
-import org.sensapp.android.sensappdroid.datarequests.UpdateSensorsTask;
 import org.sensapp.android.sensappdroid.fragments.SensorListFragment.OnSensorSelectedListener;
 import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,13 +23,15 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
     	Log.d(TAG, "__ON_CREATE__");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sensors);
-        //startService(new Intent(this, SensAppService.class));
     }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.sensors_menu, menu);
+		if (getIntent().getData() == null) {
+			menu.removeItem(R.id.sensors);
+		}
 		return true;
 	}
 
@@ -40,27 +39,19 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent i;
 		switch (item.getItemId()) {
-		case R.id.composites:
-			startActivity(new Intent(this, CompositesActivity.class));
-			return true;
 		case R.id.upload_all:
 			i = new Intent(this, SensAppService.class);
 			i.setAction(SensAppService.ACTION_UPLOAD);
 			i.setData(SensAppCPContract.Measure.CONTENT_URI);
 			startService(i);
 			return true;
-		case R.id.change_view_to_measures:
+		case R.id.sensors:
+			startActivity(new Intent(this, SensorsActivity.class));
+			return true;
+		case R.id.measures:
 			i = new Intent(this, MeasuresActivity.class);
 			i.setData(SensAppCPContract.Measure.CONTENT_URI);
 			startActivity(i);
-			return true;
-		case R.id.set_not_uploaded:
-			ContentValues valuesS = new ContentValues();
-			valuesS.put(SensAppCPContract.Sensor.UPLOADED, 0);
-			new UpdateSensorsTask(this, SensAppCPContract.Sensor.UPLOADED + " = 1", valuesS).execute();
-			ContentValues valuesM = new ContentValues();
-			valuesM.put(SensAppCPContract.Measure.UPLOADED, 0);
-			new UpdateMeasuresTask(this, SensAppCPContract.Measure.UPLOADED + " = 1", valuesM).execute();
 			return true;
 		case R.id.preferences:
 			startActivity(new Intent(this, PreferencesActivity.class));

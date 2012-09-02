@@ -24,4 +24,12 @@
                 android:persistent="true" />
 
     </PreferenceCategory>
+    
+    <PreferenceCategory 
+        android:title="Reset">
+        <Preference
+            android:key="@string/pref_undo_upload_key"
+            android:title="Undo uploaded entities"/>
+            
+    </PreferenceCategory>
 </PreferenceScreen>

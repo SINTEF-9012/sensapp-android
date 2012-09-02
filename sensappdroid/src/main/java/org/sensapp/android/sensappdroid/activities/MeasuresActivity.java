@@ -1,6 +1,7 @@
 package org.sensapp.android.sensappdroid.activities;
 
 import org.sensapp.android.sensappdroid.fragments.MeasureListFragment.OnMesureSelectedListener;
+import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;
 
 import org.sensapp.android.sensappdroid.R;
 import android.app.Activity;
@@ -47,6 +48,9 @@ public class MeasuresActivity extends Activity implements OnMesureSelectedListen
 			i.setAction(SensAppService.ACTION_DELETE_LOCAL);
 			i.putExtra(SensAppService.EXTRA_UPLOADED_FILTER, true);
 			startService(i);
+			return true;
+		case R.id.preferences:
+			startActivity(new Intent(this, PreferencesActivity.class));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
