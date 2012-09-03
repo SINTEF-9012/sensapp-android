@@ -6,6 +6,7 @@ target/
 sensappdroid-test/bin/*
 sensappdroid-test/gen/*
 sensappdroid-test/target
+sensappdroid-test/.settings
 
 sensappdroid/bin/*
 sensappdroid/gen/*

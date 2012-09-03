@@ -314,7 +314,7 @@
 	<artifactId>findbugs-maven-plugin</artifactId>
 	<version>${plugin.findbugs-maven.version}</version>
 	<configuration>
-          <targetJdk>1.5</targetJdk>
+          <targetJdk>1.6</targetJdk>
 	  <skip>${findbugs.skip}</skip>
 	  <xmlOutput>true</xmlOutput>
 	</configuration>

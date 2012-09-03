@@ -1,8 +1,6 @@
 package org.sensapp.android.sensappdroid.test;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.contentprovider.SensAppContentProvider;
@@ -18,12 +16,17 @@ public class PutMeasuresRestTaskTest extends ProviderTestCase2<SensAppContentPro
 		super(SensAppContentProvider.class, SensAppCPContract.AUTHORITY);
 	}
 
-	public void testNoMeasure() throws InterruptedException, ExecutionException, TimeoutException {
-		int nbUploaded = new PutMeasuresTask(getContext(), SensAppCPContract.Measure.CONTENT_URI).execute().get(5000, TimeUnit.MILLISECONDS);
-		assertEquals(0, nbUploaded);
+	public void testNoMeasure() {
+		try {
+			int nbUploaded = new PutMeasuresTask(getContext(), SensAppCPContract.Measure.CONTENT_URI).execute().get(5000, TimeUnit.MILLISECONDS);
+			assertEquals(0, nbUploaded);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 	}
 	
-	public void testMeasureWithoutSensor() throws InterruptedException, ExecutionException, TimeoutException {
+	public void testMeasureWithoutSensor() {
 		ContentValues values = new ContentValues();
 		values.put(SensAppCPContract.Measure.ID, 11);
 		values.put(SensAppCPContract.Measure.BASETIME, 0);
@@ -32,10 +35,15 @@ public class PutMeasuresRestTaskTest extends ProviderTestCase2<SensAppContentPro
 		values.put(SensAppCPContract.Measure.VALUE, 999);
 		values.put(SensAppCPContract.Measure.UPLOADED, 0);
 		getContext().getContentResolver().insert(SensAppCPContract.Measure.CONTENT_URI, values);
-		assertNull(new PutMeasuresTask(getContext(), SensAppCPContract.Measure.CONTENT_URI).execute().get(5000, TimeUnit.MILLISECONDS));
+		try {
+			assertNull(new PutMeasuresTask(getContext(), SensAppCPContract.Measure.CONTENT_URI).execute().get(5000, TimeUnit.MILLISECONDS));
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 	}
 	
-	public void testMeasureById() throws InterruptedException, ExecutionException, TimeoutException {
+	public void testMeasureById() {
 		ContentValues values = new ContentValues();
 		values.put(SensAppCPContract.Measure.ID, 11);
 		values.put(SensAppCPContract.Measure.BASETIME, 0);
@@ -45,22 +53,37 @@ public class PutMeasuresRestTaskTest extends ProviderTestCase2<SensAppContentPro
 		values.put(SensAppCPContract.Measure.UPLOADED, 0);
 		getContext().getContentResolver().insert(SensAppCPContract.Measure.CONTENT_URI, values);
 		DataManager.insertSensors(getContext().getContentResolver(), 1);
-		int nbUploaded = new PutMeasuresTask(getContext(), Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + 11)).execute().get(10, TimeUnit.SECONDS);
-		assertEquals(1, nbUploaded);
+		try {
+			int nbUploaded = new PutMeasuresTask(getContext(), Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + 11)).execute().get(10, TimeUnit.SECONDS);
+			assertEquals(1, nbUploaded);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 	}
 	
-	public void testMeasuresBySensor() throws InterruptedException, ExecutionException, TimeoutException {
+	public void testMeasuresBySensor() {
 		DataManager.insertMeasures(getContext().getContentResolver(), 15, 1);
 		DataManager.insertSensors(getContext().getContentResolver(), 1);
-		int nbUploaded = new PutMeasuresTask(getContext(), Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + "testSensor0")).execute().get(15, TimeUnit.SECONDS);
-		assertEquals(15, nbUploaded);
+		try {
+			int nbUploaded = new PutMeasuresTask(getContext(), Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + "testSensor0")).execute().get(15, TimeUnit.SECONDS);
+			assertEquals(15, nbUploaded);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 	}
 	
-	public void testAllMeasures() throws InterruptedException, ExecutionException, TimeoutException {
+	public void testAllMeasures() {
 		DataManager.insertMeasures(getContext().getContentResolver(), 20, 3);
 		DataManager.insertSensors(getContext().getContentResolver(), 3);
-		int nbUploaded = new PutMeasuresTask(getContext(), SensAppCPContract.Measure.CONTENT_URI).execute().get(20, TimeUnit.SECONDS);
-		assertEquals(20, nbUploaded);
+		try {	
+			int nbUploaded = new PutMeasuresTask(getContext(), SensAppCPContract.Measure.CONTENT_URI).execute().get(20, TimeUnit.SECONDS);
+			assertEquals(20, nbUploaded);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 	}
 	
 	@Override

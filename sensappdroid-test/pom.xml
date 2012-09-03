@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>sensappdroid-test</artifactId>
   <packaging>apk</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.1-SNAPSHOT</version>
   <name>${project.artifactId}</name>
   <description>SensApp android test application</description>  
 
@@ -39,16 +39,16 @@
       <dependency>
 	<groupId>org.sensapp.android</groupId>
 	<artifactId>sensappdroid</artifactId>
-	<scope>provided</scope>
 	<type>apk</type>
-	<version>1.2-SNAPSHOT</version>
+	<version>1.4-SNAPSHOT</version>
+	<scope>provided</scope>
       </dependency>
       <dependency>
 	<groupId>org.sensapp.android</groupId>
 	<artifactId>sensappdroid</artifactId>
-	<scope>provided</scope>
 	<type>jar</type>
-	<version>1.2-SNAPSHOT</version>
+	<version>1.4-SNAPSHOT</version>
+	<scope>provided</scope>
       </dependency>
       <dependency>
 	<groupId>com.jayway.android.robotium</groupId>
@@ -89,9 +89,89 @@
             <path>/home/fabien/bin/android-sdk-linux</path>
             <platform>15</platform>
           </sdk>
+          <undeployBeforeDeploy>true</undeployBeforeDeploy>
+          <sign>
+	    <debug>false</debug>
+	  </sign>
+	  <emulator>
+            <avd>11</avd>
+            <wait>100000</wait>
+            <options>-no-window</options>
+        </emulator>
         </configuration>
+	<executions>
+    <execution>
+        <id>startEmulator</id>
+        <phase>initialize</phase>
+        <goals>
+            <goal>emulator-start</goal>
+        </goals>
+    </execution>
+    <execution>
+        <id>stopEmulator</id>
+        <phase>verify</phase>
+        <goals>
+            <goal>emulator-stop</goal>
+        </goals>
+    </execution>
+</executions>
         <extensions>true</extensions>
       </plugin>
+       <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-jarsigner-plugin</artifactId>
+	<executions>
+	  <execution>
+	    <id>sign-and-verify</id>
+	    <goals>
+	      <goal>sign</goal>
+	      <goal>verify</goal>
+	    </goals>
+	  </execution>
+	</executions>
+	<configuration>
+	  <removeExistingSignatures>true</removeExistingSignatures>
+	  <keystore>${sign.keystore}</keystore>
+	  <alias>${sign.alias}</alias>
+	  <storepass>${sign.storepass}</storepass>
+	  <keypass>${sign.keypass}</keypass>
+	</configuration>
+      </plugin>
     </plugins>
+    <pluginManagement>
+    	<plugins>
+    		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+    		<plugin>
+    			<groupId>org.eclipse.m2e</groupId>
+    			<artifactId>lifecycle-mapping</artifactId>
+    			<version>1.0.0</version>
+    			<configuration>
+    				<lifecycleMappingMetadata>
+    					<pluginExecutions>
+    						<pluginExecution>
+    							<pluginExecutionFilter>
+    								<groupId>
+    									com.jayway.maven.plugins.android.generation2
+    								</groupId>
+    								<artifactId>
+    									android-maven-plugin
+    								</artifactId>
+    								<versionRange>
+    									[3.1.1,)
+    								</versionRange>
+    								<goals>
+    									<goal>emulator-start</goal>
+    								</goals>
+    							</pluginExecutionFilter>
+    							<action>
+    								<ignore></ignore>
+    							</action>
+    						</pluginExecution>
+    					</pluginExecutions>
+    				</lifecycleMappingMetadata>
+    			</configuration>
+    		</plugin>
+    	</plugins>
+    </pluginManagement>
   </build>
 </project>
