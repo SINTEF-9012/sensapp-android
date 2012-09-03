@@ -3,6 +3,7 @@ package org.sensapp.android.sensappdroid.activities;
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.fragments.CompositeListFragment.OnCompositeSelectedListener;
+import org.sensapp.android.sensappdroid.preferences.GeneralPrefFragment;
 import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;
 
 import android.app.Activity;
@@ -14,6 +15,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -120,6 +122,12 @@ public class CompositesActivity extends Activity implements OnCompositeSelectedL
 					ContentValues values = new ContentValues();
 					values.put(SensAppCPContract.Composite.NAME, name);
 					values.put(SensAppCPContract.Composite.DESCRIPTION, description);
+					try {
+						String uri = GeneralPrefFragment.buildUri(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()), getResources());
+						values.put(SensAppCPContract.Composite.URI, uri);
+					} catch (IllegalStateException e) {
+						e.printStackTrace();
+					}	
 					getContentResolver().insert(SensAppCPContract.Composite.CONTENT_URI, values);
 				}
 			})

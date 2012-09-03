@@ -5,6 +5,7 @@ import org.sensapp.android.sensappdroid.activities.SensAppService;
 import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.database.SensorTable;
 import org.sensapp.android.sensappdroid.datarequests.DeleteSensorsTask;
+import org.sensapp.android.sensappdroid.restrequests.PostSensorRestTask;
 
 import android.app.Activity;
 import android.app.ListFragment;
@@ -79,15 +80,16 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		Cursor c = adapter.getCursor();
 		c.moveToPosition(info.position);
+		String sensorName = c.getString(c.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME));
 		switch (item.getItemId()) {
 		case MENU_DELETE_ID:
-			new DeleteSensorsTask(getActivity()).execute(c.getString(c.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME)));
-			//getLoaderManager().restartLoader(0, null, this);
+			new DeleteSensorsTask(getActivity()).execute(sensorName);
 			return true;
 		case MENU_UPLOAD_ID:
+			//new PostSensorRestTask(getActivity(), sensorName);
 			Intent i = new Intent(getActivity(), SensAppService.class);
 			i.setAction(SensAppService.ACTION_UPLOAD);
-			i.setData(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + c.getString(c.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME))));
+			i.setData(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + sensorName));
 			getActivity().startService(i);
 			return true;
 	}

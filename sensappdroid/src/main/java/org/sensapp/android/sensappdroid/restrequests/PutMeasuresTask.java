@@ -13,6 +13,7 @@ import org.sensapp.android.sensappdroid.json.MeasureJsonModel;
 import org.sensapp.android.sensappdroid.json.NumericalMeasureJsonModel;
 import org.sensapp.android.sensappdroid.json.StringMeasureJsonModel;
 import org.sensapp.android.sensappdroid.models.Sensor;
+import org.sensapp.android.sensappdroid.preferences.GeneralPrefFragment;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -23,6 +24,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -40,6 +42,7 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 	private Uri uri;
 	private NotificationManager notificationManager;
 	private Notification notification;
+	private String errorMessage;
 	
 	public PutMeasuresTask(Context context, Uri uri) {
 		super();
@@ -72,17 +75,6 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 		return basetimes;
 	}
 	
-	private boolean isRegistred(Sensor sensor) {
-		boolean registered = false;
-		try {
-			registered = RestRequest.isSensorRegistred(sensor);
-		} catch (RequestErrorException e) {
-			Log.e(TAG, e.getMessage());
-			return false;
-		}
-		return registered;
-	}
-	
 	@Override
 	protected void onPreExecute() {
 	        final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, CompositesActivity.class), 0);
@@ -95,28 +87,28 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 	        notification.contentView.setProgressBar(R.id.status_progress, 100, 0, false);
 	        notificationManager.notify(NOTIFICATION_ID, notification);
 	}
-	
+
 	@Override
 	protected Integer doInBackground(Integer... params) {
-		
+
 		int rowTotal = 0;
-		
+
 		Cursor cursor = context.getContentResolver().query(uri, new String[]{SensAppCPContract.Measure.ID}, SensAppCPContract.Measure.UPLOADED + " = 0", null, null);
 		if (cursor != null) {
 			rowTotal = cursor.getCount();
 			cursor.close();
 		}
-		
+
 		notification.contentView.setTextViewText(R.id.status_text, "Uploading " + rowTotal + " measures...");
 		notificationManager.notify(NOTIFICATION_ID, notification);
-		
+
 		int rowsUploaded = 0;
 		int progress = 0;
 		int sizeLimit = DEFAULT_SIZE_LIMIT;
 		if (params.length > 0) {
 			sizeLimit = params[0];
 		}
-		
+
 		ArrayList<String> sensorNames = new ArrayList<String>();
 		cursor = context.getContentResolver().query(uri, new String[]{"DISTINCT " + SensAppCPContract.Measure.SENSOR}, SensAppCPContract.Measure.UPLOADED + " = 0", null, null);
 		if (cursor != null) {
@@ -125,42 +117,58 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 			}
 			cursor.close();
 		}
-		
+
 		Sensor sensor;
 		for (String sensorName : sensorNames) {
-			
+
 			if (!sensorExists(sensorName)) {
 				Log.e(TAG, "Incorrect database: sensor " + sensorName + " does not exit");
 				return null;
 			}
-		
-			sensor = DatabaseRequest.SensorRQ.getSensor(context, sensorName);
-			
-			if (!isRegistred(sensor)) {
-				Uri postSensorResult = null;
-				try {
-					postSensorResult = new PostSensorRestTask(context, sensorName).executeOnExecutor(THREAD_POOL_EXECUTOR).get();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				}
-				if (postSensorResult == null) {
-					Log.e(TAG, "Post sensor failed");
-					return null;
-				}
+
+			// Update uri with current preference
+			try {
+				ContentValues values = new ContentValues();
+				values.put(SensAppCPContract.Sensor.URI, GeneralPrefFragment.buildUri(PreferenceManager.getDefaultSharedPreferences(context), context.getResources()));
+				context.getContentResolver().update(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + sensorName), values, null, null);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
 			}
-			
+
+			sensor = DatabaseRequest.SensorRQ.getSensor(context, sensorName);
+
+			try {
+				if (!RestRequest.isSensorRegistred(sensor)) {
+					Uri postSensorResult = null;
+					try {
+						postSensorResult = new PostSensorRestTask(context, sensorName).executeOnExecutor(THREAD_POOL_EXECUTOR).get();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						e.printStackTrace();
+					}
+					if (postSensorResult == null) {
+						Log.e(TAG, "Post sensor failed");
+						return null;
+					}
+				}
+			} catch (RequestErrorException e1) {
+				errorMessage = e1.getMessage();
+				Log.e(TAG, errorMessage);
+				return null;
+			}
+
 			MeasureJsonModel model = null;
 			if (sensor.getTemplate().equals("Numerical")) {
 				model = new NumericalMeasureJsonModel(sensorName, sensor.getUnit());
 			} else if (sensor.getTemplate().equals("String")) {
 				model = new StringMeasureJsonModel(sensorName, sensor.getUnit());
 			} else {
-				Log.e(TAG, "Incorrect sensor template");
+				errorMessage = "Incorrect sensor template";
+				Log.e(TAG, errorMessage);
 				return null;
 			}
-				
+
 			List<Integer> ids = new ArrayList<Integer>();
 			for (Long basetime : getBasetimes(sensorName)) {
 				model.setBt(basetime);	
@@ -193,7 +201,8 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 							try {
 								RestRequest.putData(sensor.getUri(), JsonPrinter.measuresToJson(model));
 							} catch (RequestErrorException e) {
-								Log.e(TAG, e.getMessage());
+								errorMessage = e.getMessage();
+								Log.e(TAG, errorMessage);
 								if (e.getCause() != null) {
 									Log.e(TAG, e.getCause().getMessage());
 								}
@@ -227,14 +236,22 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 		notificationManager.cancel(NOTIFICATION_ID);
 		if (result == null) {
 			Log.e(TAG, "Put data error");
-			Toast.makeText(context, "Upload failed", Toast.LENGTH_LONG).show();
+			if (errorMessage == null) {
+				Toast.makeText(context, "Upload failed", Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(context, "Upload failed:\n" + errorMessage, Toast.LENGTH_LONG).show();
+			}
 		} else {
 			Log.i(TAG, "Put data succed: " + result + " measures uploaded");
 			final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, CompositesActivity.class), 0);
 			Notification notificationFinal = new Notification(R.drawable.ic_launcher, "Upload finished", System.currentTimeMillis());
 			notificationFinal.setLatestEventInfo(context, "Upload succeed", result + " measures uploaded", pendingIntent);
 			notificationManager.notify(NOTIFICATION_FINAL_ID, notificationFinal);
-			Toast.makeText(context, "Upload succeed: " + result + " measures uploaded", Toast.LENGTH_LONG).show();
+			if (result == 0) {
+				Toast.makeText(context, "No measures to upload", Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(context, "Upload succeed: " + result + " measures uploaded", Toast.LENGTH_LONG).show();
+			}
 		}
 	}
 }

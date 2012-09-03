@@ -1,21 +1,17 @@
 package org.sensapp.android.sensappdroid.preferences;
 
 import org.sensapp.android.sensappdroid.R;
-import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 public class GeneralPrefFragment extends PreferenceFragment {
 	
-	private static final String TAG = GeneralPrefFragment.class.getSimpleName(); 
+	//private static final String TAG = GeneralPrefFragment.class.getSimpleName(); 
 	
 	private SharedPreferences preferences;
 	private EditTextServerPreference server;
@@ -30,31 +26,34 @@ public class GeneralPrefFragment extends PreferenceFragment {
 		port = (EditTextPreference) findPreference(getString(R.string.pref_default_port_key));
 	}
 	
-	public static void updateUri(SharedPreferences preferences, Resources resources, ContentResolver resolver) {
+	public static String buildUri(SharedPreferences preferences, Resources resources) throws IllegalStateException {
 		String server = preferences.getString(resources.getString(R.string.pref_default_server_key), "");
-		String port = preferences.getString(resources.getString(R.string.pref_default_port_key), "");
+		String port = preferences.getString(resources.getString(R.string.pref_default_port_key), "80");
 		if (server.isEmpty() || port.isEmpty()) {
-			Log.e(TAG, "Error to read uri");
-			return;
+			throw new IllegalStateException("Error to read uri");
 		}
-		String uri = server + ":" + port;
-		ContentValues values = new ContentValues();
-		values.put(SensAppCPContract.Sensor.URI, uri);
-		int updated = resolver.update(SensAppCPContract.Sensor.CONTENT_URI, values, SensAppCPContract.Sensor.URI + " IS NULL", null);
-		Log.i(TAG, updated + " sensors updated");
-		updated = resolver.update(SensAppCPContract.Composite.CONTENT_URI, values, SensAppCPContract.Composite.URI + " IS NULL", null);
-		Log.i(TAG, updated + " composites updated");
+		return server + ":" + port;
 	}
+	
+//	public static void updateUri(SharedPreferences preferences, Resources resources, ContentResolver resolver) throws IllegalStateException {
+//		String uri = buildUri(preferences, resources);
+//		ContentValues values = new ContentValues();
+//		values.put(SensAppCPContract.Sensor.URI, uri);
+//		int updated = resolver.update(SensAppCPContract.Sensor.CONTENT_URI, values, null, null);
+//		Log.i(TAG, updated + " sensors updated");
+//		updated = resolver.update(SensAppCPContract.Composite.CONTENT_URI, values, null, null);
+//		Log.i(TAG, updated + " composites updated");
+//	}
 	
 	SharedPreferences.OnSharedPreferenceChangeListener spChanged = new SharedPreferences.OnSharedPreferenceChangeListener() {
 		@Override
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {	
 			if (key.equals(server.getKey())) {
 				server.setSummary(sharedPreferences.getString(server.getKey(), ""));
-				updateUri(preferences, getResources(), getActivity().getContentResolver());
+				//updateUri(preferences, getResources(), getActivity().getContentResolver());
 			} else if (key.equals(port.getKey())) {
 				port.setSummary(sharedPreferences.getString(port.getKey(), ""));
-				updateUri(preferences, getResources(), getActivity().getContentResolver());
+				//updateUri(preferences, getResources(), getActivity().getContentResolver());
 			} 			
 		}
 	};

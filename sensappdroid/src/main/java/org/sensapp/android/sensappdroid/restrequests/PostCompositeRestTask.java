@@ -2,13 +2,17 @@ package org.sensapp.android.sensappdroid.restrequests;
 
 import java.util.concurrent.ExecutionException;
 
+import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
 import org.sensapp.android.sensappdroid.datarequests.DatabaseRequest;
 import org.sensapp.android.sensappdroid.models.Composite;
 import org.sensapp.android.sensappdroid.models.Sensor;
+import org.sensapp.android.sensappdroid.preferences.GeneralPrefFragment;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -27,9 +31,17 @@ public class PostCompositeRestTask extends AsyncTask<Void, Void, Uri> {
 
 	@Override
 	protected Uri doInBackground(Void... params) {
+		// Update uri with current preference
+		try {
+			ContentValues values = new ContentValues();
+			values.put(SensAppCPContract.Composite.URI, GeneralPrefFragment.buildUri(PreferenceManager.getDefaultSharedPreferences(context), context.getResources()));
+			context.getContentResolver().update(Uri.parse(SensAppCPContract.Composite.CONTENT_URI + "/" + compositeName), values, null, null);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}
+
+		
 		Composite composite = DatabaseRequest.CompositeRQ.getComposite(context, compositeName);
-		// TODO URI management
-		composite.setUri(Uri.parse("http://internal.sensapp.org:80"));
 		Sensor sensor;
 		for (Uri uri : composite.getSensors()) {
 			 sensor = DatabaseRequest.SensorRQ.getSensor(context, uri.getLastPathSegment());
