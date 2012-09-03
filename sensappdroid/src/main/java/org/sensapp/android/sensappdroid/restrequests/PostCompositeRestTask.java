@@ -22,6 +22,7 @@ public class PostCompositeRestTask extends AsyncTask<Void, Void, Uri> {
 	
 	private Context context;
 	private String compositeName;
+	private String errorMessage;
 	
 	public PostCompositeRestTask(Context context, String compositeName) {
 		super();
@@ -37,14 +38,25 @@ public class PostCompositeRestTask extends AsyncTask<Void, Void, Uri> {
 			values.put(SensAppCPContract.Composite.URI, GeneralPrefFragment.buildUri(PreferenceManager.getDefaultSharedPreferences(context), context.getResources()));
 			context.getContentResolver().update(Uri.parse(SensAppCPContract.Composite.CONTENT_URI + "/" + compositeName), values, null, null);
 		} catch (IllegalStateException e) {
+			errorMessage = e.getMessage();
 			e.printStackTrace();
+			return null;
 		}
 
-		
 		Composite composite = DatabaseRequest.CompositeRQ.getComposite(context, compositeName);
 		Sensor sensor;
 		for (Uri uri : composite.getSensors()) {
-			 sensor = DatabaseRequest.SensorRQ.getSensor(context, uri.getLastPathSegment());
+			// Update sensor uri with current preference
+			try {
+				ContentValues values = new ContentValues();
+				values.put(SensAppCPContract.Sensor.URI, GeneralPrefFragment.buildUri(PreferenceManager.getDefaultSharedPreferences(context), context.getResources()));
+				context.getContentResolver().update(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + uri.getLastPathSegment()), values, null, null);
+			} catch (IllegalStateException e) {
+				errorMessage = e.getMessage();
+				e.printStackTrace();
+				return null;
+			}
+			sensor = DatabaseRequest.SensorRQ.getSensor(context, uri.getLastPathSegment());
 			try {
 				if (!RestRequest.isSensorRegistred(sensor)) {
 					Uri postSensorResult = null;
@@ -61,7 +73,8 @@ public class PostCompositeRestTask extends AsyncTask<Void, Void, Uri> {
 					}
 				}
 			} catch (RequestErrorException e) {
-				Log.e(TAG, e.getMessage());
+				errorMessage = e.getMessage();
+				Log.e(TAG, errorMessage);
 				return null;
 			}
 		}
@@ -69,10 +82,8 @@ public class PostCompositeRestTask extends AsyncTask<Void, Void, Uri> {
 		try {
 			response = RestRequest.postComposite(composite);
 		} catch (RequestErrorException e) {
-			Log.e(TAG, e.getMessage());
-			if (e.getCause() != null) {
-				Log.e(TAG, e.getCause().getMessage());
-			}
+			errorMessage = e.getMessage();
+			Log.e(TAG, errorMessage);
 			return null;
 		}
 		return Uri.parse(response);
@@ -82,8 +93,12 @@ public class PostCompositeRestTask extends AsyncTask<Void, Void, Uri> {
 	protected void onPostExecute(Uri result) {
 		super.onPostExecute(result);
 		if (result == null) {
-			Log.e(TAG, "Post composite error");
-			Toast.makeText(context, "Post composite: " + compositeName +  " failed", Toast.LENGTH_LONG).show();
+			Log.e(TAG, "Post composite " + compositeName + " error: " + errorMessage);
+			if (errorMessage == null) {
+				Toast.makeText(context, "Post composite " + compositeName +  " failed", Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(context, "Post composite " + compositeName +  " failed:\n" + errorMessage, Toast.LENGTH_LONG).show();
+			}
 		} else {
 			Log.i(TAG, "Post composite succeed: " + result.toString());
 			Toast.makeText(context, "Composite " + compositeName + " registred", Toast.LENGTH_LONG).show();

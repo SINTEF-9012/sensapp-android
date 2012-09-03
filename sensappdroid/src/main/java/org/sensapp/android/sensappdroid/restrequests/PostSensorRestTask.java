@@ -35,7 +35,9 @@ public class PostSensorRestTask extends AsyncTask<Void, Void, Uri> {
 			values.put(SensAppCPContract.Sensor.URI, GeneralPrefFragment.buildUri(PreferenceManager.getDefaultSharedPreferences(context), context.getResources()));
 			context.getContentResolver().update(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + sensorName), values, null, null);
 		} catch (IllegalStateException e) {
-			e.printStackTrace();
+			errorMessage = e.getMessage();
+			Log.e(TAG, errorMessage);
+			return null;
 		}
 
 		Sensor sensor = DatabaseRequest.SensorRQ.getSensor(context, sensorName);

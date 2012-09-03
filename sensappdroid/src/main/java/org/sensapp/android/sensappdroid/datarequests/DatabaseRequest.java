@@ -134,7 +134,11 @@ public class DatabaseRequest {
 			if (cursor != null) {
 				if (cursor.getCount() > 0) {
 					cursor.moveToFirst();
-					Uri uri = Uri.parse(cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.URI)));
+					String uriString = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.URI));
+					Uri uri = null;
+					if (uriString != null) {
+						uri = Uri.parse(uriString);
+					}
 					String description = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.DESCRIPTION));
 					String backend = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.BACKEND));
 					String template = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.TEMPLATE));
@@ -160,13 +164,15 @@ public class DatabaseRequest {
 
 		public static Composite getComposite(Context context, String name) {
 			String description = null;
-			String[] projection = {SensAppCPContract.Composite.DESCRIPTION};
-			// Get composite description
+			Uri uri = null;
+			String[] projection = {SensAppCPContract.Composite.DESCRIPTION, SensAppCPContract.Composite.URI};
+			// Get composite description and uri
 			Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppCPContract.Composite.CONTENT_URI + "/" + name), projection, null, null, null);
 			if (cursor != null) {
 				if (cursor.getCount() > 0) {
 					cursor.moveToFirst();
 					description = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Composite.DESCRIPTION));
+					uri = Uri.parse(cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Composite.URI)));
 				}
 				cursor.close();
 			}
@@ -180,19 +186,19 @@ public class DatabaseRequest {
 				cursor.close();
 			}
 			// Get composite sensor addresses
-			ArrayList<Uri> uris = new ArrayList<Uri>();
+			ArrayList<Uri> sensorUris = new ArrayList<Uri>();
 			projection = new String[]{SensAppCPContract.Sensor.NAME, SensAppCPContract.Sensor.URI};
 			String selection = SensAppCPContract.Sensor.NAME + " IN " + sensors.toString().replace("[", "(\"").replace(", ", "\", \"").replace("]", "\")");
 			cursor = context.getContentResolver().query(SensAppCPContract.Sensor.CONTENT_URI, projection, selection, null, null);
 			if (cursor != null) {
 				while (cursor.moveToNext()) {
-					String uri = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.URI));
-					uri += RestRequest.SENSOR_PATH + "/" + cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME));
-					uris.add(Uri.parse(uri));
+					String sensorUri = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.URI));
+					sensorUri += RestRequest.SENSOR_PATH + "/" + cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME));
+					sensorUris.add(Uri.parse(sensorUri));
 				}
 				cursor.close();
 			}
-			return new Composite(name, description, uris);
+			return new Composite(name, description, uri, sensorUris);
 		}
 		
 		public static int deleteComposite(Context context, String name) {

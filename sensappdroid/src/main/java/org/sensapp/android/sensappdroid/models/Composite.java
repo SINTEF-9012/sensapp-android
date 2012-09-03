@@ -17,14 +17,16 @@ public class Composite {
 		sensors = new ArrayList<Uri>();
 	}
 	
-	public Composite(String name, String description) {
+	public Composite(String name, String description, Uri uri) {
 		this.name = name;
 		this.description = description;
+		this.uri = uri;
 	}
 	
-	public Composite(String name, String description, ArrayList<Uri> sensors) {
+	public Composite(String name, String description, Uri uri, ArrayList<Uri> sensors) {
 		this.name = name;
 		this.description = description;
+		this.uri = uri;
 		this.sensors = sensors;
 	}
 	

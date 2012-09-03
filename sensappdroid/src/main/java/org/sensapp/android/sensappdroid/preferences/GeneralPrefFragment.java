@@ -27,7 +27,7 @@ public class GeneralPrefFragment extends PreferenceFragment {
 	}
 	
 	public static String buildUri(SharedPreferences preferences, Resources resources) throws IllegalStateException {
-		String server = preferences.getString(resources.getString(R.string.pref_default_server_key), "");
+		String server = preferences.getString(resources.getString(R.string.pref_default_server_key), resources.getString(R.string.pref_server_default_value));
 		String port = preferences.getString(resources.getString(R.string.pref_default_port_key), "80");
 		if (server.isEmpty() || port.isEmpty()) {
 			throw new IllegalStateException("Error to read uri");
