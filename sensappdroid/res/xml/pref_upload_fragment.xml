@@ -20,8 +20,7 @@
                 android:key="@string/pref_list_autoupload_sensor_key"
                 android:title="Sensors"
                 android:summary="Choose sensors to auto upload"
-                android:dialogTitle="Choose sensors to auto upload" 
-                android:persistent="true" />
+                android:dialogTitle="Choose sensors to auto upload" />
 
     </PreferenceCategory>
     

@@ -78,7 +78,7 @@ public class UploadPrefFragment extends PreferenceFragment {
 		@Override
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {	
 			if (key.equals(delay.getKey())) {
-				delay.setSummary(sharedPreferences.getString(delay.getKey(), ""));
+				delay.setSummary(sharedPreferences.getString(delay.getKey(), "30") + " seconds");
 			} 		
 		}
 	};
@@ -87,7 +87,7 @@ public class UploadPrefFragment extends PreferenceFragment {
 	public void onResume() {
 		super.onResume();
 		preferences.registerOnSharedPreferenceChangeListener(spChanged);
-		delay.setSummary(preferences.getString(delay.getKey(), ""));
+		delay.setSummary(preferences.getString(delay.getKey(), "30") + " seconds");
 		Cursor c = getActivity().getContentResolver().query(SensAppCPContract.Sensor.CONTENT_URI, new String[]{SensAppCPContract.Sensor.NAME}, null, null, null);
 		if (c != null && c.moveToFirst()) {
 			String[] names = new String[c.getCount()];

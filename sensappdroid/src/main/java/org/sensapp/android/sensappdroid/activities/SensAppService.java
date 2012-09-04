@@ -98,7 +98,7 @@ public class SensAppService extends Service {
 			} else if (getString(R.string.pref_autoupload_delay_key).equals(key)) {
 				if (sharedPreferences.getBoolean(getString(R.string.pref_auto_upload_key), false)) {
 					stopAutoUpload();
-					startAutoUpload(sharedPreferences.getInt(key, 30));
+					startAutoUpload(Integer.valueOf(sharedPreferences.getString(key, "30")));
 				}
 			}
 		}
@@ -117,7 +117,6 @@ public class SensAppService extends Service {
 		}
 		Log.i(TAG, "Auto upload timer canceled");
 		stopForeground(true);
-		Toast.makeText(getApplicationContext(), "Auto upload stopped", Toast.LENGTH_SHORT).show();
 	}
 	
 	@Override
