@@ -35,6 +35,7 @@ public class CompositesActivity extends Activity implements OnCompositeSelectedL
     	Log.d(TAG, "__ON_CREATE__");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.composites);
+        startService(new Intent(this, SensAppService.class));
     }
 
 	@Override
