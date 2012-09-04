@@ -2,6 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/manage_sensors"
+        android:showAsAction="ifRoom"
+        android:title="Manage sensors" >
+    </item>
+    <item
+        android:id="@+id/sensors"
+        android:showAsAction="ifRoom"
+        android:title="Sensors" >
+    </item>
+    <item
         android:id="@+id/measures"
         android:showAsAction="ifRoom"
         android:title="Measures" >

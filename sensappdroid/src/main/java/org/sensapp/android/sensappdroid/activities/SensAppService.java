@@ -73,7 +73,7 @@ public class SensAppService extends Service {
 	}
 	
 	private void uploadMeasureUri(Uri uri) {
-		if (Connectivity.isDataAvailable(getApplicationContext())) {
+		if (!Connectivity.isDataAvailable(getApplicationContext())) {
 			Log.e(TAG, "No data connection available");
 			Toast.makeText(this, "No data connection available", Toast.LENGTH_LONG).show();
 		} else {

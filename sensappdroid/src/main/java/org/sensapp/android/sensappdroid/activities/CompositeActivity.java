@@ -14,9 +14,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public class SensorsActivity extends Activity implements OnSensorSelectedListener {
+public class CompositeActivity extends Activity implements OnSensorSelectedListener {
 	
-	private static final String TAG = SensorsActivity.class.getSimpleName();
+	private static final String TAG = CompositeActivity.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.sensors_menu, menu);
+		inflater.inflate(R.menu.composite_menu, menu);
 		return true;
 	}
 
@@ -39,7 +39,7 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
 		case R.id.upload_all:
 			i = new Intent(this, SensAppService.class);
 			i.setAction(SensAppService.ACTION_UPLOAD);
-			i.setData(SensAppCPContract.Measure.CONTENT_URI);
+			i.setData(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/composite/" + getIntent().getData().getLastPathSegment()));
 			startService(i);
 			return true;
 		case R.id.sensors:
@@ -47,7 +47,7 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
 			return true;
 		case R.id.measures:
 			i = new Intent(this, MeasuresActivity.class);
-			i.setData(SensAppCPContract.Measure.CONTENT_URI);
+			i.setData(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/composite/" + getIntent().getData().getLastPathSegment()));
 			startActivity(i);
 			return true;
 		case R.id.preferences:

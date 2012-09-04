@@ -28,6 +28,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.CompositeActivity"
+            android:label="Composite" >
+        </activity>
+        <activity
             android:name=".activities.MeasuresActivity"
             android:label="@string/app_name" >
         </activity>

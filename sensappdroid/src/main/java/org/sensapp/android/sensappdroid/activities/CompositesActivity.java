@@ -134,7 +134,6 @@ public class CompositesActivity extends Activity implements OnCompositeSelectedL
 			})
 			.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					/* User clicked cancel so do some stuff */
 				}
 			})
 			.create();
@@ -150,7 +149,7 @@ public class CompositesActivity extends Activity implements OnCompositeSelectedL
 
 	@Override
 	public void onCompositeSelected(Uri uri) {
-		Intent i = new Intent(this, SensorsActivity.class);
+		Intent i = new Intent(this, CompositeActivity.class);
 		i.setData(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()));
 		startActivity(i);
 	}

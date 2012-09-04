@@ -85,7 +85,6 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 			new DeleteSensorsTask(getActivity()).execute(sensorName);
 			return true;
 		case MENU_UPLOAD_ID:
-			//new PostSensorRestTask(getActivity(), sensorName);
 			Intent i = new Intent(getActivity(), SensAppService.class);
 			i.setAction(SensAppService.ACTION_UPLOAD);
 			i.setData(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + sensorName));
