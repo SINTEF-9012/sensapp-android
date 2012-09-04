@@ -2,22 +2,22 @@ package org.sensapp.android.sensappdroid.models;
 
 public class NumericalMeasure extends Measure {
 	
-	private int value;
+	private float value;
 	
 	public NumericalMeasure() {
 		super();
 	}
 	
-	public NumericalMeasure(int id, String sensor, int value, long time, long basetime, boolean uploaded) {
+	public NumericalMeasure(int id, String sensor, float value, long time, long basetime, boolean uploaded) {
 		super(id, sensor, time, basetime, uploaded);
 		this.value = value;
 	}
 
-	public int getValue() {
+	public float getValue() {
 		return value;
 	}
 
-	public void setValue(int value) {
+	public void setValue(float value) {
 		this.value = value;
 	}
 	

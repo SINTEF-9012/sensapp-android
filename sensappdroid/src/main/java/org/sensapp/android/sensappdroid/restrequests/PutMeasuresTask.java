@@ -185,7 +185,7 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 								ids.add(cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.ID)));
 								long time = cursor.getLong(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.TIME));
 								if (model instanceof NumericalMeasureJsonModel) {
-									int value = cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.VALUE));
+									float value = cursor.getFloat(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.VALUE));
 									((NumericalMeasureJsonModel) model).appendMeasure(value, time);
 									size += INTEGER_SIZE;
 								} else if (model instanceof StringMeasureJsonModel) {

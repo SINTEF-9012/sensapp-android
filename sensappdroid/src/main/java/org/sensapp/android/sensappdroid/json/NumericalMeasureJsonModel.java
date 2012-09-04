@@ -19,7 +19,7 @@ public class NumericalMeasureJsonModel extends MeasureJsonModel {
 		super(bn, bt, bu, e);
 	}
 	
-	public NumericalMeasureJsonModel appendMeasure(int value, long time) {
+	public NumericalMeasureJsonModel appendMeasure(float value, long time) {
 		getE().add(new NumericalValueJsonModel(value, time));
 		return this;
 	}
