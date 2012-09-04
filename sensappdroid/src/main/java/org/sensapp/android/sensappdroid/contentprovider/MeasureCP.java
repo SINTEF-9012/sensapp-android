@@ -1,10 +1,12 @@
 package org.sensapp.android.sensappdroid.contentprovider;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
 import org.sensapp.android.sensappdroid.database.MeasureTable;
 import org.sensapp.android.sensappdroid.database.SensAppDatabaseHelper;
+import org.sensapp.android.sensappdroid.database.SensorTable;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -22,10 +24,12 @@ public class MeasureCP {
 	private static final int MEASURES = 10;
 	private static final int MEASURE_ID = 20;
 	private static final int MEASURE_SENSOR = 30;
+	private static final int MEASURE_COMPOSITE = 40;
 	private static final UriMatcher measureURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	static {
 		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH, MEASURES);
 		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/#", MEASURE_ID);
+		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/composite/*", MEASURE_COMPOSITE);
 		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/*", MEASURE_SENSOR);
 	}
 
@@ -49,6 +53,19 @@ public class MeasureCP {
 			break;
 		case MEASURE_SENSOR:
 			queryBuilder.appendWhere(MeasureTable.COLUMN_SENSOR + "= \"" + uri.getLastPathSegment() + "\"");
+			break;
+		case MEASURE_COMPOSITE:
+			Cursor c = context.getContentResolver().query(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
+			ArrayList<String> names = new ArrayList<String>();
+			if (c != null) {
+					while (c.moveToNext()) {
+					names.add(c.getString(c.getColumnIndexOrThrow(SensorTable.COLUMN_NAME)));
+				}
+				c.close();
+			} else {
+				return null;
+			}
+			queryBuilder.appendWhere(MeasureTable.COLUMN_SENSOR + " IN " + names.toString().replace("[", "(\"").replace(", ", "\", \"").replace("]", "\")"));
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -97,7 +114,24 @@ public class MeasureCP {
 			if (TextUtils.isEmpty(selection)) {
 				rowsDeleted = db.delete(MeasureTable.TABLE_MEASURE, MeasureTable.COLUMN_SENSOR + "= \"" + name + "\"", null);
 			} else {
-				rowsDeleted = db.delete(MeasureTable.TABLE_MEASURE, MeasureTable.COLUMN_SENSOR + "= \"" + name + "\" and " + selection, selectionArgs);
+				rowsDeleted = db.delete(MeasureTable.TABLE_MEASURE, MeasureTable.COLUMN_SENSOR + "= \"" + name + "\" AND " + selection, selectionArgs);
+			}
+			break;
+		case MEASURE_COMPOSITE:
+			Cursor c = context.getContentResolver().query(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
+			ArrayList<String> names = new ArrayList<String>();
+			if (c != null) {
+					while (c.moveToNext()) {
+					names.add(c.getString(c.getColumnIndexOrThrow(SensorTable.COLUMN_NAME)));
+				}
+				c.close();
+			} else {
+				return 0;
+			}
+			if (TextUtils.isEmpty(selection)) {
+				rowsDeleted = db.delete(MeasureTable.TABLE_MEASURE, MeasureTable.COLUMN_SENSOR + " IN " + names.toString().replace("[", "(\"").replace(", ", "\", \"").replace("]", "\")"), null);
+			} else {
+				rowsDeleted = db.delete(MeasureTable.TABLE_MEASURE, MeasureTable.COLUMN_SENSOR + " IN " + names.toString().replace("[", "(\"").replace(", ", "\", \"").replace("]", "\")") + " AND " + selection, selectionArgs);
 			}
 			break;
 		default:
@@ -128,6 +162,23 @@ public class MeasureCP {
 				rowsUpdated = db.update(MeasureTable.TABLE_MEASURE, values, MeasureTable.COLUMN_SENSOR + "= \"" + name + "\"", null);
 			} else {
 				rowsUpdated = db.update(MeasureTable.TABLE_MEASURE, values, MeasureTable.COLUMN_SENSOR + "= \"" + name + "\" and " + selection, selectionArgs);
+			}
+			break;
+		case MEASURE_COMPOSITE:
+			Cursor c = context.getContentResolver().query(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
+			ArrayList<String> names = new ArrayList<String>();
+			if (c != null) {
+					while (c.moveToNext()) {
+					names.add(c.getString(c.getColumnIndexOrThrow(SensorTable.COLUMN_NAME)));
+				}
+				c.close();
+			} else {
+				return 0;
+			}
+			if (TextUtils.isEmpty(selection)) {
+				rowsUpdated = db.update(MeasureTable.TABLE_MEASURE, values, MeasureTable.COLUMN_SENSOR + " IN " + names.toString().replace("[", "(\"").replace(", ", "\", \"").replace("]", "\")"), null);
+			} else {
+				rowsUpdated = db.update(MeasureTable.TABLE_MEASURE, values, MeasureTable.COLUMN_SENSOR + " IN " + names.toString().replace("[", "(\"").replace(", ", "\", \"").replace("]", "\")") + " AND " + selection, selectionArgs);
 			}
 			break;
 		default:

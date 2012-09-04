@@ -25,6 +25,7 @@ public class SensAppContentProvider extends ContentProvider {
 		sensAppURIMatcher.addURI(AUTHORITY, SensorCP.BASE_PATH + "/*", SENSOR);
 		sensAppURIMatcher.addURI(AUTHORITY, MeasureCP.BASE_PATH, MEASURE);
 		sensAppURIMatcher.addURI(AUTHORITY, MeasureCP.BASE_PATH + "/#", MEASURE);
+		sensAppURIMatcher.addURI(AUTHORITY, MeasureCP.BASE_PATH + "/composite/*", MEASURE);
 		sensAppURIMatcher.addURI(AUTHORITY, MeasureCP.BASE_PATH + "/*", MEASURE);
 		sensAppURIMatcher.addURI(AUTHORITY, CompositeCP.BASE_PATH, COMPOSITE);
 		sensAppURIMatcher.addURI(AUTHORITY, CompositeCP.BASE_PATH + "/managesensors/*", COMPOSITE);
