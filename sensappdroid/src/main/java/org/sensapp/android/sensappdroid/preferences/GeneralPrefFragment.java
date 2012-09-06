@@ -11,8 +11,6 @@ import android.preference.PreferenceManager;
 
 public class GeneralPrefFragment extends PreferenceFragment {
 	
-	//private static final String TAG = GeneralPrefFragment.class.getSimpleName(); 
-	
 	private SharedPreferences preferences;
 	private EditTextServerPreference server;
 	private EditTextPreference port;
@@ -35,25 +33,13 @@ public class GeneralPrefFragment extends PreferenceFragment {
 		return server + ":" + port;
 	}
 	
-//	public static void updateUri(SharedPreferences preferences, Resources resources, ContentResolver resolver) throws IllegalStateException {
-//		String uri = buildUri(preferences, resources);
-//		ContentValues values = new ContentValues();
-//		values.put(SensAppCPContract.Sensor.URI, uri);
-//		int updated = resolver.update(SensAppCPContract.Sensor.CONTENT_URI, values, null, null);
-//		Log.i(TAG, updated + " sensors updated");
-//		updated = resolver.update(SensAppCPContract.Composite.CONTENT_URI, values, null, null);
-//		Log.i(TAG, updated + " composites updated");
-//	}
-	
 	SharedPreferences.OnSharedPreferenceChangeListener spChanged = new SharedPreferences.OnSharedPreferenceChangeListener() {
 		@Override
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {	
 			if (key.equals(server.getKey())) {
 				server.setSummary(sharedPreferences.getString(server.getKey(), ""));
-				//updateUri(preferences, getResources(), getActivity().getContentResolver());
 			} else if (key.equals(port.getKey())) {
 				port.setSummary(sharedPreferences.getString(port.getKey(), ""));
-				//updateUri(preferences, getResources(), getActivity().getContentResolver());
 			} 			
 		}
 	};
