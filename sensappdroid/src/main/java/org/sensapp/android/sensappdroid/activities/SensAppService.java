@@ -4,7 +4,7 @@ import java.util.Timer;
 
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.connectivity.Connectivity;
-import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
 import org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask;
 import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;
 import org.sensapp.android.sensappdroid.restrequests.PutMeasuresTask;
@@ -65,7 +65,7 @@ public class SensAppService extends Service {
 				if (extra == null) {
 					new DeleteMeasuresTask(this, intent.getData()).execute();
 				} else if (extra.getBoolean(EXTRA_UPLOADED_FILTER)) {
-					new DeleteMeasuresTask(this, intent.getData()).execute(SensAppCPContract.Measure.UPLOADED + " = 1");
+					new DeleteMeasuresTask(this, intent.getData()).execute(SensAppContract.Measure.UPLOADED + " = 1");
 				}
 			}
 		}

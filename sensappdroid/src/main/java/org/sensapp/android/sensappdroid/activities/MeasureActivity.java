@@ -1,6 +1,6 @@
 package org.sensapp.android.sensappdroid.activities;
 
-import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
 import org.sensapp.android.sensappdroid.database.MeasureTable;
 
 import org.sensapp.android.sensappdroid.R;
@@ -40,9 +40,9 @@ public class MeasureActivity extends Activity {
 		Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 		if (cursor != null) {
 			cursor.moveToFirst();
-			tvId.setText(cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.ID)));
-			tvSensor.setText(cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.SENSOR)));
-			tvValue.setText(cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.VALUE)));
+			tvId.setText(cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Measure.ID)));
+			tvSensor.setText(cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Measure.SENSOR)));
+			tvValue.setText(cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Measure.VALUE)));
 			tvTime.setText(cursor.getString(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_TIME)));
 			if (cursor.getInt(cursor.getColumnIndexOrThrow(MeasureTable.COLUMN_UPLOADED)) != 0) {
 				tvStatus.setText(R.string.measure_uploaded);

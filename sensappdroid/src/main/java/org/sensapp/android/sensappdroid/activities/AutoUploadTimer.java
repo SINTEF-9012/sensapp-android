@@ -7,7 +7,7 @@ import java.util.TimerTask;
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.connectivity.Connectivity;
 import org.sensapp.android.sensappdroid.connectivity.Connectivity.ConnectivityListenner;
-import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
 import org.sensapp.android.sensappdroid.restrequests.PutMeasuresTask;
 
 import android.content.Context;
@@ -57,7 +57,7 @@ public class AutoUploadTimer extends Timer implements ConnectivityListenner {
 			if (names != null && !names.isEmpty()) {
 				for (final String name : names) {
 					Log.d(TAG, "Put " + name + " sensor");
-					new PutMeasuresTask(context, Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + name)).execute();
+					new PutMeasuresTask(context, Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + name)).execute();
 				}
 			}
         }

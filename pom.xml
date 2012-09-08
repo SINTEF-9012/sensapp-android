@@ -7,17 +7,24 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.sensapp.android</groupId>
   <artifactId>parent</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.5-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>SensApp-Android</name>
   <description>SensApp android application</description>
   <url>http://android.sensapp.org</url>
 
   <distributionManagement> 
-    <site> 
-      <id>GitHub pages</id> 
-      <url>http://sintef-9012.github.com/sensapp-android</url> 
-    </site> 
+      <repository>
+            <id>thingml-release</id>
+            <name>thingml-release</name>
+            <url>http://maven.thingml.org/archiva/repository/thingml-release/</url>
+        </repository>
+        
+        <snapshotRepository>
+            <id>thingml-snapshot</id>
+            <name>thingml-snapshot</name>
+            <url>http://maven.thingml.org/archiva/repository/thingml-snapshot/</url>
+        </snapshotRepository>
   </distributionManagement>
 
   <developers>
@@ -44,7 +51,8 @@
   
   <modules>
     <module>sensappdroid</module>
-    <module>sensappdroid-test</module>
+    <module>sensappdroid-contract</module>
+    <!-- <module>sensappdroid-test</module> /-->
   </modules>
 
   <properties>

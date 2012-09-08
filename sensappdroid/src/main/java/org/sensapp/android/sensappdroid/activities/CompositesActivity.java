@@ -1,7 +1,7 @@
 package org.sensapp.android.sensappdroid.activities;
 
 import org.sensapp.android.sensappdroid.R;
-import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
 import org.sensapp.android.sensappdroid.fragments.CompositeListFragment.OnCompositeSelectedListener;
 import org.sensapp.android.sensappdroid.preferences.GeneralPrefFragment;
 import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;
@@ -57,13 +57,13 @@ public class CompositesActivity extends Activity implements OnCompositeSelectedL
 			return true;
 		case R.id.measures:
 			i = new Intent(this, MeasuresActivity.class);
-			i.setData(SensAppCPContract.Measure.CONTENT_URI);
+			i.setData(SensAppContract.Measure.CONTENT_URI);
 			startActivity(i);
 			return true;
 		case R.id.upload_all:
 			i = new Intent(this, SensAppService.class);
 			i.setAction(SensAppService.ACTION_UPLOAD);
-			i.setData(SensAppCPContract.Measure.CONTENT_URI);
+			i.setData(SensAppContract.Measure.CONTENT_URI);
 			startService(i);
 			return true;
 		case R.id.preferences:
@@ -77,12 +77,12 @@ public class CompositesActivity extends Activity implements OnCompositeSelectedL
 	protected Dialog onCreateDialog(int id, final Bundle args) {
 		switch (id) {
 		case DIALOG_ADD_SENSORS_TO_COMPOSITE:
-			final String compositeName = args.getString(SensAppCPContract.Composite.NAME);
-			final Cursor cursor = getContentResolver().query(Uri.parse(SensAppCPContract.Composite.CONTENT_URI + "/managesensors/" + compositeName), null, null, null, null);
+			final String compositeName = args.getString(SensAppContract.Composite.NAME);
+			final Cursor cursor = getContentResolver().query(Uri.parse(SensAppContract.Composite.CONTENT_URI + "/managesensors/" + compositeName), null, null, null, null);
 			String[] sensorNames = new String[cursor.getCount()];
 			boolean[] sensorStatus = new boolean[cursor.getCount()];
 			for (int i = 0 ; cursor.moveToNext() ; i ++) {
-				sensorNames[i] = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME));
+				sensorNames[i] = cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Sensor.NAME));
 				sensorStatus[i] = cursor.getInt(cursor.getColumnIndexOrThrow("status")) == 1;
 			}
 			AlertDialog.Builder builder = new AlertDialog.Builder(CompositesActivity.this)
@@ -91,15 +91,15 @@ public class CompositesActivity extends Activity implements OnCompositeSelectedL
 					new DialogInterface.OnMultiChoiceClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton, boolean isChecked) {
 					cursor.moveToPosition(whichButton);
-					String sensorName = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME));
+					String sensorName = cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Sensor.NAME));
 					if (isChecked) {
 						ContentValues values = new ContentValues();
-						values.put(SensAppCPContract.Compose.SENSOR, sensorName);
-						values.put(SensAppCPContract.Compose.COMPOSITE, compositeName);
-						getContentResolver().insert(SensAppCPContract.Compose.CONTENT_URI, values);
+						values.put(SensAppContract.Compose.SENSOR, sensorName);
+						values.put(SensAppContract.Compose.COMPOSITE, compositeName);
+						getContentResolver().insert(SensAppContract.Compose.CONTENT_URI, values);
 					} else {
-						String where = SensAppCPContract.Compose.SENSOR + " = \"" + sensorName + "\" AND " + SensAppCPContract.Compose.COMPOSITE + " = \"" + compositeName + "\"";
-						getContentResolver().delete(SensAppCPContract.Compose.CONTENT_URI, where, null);	
+						String where = SensAppContract.Compose.SENSOR + " = \"" + sensorName + "\" AND " + SensAppContract.Compose.COMPOSITE + " = \"" + compositeName + "\"";
+						getContentResolver().delete(SensAppContract.Compose.CONTENT_URI, where, null);	
 					}
 				}
 			})
@@ -121,15 +121,15 @@ public class CompositesActivity extends Activity implements OnCompositeSelectedL
 					String name = ((EditText) newCompositeView.findViewById(R.id.composite_name_edit)).getText().toString();
 					String description = ((EditText) newCompositeView.findViewById(R.id.composite_description_edit)).getText().toString();
 					ContentValues values = new ContentValues();
-					values.put(SensAppCPContract.Composite.NAME, name);
-					values.put(SensAppCPContract.Composite.DESCRIPTION, description);
+					values.put(SensAppContract.Composite.NAME, name);
+					values.put(SensAppContract.Composite.DESCRIPTION, description);
 					try {
 						String uri = GeneralPrefFragment.buildUri(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()), getResources());
-						values.put(SensAppCPContract.Composite.URI, uri);
+						values.put(SensAppContract.Composite.URI, uri);
 					} catch (IllegalStateException e) {
 						e.printStackTrace();
 					}	
-					getContentResolver().insert(SensAppCPContract.Composite.CONTENT_URI, values);
+					getContentResolver().insert(SensAppContract.Composite.CONTENT_URI, values);
 				}
 			})
 			.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -150,14 +150,14 @@ public class CompositesActivity extends Activity implements OnCompositeSelectedL
 	@Override
 	public void onCompositeSelected(Uri uri) {
 		Intent i = new Intent(this, CompositeActivity.class);
-		i.setData(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()));
+		i.setData(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()));
 		startActivity(i);
 	}
 
 	@Override
 	public void onCompositeSensorsManagement(Uri uri) {
 		Bundle bundle = new Bundle();
-		bundle.putString(SensAppCPContract.Composite.NAME, uri.getLastPathSegment());
+		bundle.putString(SensAppContract.Composite.NAME, uri.getLastPathSegment());
 		showDialog(DIALOG_ADD_SENSORS_TO_COMPOSITE, bundle);
 	}
 }

@@ -3,7 +3,7 @@ package org.sensapp.android.sensappdroid.contentprovider;
 import android.content.ContentResolver;
 import android.net.Uri;
 
-public final class SensAppCPContract {
+public final class SensAppContract {
 	
 	public static final String AUTHORITY = "org.sensapp.android.sensappdroid.contentprovider";
 	

@@ -55,7 +55,7 @@ public class MeasureCP {
 			queryBuilder.appendWhere(MeasureTable.COLUMN_SENSOR + "= \"" + uri.getLastPathSegment() + "\"");
 			break;
 		case MEASURE_COMPOSITE:
-			Cursor c = context.getContentResolver().query(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
+			Cursor c = context.getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
 			ArrayList<String> names = new ArrayList<String>();
 			if (c != null) {
 					while (c.moveToNext()) {
@@ -118,7 +118,7 @@ public class MeasureCP {
 			}
 			break;
 		case MEASURE_COMPOSITE:
-			Cursor c = context.getContentResolver().query(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
+			Cursor c = context.getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
 			ArrayList<String> names = new ArrayList<String>();
 			if (c != null) {
 					while (c.moveToNext()) {
@@ -165,7 +165,7 @@ public class MeasureCP {
 			}
 			break;
 		case MEASURE_COMPOSITE:
-			Cursor c = context.getContentResolver().query(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
+			Cursor c = context.getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
 			ArrayList<String> names = new ArrayList<String>();
 			if (c != null) {
 					while (c.moveToNext()) {

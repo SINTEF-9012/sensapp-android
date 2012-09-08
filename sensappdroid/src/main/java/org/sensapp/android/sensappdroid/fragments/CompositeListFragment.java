@@ -1,7 +1,7 @@
 package org.sensapp.android.sensappdroid.fragments;
 
 import org.sensapp.android.sensappdroid.R;
-import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
 import org.sensapp.android.sensappdroid.datarequests.DeleteCompositeTask;
 import org.sensapp.android.sensappdroid.restrequests.PostCompositeRestTask;
 
@@ -63,7 +63,7 @@ public class CompositeListFragment extends ListFragment implements LoaderCallbac
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Cursor cursor = adapter.getCursor();
-		compositeSelectedListener.onCompositeSelected(Uri.parse(SensAppCPContract.Composite.CONTENT_URI + "/" + cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Composite.NAME))));
+		compositeSelectedListener.onCompositeSelected(Uri.parse(SensAppContract.Composite.CONTENT_URI + "/" + cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Composite.NAME))));
 	}
 	
 	@Override
@@ -79,13 +79,13 @@ public class CompositeListFragment extends ListFragment implements LoaderCallbac
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		Cursor c = adapter.getCursor();
 		c.moveToPosition(info.position);
-		String name = c.getString(c.getColumnIndexOrThrow(SensAppCPContract.Composite.NAME));
+		String name = c.getString(c.getColumnIndexOrThrow(SensAppContract.Composite.NAME));
 		switch (item.getItemId()) {
 		case MENU_DELETE_ID:
 			new DeleteCompositeTask(getActivity()).execute(name);
 			return true;
 		case MENU_MANAGESENSORS_ID:
-			compositeSelectedListener.onCompositeSensorsManagement(Uri.parse(SensAppCPContract.Composite.CONTENT_URI + "/" + name));
+			compositeSelectedListener.onCompositeSensorsManagement(Uri.parse(SensAppContract.Composite.CONTENT_URI + "/" + name));
 			return false;
 		case MENU_UPLOAD_ID:
 			new PostCompositeRestTask(getActivity(), name).execute();
@@ -95,7 +95,7 @@ public class CompositeListFragment extends ListFragment implements LoaderCallbac
 	}
 	
 	private void initAdapters() {
-		adapter = new SimpleCursorAdapter(getActivity(), R.layout.composite_row, null, new String[]{SensAppCPContract.Composite.NAME}, new int[]{R.id.label}, 0);
+		adapter = new SimpleCursorAdapter(getActivity(), R.layout.composite_row, null, new String[]{SensAppContract.Composite.NAME}, new int[]{R.id.label}, 0);
 		getLoaderManager().initLoader(0, null, this);
 		setListAdapter(adapter);
 	}
@@ -107,8 +107,8 @@ public class CompositeListFragment extends ListFragment implements LoaderCallbac
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		String[] projection = {SensAppCPContract.Composite.NAME};
-		CursorLoader cursorLoader = new CursorLoader(getActivity(), SensAppCPContract.Composite.CONTENT_URI, projection, null, null, null);
+		String[] projection = {SensAppContract.Composite.NAME};
+		CursorLoader cursorLoader = new CursorLoader(getActivity(), SensAppContract.Composite.CONTENT_URI, projection, null, null, null);
 		return cursorLoader;
 	}
 

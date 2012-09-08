@@ -1,6 +1,6 @@
 package org.sensapp.android.sensappdroid.restrequests;
 
-import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
 import org.sensapp.android.sensappdroid.datarequests.DatabaseRequest;
 import org.sensapp.android.sensappdroid.models.Sensor;
 import org.sensapp.android.sensappdroid.preferences.GeneralPrefFragment;
@@ -32,8 +32,8 @@ public class PostSensorRestTask extends AsyncTask<Void, Void, Uri> {
 		// Update uri with current preference
 		try {
 			ContentValues values = new ContentValues();
-			values.put(SensAppCPContract.Sensor.URI, GeneralPrefFragment.buildUri(PreferenceManager.getDefaultSharedPreferences(context), context.getResources()));
-			context.getContentResolver().update(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + sensorName), values, null, null);
+			values.put(SensAppContract.Sensor.URI, GeneralPrefFragment.buildUri(PreferenceManager.getDefaultSharedPreferences(context), context.getResources()));
+			context.getContentResolver().update(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + sensorName), values, null, null);
 		} catch (IllegalStateException e) {
 			errorMessage = e.getMessage();
 			Log.e(TAG, errorMessage);
@@ -67,7 +67,7 @@ public class PostSensorRestTask extends AsyncTask<Void, Void, Uri> {
 			}
 		} else {
 			ContentValues values = new ContentValues();
-			values.put(SensAppCPContract.Sensor.UPLOADED, 1);
+			values.put(SensAppContract.Sensor.UPLOADED, 1);
 			DatabaseRequest.SensorRQ.updateSensor(context, sensorName, values);
 			Log.i(TAG, "Post sensor succed: " + result.toString());
 			Toast.makeText(context, "Sensor " + sensorName + " registred", Toast.LENGTH_LONG).show();

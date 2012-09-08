@@ -2,7 +2,7 @@ package org.sensapp.android.sensappdroid.restrequests;
 
 import java.util.concurrent.ExecutionException;
 
-import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
 import org.sensapp.android.sensappdroid.datarequests.DatabaseRequest;
 import org.sensapp.android.sensappdroid.models.Composite;
 import org.sensapp.android.sensappdroid.models.Sensor;
@@ -35,8 +35,8 @@ public class PostCompositeRestTask extends AsyncTask<Void, Void, Uri> {
 		// Update uri with current preference
 		try {
 			ContentValues values = new ContentValues();
-			values.put(SensAppCPContract.Composite.URI, GeneralPrefFragment.buildUri(PreferenceManager.getDefaultSharedPreferences(context), context.getResources()));
-			context.getContentResolver().update(Uri.parse(SensAppCPContract.Composite.CONTENT_URI + "/" + compositeName), values, null, null);
+			values.put(SensAppContract.Composite.URI, GeneralPrefFragment.buildUri(PreferenceManager.getDefaultSharedPreferences(context), context.getResources()));
+			context.getContentResolver().update(Uri.parse(SensAppContract.Composite.CONTENT_URI + "/" + compositeName), values, null, null);
 		} catch (IllegalStateException e) {
 			errorMessage = e.getMessage();
 			e.printStackTrace();
@@ -49,8 +49,8 @@ public class PostCompositeRestTask extends AsyncTask<Void, Void, Uri> {
 			// Update sensor uri with current preference
 			try {
 				ContentValues values = new ContentValues();
-				values.put(SensAppCPContract.Sensor.URI, GeneralPrefFragment.buildUri(PreferenceManager.getDefaultSharedPreferences(context), context.getResources()));
-				context.getContentResolver().update(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + uri.getLastPathSegment()), values, null, null);
+				values.put(SensAppContract.Sensor.URI, GeneralPrefFragment.buildUri(PreferenceManager.getDefaultSharedPreferences(context), context.getResources()));
+				context.getContentResolver().update(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + uri.getLastPathSegment()), values, null, null);
 			} catch (IllegalStateException e) {
 				errorMessage = e.getMessage();
 				e.printStackTrace();

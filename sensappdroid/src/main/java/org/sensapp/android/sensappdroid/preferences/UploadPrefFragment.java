@@ -3,7 +3,7 @@ package org.sensapp.android.sensappdroid.preferences;
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.activities.SensAppService;
 import org.sensapp.android.sensappdroid.connectivity.Connectivity;
-import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
 import org.sensapp.android.sensappdroid.datarequests.UpdateMeasuresTask;
 import org.sensapp.android.sensappdroid.datarequests.UpdateSensorsTask;
 
@@ -64,11 +64,11 @@ public class UploadPrefFragment extends PreferenceFragment {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
 				ContentValues values = new ContentValues();
-				values.put(SensAppCPContract.Sensor.UPLOADED, 0);
-				new UpdateSensorsTask(getActivity().getApplicationContext(), SensAppCPContract.Sensor.UPLOADED + " = 1", values).execute();
+				values.put(SensAppContract.Sensor.UPLOADED, 0);
+				new UpdateSensorsTask(getActivity().getApplicationContext(), SensAppContract.Sensor.UPLOADED + " = 1", values).execute();
 				values.clear();
-				values.put(SensAppCPContract.Measure.UPLOADED, 0);
-				new UpdateMeasuresTask(getActivity().getApplicationContext(), SensAppCPContract.Measure.UPLOADED + " = 1", values).execute();
+				values.put(SensAppContract.Measure.UPLOADED, 0);
+				new UpdateMeasuresTask(getActivity().getApplicationContext(), SensAppContract.Measure.UPLOADED + " = 1", values).execute();
 				return true;
 			}
 		});
@@ -88,11 +88,11 @@ public class UploadPrefFragment extends PreferenceFragment {
 		super.onResume();
 		preferences.registerOnSharedPreferenceChangeListener(spChanged);
 		delay.setSummary(preferences.getString(delay.getKey(), "30") + " seconds");
-		Cursor c = getActivity().getContentResolver().query(SensAppCPContract.Sensor.CONTENT_URI, new String[]{SensAppCPContract.Sensor.NAME}, null, null, null);
+		Cursor c = getActivity().getContentResolver().query(SensAppContract.Sensor.CONTENT_URI, new String[]{SensAppContract.Sensor.NAME}, null, null, null);
 		if (c != null && c.moveToFirst()) {
 			String[] names = new String[c.getCount()];
 			for (int i = 0 ; i < names.length ; i ++) {
-				names[i] = c.getString(c.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME));
+				names[i] = c.getString(c.getColumnIndexOrThrow(SensAppContract.Sensor.NAME));
 				c.moveToNext();
 			}
 			c.close();

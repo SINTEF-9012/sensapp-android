@@ -1,7 +1,7 @@
 package org.sensapp.android.sensappdroid.fragments;
 
 import org.sensapp.android.sensappdroid.R;
-import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
 import org.sensapp.android.sensappdroid.database.MeasureTable;
 import org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask;
 import org.sensapp.android.sensappdroid.restrequests.PutMeasuresTask;
@@ -60,7 +60,7 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		adapter = new SimpleCursorAdapter(getActivity(), R.layout.measure_row, null, new String[]{SensAppCPContract.Measure.VALUE}, new int[]{R.id.label}, 0);
+		adapter = new SimpleCursorAdapter(getActivity(), R.layout.measure_row, null, new String[]{SensAppContract.Measure.VALUE}, new int[]{R.id.label}, 0);
 		getLoaderManager().initLoader(0, null, this);
 		setListAdapter(adapter);
 		registerForContextMenu(getListView());
@@ -68,7 +68,7 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		measureSelectedListener.onMeasureSelected(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + id));
+		measureSelectedListener.onMeasureSelected(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + id));
 	}
 	
 	@Override
@@ -83,10 +83,10 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		switch (item.getItemId()) {
 		case MENU_DELETE_ID:			
-			new DeleteMeasuresTask(getActivity(), SensAppCPContract.Measure.CONTENT_URI).execute(SensAppCPContract.Measure.ID + " = " + info.id);
+			new DeleteMeasuresTask(getActivity(), SensAppContract.Measure.CONTENT_URI).execute(SensAppContract.Measure.ID + " = " + info.id);
 			return true;
 		case MENU_UPLOAD_ID:			
-			new PutMeasuresTask(getActivity(), Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + info.id)).execute();
+			new PutMeasuresTask(getActivity(), Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + info.id)).execute();
 			return true;
 		}
 		return super.onContextItemSelected(item);

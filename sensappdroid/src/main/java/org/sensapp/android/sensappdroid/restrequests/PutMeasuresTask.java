@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutionException;
 
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.activities.CompositesActivity;
-import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
 import org.sensapp.android.sensappdroid.datarequests.DatabaseRequest;
 import org.sensapp.android.sensappdroid.json.JsonPrinter;
 import org.sensapp.android.sensappdroid.json.MeasureJsonModel;
@@ -52,8 +52,8 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 	}
 	
 	private boolean sensorExists(String sensorName) {
-		String[] projection = {SensAppCPContract.Sensor.NAME};
-		Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + sensorName), projection, null, null, null); 
+		String[] projection = {SensAppContract.Sensor.NAME};
+		Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + sensorName), projection, null, null, null); 
 		if (cursor != null) {
 			boolean exists =  cursor.getCount() > 0;
 			cursor.close();
@@ -64,11 +64,11 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 	
 	private List<Long> getBasetimes(String sensorName) {
 		List<Long> basetimes = new ArrayList<Long>();
-		String[] projection = {"DISTINCT " + SensAppCPContract.Measure.BASETIME};
-		Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + sensorName), projection, null, null, null);
+		String[] projection = {"DISTINCT " + SensAppContract.Measure.BASETIME};
+		Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + sensorName), projection, null, null, null);
 		if (cursor != null) {
 			while (cursor.moveToNext()) {
-				basetimes.add(cursor.getLong(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.BASETIME)));
+				basetimes.add(cursor.getLong(cursor.getColumnIndexOrThrow(SensAppContract.Measure.BASETIME)));
 			}
 			cursor.close();
 		}
@@ -93,7 +93,7 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 
 		int rowTotal = 0;
 
-		Cursor cursor = context.getContentResolver().query(uri, new String[]{SensAppCPContract.Measure.ID}, SensAppCPContract.Measure.UPLOADED + " = 0", null, null);
+		Cursor cursor = context.getContentResolver().query(uri, new String[]{SensAppContract.Measure.ID}, SensAppContract.Measure.UPLOADED + " = 0", null, null);
 		if (cursor != null) {
 			rowTotal = cursor.getCount();
 			cursor.close();
@@ -110,10 +110,10 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 		}
 
 		ArrayList<String> sensorNames = new ArrayList<String>();
-		cursor = context.getContentResolver().query(uri, new String[]{"DISTINCT " + SensAppCPContract.Measure.SENSOR}, SensAppCPContract.Measure.UPLOADED + " = 0", null, null);
+		cursor = context.getContentResolver().query(uri, new String[]{"DISTINCT " + SensAppContract.Measure.SENSOR}, SensAppContract.Measure.UPLOADED + " = 0", null, null);
 		if (cursor != null) {
 			while (cursor.moveToNext()) {
-				sensorNames.add(cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.SENSOR)));
+				sensorNames.add(cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Measure.SENSOR)));
 			}
 			cursor.close();
 		}
@@ -129,8 +129,8 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 			// Update uri with current preference
 			try {
 				ContentValues values = new ContentValues();
-				values.put(SensAppCPContract.Sensor.URI, GeneralPrefFragment.buildUri(PreferenceManager.getDefaultSharedPreferences(context), context.getResources()));
-				context.getContentResolver().update(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + sensorName), values, null, null);
+				values.put(SensAppContract.Sensor.URI, GeneralPrefFragment.buildUri(PreferenceManager.getDefaultSharedPreferences(context), context.getResources()));
+				context.getContentResolver().update(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + sensorName), values, null, null);
 			} catch (IllegalStateException e) {
 				errorMessage = e.getMessage();
 				Log.e(TAG, errorMessage);
@@ -174,22 +174,22 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 			List<Integer> ids = new ArrayList<Integer>();
 			for (Long basetime : getBasetimes(sensorName)) {
 				model.setBt(basetime);	
-				String[] projection = {SensAppCPContract.Measure.ID, SensAppCPContract.Measure.VALUE, SensAppCPContract.Measure.TIME};
-				String selection = SensAppCPContract.Measure.SENSOR + " = \"" + model.getBn() + "\" AND " + SensAppCPContract.Measure.BASETIME + " = " + model.getBt() + " AND " + SensAppCPContract.Measure.UPLOADED + " = 0";
+				String[] projection = {SensAppContract.Measure.ID, SensAppContract.Measure.VALUE, SensAppContract.Measure.TIME};
+				String selection = SensAppContract.Measure.SENSOR + " = \"" + model.getBn() + "\" AND " + SensAppContract.Measure.BASETIME + " = " + model.getBt() + " AND " + SensAppContract.Measure.UPLOADED + " = 0";
 				cursor = context.getContentResolver().query(uri, projection, selection, null, null);
 				if (cursor != null) {
 					if (cursor.getCount() > 0) {
 						int size = 0;
 						while (size == 0) {
 							while (cursor.moveToNext()) {
-								ids.add(cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.ID)));
-								long time = cursor.getLong(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.TIME));
+								ids.add(cursor.getInt(cursor.getColumnIndexOrThrow(SensAppContract.Measure.ID)));
+								long time = cursor.getLong(cursor.getColumnIndexOrThrow(SensAppContract.Measure.TIME));
 								if (model instanceof NumericalMeasureJsonModel) {
-									float value = cursor.getFloat(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.VALUE));
+									float value = cursor.getFloat(cursor.getColumnIndexOrThrow(SensAppContract.Measure.VALUE));
 									((NumericalMeasureJsonModel) model).appendMeasure(value, time);
 									size += INTEGER_SIZE;
 								} else if (model instanceof StringMeasureJsonModel) {
-									String value = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Measure.VALUE));
+									String value = cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Measure.VALUE));
 									((StringMeasureJsonModel) model).appendMeasure(value, time);
 									size += value.length();
 								}
@@ -214,8 +214,8 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 							publishProgress((int) ((float) (progress + ids.size()) / rowTotal * 100));
 						}
 						ContentValues values = new ContentValues();
-						values.put(SensAppCPContract.Measure.UPLOADED, 1);
-						selection = SensAppCPContract.Measure.ID + " IN " + ids.toString().replace('[', '(').replace(']', ')');
+						values.put(SensAppContract.Measure.UPLOADED, 1);
+						selection = SensAppContract.Measure.ID + " IN " + ids.toString().replace('[', '(').replace(']', ')');
 						rowsUploaded += context.getContentResolver().update(uri, values, selection, null);
 						progress += ids.size();
 						ids.clear();

@@ -8,13 +8,13 @@
   <artifactId>sensappdroid</artifactId>
   <packaging>apk</packaging>
   <version>1.5-SNAPSHOT</version>
-  <name>${project.artifactId}</name>
+  <name>SensApp Android :: Main</name>
   <description>SensApp android application</description>
   
   <parent>
     <artifactId>parent</artifactId>
     <groupId>org.sensapp.android</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.5-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -31,15 +31,24 @@
 
   <dependencyManagement>
     <dependencies> 
+        <dependency>
+		<groupId>org.sensapp.android</groupId>
+		<artifactId>sensappdroid-contract</artifactId>
+		<version>${project.version}</version>
+      </dependency>
       <dependency>
-	<groupId>org.codehaus.jackson</groupId>
-	<artifactId>jackson-jaxrs</artifactId>
-	<version>${jackson.version}</version>
+		<groupId>org.codehaus.jackson</groupId>
+		<artifactId>jackson-jaxrs</artifactId>
+		<version>${jackson.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
 
   <dependencies>
+      <dependency>
+		<groupId>org.sensapp.android</groupId>
+		<artifactId>sensappdroid-contract</artifactId>
+      </dependency>
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-jaxrs</artifactId>

@@ -1,6 +1,6 @@
 package org.sensapp.android.sensappdroid.models;
 
-import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
 import org.sensapp.android.sensappdroid.database.DatabaseException;
 
 import android.content.ContentValues;
@@ -94,23 +94,23 @@ public class Sensor {
 	}
 	
 	public void toDatabase (Context context) throws DatabaseException {
-		String[] projection = {SensAppCPContract.Sensor.NAME};
-		Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + name), projection, null, null, null);
+		String[] projection = {SensAppContract.Sensor.NAME};
+		Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + name), projection, null, null, null);
 		if (cursor == null) {
 			throw new DatabaseException("Null cursor");
 		}
 		ContentValues cv = new ContentValues();
-		cv.put(SensAppCPContract.Sensor.NAME, name);
-		cv.put(SensAppCPContract.Sensor.URI, uri.toString());
-		cv.put(SensAppCPContract.Sensor.DESCRIPTION, description);
-		cv.put(SensAppCPContract.Sensor.BACKEND, backend);
-		cv.put(SensAppCPContract.Sensor.TEMPLATE, template);
-		cv.put(SensAppCPContract.Sensor.UNIT, unit);
-		cv.put(SensAppCPContract.Sensor.UPLOADED, uploaded ? 1 : 0);
+		cv.put(SensAppContract.Sensor.NAME, name);
+		cv.put(SensAppContract.Sensor.URI, uri.toString());
+		cv.put(SensAppContract.Sensor.DESCRIPTION, description);
+		cv.put(SensAppContract.Sensor.BACKEND, backend);
+		cv.put(SensAppContract.Sensor.TEMPLATE, template);
+		cv.put(SensAppContract.Sensor.UNIT, unit);
+		cv.put(SensAppContract.Sensor.UPLOADED, uploaded ? 1 : 0);
 		if (cursor.getCount() == 0) {
-			context.getContentResolver().insert(SensAppCPContract.Sensor.CONTENT_URI, cv);
+			context.getContentResolver().insert(SensAppContract.Sensor.CONTENT_URI, cv);
 		} else {
-			context.getContentResolver().update(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + name), cv, null, null);
+			context.getContentResolver().update(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + name), cv, null, null);
 		}
 		cursor.close();
 	}

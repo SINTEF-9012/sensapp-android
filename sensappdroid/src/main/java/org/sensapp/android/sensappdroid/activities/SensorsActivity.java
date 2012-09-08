@@ -1,7 +1,7 @@
 package org.sensapp.android.sensappdroid.activities;
 
 import org.sensapp.android.sensappdroid.R;
-import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
 import org.sensapp.android.sensappdroid.fragments.SensorListFragment.OnSensorSelectedListener;
 import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;
 
@@ -39,7 +39,7 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
 		case R.id.upload_all:
 			i = new Intent(this, SensAppService.class);
 			i.setAction(SensAppService.ACTION_UPLOAD);
-			i.setData(SensAppCPContract.Measure.CONTENT_URI);
+			i.setData(SensAppContract.Measure.CONTENT_URI);
 			startService(i);
 			return true;
 		case R.id.sensors:
@@ -47,7 +47,7 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
 			return true;
 		case R.id.measures:
 			i = new Intent(this, MeasuresActivity.class);
-			i.setData(SensAppCPContract.Measure.CONTENT_URI);
+			i.setData(SensAppContract.Measure.CONTENT_URI);
 			startActivity(i);
 			return true;
 		case R.id.preferences:
@@ -66,7 +66,7 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
 	@Override
 	public void onSensorSelected(Uri uri) {
 		Intent i = new Intent(this, MeasuresActivity.class);
-		i.setData(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + uri.getLastPathSegment()));
+		i.setData(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + uri.getLastPathSegment()));
 		startActivity(i);
 	}
 }

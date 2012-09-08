@@ -3,7 +3,7 @@ package org.sensapp.android.sensappdroid.datarequests;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
 import org.sensapp.android.sensappdroid.models.Composite;
 import org.sensapp.android.sensappdroid.models.Sensor;
 import org.sensapp.android.sensappdroid.restrequests.RestRequest;
@@ -16,27 +16,27 @@ import android.util.Log;
 
 public class DatabaseRequest {
 	
-	private static final Uri S_CONTENT_URI = SensAppCPContract.Sensor.CONTENT_URI;
-	private static final String S_NAME = SensAppCPContract.Sensor.NAME;
-	private static final String S_URI = SensAppCPContract.Sensor.URI;
-	private static final String S_DESCRIPTION = SensAppCPContract.Sensor.DESCRIPTION;
-	private static final String S_BACKEND = SensAppCPContract.Sensor.BACKEND;
-	private static final String S_TEMPLATE = SensAppCPContract.Sensor.TEMPLATE;
-	private static final String S_UNIT = SensAppCPContract.Sensor.UNIT;
-	private static final String S_UPLOADED = SensAppCPContract.Sensor.UPLOADED;
+	private static final Uri S_CONTENT_URI = SensAppContract.Sensor.CONTENT_URI;
+	private static final String S_NAME = SensAppContract.Sensor.NAME;
+	private static final String S_URI = SensAppContract.Sensor.URI;
+	private static final String S_DESCRIPTION = SensAppContract.Sensor.DESCRIPTION;
+	private static final String S_BACKEND = SensAppContract.Sensor.BACKEND;
+	private static final String S_TEMPLATE = SensAppContract.Sensor.TEMPLATE;
+	private static final String S_UNIT = SensAppContract.Sensor.UNIT;
+	private static final String S_UPLOADED = SensAppContract.Sensor.UPLOADED;
 	
-	private static final Uri M_CONTENT_URI = SensAppCPContract.Measure.CONTENT_URI;
-	private static final String M_ID = SensAppCPContract.Measure.ID;
-	private static final String M_SENSOR = SensAppCPContract.Measure.SENSOR;
-	private static final String M_VALUE = SensAppCPContract.Measure.VALUE;
-	private static final String M_TIME = SensAppCPContract.Measure.TIME;
-	private static final String M_BASETIME = SensAppCPContract.Measure.BASETIME;
-	private static final String M_UPLOADED = SensAppCPContract.Measure.UPLOADED;
+	private static final Uri M_CONTENT_URI = SensAppContract.Measure.CONTENT_URI;
+	private static final String M_ID = SensAppContract.Measure.ID;
+	private static final String M_SENSOR = SensAppContract.Measure.SENSOR;
+	private static final String M_VALUE = SensAppContract.Measure.VALUE;
+	private static final String M_TIME = SensAppContract.Measure.TIME;
+	private static final String M_BASETIME = SensAppContract.Measure.BASETIME;
+	private static final String M_UPLOADED = SensAppContract.Measure.UPLOADED;
 	
-	private static final Uri C_CONTENT_URI = SensAppCPContract.Compose.CONTENT_URI;
-	private static final String C_COMPOSITE = SensAppCPContract.Compose.COMPOSITE;
+	private static final Uri C_CONTENT_URI = SensAppContract.Compose.CONTENT_URI;
+	private static final String C_COMPOSITE = SensAppContract.Compose.COMPOSITE;
 	
-	private static final Uri CTE_CONTENT_URI = SensAppCPContract.Composite.CONTENT_URI;
+	private static final Uri CTE_CONTENT_URI = SensAppContract.Composite.CONTENT_URI;
 	
 	private static final String TAG = DatabaseRequest.class.getSimpleName();
 	
@@ -128,22 +128,22 @@ public class DatabaseRequest {
 		}
 		
 		public static Sensor getSensor(Context context, String name) {
-			String[] projection = {SensAppCPContract.Sensor.URI, SensAppCPContract.Sensor.DESCRIPTION, SensAppCPContract.Sensor.BACKEND, SensAppCPContract.Sensor.TEMPLATE, SensAppCPContract.Sensor.UNIT, SensAppCPContract.Sensor.UPLOADED};
-			Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + name), projection, null, null, null);
+			String[] projection = {SensAppContract.Sensor.URI, SensAppContract.Sensor.DESCRIPTION, SensAppContract.Sensor.BACKEND, SensAppContract.Sensor.TEMPLATE, SensAppContract.Sensor.UNIT, SensAppContract.Sensor.UPLOADED};
+			Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + name), projection, null, null, null);
 			Sensor sensor = null;
 			if (cursor != null) {
 				if (cursor.getCount() > 0) {
 					cursor.moveToFirst();
-					String uriString = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.URI));
+					String uriString = cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Sensor.URI));
 					Uri uri = null;
 					if (uriString != null) {
 						uri = Uri.parse(uriString);
 					}
-					String description = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.DESCRIPTION));
-					String backend = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.BACKEND));
-					String template = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.TEMPLATE));
-					String unit = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.UNIT));
-					int uploaded = cursor.getInt(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.UPLOADED));
+					String description = cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Sensor.DESCRIPTION));
+					String backend = cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Sensor.BACKEND));
+					String template = cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Sensor.TEMPLATE));
+					String unit = cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Sensor.UNIT));
+					int uploaded = cursor.getInt(cursor.getColumnIndexOrThrow(SensAppContract.Sensor.UPLOADED));
 					sensor = new Sensor(name, uri, description, backend, template, unit, uploaded == 1);
 				}
 				cursor.close();
@@ -165,35 +165,35 @@ public class DatabaseRequest {
 		public static Composite getComposite(Context context, String name) {
 			String description = null;
 			Uri uri = null;
-			String[] projection = {SensAppCPContract.Composite.DESCRIPTION, SensAppCPContract.Composite.URI};
+			String[] projection = {SensAppContract.Composite.DESCRIPTION, SensAppContract.Composite.URI};
 			// Get composite description and uri
-			Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppCPContract.Composite.CONTENT_URI + "/" + name), projection, null, null, null);
+			Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppContract.Composite.CONTENT_URI + "/" + name), projection, null, null, null);
 			if (cursor != null) {
 				if (cursor.getCount() > 0) {
 					cursor.moveToFirst();
-					description = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Composite.DESCRIPTION));
-					uri = Uri.parse(cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Composite.URI)));
+					description = cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Composite.DESCRIPTION));
+					uri = Uri.parse(cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Composite.URI)));
 				}
 				cursor.close();
 			}
 			// Get composite sensor names
 			ArrayList<String> sensors = new ArrayList<String>();
-			cursor = context.getContentResolver().query(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/composite/" + name), new String[]{SensAppCPContract.Sensor.NAME}, null, null, null);
+			cursor = context.getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + name), new String[]{SensAppContract.Sensor.NAME}, null, null, null);
 			if (cursor != null) {
 				while (cursor.moveToNext()) {
-					sensors.add(cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME)));
+					sensors.add(cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Sensor.NAME)));
 				}
 				cursor.close();
 			}
 			// Get composite sensor addresses
 			ArrayList<Uri> sensorUris = new ArrayList<Uri>();
-			projection = new String[]{SensAppCPContract.Sensor.NAME, SensAppCPContract.Sensor.URI};
-			String selection = SensAppCPContract.Sensor.NAME + " IN " + sensors.toString().replace("[", "(\"").replace(", ", "\", \"").replace("]", "\")");
-			cursor = context.getContentResolver().query(SensAppCPContract.Sensor.CONTENT_URI, projection, selection, null, null);
+			projection = new String[]{SensAppContract.Sensor.NAME, SensAppContract.Sensor.URI};
+			String selection = SensAppContract.Sensor.NAME + " IN " + sensors.toString().replace("[", "(\"").replace(", ", "\", \"").replace("]", "\")");
+			cursor = context.getContentResolver().query(SensAppContract.Sensor.CONTENT_URI, projection, selection, null, null);
 			if (cursor != null) {
 				while (cursor.moveToNext()) {
-					String sensorUri = cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.URI));
-					sensorUri += RestRequest.SENSOR_PATH + "/" + cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME));
+					String sensorUri = cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Sensor.URI));
+					sensorUri += RestRequest.SENSOR_PATH + "/" + cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Sensor.NAME));
 					sensorUris.add(Uri.parse(sensorUri));
 				}
 				cursor.close();

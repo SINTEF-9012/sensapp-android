@@ -2,7 +2,7 @@ package org.sensapp.android.sensappdroid.fragments;
 
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.activities.SensAppService;
-import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
 import org.sensapp.android.sensappdroid.database.SensorTable;
 import org.sensapp.android.sensappdroid.datarequests.DeleteSensorsTask;
 
@@ -64,7 +64,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Cursor cursor = adapter.getCursor();
-		sensorSelectedListener.onSensorSelected(Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME))));
+		sensorSelectedListener.onSensorSelected(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Sensor.NAME))));
 	}
 	
 	@Override
@@ -79,7 +79,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		Cursor c = adapter.getCursor();
 		c.moveToPosition(info.position);
-		String sensorName = c.getString(c.getColumnIndexOrThrow(SensAppCPContract.Sensor.NAME));
+		String sensorName = c.getString(c.getColumnIndexOrThrow(SensAppContract.Sensor.NAME));
 		switch (item.getItemId()) {
 		case MENU_DELETE_ID:
 			new DeleteSensorsTask(getActivity()).execute(sensorName);
@@ -87,7 +87,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 		case MENU_UPLOAD_ID:
 			Intent i = new Intent(getActivity(), SensAppService.class);
 			i.setAction(SensAppService.ACTION_UPLOAD);
-			i.setData(Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + sensorName));
+			i.setData(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + sensorName));
 			getActivity().startService(i);
 			return true;
 	}
@@ -95,7 +95,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 	}
 	
 	private void initAdapters() {
-		adapter = new SimpleCursorAdapter(getActivity(), R.layout.sensor_row, null, new String[]{SensAppCPContract.Sensor.NAME}, new int[]{R.id.label}, 0);
+		adapter = new SimpleCursorAdapter(getActivity(), R.layout.sensor_row, null, new String[]{SensAppContract.Sensor.NAME}, new int[]{R.id.label}, 0);
 		getLoaderManager().initLoader(0, null, this);
 		setListAdapter(adapter);
 	}
@@ -110,7 +110,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 		String[] projection = {SensorTable.COLUMN_NAME};
 		Uri uri = getActivity().getIntent().getData();
 		if (uri == null) {
-			uri = SensAppCPContract.Sensor.CONTENT_URI;
+			uri = SensAppContract.Sensor.CONTENT_URI;
 		} else {
 			((TextView) getActivity().findViewById(android.R.id.empty)).setText(getString(R.string.no_sensors) + " in " + uri.getLastPathSegment() + " composite");
 		}
