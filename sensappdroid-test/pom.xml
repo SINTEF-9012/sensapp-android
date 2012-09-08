@@ -85,7 +85,7 @@
         <artifactId>android-maven-plugin</artifactId>
         <configuration>
           <sdk>
-            <path>/home/fabien/bin/android-sdk-linux</path>
+            <path>${android.sdk.path}</path>
             <platform>15</platform>
           </sdk>
           <undeployBeforeDeploy>true</undeployBeforeDeploy>
