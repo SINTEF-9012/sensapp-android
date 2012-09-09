@@ -1,4 +1,4 @@
-package org.sensapp.android.sensappdroid.contentprovider;
+package org.sensapp.android.sensappdroid.contract;
 
 import android.content.ContentResolver;
 import android.net.Uri;
