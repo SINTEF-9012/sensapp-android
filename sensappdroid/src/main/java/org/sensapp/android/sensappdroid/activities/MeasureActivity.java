@@ -1,9 +1,9 @@
 package org.sensapp.android.sensappdroid.activities;
 
-import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
+import org.sensapp.android.sensappdroid.R;
+import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.database.MeasureTable;
 
-import org.sensapp.android.sensappdroid.R;
 import android.app.Activity;
 import android.database.Cursor;
 import android.net.Uri;

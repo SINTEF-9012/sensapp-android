@@ -1,6 +1,6 @@
 package org.sensapp.android.sensappdroid.restrequests;
 
-import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
+import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.datarequests.DatabaseRequest;
 import org.sensapp.android.sensappdroid.models.Sensor;
 import org.sensapp.android.sensappdroid.preferences.GeneralPrefFragment;

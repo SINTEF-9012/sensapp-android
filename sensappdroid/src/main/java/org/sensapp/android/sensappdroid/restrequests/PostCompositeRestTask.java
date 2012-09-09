@@ -2,7 +2,7 @@ package org.sensapp.android.sensappdroid.restrequests;
 
 import java.util.concurrent.ExecutionException;
 
-import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
+import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.datarequests.DatabaseRequest;
 import org.sensapp.android.sensappdroid.models.Composite;
 import org.sensapp.android.sensappdroid.models.Sensor;

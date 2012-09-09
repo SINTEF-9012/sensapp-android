@@ -3,7 +3,7 @@ package org.sensapp.android.sensappdroid.datarequests;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
+import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.models.Composite;
 import org.sensapp.android.sensappdroid.models.Sensor;
 import org.sensapp.android.sensappdroid.restrequests.RestRequest;
@@ -128,7 +128,7 @@ public class DatabaseRequest {
 		}
 		
 		public static Sensor getSensor(Context context, String name) {
-			String[] projection = {SensAppContract.Sensor.URI, SensAppContract.Sensor.DESCRIPTION, SensAppContract.Sensor.BACKEND, SensAppContract.Sensor.TEMPLATE, SensAppContract.Sensor.UNIT, SensAppContract.Sensor.UPLOADED};
+			String[] projection = {SensAppContract.Sensor.URI, SensAppContract.Sensor.DESCRIPTION, SensAppContract.Sensor.BACKEND, SensAppContract.Sensor.TEMPLATE, org.sensapp.android.sensappdroid.contract.SensAppContract.Sensor.UNIT, SensAppContract.Sensor.UPLOADED};
 			Cursor cursor = context.getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + name), projection, null, null, null);
 			Sensor sensor = null;
 			if (cursor != null) {

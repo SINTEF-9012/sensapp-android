@@ -7,7 +7,7 @@ import java.util.TimerTask;
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.connectivity.Connectivity;
 import org.sensapp.android.sensappdroid.connectivity.Connectivity.ConnectivityListenner;
-import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
+import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.restrequests.PutMeasuresTask;
 
 import android.content.Context;

@@ -4,7 +4,7 @@ import java.util.Timer;
 
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.connectivity.Connectivity;
-import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
+import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask;
 import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;
 import org.sensapp.android.sensappdroid.restrequests.PutMeasuresTask;

@@ -1,7 +1,7 @@
 package org.sensapp.android.sensappdroid.activities;
 
 import org.sensapp.android.sensappdroid.R;
-import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
+import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.fragments.CompositeListFragment.OnCompositeSelectedListener;
 import org.sensapp.android.sensappdroid.preferences.GeneralPrefFragment;
 import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;

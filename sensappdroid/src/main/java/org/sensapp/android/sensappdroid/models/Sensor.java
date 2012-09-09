@@ -1,6 +1,6 @@
 package org.sensapp.android.sensappdroid.models;
 
-import org.sensapp.android.sensappdroid.contentprovider.SensAppContract;
+import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.database.DatabaseException;
 
 import android.content.ContentValues;
