@@ -3,6 +3,11 @@
 
 target/
 
+sensappdroid-simpleclient/bin/*
+sensappdroid-simpleclient/gen/*
+sensappdroid-simpleclient/target
+sensappdroid-simpleclient/.settings
+
 sensappdroid-test/bin/*
 sensappdroid-test/gen/*
 sensappdroid-test/target

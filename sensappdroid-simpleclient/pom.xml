@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    xmlns='http://maven.apache.org/POM/4.0.0'
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xsi:schemaLocation='http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd'>
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>sensappdroid-simpleclient</artifactId>
+  <packaging>apk</packaging>
+  <name>SensApp Android :: Simple client</name>
+  <description>SensApp android simple client example</description>  
+
+  <parent>
+    <artifactId>parent</artifactId>
+    <groupId>org.sensapp.android</groupId>
+    <version>1.5-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <ciManagement>
+    <system>jenkins</system>
+    <url>http://build.thingml.org/</url>
+  </ciManagement>
+
+  <properties>
+    <maven-checkstyle-plugin.configLocation>../reporting/checkstyle.xml</maven-checkstyle-plugin.configLocation>
+    <maven-pmd-plugin.configLocation>../reporting/pmd.xml</maven-pmd-plugin.configLocation>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+     <dependency>
+      <groupId>org.sensapp.android</groupId>
+      <artifactId>sensappdroid-contract</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+    </dependencies>
+  </dependencyManagement>  
+
+  <dependencies>
+    <dependency>
+      <groupId>org.sensapp.android</groupId>
+      <artifactId>sensappdroid-contract</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+        <artifactId>android-maven-plugin</artifactId>
+        <configuration>
+          <sdk>
+            <path>${android.sdk.path}</path>
+            <platform>15</platform>
+          </sdk>
+          <undeployBeforeDeploy>true</undeployBeforeDeploy>
+        </configuration>
+        <extensions>true</extensions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
