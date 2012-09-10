@@ -9,7 +9,7 @@
   <artifactId>parent</artifactId>
   <version>1.5-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>SensApp-Android</name>
+  <name>SensApp Android</name>
   <description>SensApp android application</description>
   <url>http://android.sensapp.org</url>
 
@@ -52,6 +52,7 @@
   <modules>
     <module>sensappdroid</module>
     <module>sensappdroid-contract</module>
+    <module>sensappdroid-simpleclient</module>
     <!-- <module>sensappdroid-test</module> /-->
   </modules>
 
