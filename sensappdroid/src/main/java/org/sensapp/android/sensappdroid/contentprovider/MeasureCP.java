@@ -86,6 +86,7 @@ public class MeasureCP {
 		long id = 0;
 		switch (measureURIMatcher.match(uri)) {
 		case MEASURES:
+			values.put(MeasureTable.COLUMN_UPLOADED, 0);
 			id = db.insert(MeasureTable.TABLE_MEASURE, null, values);
 			break;
 		default:

@@ -83,6 +83,7 @@ public class SensorCP {
 		long id = 0;
 		switch (measureURIMatcher.match(uri)) {
 		case SENSORS:
+			values.put(SensorTable.COLUMN_UPLOADED, 0);
 			id = db.insert(SensorTable.TABLE_SENSOR, null, values);
 			break;
 		default:

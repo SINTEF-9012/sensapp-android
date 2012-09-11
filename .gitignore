@@ -8,6 +8,11 @@ sensappdroid-simpleclient/gen/*
 sensappdroid-simpleclient/target
 sensappdroid-simpleclient/.settings
 
+sensappdroid-contract/bin/*
+sensappdroid-contract/gen/*
+sensappdroid-contract/target
+sensappdroid-contract/.settings
+
 sensappdroid-test/bin/*
 sensappdroid-test/gen/*
 sensappdroid-test/target
