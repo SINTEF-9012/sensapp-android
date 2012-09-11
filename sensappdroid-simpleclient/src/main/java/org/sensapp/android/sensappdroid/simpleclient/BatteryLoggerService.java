@@ -62,6 +62,7 @@ public class BatteryLoggerService extends Service {
 		values.put(SensAppContract.Measure.BASETIME, 0);
 		values.put(SensAppContract.Measure.TIME, System.currentTimeMillis());
 		values.put(SensAppContract.Measure.UPLOADED, 0);
+		getContentResolver().insert(SensAppContract.Measure.CONTENT_URI, values);
 	}
 	
 	@Override
