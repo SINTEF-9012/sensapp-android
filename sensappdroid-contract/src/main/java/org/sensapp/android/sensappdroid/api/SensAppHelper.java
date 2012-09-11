@@ -35,29 +35,14 @@ public class SensAppHelper {
 	}
 	
 	public static Uri registerNumericalSensor(Context context, String name, String description, SensAppUnit unit) throws IllegalArgumentException {
-		if (context == null) {
-			throw new IllegalArgumentException("The context is null");
-		} 
-		if (name == null) {
-			throw new IllegalArgumentException("The sensor name is null");
-		} else if (isSensorRegistered(context, name)) {
-			return null;
-		}
-		if (unit == null) {
-			throw new IllegalArgumentException("The sensor unit is null");
-		}
-		ContentValues values = new ContentValues();
-		values.put(SensAppContract.Sensor.NAME, name);
-		if (description != null) {
-			values.put(SensAppContract.Sensor.DESCRIPTION, description);
-		}
-		values.put(SensAppContract.Sensor.UNIT, unit.getIANAUnit());
-		values.put(SensAppContract.Sensor.BACKEND, SensAppBackend.raw.getBackend());
-		values.put(SensAppContract.Sensor.TEMPLATE, SensAppTemplate.numerical.getTemplate());
-		return context.getContentResolver().insert(SensAppContract.Sensor.CONTENT_URI, values);
+		return registerSensor(context, name, description, unit, SensAppTemplate.numerical);
 	}
 	
 	public static Uri registerStringSensor(Context context, String name, String description, SensAppUnit unit) throws IllegalArgumentException {
+		return registerSensor(context, name, description, unit, SensAppTemplate.string);
+	}
+	
+	private static Uri registerSensor(Context context, String name, String description, SensAppUnit unit, SensAppTemplate template) throws IllegalArgumentException {
 		if (context == null) {
 			throw new IllegalArgumentException("The context is null");
 		} 
@@ -71,12 +56,12 @@ public class SensAppHelper {
 		}
 		ContentValues values = new ContentValues();
 		values.put(SensAppContract.Sensor.NAME, name);
-		if (description != null) {
-			values.put(SensAppContract.Sensor.DESCRIPTION, description);
+		if (description == null) {
+			values.put(SensAppContract.Sensor.DESCRIPTION, "");
 		}
 		values.put(SensAppContract.Sensor.UNIT, unit.getIANAUnit());
 		values.put(SensAppContract.Sensor.BACKEND, SensAppBackend.raw.getBackend());
-		values.put(SensAppContract.Sensor.TEMPLATE, SensAppTemplate.string.getTemplate());
+		values.put(SensAppContract.Sensor.TEMPLATE, template.getTemplate());
 		return context.getContentResolver().insert(SensAppContract.Sensor.CONTENT_URI, values);
 	}
 	
@@ -99,8 +84,8 @@ public class SensAppHelper {
 	}
 
 	private static enum SensAppTemplate {
-		string("string"), 
-		numerical("numerical");
+		string("String"), 
+		numerical("Numerical");
 		private String template;
 		private SensAppTemplate(String template) {
 			this.template = template;

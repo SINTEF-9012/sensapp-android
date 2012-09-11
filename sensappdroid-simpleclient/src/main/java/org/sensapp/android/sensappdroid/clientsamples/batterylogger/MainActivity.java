@@ -1,4 +1,4 @@
-package org.sensapp.android.sensappdroid.simpleclient;
+package org.sensapp.android.sensappdroid.clientsamples.batterylogger;
 
 import android.app.Activity;
 import android.app.AlarmManager;

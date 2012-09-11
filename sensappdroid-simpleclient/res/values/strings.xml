@@ -1,7 +1,7 @@
 <resources>
 
-    <string name="app_name">Simple SensApp Client</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="app_name">BatteryLogger</string>
+    <string name="title_activity_main">BatteryLogger</string>
     <string name="tv_status_running">The service is currently running</string>
     <string name="tv_status_stoped">The service is not currently running</string>
     <string name="button_service_start">Start battery logging</string>

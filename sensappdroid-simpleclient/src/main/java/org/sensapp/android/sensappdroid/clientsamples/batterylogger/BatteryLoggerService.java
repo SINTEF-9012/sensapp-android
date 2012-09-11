@@ -1,4 +1,4 @@
-package org.sensapp.android.sensappdroid.simpleclient;
+package org.sensapp.android.sensappdroid.clientsamples.batterylogger;
 
 import org.sensapp.android.sensappdroid.api.SensAppHelper;
 import org.sensapp.android.sensappdroid.api.SensAppUnit;
@@ -14,24 +14,17 @@ import android.util.Log;
 public class BatteryLoggerService extends Service {
 
 	private static final String TAG = BatteryLoggerService.class.getSimpleName();
-	private static final String sensorName = "Battery";
+	private static final String sensorName = android.os.Build.MODEL + "_battery";
 	
 	@Override
 	public void onCreate() {
-		Log.d(TAG, "__ON_CREATE__");
 		super.onCreate();
 		registerSensor();
 		Intent batteryStatus = registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 		int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);	
 		Log.d(TAG, "Battery level: " + level);
-		registerMeasure(level);
+		insertMeasure(level);
 		stopSelf();
-	}
-	
-	@Override
-	public void onDestroy() {
-		Log.d(TAG, "__ON_DESTROY__");
-		super.onDestroy();
 	}
 	
 	private void registerSensor() {
@@ -45,9 +38,9 @@ public class BatteryLoggerService extends Service {
 		}
 	}
 	
-	private void registerMeasure(int value) {
+	private void insertMeasure(int value) {
 		Uri measureUri = SensAppHelper.insertMeasure(getApplicationContext(), sensorName, value);
-		Log.i(TAG, "New measure (" + value + "%) available at " + measureUri);
+		Log.i(TAG, "New measure (" + value + ") available at " + measureUri);
 	}
 	
 	@Override
