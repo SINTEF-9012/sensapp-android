@@ -2,8 +2,14 @@ package org.sensapp.android.sensappdroid.api;
 
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 
@@ -40,6 +46,37 @@ public class SensAppHelper {
 	
 	public static Uri registerStringSensor(Context context, String name, String description, SensAppUnit unit) throws IllegalArgumentException {
 		return registerSensor(context, name, description, unit, SensAppTemplate.string);
+	}
+	
+	public static boolean isSensAppInstalled(Context context) {
+		try{
+			context.getPackageManager().getApplicationInfo("org.sensapp.android.sensappdroid", 0);
+		} catch (PackageManager.NameNotFoundException e ) {
+			return false;
+		}
+		return true;
+	}
+	
+	public static Dialog getInstallationDialog(final Context context) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setMessage("SensApp application is needed. Would you like install it now?");
+		builder.setCancelable(false);
+		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				Uri uri = Uri.parse("market://details?id=" + "org.sensapp.android.sensappdroid");
+				try {
+					context.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+				} catch (ActivityNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+		return builder.create();
 	}
 	
 	private static Uri registerSensor(Context context, String name, String description, SensAppUnit unit, SensAppTemplate template) throws IllegalArgumentException {
