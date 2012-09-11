@@ -1,5 +1,7 @@
 package org.sensapp.android.sensappdroid.clientsamples.batterylogger;
 
+import org.sensapp.android.sensappdroid.api.SensAppHelper;
+
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -35,6 +37,10 @@ public class MainActivity extends Activity {
 				PendingIntent pintent = PendingIntent.getService(MainActivity.this.getApplicationContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 				if (!preferences.getBoolean(SERVICE_RUNNING, false)) {
+					if (!SensAppHelper.isSensAppInstalled(getApplicationContext())) {
+						SensAppHelper.getInstallationDialog(MainActivity.this).show();
+						return;
+					}
 					preferences.edit().putBoolean(SERVICE_RUNNING, true).commit();
 					alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), refreshRate * 1000, pintent);
 				} else {

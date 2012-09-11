@@ -55,8 +55,51 @@
             <platform>15</platform>
           </sdk>
           <undeployBeforeDeploy>true</undeployBeforeDeploy>
-        </configuration>
+       
+           <proguard>
+	    <skip>${proguard.skip}</skip>
+	    <config>${project.basedir}/proguard.cfg</config>
+	  </proguard>
+	  
+	  <sign>
+	    <debug>false</debug>
+	  </sign>
+        <zipalign>
+	    <verbose>true</verbose>
+	    <inputApk>${project.build.directory}/${project.artifactId}-${project.version}.apk</inputApk>
+	    <outputApk>${project.build.directory}/${project.artifactId}-aligned.apk</outputApk>
+	  </zipalign>
+	</configuration>
+	<executions>
+	  <execution>
+	    <id>alignApk</id>
+	    <phase>install</phase>
+	    <goals>
+	      <goal>zipalign</goal>
+	    </goals>
+	  </execution>
+	</executions>
         <extensions>true</extensions>
+      </plugin>
+       <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-jarsigner-plugin</artifactId>
+	<executions>
+	  <execution>
+	    <id>sign-and-verify</id>
+	    <goals>
+	      <goal>sign</goal>
+	      <goal>verify</goal>
+	    </goals>
+	  </execution>
+	</executions>
+	<configuration>
+	  <removeExistingSignatures>true</removeExistingSignatures>
+	  <keystore>${sign.keystore}</keystore>
+	  <alias>${sign.alias}</alias>
+	  <storepass>${sign.storepass}</storepass>
+	  <keypass>${sign.keypass}</keypass>
+	</configuration>
       </plugin>
     </plugins>
   </build>
