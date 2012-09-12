@@ -8,7 +8,8 @@
   <artifactId>sensappdroid-batterylogger</artifactId>
   <packaging>apk</packaging>
   <name>SensApp Android :: BatteryLogger</name>
-  <description>SensApp android simple client example</description>  
+  <version>1.0-SNAPSHOT</version>
+  <description>SensApp android simple client example - Battery logger</description>  
 
   <parent>
     <artifactId>parent</artifactId>
