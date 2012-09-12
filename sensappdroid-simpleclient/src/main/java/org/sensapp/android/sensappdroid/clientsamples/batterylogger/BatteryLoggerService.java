@@ -19,7 +19,7 @@ import android.util.Log;
 public class BatteryLoggerService extends Service {
 
 	private static final String TAG = BatteryLoggerService.class.getSimpleName();
-	private static final String sensorName = android.os.Build.MODEL + "_battery";
+	private static final String sensorName = android.os.Build.MODEL + "_Battery";
 	
 	@Override
 	public void onCreate() {
@@ -32,7 +32,7 @@ public class BatteryLoggerService extends Service {
 	}
 	
 	private void registerSensor() {
-		Uri sensorUri = SensAppHelper.registerNumericalSensor(getApplicationContext(), sensorName, null, SensAppUnit.percent);
+		Uri sensorUri = SensAppHelper.registerNumericalSensor(getApplicationContext(), sensorName, "Battery level", SensAppUnit.percent);
 		if (sensorUri == null) {
 			// The sensor is already registered.
 			Log.w(TAG, sensorName + " is already registered");
