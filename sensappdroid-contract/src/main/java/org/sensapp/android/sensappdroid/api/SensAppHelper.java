@@ -126,6 +126,8 @@ public class SensAppHelper {
 		values.put(SensAppContract.Sensor.NAME, name);
 		if (description == null) {
 			values.put(SensAppContract.Sensor.DESCRIPTION, "");
+		} else {
+			values.put(SensAppContract.Sensor.DESCRIPTION, description);
 		}
 		values.put(SensAppContract.Sensor.UNIT, unit.getIANAUnit());
 		values.put(SensAppContract.Sensor.BACKEND, SensAppBackend.raw.getBackend());
