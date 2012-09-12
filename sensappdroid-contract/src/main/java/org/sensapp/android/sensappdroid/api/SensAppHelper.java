@@ -32,11 +32,42 @@ public class SensAppHelper {
 		} else if (!isSensorRegistered(context, sensor)) {
 			throw new IllegalArgumentException(sensor + " is not maintained");
 		}
+		if (value == null) {
+			throw new IllegalArgumentException("The value is null");
+		}
 		ContentValues values = new ContentValues();
 		values.put(SensAppContract.Measure.SENSOR, sensor);
 		values.put(SensAppContract.Measure.VALUE, value);
 		values.put(SensAppContract.Measure.BASETIME, 0);
-		values.put(SensAppContract.Measure.TIME, System.currentTimeMillis());
+		values.put(SensAppContract.Measure.TIME, System.currentTimeMillis() / 1000);
+		return context.getContentResolver().insert(SensAppContract.Measure.CONTENT_URI, values);
+	}
+	
+	public static Uri insertMeasure(Context context, String sensor, int value, long basetime, long time) throws IllegalArgumentException {
+		return insertMeasure(context, sensor, String.valueOf(value), basetime, time);
+	}
+	 
+	public static Uri insertMeasure(Context context, String sensor, float value, long basetime, long time) throws IllegalArgumentException {
+		return insertMeasure(context, sensor, String.valueOf(value), basetime, time);
+	}
+	
+	public static Uri insertMeasure(Context context, String sensor, String value, long basetime, long time) throws IllegalArgumentException {
+		if (context == null) {
+			throw new IllegalArgumentException("The context is null");
+		} 
+		if (sensor == null) {
+			throw new IllegalArgumentException("The sensor is null");
+		} else if (!isSensorRegistered(context, sensor)) {
+			throw new IllegalArgumentException(sensor + " is not maintained");
+		}
+		if (value == null) {
+			throw new IllegalArgumentException("The value is null");
+		}
+		ContentValues values = new ContentValues();
+		values.put(SensAppContract.Measure.SENSOR, sensor);
+		values.put(SensAppContract.Measure.VALUE, value);
+		values.put(SensAppContract.Measure.BASETIME, basetime);
+		values.put(SensAppContract.Measure.TIME, time);
 		return context.getContentResolver().insert(SensAppContract.Measure.CONTENT_URI, values);
 	}
 	
