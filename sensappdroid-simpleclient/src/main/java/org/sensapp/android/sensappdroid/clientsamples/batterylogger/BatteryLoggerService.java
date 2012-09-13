@@ -32,19 +32,29 @@ public class BatteryLoggerService extends Service {
 	}
 	
 	private void registerSensor() {
-		Uri sensorUri = SensAppHelper.registerNumericalSensor(getApplicationContext(), sensorName, "Battery level", SensAppUnit.percent);
-		if (sensorUri == null) {
-			// The sensor is already registered.
-			Log.w(TAG, sensorName + " is already registered");
-		} else {
-			// The sensor is newly inserted.
-			Log.i(TAG, sensorName + " available at " + sensorUri);
+		try {
+			Uri sensorUri = SensAppHelper.registerNumericalSensor(getApplicationContext(), sensorName, "Battery level", SensAppUnit.percent);
+			if (sensorUri == null) {
+				// The sensor is already registered.
+				Log.w(TAG, sensorName + " is already registered");
+			} else {
+				// The sensor is newly inserted.
+				Log.i(TAG, sensorName + " available at " + sensorUri);
+			}
+		} catch (IllegalArgumentException e) {
+			Log.e(TAG, e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
 	private void insertMeasure(int value) {
+		try {
 		Uri measureUri = SensAppHelper.insertMeasure(getApplicationContext(), sensorName, value);
 		Log.i(TAG, "New measure (" + value + ") available at " + measureUri);
+		} catch (IllegalArgumentException e) {
+			Log.e(TAG, e.getMessage());
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
