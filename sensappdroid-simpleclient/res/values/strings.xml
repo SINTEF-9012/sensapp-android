@@ -2,9 +2,12 @@
 
     <string name="app_name">BatteryLogger</string>
     <string name="title_activity_main">BatteryLogger</string>
+    <string name="title_activity_preferences">Settings</string>
+    
     <string name="tv_status_running">The service is currently running</string>
     <string name="tv_status_stoped">The service is not currently running</string>
     <string name="button_service_start">Start battery logging</string>
     <string name="button_service_stop">Stop battery logging</string>
 
+    <string name="pref_sensorname_key">pref_sensorname_key</string>
 </resources>

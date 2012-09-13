@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory
+            android:title="General">
+    
+    <EditTextPreference
+            android:key="@string/pref_sensorname_key"
+            android:title="Sensor name"
+            android:dialogTitle="Enter a sensor name. It will be used for register the sensor in SensApp."
+            android:defaultValue="MyDevice_Battery" />
+    </PreferenceCategory>
+</PreferenceScreen>

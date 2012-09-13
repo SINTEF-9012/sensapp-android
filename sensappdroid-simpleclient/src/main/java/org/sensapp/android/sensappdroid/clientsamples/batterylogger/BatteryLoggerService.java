@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 /**
@@ -19,11 +20,13 @@ import android.util.Log;
 public class BatteryLoggerService extends Service {
 
 	private static final String TAG = BatteryLoggerService.class.getSimpleName();
-	private static final String sensorName = android.os.Build.MODEL + "_Battery";
+	
+	private String sensorName;
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		sensorName = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(getString(R.string.pref_sensorname_key), "MyDevice_battery");
 		registerSensor();
 		Intent batteryStatus = registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 		int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);	
