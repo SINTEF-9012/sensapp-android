@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -141,7 +142,7 @@ public class SensAppHelper {
 		return values;
 	}
 	
-	public static Uri registerSensor(Context context, String name, String description, SensAppUnit unit, SensAppBackend backend, SensAppTemplate template, Drawable icon) throws IllegalArgumentException {
+	private static Uri registerSensor(Context context, String name, String description, SensAppUnit unit, SensAppBackend backend, SensAppTemplate template, Drawable icon) throws IllegalArgumentException {
 		ContentValues values = buildSensor(context, name, description, unit, backend, template, icon);
 		if (values == null) {
 			return null;
@@ -154,6 +155,16 @@ public class SensAppHelper {
 	}
 	
 	public static Uri registerStringSensor(Context context, String name, String description, SensAppUnit unit, Drawable icon) throws IllegalArgumentException {
+		return registerSensor(context, name, description, unit, SensAppBackend.raw, SensAppTemplate.string, icon);
+	}
+	
+	public static Uri registerNumericalSensor(Context context, String name, String description, SensAppUnit unit, int iconResourceId) throws IllegalArgumentException, NotFoundException {
+		Drawable icon = context.getResources().getDrawable(iconResourceId);
+		return registerSensor(context, name, description, unit, SensAppBackend.raw, SensAppTemplate.numerical, icon);
+	}
+	
+	public static Uri registerStringSensor(Context context, String name, String description, SensAppUnit unit, int iconResourceId) throws IllegalArgumentException, NotFoundException {
+		Drawable icon = context.getResources().getDrawable(iconResourceId);
 		return registerSensor(context, name, description, unit, SensAppBackend.raw, SensAppTemplate.string, icon);
 	}
 	
