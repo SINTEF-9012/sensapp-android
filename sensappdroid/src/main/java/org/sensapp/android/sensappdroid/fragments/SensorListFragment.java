@@ -3,7 +3,6 @@ package org.sensapp.android.sensappdroid.fragments;
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.activities.SensAppService;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
-import org.sensapp.android.sensappdroid.database.SensorTable;
 import org.sensapp.android.sensappdroid.datarequests.DeleteSensorsTask;
 
 import android.app.Activity;
@@ -24,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 public class SensorListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
@@ -32,7 +30,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 	private static final int MENU_DELETE_ID = Menu.FIRST + 1;
 	private static final int MENU_UPLOAD_ID = Menu.FIRST + 2;
 
-	private SimpleCursorAdapter adapter;
+	private SensorsAdapter adapter;
 	private OnSensorSelectedListener sensorSelectedListener;
 	
 	public interface OnSensorSelectedListener {
@@ -95,7 +93,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 	}
 	
 	private void initAdapters() {
-		adapter = new SimpleCursorAdapter(getActivity(), R.layout.sensor_row, null, new String[]{SensAppContract.Sensor.NAME}, new int[]{R.id.label}, 0);
+		adapter = new SensorsAdapter(getActivity(), null);
 		getLoaderManager().initLoader(0, null, this);
 		setListAdapter(adapter);
 	}
@@ -107,7 +105,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		String[] projection = {SensorTable.COLUMN_NAME};
+		String[] projection = {SensAppContract.Sensor.NAME, SensAppContract.Sensor.ICON};
 		Uri uri = getActivity().getIntent().getData();
 		if (uri == null) {
 			uri = SensAppContract.Sensor.CONTENT_URI;
