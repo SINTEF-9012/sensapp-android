@@ -14,6 +14,7 @@ public class SensorTable {
 	public static final String COLUMN_UNIT = "unit";
 	public static final String COLUMN_UPLOADED = "uploaded";
 	public static final String COLUMN_ICON = "icon";
+	public static final String COLUMN_CLIENT_UID = "uid";
 	
 	private static final String TAG = SensorTable.class.getSimpleName();
 	private static final String DATABASE_CREATE_TABLE = "CREATE TABLE " 
@@ -25,7 +26,8 @@ public class SensorTable {
 			+ COLUMN_TEMPLATE + " TEXT NOT NULL, "
 			+ COLUMN_UNIT + " TEXT NOT NULL, "
 			+ COLUMN_UPLOADED + " INTEGER NOT NULL, "
-			+ COLUMN_ICON + " BLOB);"; 
+			+ COLUMN_ICON + " BLOB, "
+			+ COLUMN_CLIENT_UID + " INTEGER NOT NULL);"; 
 	private static final String DATABASE_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_SENSOR;
 	
 	public static void onCreate(SQLiteDatabase database) {
