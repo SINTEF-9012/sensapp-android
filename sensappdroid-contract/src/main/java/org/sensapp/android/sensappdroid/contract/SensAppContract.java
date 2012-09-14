@@ -34,6 +34,7 @@ public final class SensAppContract {
 		public static final String TEMPLATE = "template";
 		public static final String UNIT = "unit";
 		public static final String UPLOADED = "uploaded";
+		public static final String ICON = "icon";
 	}
 	
 	public static class Composite {
