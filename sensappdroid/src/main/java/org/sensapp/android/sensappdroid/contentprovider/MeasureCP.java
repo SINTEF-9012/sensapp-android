@@ -18,7 +18,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
-public class MeasureCP {
+public class MeasureCP extends TableContentProvider {
 	
 	protected static final String BASE_PATH = "measures";
 	
@@ -33,34 +33,40 @@ public class MeasureCP {
 		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/composite/*", MEASURE_COMPOSITE);
 		measureURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/*", MEASURE_SENSOR);
 	}
-
-	private SensAppDatabaseHelper database;
-	private Context context;
 	
 	public MeasureCP(Context context, SensAppDatabaseHelper database) {
-		this.context = context;
-		this.database = database;
+		super(context, database);
 	}
 	
-	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+	@Override
+	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder, int uid) throws IllegalStateException {
 		checkColumns(projection);
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 		queryBuilder.setTables(MeasureTable.TABLE_MEASURE);
 		switch (measureURIMatcher.match(uri)) {
 		case MEASURES:
+			if (!isSensAppUID(uid)) {
+				throw new IllegalStateException("Forbiden uri");
+			}
 			break;
 		case MEASURE_ID:
+			if (!isSensAppUID(uid)) {
+				throw new IllegalStateException("Forbiden uri");
+			}
 			queryBuilder.appendWhere(MeasureTable.COLUMN_ID + "=" + uri.getLastPathSegment());
 			break;
 		case MEASURE_SENSOR:
 			queryBuilder.appendWhere(MeasureTable.COLUMN_SENSOR + "= \"" + uri.getLastPathSegment() + "\"");
 			break;
 		case MEASURE_COMPOSITE:
-			Cursor c = context.getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
+			if (!isSensAppUID(uid)) {
+				throw new IllegalStateException("Forbiden uri");
+			}
+			Cursor c = getContext().getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
 			ArrayList<String> names = new ArrayList<String>();
 			if (c != null) {
 					while (c.moveToNext()) {
-					names.add(c.getString(c.getColumnIndexOrThrow(SensorTable.COLUMN_NAME)));
+						names.add(c.getString(c.getColumnIndexOrThrow(SensorTable.COLUMN_NAME)));
 				}
 				c.close();
 			} else {
@@ -71,39 +77,46 @@ public class MeasureCP {
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
 		}
-		SQLiteDatabase db = database.getWritableDatabase();
+		SQLiteDatabase db = getDatabase().getWritableDatabase();
 		Cursor cursor = queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
-		cursor.setNotificationUri(context.getContentResolver(), uri);
+		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		return cursor;
 	}
-
-	public String getType(Uri uri) {
-		return null;
-	}
 	
-	public Uri insert(Uri uri, ContentValues values) {
-		SQLiteDatabase db = database.getWritableDatabase();
+	@Override
+	public Uri insert(Uri uri, ContentValues values, int uid) throws IllegalStateException {
+		SQLiteDatabase db = getDatabase().getWritableDatabase();
 		long id = 0;
 		switch (measureURIMatcher.match(uri)) {
 		case MEASURES:
+			if (!isSensAppUID(uid) && getSensorUID(values.getAsString(MeasureTable.COLUMN_SENSOR)) != uid) {
+				throw new IllegalStateException("Forbiden insertion");
+			}
 			values.put(MeasureTable.COLUMN_UPLOADED, 0);
 			id = db.insert(MeasureTable.TABLE_MEASURE, null, values);
 			break;
 		default:
 			throw new IllegalArgumentException("Bad URI: " + uri);
 		}
-		context.getContentResolver().notifyChange(uri, null);
-		return Uri.parse(BASE_PATH + "/" + id);
+		getContext().getContentResolver().notifyChange(uri, null);
+		return Uri.parse("content://" + SensAppContract.AUTHORITY + "/" + BASE_PATH + "/" + id);
 	}
 	
-	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		SQLiteDatabase db = database.getWritableDatabase();
+	@Override
+	public int delete(Uri uri, String selection, String[] selectionArgs, int uid) throws IllegalStateException {
+		SQLiteDatabase db = getDatabase().getWritableDatabase();
 		int rowsDeleted = 0;
 		switch (measureURIMatcher.match(uri)) {
 		case MEASURES:
+			if (!isSensAppUID(uid)) {
+				throw new IllegalStateException("Forbiden uri");
+			}
 			rowsDeleted = db.delete(MeasureTable.TABLE_MEASURE, selection, selectionArgs);
 			break;
 		case MEASURE_ID:
+			if (!isSensAppUID(uid)) {
+				throw new IllegalStateException("Forbiden uri");
+			}
 			String id = uri.getLastPathSegment();
 			if (TextUtils.isEmpty(selection)) {
 				rowsDeleted = db.delete(MeasureTable.TABLE_MEASURE, MeasureTable.COLUMN_ID + "=" + id, null);
@@ -113,6 +126,9 @@ public class MeasureCP {
 			break;
 		case MEASURE_SENSOR:
 			String name = uri.getLastPathSegment();
+			if (!isSensAppUID(uid) && getSensorUID(name) != uid) {
+				throw new IllegalStateException("Forbiden uri");
+			}
 			if (TextUtils.isEmpty(selection)) {
 				rowsDeleted = db.delete(MeasureTable.TABLE_MEASURE, MeasureTable.COLUMN_SENSOR + "= \"" + name + "\"", null);
 			} else {
@@ -120,11 +136,14 @@ public class MeasureCP {
 			}
 			break;
 		case MEASURE_COMPOSITE:
-			Cursor c = context.getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
+			if (!isSensAppUID(uid)) {
+				throw new IllegalStateException("Forbiden uri");
+			}
+			Cursor c = getContext().getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
 			ArrayList<String> names = new ArrayList<String>();
 			if (c != null) {
 					while (c.moveToNext()) {
-					names.add(c.getString(c.getColumnIndexOrThrow(SensorTable.COLUMN_NAME)));
+						names.add(c.getString(c.getColumnIndexOrThrow(SensorTable.COLUMN_NAME)));
 				}
 				c.close();
 			} else {
@@ -139,18 +158,25 @@ public class MeasureCP {
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
 		}
-		context.getContentResolver().notifyChange(uri, null);
+		getContext().getContentResolver().notifyChange(uri, null);
 		return rowsDeleted;
 	}
 
-	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-		SQLiteDatabase db = database.getWritableDatabase();
+	@Override
+	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs, int uid) {
+		SQLiteDatabase db = getDatabase().getWritableDatabase();
 		int rowsUpdated = 0;
 		switch (measureURIMatcher.match(uri)) {
 		case MEASURES:
+			if (!isSensAppUID(uid)) {
+				throw new IllegalStateException("Forbiden uri");
+			}
 			rowsUpdated = db.update(MeasureTable.TABLE_MEASURE, values, selection, selectionArgs);
 			break;
 		case MEASURE_ID:
+			if (!isSensAppUID(uid)) {
+				throw new IllegalStateException("Forbiden uri");
+			}
 			String id = uri.getLastPathSegment();
 			if (TextUtils.isEmpty(selection)) {
 				rowsUpdated = db.update(MeasureTable.TABLE_MEASURE, values, MeasureTable.COLUMN_ID + "=" + id, null);
@@ -160,6 +186,9 @@ public class MeasureCP {
 			break;
 		case MEASURE_SENSOR:
 			String name = uri.getLastPathSegment();
+			if (!isSensAppUID(uid) && getSensorUID(name) != uid) {
+				throw new IllegalStateException("Forbiden uri");
+			}
 			if (TextUtils.isEmpty(selection)) {
 				rowsUpdated = db.update(MeasureTable.TABLE_MEASURE, values, MeasureTable.COLUMN_SENSOR + "= \"" + name + "\"", null);
 			} else {
@@ -167,7 +196,10 @@ public class MeasureCP {
 			}
 			break;
 		case MEASURE_COMPOSITE:
-			Cursor c = context.getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
+			if (!isSensAppUID(uid)) {
+				throw new IllegalStateException("Forbiden uri");
+			}
+			Cursor c = getContext().getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
 			ArrayList<String> names = new ArrayList<String>();
 			if (c != null) {
 					while (c.moveToNext()) {
@@ -186,11 +218,12 @@ public class MeasureCP {
 		default:
 			throw new IllegalArgumentException("[2] Unknown URI: " + uri);
 		}
-		context.getContentResolver().notifyChange(uri, null);
+		getContext().getContentResolver().notifyChange(uri, null);
 		return rowsUpdated;
 	}
 	
-	private void checkColumns(String[] projection) {
+	@Override
+	protected void checkColumns(String[] projection) {
 		String[] available = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_SENSOR, "DISTINCT " + MeasureTable.COLUMN_SENSOR, MeasureTable.COLUMN_VALUE, MeasureTable.COLUMN_TIME, MeasureTable.COLUMN_BASETIME, "DISTINCT " + MeasureTable.COLUMN_BASETIME, MeasureTable.COLUMN_UPLOADED};
 		if (projection != null) {
 			HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
