@@ -169,7 +169,7 @@ public class SensAppHelper {
 	}
 	
 	private static boolean isSensorRegistered(Context context, String name) {
-		Cursor c = context.getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + name), null, null, null, null);
+		Cursor c = context.getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + name), new String[]{SensAppContract.Sensor.NAME}, null, null, null);
 		boolean isRegistered = c.getCount() > 0;
 		c.close();
 		return isRegistered;
