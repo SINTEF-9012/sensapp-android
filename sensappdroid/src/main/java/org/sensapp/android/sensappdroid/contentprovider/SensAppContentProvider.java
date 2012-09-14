@@ -22,6 +22,7 @@ public class SensAppContentProvider extends ContentProvider {
 	static {
 		sensAppURIMatcher.addURI(AUTHORITY, SensorCP.BASE_PATH, SENSOR);
 		sensAppURIMatcher.addURI(AUTHORITY, SensorCP.BASE_PATH + "/composite/*", SENSOR);
+		sensAppURIMatcher.addURI(AUTHORITY, SensorCP.BASE_PATH + "/uid/*", SENSOR);
 		sensAppURIMatcher.addURI(AUTHORITY, SensorCP.BASE_PATH + "/*", SENSOR);
 		sensAppURIMatcher.addURI(AUTHORITY, MeasureCP.BASE_PATH, MEASURE);
 		sensAppURIMatcher.addURI(AUTHORITY, MeasureCP.BASE_PATH + "/#", MEASURE);
@@ -60,11 +61,12 @@ public class SensAppContentProvider extends ContentProvider {
 	
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+		int uid = Binder.getCallingUid();
 		switch (sensAppURIMatcher.match(uri)) {
 		case MEASURE:
 			return measureCP.query(uri, projection, selection, selectionArgs, sortOrder);
 		case SENSOR:
-			return sensorCP.query(uri, projection, selection, selectionArgs, sortOrder);
+			return sensorCP.query(uri, projection, selection, selectionArgs, sortOrder, uid);
 		case COMPOSITE:
 			return compositeCP.query(uri, projection, selection, selectionArgs, sortOrder);
 		case COMPOSE:
@@ -92,6 +94,7 @@ public class SensAppContentProvider extends ContentProvider {
 	
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+		int uid = Binder.getCallingUid();
 		boolean permission = false;
 		for (String s : getCallingPackages()) {
 			if ("org.sensapp.android.sensappdroid".equals(s)) {
@@ -103,7 +106,7 @@ public class SensAppContentProvider extends ContentProvider {
 			case MEASURE:
 				return measureCP.update(uri, values, selection, selectionArgs);
 			case SENSOR:
-				return sensorCP.update(uri, values, selection, selectionArgs);
+				return sensorCP.update(uri, values, selection, selectionArgs, uid);
 			case COMPOSITE:
 				return compositeCP.update(uri, values, selection, selectionArgs);
 			case COMPOSE:
@@ -118,11 +121,12 @@ public class SensAppContentProvider extends ContentProvider {
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
+		int uid = Binder.getCallingUid();
 		switch (sensAppURIMatcher.match(uri)) {
 		case MEASURE:
 			return measureCP.insert(uri, values);
 		case SENSOR:
-			return sensorCP.insert(uri, values);
+			return sensorCP.insert(uri, values, uid);
 		case COMPOSITE:
 			return compositeCP.insert(uri, values);
 		case COMPOSE:
@@ -134,6 +138,7 @@ public class SensAppContentProvider extends ContentProvider {
 	
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
+		int uid = Binder.getCallingUid();
 		boolean permission = false;
 		for (String s : getCallingPackages()) {
 			if ("org.sensapp.android.sensappdroid".equals(s)) {
@@ -145,7 +150,7 @@ public class SensAppContentProvider extends ContentProvider {
 			case MEASURE:
 				return measureCP.delete(uri, selection, selectionArgs);
 			case SENSOR:
-				return sensorCP.delete(uri, selection, selectionArgs);
+				return sensorCP.delete(uri, selection, selectionArgs, uid);
 			case COMPOSITE:
 				return compositeCP.delete(uri, selection, selectionArgs);
 			case COMPOSE:
