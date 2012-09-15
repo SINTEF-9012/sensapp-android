@@ -50,7 +50,6 @@ public class CompositeListFragment extends ListFragment implements LoaderCallbac
 	
 	public interface OnCompositeSelectedListener {
 		public void onCompositeSelected(Uri uri);
-		public void onCompositeSensorsManagement(Uri uri);
 	}
 	
 	public static class ManageCompositeDialogFragment extends DialogFragment {

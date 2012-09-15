@@ -8,13 +8,10 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 public class MeasureActivity extends Activity {
 
-	private static String TAG = MeasureActivity.class.getName();
-	
 	private TextView tvId;
 	private TextView tvSensor;
 	private TextView tvValue;
@@ -23,7 +20,6 @@ public class MeasureActivity extends Activity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Log.d(TAG, "__ON_CREATE__");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.measure_view);
 		tvId = (TextView) findViewById(R.id.measure_id_value);
@@ -32,7 +28,6 @@ public class MeasureActivity extends Activity {
 		tvTime = (TextView) findViewById(R.id.measure_time_value);
 		tvStatus = (TextView) findViewById(R.id.measure_status_value);
 		Uri uri = getIntent().getData();		
-		Log.e(TAG, uri.toString());
 		fillData(uri);
 	}
 
@@ -51,11 +46,5 @@ public class MeasureActivity extends Activity {
 			}
 			cursor.close();
 		}
-	}
-	
-	@Override
-	protected void onDestroy() {
-		Log.d(TAG, "__ON_DESTROY__");
-		super.onDestroy();
 	}
 }

@@ -1,30 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
     <item
         android:id="@+id/manage_sensors"
         android:showAsAction="ifRoom"
         android:title="Manage sensors" >
     </item>
-   <!--  <item
-        android:id="@+id/sensors"
-        android:showAsAction="ifRoom"
-        android:title="Sensors" >
-    </item>
-    <item
-        android:id="@+id/measures"
-        android:showAsAction="ifRoom"
-        android:title="Measures" >
-    </item>
-    <item
-        android:id="@+id/upload_all"
-        android:showAsAction="ifRoom"
-        android:title="Upload" >
-    </item>
-    <item
-        android:id="@+id/preferences"
-        android:showAsAction="always"
-        android:title="Settings" 
-        android:icon="@drawable/ic_settings">
-    </item> -->
 </menu>

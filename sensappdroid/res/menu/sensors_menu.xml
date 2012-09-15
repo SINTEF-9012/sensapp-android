@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
-   <!--  <item
-        android:id="@+id/measures"
-        android:showAsAction="ifRoom"
-        android:title="Measures" >
-    </item> -->
     <item
         android:id="@+id/upload_all"
         android:showAsAction="ifRoom"

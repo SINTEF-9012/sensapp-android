@@ -138,8 +138,9 @@ public class FragmentTabs extends Activity implements OnCompositeSelectedListene
 
 	@Override
 	public void onMeasureSelected(Uri uri) {
-		// TODO Auto-generated method stub
-		
+		Intent i = new Intent(this, MeasureActivity.class);
+		i.setData(uri);
+		startActivity(i);
 	}
 
 	@Override
@@ -154,12 +155,6 @@ public class FragmentTabs extends Activity implements OnCompositeSelectedListene
 		Intent i = new Intent(getApplicationContext(), CompositeActivity.class);
 		i.setData(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()));
 		startActivity(i);
-	}
-
-	@Override
-	public void onCompositeSensorsManagement(Uri uri) {
-		// TODO Auto-generated method stub
-		
 	}
 }
 
