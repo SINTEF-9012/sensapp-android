@@ -17,6 +17,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 public class MeasureCP extends TableContentProvider {
 	
@@ -83,6 +84,26 @@ public class MeasureCP extends TableContentProvider {
 		return cursor;
 	}
 	
+	public class IconHolder {
+		String sensor;
+		byte[] icon;
+	}
+	
+	private static IconHolder holder;
+	
+	private byte[] retrieveIcon(String sensor) {
+		Log.e("DEBUG", "__NEW_QUERY__");
+		Cursor cursor = getContext().getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + sensor), new String[]{SensorTable.COLUMN_ICON}, null, null, null);
+		byte[] icon = null;
+		if (cursor != null) {
+			if (cursor.moveToFirst()) {
+				icon = cursor.getBlob(cursor.getColumnIndex(SensorTable.COLUMN_ICON));
+			}
+			cursor.close();
+		}
+		return icon;
+	}
+	
 	@Override
 	public Uri insert(Uri uri, ContentValues values, int uid) throws IllegalStateException {
 		SQLiteDatabase db = getDatabase().getWritableDatabase();
@@ -94,15 +115,21 @@ public class MeasureCP extends TableContentProvider {
 			}
 			values.put(MeasureTable.COLUMN_UPLOADED, 0);
 			// Store the sensor icon
-			Cursor cursor = getContext().getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + values.get(MeasureTable.COLUMN_SENSOR)), new String[]{SensorTable.COLUMN_ICON}, null, null, null);
-			if (cursor != null) {
-				if (cursor.moveToFirst()) {
-					byte[] icon = cursor.getBlob(cursor.getColumnIndex(SensorTable.COLUMN_ICON));
-					if (icon != null) {
-						values.put(MeasureTable.COLUMN_ICON, icon);
-					}
-				}
-				cursor.close();
+			String sensor = (String) values.get(MeasureTable.COLUMN_SENSOR);
+			if (holder == null) {
+				Log.e("DEBUG", "New holder");
+				holder = new IconHolder();
+				holder.sensor = sensor;
+				holder.icon = retrieveIcon(holder.sensor);
+			} else if (!holder.sensor.equals(sensor)) {
+				Log.e("DEBUG", "Maj holder");
+				holder.sensor = sensor;
+				holder.icon = retrieveIcon(holder.sensor);
+			} else {
+				Log.e("DEBUG", "__NO_COMPUTATION__ !!");
+			}
+			if (holder.icon != null) {
+				values.put(MeasureTable.COLUMN_ICON, holder.icon);
 			}
 			id = db.insert(MeasureTable.TABLE_MEASURE, null, values);
 			break;
