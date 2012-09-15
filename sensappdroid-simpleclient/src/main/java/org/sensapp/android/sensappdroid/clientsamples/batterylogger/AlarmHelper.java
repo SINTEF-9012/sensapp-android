@@ -9,7 +9,7 @@ import android.content.Intent;
 
 public class AlarmHelper {
 
-	protected static final int REFRESH_RATE = 60; // Polling interval in seconds to start the service.
+	protected static final int REFRESH_RATE = 1; // Polling interval in seconds to start the service.
 	
 	private static final int ACTIVE_NOTIFICATION_ID = 79290;
 	

@@ -3,7 +3,7 @@ package org.sensapp.android.sensappdroid.preferences;
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.activities.SensAppService;
 import org.sensapp.android.sensappdroid.activities.TabsActivity;
-import org.sensapp.android.sensappdroid.connectivity.Connectivity;
+import org.sensapp.android.sensappdroid.connectivity.ConnectivityReceiver;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.datarequests.UpdateMeasuresTask;
 import org.sensapp.android.sensappdroid.datarequests.UpdateSensorsTask;
@@ -47,7 +47,7 @@ public class UploadPrefFragment extends PreferenceFragment {
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				if ((Boolean) newValue) {
 					startAutoUpload(Integer.valueOf(delay.getSharedPreferences().getString(delay.getKey(), "10")));
-					if (!Connectivity.isDataAvailable(getActivity())) {
+					if (!ConnectivityReceiver.isDataAvailable(getActivity())) {
 						AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 						builder.setMessage("The auto upload will start when a data connection is available")
 						.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

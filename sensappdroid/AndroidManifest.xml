@@ -40,12 +40,20 @@
             android:label="@string/app_name" >
         </activity>
         <provider
+            android:exported="true"
         	android:name=".contentprovider.SensAppContentProvider"
             android:authorities="org.sensapp.android.sensappdroid.contentprovider" >
         </provider>
         <service
 			android:name=".activities.SensAppService" >
 		</service>
+		<receiver
+		    android:name=".connectivity.ConnectivityReceiver"
+            android:exported="false" >
+             <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+		</receiver>
     </application>
 
 </manifest>

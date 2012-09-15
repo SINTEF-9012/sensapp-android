@@ -31,6 +31,9 @@ import android.widget.Toast;
 
 public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 	
+	public static final int FLAG_DEFAULT = 0x79;
+	public static final int FLAG_SILENT = 0x07;
+	
 	private static final String TAG = PutMeasuresTask.class.getSimpleName();
 	private static final int INTEGER_SIZE = 4;
 	private static final int LONG_SIZE = 12;
@@ -38,14 +41,42 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 	private static final int NOTIFICATION_ID = 10;
 	private static final int NOTIFICATION_FINAL_ID = 20;
 	
+	private PutMeasureCallback listenner;
 	private Context context;
+	private int flag;
+	private int id;
 	private Uri uri;
 	private NotificationManager notificationManager;
 	private Notification notification;
 	private String errorMessage;
 	
+	public interface PutMeasureCallback {
+		public void onTaskFinished(int id);
+	}
+	
 	public PutMeasuresTask(Context context, Uri uri) {
 		super();
+		this.flag = FLAG_DEFAULT;
+		this.context = context;
+		this.uri = uri;
+		notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+	}
+	
+	public PutMeasuresTask(PutMeasureCallback listenner, int id, Context context, Uri uri) {
+		super();
+		this.listenner = listenner;
+		this.id = id;
+		this.flag = FLAG_DEFAULT;
+		this.context = context;
+		this.uri = uri;
+		notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+	}
+	
+	public PutMeasuresTask(PutMeasureCallback listenner, int id, Context context, Uri uri, int flag) {
+		super();
+		this.listenner = listenner;
+		this.id = id;
+		this.flag = flag;
 		this.context = context;
 		this.uri = uri;
 		notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -77,15 +108,17 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 	
 	@Override
 	protected void onPreExecute() {
-	        final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, TabsActivity.class), 0);
-	        notification = new Notification(R.drawable.ic_launcher, "Starting upload", System.currentTimeMillis());
-	        notification.contentIntent = pendingIntent;
-	        notification.flags = notification.flags | Notification.FLAG_ONGOING_EVENT;
-	        notification.contentView = new RemoteViews(context.getPackageName(), R.layout.upload_notification_layout);
-	        notification.contentView.setImageViewResource(R.id.status_icon, R.drawable.ic_launcher);
-	        notification.contentView.setTextViewText(R.id.status_text, "Uploading measures...");
-	        notification.contentView.setProgressBar(R.id.status_progress, 100, 0, false);
-	        notificationManager.notify(NOTIFICATION_ID, notification);
+		if (flag != FLAG_SILENT) {
+			final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, TabsActivity.class), 0);
+			notification = new Notification(R.drawable.ic_launcher, "Starting upload", System.currentTimeMillis());
+			notification.contentIntent = pendingIntent;
+			notification.flags = notification.flags | Notification.FLAG_ONGOING_EVENT;
+			notification.contentView = new RemoteViews(context.getPackageName(), R.layout.upload_notification_layout);
+			notification.contentView.setImageViewResource(R.id.status_icon, R.drawable.ic_launcher);
+			notification.contentView.setTextViewText(R.id.status_text, "Uploading measures...");
+			notification.contentView.setProgressBar(R.id.status_progress, 100, 0, false);
+			notificationManager.notify(NOTIFICATION_ID, notification);
+		}
 	}
 
 	@Override
@@ -99,9 +132,11 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 			cursor.close();
 		}
 
-		notification.contentView.setTextViewText(R.id.status_text, "Uploading " + rowTotal + " measures...");
-		notificationManager.notify(NOTIFICATION_ID, notification);
-
+		if (flag != FLAG_SILENT) {
+			notification.contentView.setTextViewText(R.id.status_text, "Uploading " + rowTotal + " measures...");
+			notificationManager.notify(NOTIFICATION_ID, notification);
+		}
+		
 		int rowsUploaded = 0;
 		int progress = 0;
 		int sizeLimit = DEFAULT_SIZE_LIMIT;
@@ -229,8 +264,10 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 
 	@Override
 	protected void onProgressUpdate(Integer... values) {
-		notification.contentView.setProgressBar(R.id.status_progress, 100, values[0], false);
-		notificationManager.notify(NOTIFICATION_ID, notification);
+		if (flag != FLAG_SILENT) {
+			notification.contentView.setProgressBar(R.id.status_progress, 100, values[0], false);
+			notificationManager.notify(NOTIFICATION_ID, notification);
+		}
 	}
 
 	@Override
@@ -238,22 +275,30 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 		notificationManager.cancel(NOTIFICATION_ID);
 		if (result == null) {
 			Log.e(TAG, "Put data error");
-			if (errorMessage == null) {
-				Toast.makeText(context, "Upload failed", Toast.LENGTH_LONG).show();
-			} else {
-				Toast.makeText(context, "Upload failed:\n" + errorMessage, Toast.LENGTH_LONG).show();
+			if (flag != FLAG_SILENT) {
+				if (errorMessage == null) {
+					Toast.makeText(context, "Upload failed", Toast.LENGTH_LONG).show();
+				} else {
+					Toast.makeText(context, "Upload failed:\n" + errorMessage, Toast.LENGTH_LONG).show();
+				}
 			}
 		} else {
 			Log.i(TAG, "Put data succed: " + result + " measures uploaded");
-			final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, TabsActivity.class), 0);
-			Notification notificationFinal = new Notification(R.drawable.ic_launcher, "Upload finished", System.currentTimeMillis());
-			notificationFinal.setLatestEventInfo(context, "Upload succeed", result + " measures uploaded", pendingIntent);
-			notificationManager.notify(NOTIFICATION_FINAL_ID, notificationFinal);
-			if (result == 0) {
-				Toast.makeText(context, "No measures to upload", Toast.LENGTH_LONG).show();
-			} else {
-				Toast.makeText(context, "Upload succeed: " + result + " measures uploaded", Toast.LENGTH_LONG).show();
+			if (flag != FLAG_SILENT) {
+				final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, TabsActivity.class), 0);
+				Notification notificationFinal = new Notification(R.drawable.ic_launcher, "Upload finished", System.currentTimeMillis());
+				notificationFinal.flags |= Notification.FLAG_AUTO_CANCEL;
+				notificationFinal.setLatestEventInfo(context, "Upload succeed", result + " measures uploaded", pendingIntent);
+				notificationManager.notify(NOTIFICATION_FINAL_ID, notificationFinal);
+				if (result == 0) {
+					Toast.makeText(context, "No measures to upload", Toast.LENGTH_LONG).show();
+				} else {
+					Toast.makeText(context, "Upload succeed: " + result + " measures uploaded", Toast.LENGTH_LONG).show();
+				}
 			}
+		}
+		if (listenner != null) {
+			listenner.onTaskFinished(id);
 		}
 	}
 }
