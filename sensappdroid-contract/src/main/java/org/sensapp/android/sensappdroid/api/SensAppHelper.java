@@ -54,7 +54,9 @@ public class SensAppHelper {
 	 */
 	public static Uri insertMeasure(Context context, String sensor, String value) throws IllegalArgumentException {
 		ContentValues values = buildMeasure(context, sensor, value, 0, System.currentTimeMillis() / 1000);
-		return context.getContentResolver().insert(SensAppContract.Measure.CONTENT_URI, values);
+		InsertionManager.storeMeasure(context, values);
+		return null;
+		//return context.getContentResolver().insert(SensAppContract.Measure.CONTENT_URI, values);
 	}
 	
 	public static Uri insertMeasure(Context context, String sensor, int value) throws IllegalArgumentException {
@@ -67,7 +69,9 @@ public class SensAppHelper {
 	
 	public static Uri insertMeasure(Context context, String sensor, String value, long basetime, long time) throws IllegalArgumentException {
 		ContentValues values = buildMeasure(context, sensor, value, basetime, time);
-		return context.getContentResolver().insert(SensAppContract.Measure.CONTENT_URI, values);
+		InsertionManager.storeMeasure(context, values);
+		return null;
+		//return context.getContentResolver().insert(SensAppContract.Measure.CONTENT_URI, values);
 	}
 	
 	public static Uri insertMeasure(Context context, String sensor, int value, long basetime, long time) throws IllegalArgumentException {
