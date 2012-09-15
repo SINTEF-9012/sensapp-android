@@ -14,13 +14,12 @@
             android:title="Interval"
             android:dialogTitle="Set the delay between two upload"
             android:numeric="integer"
-            android:defaultValue="30"/>
-        
-    <MultiSelectListPreference
-                android:key="@string/pref_list_autoupload_sensor_key"
-                android:title="Sensors"
-                android:summary="Choose sensors to auto upload"
-                android:dialogTitle="Choose sensors to auto upload" />
+            android:defaultValue="10"/>
+    
+    <Preference
+            android:key="@string/pref_choose_sensor_autoupload_key"
+            android:title="Sensors"
+            android:summary="Choose sensors to auto upload"/>
 
     </PreferenceCategory>
     
