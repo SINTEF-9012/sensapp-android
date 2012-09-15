@@ -12,7 +12,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/ic_chestbelt" >
+        android:contentDescription="@string/sensor_icon_description">
     </ImageView>
 
     <TextView
@@ -28,6 +28,7 @@
         android:id="@+id/count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="6dp"
         android:lines="1"
         android:textSize="24dp" >

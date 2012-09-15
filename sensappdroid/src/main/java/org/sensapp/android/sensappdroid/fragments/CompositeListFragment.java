@@ -173,7 +173,7 @@ public class CompositeListFragment extends ListFragment implements LoaderCallbac
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
 		newCompositedialog = new NewCompositeDialogFragment();
-		adapter = new SimpleCursorAdapter(getActivity(), R.layout.composite_row, null, new String[]{SensAppContract.Composite.NAME}, new int[]{R.id.label}, 0);
+		adapter = new SimpleCursorAdapter(getActivity(), R.layout.composite_row, null, new String[]{SensAppContract.Composite.NAME}, new int[]{R.id.name}, 0);
 		getLoaderManager().initLoader(0, null, this);
 		setListAdapter(adapter);
 		registerForContextMenu(getListView());

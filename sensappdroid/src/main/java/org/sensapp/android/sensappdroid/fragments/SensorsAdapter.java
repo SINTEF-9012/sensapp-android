@@ -23,9 +23,11 @@ public class SensorsAdapter extends CursorAdapter {
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 		byte[] byteIcon = cursor.getBlob(cursor.getColumnIndex(SensAppContract.Sensor.ICON));
+		ImageView icon = (ImageView) view.findViewById(R.id.icon);
 		if (byteIcon != null) {
-			ImageView icon = (ImageView) view.findViewById(R.id.icon);
 			icon.setImageBitmap(BitmapFactory.decodeByteArray(byteIcon, 0, byteIcon.length));
+		} else {
+			icon.setImageResource(R.drawable.ic_launcher);
 		}
 		TextView name = (TextView) view.findViewById(R.id.name);
 		name.setText(cursor.getString(cursor.getColumnIndex(SensAppContract.Sensor.NAME)));
@@ -41,5 +43,4 @@ public class SensorsAdapter extends CursorAdapter {
 		bindView(v, context, cursor);
 		return v;
 	}
-
 }
