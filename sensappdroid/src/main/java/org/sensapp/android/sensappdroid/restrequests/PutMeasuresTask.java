@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.sensapp.android.sensappdroid.R;
-import org.sensapp.android.sensappdroid.activities.FragmentTabs;
+import org.sensapp.android.sensappdroid.activities.TabsActivity;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.datarequests.DatabaseRequest;
 import org.sensapp.android.sensappdroid.json.JsonPrinter;
@@ -77,7 +77,7 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 	
 	@Override
 	protected void onPreExecute() {
-	        final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, FragmentTabs.class), 0);
+	        final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, TabsActivity.class), 0);
 	        notification = new Notification(R.drawable.ic_launcher, "Starting upload", System.currentTimeMillis());
 	        notification.contentIntent = pendingIntent;
 	        notification.flags = notification.flags | Notification.FLAG_ONGOING_EVENT;
@@ -245,7 +245,7 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 			}
 		} else {
 			Log.i(TAG, "Put data succed: " + result + " measures uploaded");
-			final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, FragmentTabs.class), 0);
+			final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, TabsActivity.class), 0);
 			Notification notificationFinal = new Notification(R.drawable.ic_launcher, "Upload finished", System.currentTimeMillis());
 			notificationFinal.setLatestEventInfo(context, "Upload succeed", result + " measures uploaded", pendingIntent);
 			notificationManager.notify(NOTIFICATION_FINAL_ID, notificationFinal);

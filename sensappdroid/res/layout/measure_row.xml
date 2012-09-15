@@ -10,12 +10,11 @@
         android:layout_height="24dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_chestbelt" >
+        android:layout_marginTop="8dp">
     </ImageView>
 
     <TextView
-        android:id="@+id/label"
+        android:id="@+id/value"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"

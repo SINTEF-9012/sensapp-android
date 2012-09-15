@@ -11,6 +11,7 @@ public class MeasureTable {
 	public static final String COLUMN_VALUE = "value";
 	public static final String COLUMN_TIME = "time";
 	public static final String COLUMN_BASETIME = "basetime";
+	public static final String COLUMN_ICON ="icon";
 	public static final String COLUMN_UPLOADED ="uploaded";
 	
 	private static final String TAG = MeasureTable.class.getName();
@@ -21,6 +22,7 @@ public class MeasureTable {
 			+ COLUMN_VALUE + " TEXT NOT NULL, "
 			+ COLUMN_TIME + " INTEGER NOT NULL, "
 			+ COLUMN_BASETIME + " INTEGER NOT NULL, "
+			+ COLUMN_ICON + " BLOB, "
 			+ COLUMN_UPLOADED + " INTEGER NOT NULL);";
 	private static final String DATABASE_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_MEASURE;
 	

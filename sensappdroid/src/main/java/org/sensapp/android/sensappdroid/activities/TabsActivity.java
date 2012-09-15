@@ -21,7 +21,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TabHost;
 
-public class FragmentTabs extends Activity implements OnCompositeSelectedListener, OnSensorSelectedListener, OnMeasureSelectedListener {
+public class TabsActivity extends Activity implements OnCompositeSelectedListener, OnSensorSelectedListener, OnMeasureSelectedListener {
     
 	private TabHost tabHost;
     private TabManager tabManager;

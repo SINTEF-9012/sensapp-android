@@ -27,14 +27,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 
 public class MeasureListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
 
 	private static final int MENU_DELETE_ID = Menu.FIRST + 1;
 	private static final int MENU_UPLOAD_ID = Menu.FIRST + 2;
 
-	private SimpleCursorAdapter adapter;
+	private MeasuresAdapter adapter;
 	private OnMeasureSelectedListener measureSelectedListener;
 	
 	public interface OnMeasureSelectedListener {
@@ -60,7 +59,7 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
-		adapter = new SimpleCursorAdapter(getActivity(), R.layout.measure_row, null, new String[]{SensAppContract.Measure.VALUE}, new int[]{R.id.label}, 0);
+		adapter = new MeasuresAdapter(getActivity(), null);
 		getLoaderManager().initLoader(0, null, this);
 		setListAdapter(adapter);
 		registerForContextMenu(getListView());
@@ -128,7 +127,7 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 	
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		String[] projection = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_VALUE};
+		String[] projection = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_VALUE, MeasureTable.COLUMN_ICON};
 		Uri uri = getActivity().getIntent().getData();
 		if (uri == null) {
 			uri = SensAppContract.Measure.CONTENT_URI;

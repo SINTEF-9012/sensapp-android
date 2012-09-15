@@ -93,6 +93,17 @@ public class MeasureCP extends TableContentProvider {
 				throw new IllegalStateException("Forbiden insertion");
 			}
 			values.put(MeasureTable.COLUMN_UPLOADED, 0);
+			// Store the sensor icon
+			Cursor cursor = getContext().getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + values.get(MeasureTable.COLUMN_SENSOR)), new String[]{SensorTable.COLUMN_ICON}, null, null, null);
+			if (cursor != null) {
+				if (cursor.moveToFirst()) {
+					byte[] icon = cursor.getBlob(cursor.getColumnIndex(SensorTable.COLUMN_ICON));
+					if (icon != null) {
+						values.put(MeasureTable.COLUMN_ICON, icon);
+					}
+				}
+				cursor.close();
+			}
 			id = db.insert(MeasureTable.TABLE_MEASURE, null, values);
 			break;
 		default:
@@ -224,7 +235,7 @@ public class MeasureCP extends TableContentProvider {
 	
 	@Override
 	protected void checkColumns(String[] projection) {
-		String[] available = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_SENSOR, "DISTINCT " + MeasureTable.COLUMN_SENSOR, MeasureTable.COLUMN_VALUE, MeasureTable.COLUMN_TIME, MeasureTable.COLUMN_BASETIME, "DISTINCT " + MeasureTable.COLUMN_BASETIME, MeasureTable.COLUMN_UPLOADED};
+		String[] available = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_SENSOR, "DISTINCT " + MeasureTable.COLUMN_SENSOR, MeasureTable.COLUMN_VALUE, MeasureTable.COLUMN_TIME, MeasureTable.COLUMN_BASETIME, "DISTINCT " + MeasureTable.COLUMN_BASETIME, MeasureTable.COLUMN_UPLOADED, MeasureTable.COLUMN_ICON};
 		if (projection != null) {
 			HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
 			HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));
