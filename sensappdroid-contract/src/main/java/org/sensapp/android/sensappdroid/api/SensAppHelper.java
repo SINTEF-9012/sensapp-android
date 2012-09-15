@@ -26,8 +26,8 @@ public class SensAppHelper {
 			throw new IllegalArgumentException("The context is null");
 		} else if (sensor == null) {
 			throw new IllegalArgumentException("The sensor is null");
-		} else if (!isSensorRegistered(context, sensor)) {
-			throw new IllegalArgumentException(sensor + " is not maintained");
+//		} else if (!isSensorRegistered(context, sensor)) {
+//			throw new IllegalArgumentException(sensor + " is not maintained");
 		} else if (value == null) {
 			throw new IllegalArgumentException("The value is null");
 		}
