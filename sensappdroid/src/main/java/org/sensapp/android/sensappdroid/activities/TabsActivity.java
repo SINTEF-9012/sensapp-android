@@ -42,6 +42,8 @@ public class TabsActivity extends Activity implements OnCompositeSelectedListene
 
         if (savedInstanceState != null) {
             tabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
+        } else {
+        	tabHost.setCurrentTabByTag("Sensors");
         }
     }
 
