@@ -4,6 +4,7 @@ import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.activities.SensAppService;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.datarequests.DeleteSensorsTask;
+import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;
 
 import android.app.Activity;
 import android.app.ListFragment;
@@ -18,6 +19,7 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +45,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 		try {
 			sensorSelectedListener = (OnSensorSelectedListener) activity;
 		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString() + " must implement OnMeasureSelectedListener");
+			throw new ClassCastException(activity.toString() + " must implement OnSensorSelectedListener");
 		}
 	}
 
@@ -51,20 +53,39 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.sensor_list, container, false);
 	}
-	
+		
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		initAdapters();
+		setHasOptionsMenu(true);
+		adapter = new SensorsAdapter(getActivity(), null);
+		getLoaderManager().initLoader(0, null, this);
+		setListAdapter(adapter);
 		registerForContextMenu(getListView());
 	}
 
 	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		Cursor cursor = adapter.getCursor();
-		sensorSelectedListener.onSensorSelected(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Sensor.NAME))));
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.sensors_menu, menu);
 	}
 	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent i;
+		switch (item.getItemId()) {
+		case R.id.upload_all:
+			i = new Intent(getActivity(), SensAppService.class);
+			i.setAction(SensAppService.ACTION_UPLOAD);
+			i.setData(SensAppContract.Measure.CONTENT_URI);
+			getActivity().startService(i);
+			return true;
+		case R.id.preferences:
+			startActivity(new Intent(getActivity(), PreferencesActivity.class));
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
@@ -88,21 +109,16 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 			i.setData(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + sensorName));
 			getActivity().startService(i);
 			return true;
-	}
+		}
 		return super.onContextItemSelected(item);
 	}
 	
-	private void initAdapters() {
-		adapter = new SensorsAdapter(getActivity(), null);
-		getLoaderManager().initLoader(0, null, this);
-		setListAdapter(adapter);
-	}
-
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		Cursor cursor = adapter.getCursor();
+		sensorSelectedListener.onSensorSelected(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Sensor.NAME))));
 	}
-
+	
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		String[] projection = {SensAppContract.Sensor.NAME, SensAppContract.Sensor.ICON};
@@ -115,7 +131,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 		CursorLoader cursorLoader = new CursorLoader(getActivity(), uri, projection, null, null, null);
 		return cursorLoader;
 	}
-
+	
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		adapter.swapCursor(data);

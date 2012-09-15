@@ -1,15 +1,18 @@
 package org.sensapp.android.sensappdroid.fragments;
 
 import org.sensapp.android.sensappdroid.R;
+import org.sensapp.android.sensappdroid.activities.SensAppService;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.database.MeasureTable;
 import org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask;
+import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;
 import org.sensapp.android.sensappdroid.restrequests.PutMeasuresTask;
 
 import android.app.Activity;
 import android.app.ListFragment;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -18,6 +21,7 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +35,9 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 	private static final int MENU_UPLOAD_ID = Menu.FIRST + 2;
 
 	private SimpleCursorAdapter adapter;
-	private OnMesureSelectedListener measureSelectedListener;
+	private OnMeasureSelectedListener measureSelectedListener;
 	
-	public interface OnMesureSelectedListener {
+	public interface OnMeasureSelectedListener {
 		public void onMeasureSelected(Uri uri);
 	}
 	
@@ -41,15 +45,10 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			measureSelectedListener = (OnMesureSelectedListener) activity;
+			measureSelectedListener = (OnMeasureSelectedListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString() + " must implement OnMeasureSelectedListener");
 		}
-	}
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 	}
 	
 	@Override
@@ -60,6 +59,7 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		setHasOptionsMenu(true);
 		adapter = new SimpleCursorAdapter(getActivity(), R.layout.measure_row, null, new String[]{SensAppContract.Measure.VALUE}, new int[]{R.id.label}, 0);
 		getLoaderManager().initLoader(0, null, this);
 		setListAdapter(adapter);
@@ -67,8 +67,37 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 	}
 
 	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		measureSelectedListener.onMeasureSelected(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + id));
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.measures_menu, menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent i = new Intent(getActivity(), SensAppService.class);
+		Uri uri = getActivity().getIntent().getData();
+		if (uri == null) {
+			uri = SensAppContract.Measure.CONTENT_URI;
+		}
+		i.setData(uri);
+		switch (item.getItemId()) {
+		case R.id.upload:
+			i.setAction(SensAppService.ACTION_UPLOAD);
+			getActivity().startService(i);
+			return true;
+		case R.id.delete_all_measures:
+			i.setAction(SensAppService.ACTION_DELETE_LOCAL);
+			getActivity().startService(i);
+			return true;
+		case R.id.delete_uploaded_measures:
+			i.setAction(SensAppService.ACTION_DELETE_LOCAL);
+			i.putExtra(SensAppService.EXTRA_UPLOADED_FILTER, true);
+			getActivity().startService(i);
+			return true;
+		case R.id.preferences:
+			startActivity(new Intent(getActivity(), PreferencesActivity.class));
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 	@Override
@@ -91,16 +120,20 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 		}
 		return super.onContextItemSelected(item);
 	}
-
+	
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		measureSelectedListener.onMeasureSelected(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + id));
 	}
-
+	
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		String[] projection = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_VALUE};
-		CursorLoader cursorLoader = new CursorLoader(getActivity(), getActivity().getIntent().getData(), projection, null, null, null);
+		Uri uri = getActivity().getIntent().getData();
+		if (uri == null) {
+			uri = SensAppContract.Measure.CONTENT_URI;
+		}
+		CursorLoader cursorLoader = new CursorLoader(getActivity(), uri, projection, null, null, null);
 		return cursorLoader;
 	}
 
@@ -113,5 +146,4 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 	public void onLoaderReset(Loader<Cursor> loader) {
 		adapter.swapCursor(null);
 	}
-
 }

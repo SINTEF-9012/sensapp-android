@@ -42,14 +42,14 @@ public class SensorsActivity extends Activity implements OnSensorSelectedListene
 			i.setData(SensAppContract.Measure.CONTENT_URI);
 			startService(i);
 			return true;
-		case R.id.sensors:
-			startActivity(new Intent(this, SensorsActivity.class));
-			return true;
-		case R.id.measures:
-			i = new Intent(this, MeasuresActivity.class);
-			i.setData(SensAppContract.Measure.CONTENT_URI);
-			startActivity(i);
-			return true;
+//		case R.id.sensors:
+//			startActivity(new Intent(this, SensorsActivity.class));
+//			return true;
+//		case R.id.measures:
+//			i = new Intent(this, MeasuresActivity.class);
+//			i.setData(SensAppContract.Measure.CONTENT_URI);
+//			startActivity(i);
+//			return true;
 		case R.id.preferences:
 			startActivity(new Intent(this, PreferencesActivity.class));
 			return true;

@@ -5,16 +5,16 @@
         android:showAsAction="ifRoom"
         android:title="New composite" >
     </item>
-    <item
+    <!-- <item
         android:id="@+id/sensors"
         android:showAsAction="ifRoom"
         android:title="Sensors" >
-    </item>
-    <item
+    </item> -->
+    <!-- <item
         android:id="@+id/measures"
         android:showAsAction="ifRoom"
         android:title="Measures" >
-    </item>
+    </item> -->
     <item
         android:id="@+id/upload_all"
         android:showAsAction="ifRoom"

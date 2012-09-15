@@ -62,6 +62,8 @@ public class SensorCP extends TableContentProvider {
 			columnMap.put(SensorTable.COLUMN_UNIT, SensorTable.TABLE_SENSOR + "." + SensorTable.COLUMN_UNIT);
 			columnMap.put(SensorTable.COLUMN_UPLOADED, SensorTable.TABLE_SENSOR + "." + SensorTable.COLUMN_UPLOADED);
 			columnMap.put(SensorTable.COLUMN_URI, SensorTable.TABLE_SENSOR + "." + SensorTable.COLUMN_URI);
+			columnMap.put(SensorTable.COLUMN_ICON, SensorTable.TABLE_SENSOR + "." + SensorTable.COLUMN_ICON);
+			columnMap.put(SensorTable.COLUMN_CLIENT_UID, SensorTable.TABLE_SENSOR + "." + SensorTable.COLUMN_CLIENT_UID);
 			queryBuilder.setProjectionMap(columnMap);
 			queryBuilder.setTables(SensorTable.TABLE_SENSOR + ", " + ComposeTable.TABLE_COMPOSE);
 			queryBuilder.appendWhere(SensorTable.TABLE_SENSOR + "." + SensorTable.COLUMN_NAME + " = " + ComposeTable.COLUMN_SENSOR

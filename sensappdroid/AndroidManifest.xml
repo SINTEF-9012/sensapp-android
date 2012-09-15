@@ -5,7 +5,7 @@
     android:versionName="1.5.1" >
 
     <uses-sdk 
-        android:minSdkVersion="11" 
+        android:minSdkVersion="13" 
         android:targetSdkVersion="15"/>
 
     <uses-permission android:name="android.permission.INTERNET"  />
@@ -19,7 +19,7 @@
             android:label="@string/app_name">
         </activity>
         <activity
-            android:name=".activities.CompositesActivity"
+            android:name=".activities.FragmentTabs"
             android:label="@string/app_name" 
             android:launchMode="singleTask">
             <intent-filter>

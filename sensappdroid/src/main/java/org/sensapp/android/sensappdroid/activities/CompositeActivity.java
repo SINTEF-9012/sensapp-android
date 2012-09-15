@@ -2,8 +2,8 @@ package org.sensapp.android.sensappdroid.activities;
 
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
+import org.sensapp.android.sensappdroid.fragments.CompositeListFragment.ManageCompositeDialogFragment;
 import org.sensapp.android.sensappdroid.fragments.SensorListFragment.OnSensorSelectedListener;
-import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,11 +18,15 @@ public class CompositeActivity extends Activity implements OnSensorSelectedListe
 	
 	private static final String TAG = CompositeActivity.class.getSimpleName();
 
+	private String compositeName;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	Log.d(TAG, "__ON_CREATE__");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sensors);
+        compositeName = getIntent().getData().getLastPathSegment();
+        setTitle(compositeName);
     }
 
 	@Override
@@ -34,33 +38,30 @@ public class CompositeActivity extends Activity implements OnSensorSelectedListe
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent i;
+		//Intent i;
 		switch (item.getItemId()) {
-		case R.id.upload_all:
-			i = new Intent(this, SensAppService.class);
-			i.setAction(SensAppService.ACTION_UPLOAD);
-			i.setData(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/composite/" + getIntent().getData().getLastPathSegment()));
-			startService(i);
+		case R.id.manage_sensors:
+			ManageCompositeDialogFragment.newInstance(compositeName).show(getFragmentManager(), "manage_sensor");
 			return true;
-		case R.id.sensors:
-			startActivity(new Intent(this, SensorsActivity.class));
-			return true;
-		case R.id.measures:
-			i = new Intent(this, MeasuresActivity.class);
-			i.setData(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/composite/" + getIntent().getData().getLastPathSegment()));
-			startActivity(i);
-			return true;
-		case R.id.preferences:
-			startActivity(new Intent(this, PreferencesActivity.class));
-			return true;
+//		case R.id.upload_all:
+//			i = new Intent(this, SensAppService.class);
+//			i.setAction(SensAppService.ACTION_UPLOAD);
+//			i.setData(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/composite/" + getIntent().getData().getLastPathSegment()));
+//			startService(i);
+//			return true;
+//		case R.id.sensors:
+//			startActivity(new Intent(this, SensorsActivity.class));
+//			return true;
+//		case R.id.measures:
+//			i = new Intent(this, MeasuresActivity.class);
+//			i.setData(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/composite/" + getIntent().getData().getLastPathSegment()));
+//			startActivity(i);
+//			return true;
+//		case R.id.preferences:
+//			startActivity(new Intent(this, PreferencesActivity.class));
+//			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-	
-	@Override
-	public void onDestroy() {
-		Log.d(TAG, "__ON_DESTROY__");
-		super.onDestroy();
 	}
 
 	@Override

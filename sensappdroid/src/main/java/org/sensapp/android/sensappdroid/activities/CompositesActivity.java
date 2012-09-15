@@ -52,14 +52,14 @@ public class CompositesActivity extends Activity implements OnCompositeSelectedL
 		case R.id.new_composite:
 			showDialog(DIALOG_NEW_COMPOSITE, null);
 			return true;
-		case R.id.sensors:
-			startActivity(new Intent(this, SensorsActivity.class));
-			return true;
-		case R.id.measures:
-			i = new Intent(this, MeasuresActivity.class);
-			i.setData(SensAppContract.Measure.CONTENT_URI);
-			startActivity(i);
-			return true;
+//		case R.id.sensors:
+//			startActivity(new Intent(this, SensorsActivity.class));
+//			return true;
+//		case R.id.measures:
+//			i = new Intent(this, MeasuresActivity.class);
+//			i.setData(SensAppContract.Measure.CONTENT_URI);
+//			startActivity(i);
+//			return true;
 		case R.id.upload_all:
 			i = new Intent(this, SensAppService.class);
 			i.setAction(SensAppService.ACTION_UPLOAD);

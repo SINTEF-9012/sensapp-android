@@ -1,5 +1,6 @@
 package org.sensapp.android.sensappdroid.contentprovider;
 
+import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.database.ComposeTable;
 import org.sensapp.android.sensappdroid.database.MeasureTable;
 import org.sensapp.android.sensappdroid.database.SensAppDatabaseHelper;
@@ -67,6 +68,7 @@ public class ComposeCP {
 			throw new IllegalArgumentException("Bad URI: " + uri);
 		}
 		context.getContentResolver().notifyChange(uri, null);
+		context.getContentResolver().notifyChange(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite"), null);
 		return Uri.parse(BASE_PATH + "/" + id);
 	}
 	
@@ -88,6 +90,7 @@ public class ComposeCP {
 			throw new IllegalArgumentException("Unknown URI: " + uri);
 		}
 		context.getContentResolver().notifyChange(uri, null);
+		context.getContentResolver().notifyChange(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite"), null);
 		return rowsDeleted;
 	}
 
