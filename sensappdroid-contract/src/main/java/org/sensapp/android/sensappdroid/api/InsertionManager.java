@@ -10,7 +10,6 @@ import org.sensapp.android.sensappdroid.contract.SensAppContract;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.util.Log;
 
 public class InsertionManager {
 
@@ -22,7 +21,7 @@ public class InsertionManager {
 	private static final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
 
 	public static void storeMeasure(final Context context, ContentValues values) {
-		Log.w("DEBUG", "__Store__");
+		//Log.w("DEBUG", "__Store__");
 		final String sensor = (String) values.get(SensAppContract.Measure.SENSOR);
 		if (!buffers.containsKey(sensor)) { 
 			buffers.put(sensor, new ArrayDeque<ContentValues>());
@@ -36,7 +35,7 @@ public class InsertionManager {
 	}
 
 	private static void flushSensorMeasures(Context context, String name) {
-		Log.e("DEBUG", "__Flush__");
+		//Log.e("DEBUG", "__Flush__");
 		ContentValues values = buffers.get(name).pollFirst(); 
 		while (values != null) {
 			context.getContentResolver().insert(SensAppContract.Measure.CONTENT_URI, values);
