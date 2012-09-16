@@ -17,27 +17,32 @@ public class InsertionManager {
 	private final static int LOWEST_INTERVAL = 1;
 	
 	private static Hashtable<String, ArrayDeque<ContentValues>> buffers = new Hashtable<String, ArrayDeque<ContentValues>>();
+	private static Hashtable<String, Boolean> empty = new Hashtable<String, Boolean>();
 	
 	private static final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
-	
+
 	public static void storeMeasure(final Context context, ContentValues values) {
-		//Log.w("DEBUG", "__Store__");
+		Log.w("DEBUG", "__Store__");
 		final String sensor = (String) values.get(SensAppContract.Measure.SENSOR);
 		if (!buffers.containsKey(sensor)) { 
 			buffers.put(sensor, new ArrayDeque<ContentValues>());
-			scheduleFlush(context, sensor);
+			empty.put(sensor, true);
 		}
 		buffers.get(sensor).add(values);
+		if (empty.get(sensor)) {
+			scheduleFlush(context, sensor);
+			empty.put(sensor, false);
+		}
 	}
 
 	private static void flushSensorMeasures(Context context, String name) {
-		Log.v("DEBUG", "__Flush__");
+		Log.e("DEBUG", "__Flush__");
 		ContentValues values = buffers.get(name).pollFirst(); 
 		while (values != null) {
 			context.getContentResolver().insert(SensAppContract.Measure.CONTENT_URI, values);
 			values = buffers.get(name).pollFirst();
+			empty.put(name, true);
 		}
-		scheduleFlush(context, name);
 	}
 	
 	private static void scheduleFlush(final Context context, final String sensor) {
