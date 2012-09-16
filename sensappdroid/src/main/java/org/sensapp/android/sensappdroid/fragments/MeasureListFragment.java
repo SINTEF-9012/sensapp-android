@@ -132,7 +132,7 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 		if (uri == null) {
 			uri = SensAppContract.Measure.CONTENT_URI;
 		}
-		CursorLoader cursorLoader = new CursorLoader(getActivity(), uri, projection, null, null, null);
+		CursorLoader cursorLoader = new CursorLoader(getActivity(), uri, projection, null, null, SensAppContract.Measure.TIME + " DESC");
 		return cursorLoader;
 	}
 
