@@ -2,56 +2,51 @@ package org.sensapp.android.sensappdroid.api;
 
 public enum SensAppUnit {
 	
-	meter("m"),
-	kilogram("kg"),
-	second("s"),
-	ampere("A"),
-	kelvin("K"),
-	percent("%");
-	
-//	|     cd | candela                                      | RFC-AAAA  |
-//	   |    mol | mole                                         | RFC-AAAA  |
-//	   |     Hz | hertz                                        | RFC-AAAA  |
-//	   |    rad | radian                                       | RFC-AAAA  |
-//	   |     sr | steradian                                    | RFC-AAAA  |
-//	   |      N | newton                                       | RFC-AAAA  |
-//	   |     Pa | pascal                                       | RFC-AAAA  |
-//	   |      J | joule                                        | RFC-AAAA  |
-//	   |      W | watt                                         | RFC-AAAA  |
-//	   |      C | coulomb                                      | RFC-AAAA  |
-//	   |      V | volt                                         | RFC-AAAA  |
-//	   |      F | farad                                        | RFC-AAAA  |
-//	   |    Ohm | ohm                                          | RFC-AAAA  |
-//	   |      S | siemens                                      | RFC-AAAA  |
-//	   |     Wb | weber                                        | RFC-AAAA  |
-//	   |      T | tesla                                        | RFC-AAAA  |
-//	   |      H | henry                                        | RFC-AAAA  |
-//	   |   degC | degrees Celsius                              | RFC-AAAA  |
-//	   |     lm | lumen                                        | RFC-AAAA  |
-//	   |     lx | lux                                          | RFC-AAAA  |
-//	   |     Bq | becquerel                                    | RFC-AAAA  |
-//	   |     Gy | gray                                         | RFC-AAAA  |
-//	   |     Sv | sievert                                      | RFC-AAAA  |
-//	   |    kat | katal                                        | RFC-AAAA  |
-//	   |     pH | pH acidity                                   | RFC-AAAA  |
-//	   |  count | counter value                                | RFC-AAAA  |
-//	 |    %RH | Relative Humidity                            | RFC-AAAA  |
-//	   |     m2 | area                                         | RFC-AAAA  |
-//	   |      l | volume in liters                             | RFC-AAAA  |
-//	   |    m/s | velocity                                     | RFC-AAAA  |
-//	   |   m/s2 | acceleration                                 | RFC-AAAA  |
-//	   |    l/s | flow rate in liters per second               | RFC-AAAA  |
-//	   |   W/m2 | irradiance                                   | RFC-AAAA  |
-//	   |  cd/m2 | luminance                                    | RFC-AAAA  |
-//	   |   Bspl | bel sound pressure level                     | RFC-AAAA  |
-//	   |  bit/s | bits per second                              | RFC-AAAA  |
-//	   |    lat | degrees latitude. Assumed to be in WGS84     | RFC-AAAA  |
-//	   |        | unless another reference frame is known for  |           |
-//	   |        | the sensor.                                  |           |
-//	   |    lon | degrees longitude. Assumed to be in WGS84    | RFC-AAAA  |
-//	   |        | unless another reference frame is known for  |           |
-//	   |        | the sensor.                                  |           |
-//	   |    %EL | remaining battery energy level in percents   | RFC-AAAA  |
+	METER("m"),
+	KILOGRAM("kg"),
+	SECOND("s"),
+	AMPERE("A"),
+	KELVIN("K"),
+	PERCENT("%"),
+	CANDELA("cd"),
+	MOL("mole"),
+	HERTZ("Hz"),
+	RADIAN("rad"),
+	STERADIANT("sr"),
+	NEWTON("N"),
+	PASCAL("Pa"),
+	JOULE("J"),
+	WATT("W"),
+	COULOMB("C"),
+	VOLT("V"), 
+	FARAD("F"),
+	OHM("Ohm"),
+	SIEMENS("S"),
+	WEBER("Wb"),
+	TESLA("T"),
+	HENRY("H"),
+	DEGREES_CELSIUS("degC"),
+	LUMEN("lm"),
+	LUX("lx"),
+	BECQUEREL("Bq"),
+	GRAY("Gy"),
+	SIEVERT("Sv"),
+	KATAL("kat"),
+	PH_ACIDITY("pH"),
+	COUNTER_VALUE("count"),
+	RELATIVE_HUMIDITY("%RH"),
+	AREA("m2"),
+	VOLUME_LITER("l"),
+	VELOCITY("m/s"),
+	ACCELERATION("m/s2"),
+	FLOW_RATE("l/s"),
+	IRRADIANCE("W/m2"),
+	LUMINANCE("cd/m2"),
+	BEL_SOUND_PRESSURE_LEVEL("Bspl"),
+	BITS_SECOND("bit/s"),
+	LATITUDE("lat"),
+	LONGITUDE("lon"),
+	BATTERY_LEVEL("%EL");
 	
 	private String iANAUnit;
 	

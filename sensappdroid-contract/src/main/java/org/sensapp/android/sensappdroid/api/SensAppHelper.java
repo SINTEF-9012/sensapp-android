@@ -26,8 +26,6 @@ public class SensAppHelper {
 			throw new IllegalArgumentException("The context is null");
 		} else if (sensor == null) {
 			throw new IllegalArgumentException("The sensor is null");
-//		} else if (!isSensorRegistered(context, sensor)) {
-//			throw new IllegalArgumentException(sensor + " is not maintained");
 		} else if (value == null) {
 			throw new IllegalArgumentException("The value is null");
 		}
@@ -146,7 +144,7 @@ public class SensAppHelper {
 		return values;
 	}
 	
-	private static Uri registerSensor(Context context, String name, String description, SensAppUnit unit, SensAppBackend backend, SensAppTemplate template, Drawable icon) throws IllegalArgumentException {
+	public static Uri registerSensor(Context context, String name, String description, SensAppUnit unit, SensAppBackend backend, SensAppTemplate template, Drawable icon) throws IllegalArgumentException {
 		ContentValues values = buildSensor(context, name, description, unit, backend, template, icon);
 		if (values == null) {
 			return null;
@@ -154,22 +152,27 @@ public class SensAppHelper {
 		return context.getContentResolver().insert(SensAppContract.Sensor.CONTENT_URI, values);
 	}
 	
+	public static Uri registerSensor(Context context, String name, String description, SensAppUnit unit, SensAppBackend backend, SensAppTemplate template, int iconResourceId) throws IllegalArgumentException, NotFoundException {
+		Drawable icon = context.getResources().getDrawable(iconResourceId);
+		return registerSensor(context, name, description, unit, backend, template, icon);
+	}
+	
 	public static Uri registerNumericalSensor(Context context, String name, String description, SensAppUnit unit, Drawable icon) throws IllegalArgumentException {
-		return registerSensor(context, name, description, unit, SensAppBackend.raw, SensAppTemplate.numerical, icon);
+		return registerSensor(context, name, description, unit, SensAppBackend.raw, SensAppTemplate.NUMERICAL, icon);
 	}
 	
 	public static Uri registerStringSensor(Context context, String name, String description, SensAppUnit unit, Drawable icon) throws IllegalArgumentException {
-		return registerSensor(context, name, description, unit, SensAppBackend.raw, SensAppTemplate.string, icon);
+		return registerSensor(context, name, description, unit, SensAppBackend.raw, SensAppTemplate.STRING, icon);
 	}
 	
 	public static Uri registerNumericalSensor(Context context, String name, String description, SensAppUnit unit, int iconResourceId) throws IllegalArgumentException, NotFoundException {
 		Drawable icon = context.getResources().getDrawable(iconResourceId);
-		return registerSensor(context, name, description, unit, SensAppBackend.raw, SensAppTemplate.numerical, icon);
+		return registerSensor(context, name, description, unit, SensAppBackend.raw, SensAppTemplate.NUMERICAL, icon);
 	}
 	
 	public static Uri registerStringSensor(Context context, String name, String description, SensAppUnit unit, int iconResourceId) throws IllegalArgumentException, NotFoundException {
 		Drawable icon = context.getResources().getDrawable(iconResourceId);
-		return registerSensor(context, name, description, unit, SensAppBackend.raw, SensAppTemplate.string, icon);
+		return registerSensor(context, name, description, unit, SensAppBackend.raw, SensAppTemplate.STRING, icon);
 	}
 	
 	private static boolean isSensorRegistered(Context context, String name) {
@@ -177,28 +180,5 @@ public class SensAppHelper {
 		boolean isRegistered = c.getCount() > 0;
 		c.close();
 		return isRegistered;
-	}
-	
-	private static enum SensAppBackend {
-		raw("raw");
-		private String backend;
-		private SensAppBackend(String backend) {
-			this.backend = backend;
-		}
-		public String getBackend() {
-			return backend;
-		}
-	}
-
-	private static enum SensAppTemplate {
-		string("String"), 
-		numerical("Numerical");
-		private String template;
-		private SensAppTemplate(String template) {
-			this.template = template;
-		}
-		public String getTemplate() {
-			return template;
-		}
 	}
 }
