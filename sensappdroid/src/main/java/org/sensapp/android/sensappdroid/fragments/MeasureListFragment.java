@@ -120,6 +120,8 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 		return super.onContextItemSelected(item);
 	}
 	
+	
+	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		measureSelectedListener.onMeasureSelected(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + id));
@@ -132,10 +134,10 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 		if (uri == null) {
 			uri = SensAppContract.Measure.CONTENT_URI;
 		}
-		CursorLoader cursorLoader = new CursorLoader(getActivity(), uri, projection, null, null, SensAppContract.Measure.TIME + " DESC");
+		CursorLoader cursorLoader = new CursorLoader(getActivity(), uri, projection, null, null, SensAppContract.Measure.TIME + " DESC LIMIT 25");
 		return cursorLoader;
 	}
-
+	
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		adapter.swapCursor(data);

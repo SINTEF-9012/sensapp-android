@@ -92,7 +92,7 @@ public class MeasureCP extends TableContentProvider {
 	private static IconHolder holder;
 	
 	private byte[] retrieveIcon(String sensor) {
-		Log.e("DEBUG", "__NEW_QUERY__");
+		Log.w("DEBUG", "__NEW_QUERY__");
 		Cursor cursor = getContext().getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + sensor), new String[]{SensorTable.COLUMN_ICON}, null, null, null);
 		byte[] icon = null;
 		if (cursor != null) {
@@ -117,16 +117,16 @@ public class MeasureCP extends TableContentProvider {
 			// Store the sensor icon
 			String sensor = (String) values.get(MeasureTable.COLUMN_SENSOR);
 			if (holder == null) {
-				Log.e("DEBUG", "New holder");
+				Log.w("DEBUG", "New holder");
 				holder = new IconHolder();
 				holder.sensor = sensor;
 				holder.icon = retrieveIcon(holder.sensor);
 			} else if (!holder.sensor.equals(sensor)) {
-				Log.e("DEBUG", "Maj holder");
+				Log.w("DEBUG", "Maj holder");
 				holder.sensor = sensor;
 				holder.icon = retrieveIcon(holder.sensor);
 			} else {
-				Log.e("DEBUG", "__NO_COMPUTATION__ !!");
+				Log.w("DEBUG", "__NO_COMPUTATION__ !!");
 			}
 			if (holder.icon != null) {
 				values.put(MeasureTable.COLUMN_ICON, holder.icon);
