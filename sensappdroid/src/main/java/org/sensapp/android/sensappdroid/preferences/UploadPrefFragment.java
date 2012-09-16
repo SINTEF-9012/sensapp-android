@@ -106,8 +106,9 @@ public class UploadPrefFragment extends PreferenceFragment {
 		((AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), period * 60000, pendingIntent);
 		
 		Notification notification = new Notification.Builder(getActivity())
-			.setContentTitle("Auto upload started")
-			.setContentText("Auto upload running")
+			.setContentTitle("SensApp")
+			.setContentText("Auto upload is running")
+			.setTicker("Auto upload started")
 		    .setSmallIcon(R.drawable.ic_launcher)
 		    .setContentIntent(PendingIntent.getActivity(getActivity(), 0, new Intent(getActivity(), TabsActivity.class), 0))
 		    .getNotification();
