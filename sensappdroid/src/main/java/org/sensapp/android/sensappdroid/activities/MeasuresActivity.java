@@ -3,12 +3,12 @@ package org.sensapp.android.sensappdroid.activities;
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.fragments.MeasureListFragment.OnMeasureSelectedListener;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
-public class MeasuresActivity extends Activity implements OnMeasureSelectedListener {
+public class MeasuresActivity extends FragmentActivity implements OnMeasureSelectedListener {
 	
 	private String sensorName;
 	

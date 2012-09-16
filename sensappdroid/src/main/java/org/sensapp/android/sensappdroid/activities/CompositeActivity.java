@@ -5,16 +5,16 @@ import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.fragments.CompositeListFragment.ManageCompositeDialogFragment;
 import org.sensapp.android.sensappdroid.fragments.SensorListFragment.OnSensorSelectedListener;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public class CompositeActivity extends Activity implements OnSensorSelectedListener {
+public class CompositeActivity extends FragmentActivity implements OnSensorSelectedListener {
 	
 	private static final String TAG = CompositeActivity.class.getSimpleName();
 
@@ -40,7 +40,7 @@ public class CompositeActivity extends Activity implements OnSensorSelectedListe
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.manage_sensors:
-			ManageCompositeDialogFragment.newInstance(compositeName).show(getFragmentManager(), "manage_sensor");
+			ManageCompositeDialogFragment.newInstance(compositeName).show(getSupportFragmentManager(), "manage_sensor");
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

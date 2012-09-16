@@ -11,17 +11,17 @@ import org.sensapp.android.sensappdroid.fragments.MeasureListFragment.OnMeasureS
 import org.sensapp.android.sensappdroid.fragments.SensorListFragment;
 import org.sensapp.android.sensappdroid.fragments.SensorListFragment.OnSensorSelectedListener;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TabHost;
 
-public class TabsActivity extends Activity implements OnCompositeSelectedListener, OnSensorSelectedListener, OnMeasureSelectedListener {
+public class TabsActivity extends FragmentActivity implements OnCompositeSelectedListener, OnSensorSelectedListener, OnMeasureSelectedListener {
     
 	private TabHost tabHost;
     private TabManager tabManager;
@@ -55,7 +55,7 @@ public class TabsActivity extends Activity implements OnCompositeSelectedListene
 
     public static class TabManager implements TabHost.OnTabChangeListener {
         
-    	private final Activity tabActivity;
+    	private final FragmentActivity tabActivity;
         private final TabHost tabHost;
         private final int containerId;
         private final HashMap<String, TabInfo> tabs = new HashMap<String, TabInfo>();
@@ -87,7 +87,7 @@ public class TabsActivity extends Activity implements OnCompositeSelectedListene
             }
         }
 
-        public TabManager(Activity activity, TabHost tabHost, int containerId) {
+        public TabManager(FragmentActivity activity, TabHost tabHost, int containerId) {
             this.tabActivity = activity;
             this.tabHost = tabHost;
             this.containerId = containerId;
@@ -99,13 +99,13 @@ public class TabsActivity extends Activity implements OnCompositeSelectedListene
             String tag = tabSpec.getTag();
 
             TabInfo info = new TabInfo(tag, clss, args);
-            info.fragment = tabActivity.getFragmentManager().findFragmentByTag(tag);
+            info.fragment = tabActivity.getSupportFragmentManager().findFragmentByTag(tag);
 
             // Check to see if we already have a fragment for this tab, probably
             // from a previously saved state.  If so, deactivate it, because our
             // initial state is that a tab isn't shown.
             if (info.fragment != null && !info.fragment.isDetached()) {
-                FragmentTransaction ft = tabActivity.getFragmentManager().beginTransaction();
+                FragmentTransaction ft = tabActivity.getSupportFragmentManager().beginTransaction();
                 ft.detach(info.fragment);
                 ft.commit();
             }
@@ -118,7 +118,7 @@ public class TabsActivity extends Activity implements OnCompositeSelectedListene
         public void onTabChanged(String tabId) {
             TabInfo newTab = tabs.get(tabId);
             if (lastTab != newTab) {
-                FragmentTransaction ft = tabActivity.getFragmentManager().beginTransaction();
+                FragmentTransaction ft = tabActivity.getSupportFragmentManager().beginTransaction();
                 if (lastTab != null && lastTab.fragment != null) {
                         ft.detach(lastTab.fragment);
                 }
