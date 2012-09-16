@@ -28,8 +28,13 @@ public class MeasuresAdapter extends CursorAdapter {
 		} else {
 			icon.setImageResource(R.drawable.ic_launcher);
 		}
-		TextView name = (TextView) view.findViewById(R.id.value);
-		name.setText(cursor.getString(cursor.getColumnIndex(SensAppContract.Measure.VALUE)));
+		TextView value = (TextView) view.findViewById(R.id.value);
+		String valueString = cursor.getString(cursor.getColumnIndex(SensAppContract.Measure.VALUE));
+		// Take care of large values concatenation
+		if (valueString.length() > 10) {
+			valueString = valueString.substring(0, 6) + "...";
+		}
+		value.setText(valueString);
 	}
 	
 	@Override
