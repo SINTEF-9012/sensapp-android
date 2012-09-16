@@ -36,7 +36,7 @@ public class BatteryLoggerService extends Service {
 	
 	private void registerSensor() {
 		try {
-			Uri sensorUri = SensAppHelper.registerNumericalSensor(getApplicationContext(), sensorName, "Battery level", SensAppUnit.percent, R.drawable.ic_launcher);
+			Uri sensorUri = SensAppHelper.registerNumericalSensor(getApplicationContext(), sensorName, "Battery level", SensAppUnit.BATTERY_LEVEL, R.drawable.ic_launcher);
 			if (sensorUri == null) {
 				// The sensor is already registered.
 				Log.w(TAG, sensorName + " is already registered");
