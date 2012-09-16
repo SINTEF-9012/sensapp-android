@@ -243,6 +243,7 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 								if (e.getCause() != null) {
 									Log.e(TAG, e.getCause().getMessage());
 								}
+								cursor.close();
 								return null;
 							}
 							model.clearValues();
