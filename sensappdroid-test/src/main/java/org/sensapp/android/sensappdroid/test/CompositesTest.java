@@ -1,6 +1,6 @@
 package org.sensapp.android.sensappdroid.test;
 
-import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.contract.SensAppContract;
 
 import android.database.Cursor;
 import android.test.AndroidTestCase;
@@ -8,11 +8,11 @@ import android.test.AndroidTestCase;
 public class CompositesTest extends AndroidTestCase {
 
 	private int countTestComposite() {
-		Cursor cursor = getContext().getContentResolver().query(SensAppCPContract.Composite.CONTENT_URI, null, null, null, null);
+		Cursor cursor = getContext().getContentResolver().query(SensAppContract.Composite.CONTENT_URI, null, null, null, null);
 		assertNotNull(cursor);
 		int count  = 0;
 		while (cursor.moveToNext()) {
-			if (cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Composite.NAME)).startsWith("test")) {
+			if (cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Composite.NAME)).startsWith("test")) {
 				count ++;
 			}
 		}
@@ -21,11 +21,11 @@ public class CompositesTest extends AndroidTestCase {
 	}
 	
 	private int countTestCompose() {
-		Cursor cursor = getContext().getContentResolver().query(SensAppCPContract.Compose.CONTENT_URI, null, null, null, null);
+		Cursor cursor = getContext().getContentResolver().query(SensAppContract.Compose.CONTENT_URI, null, null, null, null);
 		assertNotNull(cursor);
 		int count  = 0;
 		while (cursor.moveToNext()) {
-			if (cursor.getString(cursor.getColumnIndexOrThrow(SensAppCPContract.Compose.COMPOSITE)).startsWith("test")) {
+			if (cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Compose.COMPOSITE)).startsWith("test")) {
 				count ++;
 			}
 		}

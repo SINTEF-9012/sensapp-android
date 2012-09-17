@@ -2,8 +2,9 @@ package org.sensapp.android.sensappdroid.test;
 
 import java.util.Random;
 
-import org.sensapp.android.sensappdroid.contentprovider.SensAppCPContract;
+import org.sensapp.android.sensappdroid.api.SensAppHelper;
 import org.sensapp.android.sensappdroid.contentprovider.SensAppContentProvider;
+import org.sensapp.android.sensappdroid.contract.SensAppContract;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
@@ -13,14 +14,39 @@ import android.test.ProviderTestCase2;
 public class ContentProviderTest extends ProviderTestCase2<SensAppContentProvider> {
 	
 	public ContentProviderTest() {
-		super(SensAppContentProvider.class, SensAppCPContract.AUTHORITY);
+		super(SensAppContentProvider.class, SensAppContract.AUTHORITY);
+	}
+	
+	
+	public void testStressInsert() {
+		final int nbInserts = 100;
+		ContentResolver resolver = getContext().getContentResolver();
+		for (int i = 0 ; i < nbInserts ; i ++) {
+			SensAppHelper.insertMeasureForced(resolver, "sensor1", "300");
+			SensAppHelper.insertMeasureForced(resolver, "sensor2", "300");
+			SensAppHelper.insertMeasureForced(resolver, "sensor3", "300");
+			SensAppHelper.insertMeasureForced(resolver, "sensor4", "300");
+			SensAppHelper.insertMeasureForced(resolver, "sensor5", "300");
+		}
+	}
+	
+	public void testStressBatchInsert() {
+		final int nbInserts = 1000;
+		ContentResolver resolver = getMockContentResolver();
+		for (int i = 0 ; i < nbInserts ; i ++) {
+			SensAppHelper.insertMeasure(resolver, "sensor1", "300");
+			SensAppHelper.insertMeasure(resolver, "sensor2", "300");
+			SensAppHelper.insertMeasure(resolver, "sensor3", "300");
+			SensAppHelper.insertMeasure(resolver, "sensor4", "300");
+			SensAppHelper.insertMeasure(resolver, "sensor5", "300");
+		}
 	}
 	
 	/////***** Uri tests *****//////
 	
 	public void testMeasuresUri() {
 		ContentResolver resolver = getMockContentResolver();
-		Uri uri = SensAppCPContract.Measure.CONTENT_URI;
+		Uri uri = SensAppContract.Measure.CONTENT_URI;
 		Cursor cursor = resolver.query(uri, null, null, null, null);
 		assertNotNull(cursor);
 		cursor.close();
@@ -29,7 +55,7 @@ public class ContentProviderTest extends ProviderTestCase2<SensAppContentProvide
 	public void testMeasureIdUri() {
 		int id = new Random().nextInt();
 		ContentResolver resolver = getMockContentResolver();
-		Uri uri = Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/" + String.valueOf(id));
+		Uri uri = Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + String.valueOf(id));
 		Cursor cursor = resolver.query(uri, null, null, null, null);
 		assertNotNull(cursor);
 		cursor.close();
@@ -37,7 +63,7 @@ public class ContentProviderTest extends ProviderTestCase2<SensAppContentProvide
 
 	public void testMeasureSensorNameUri() {
 		ContentResolver resolver = getMockContentResolver();
-		Uri uri = Uri.parse(SensAppCPContract.Measure.CONTENT_URI + "/sensorName");
+		Uri uri = Uri.parse(SensAppContract.Measure.CONTENT_URI + "/sensorName");
 		Cursor cursor = resolver.query(uri, null, null, null, null);
 		assertNotNull(cursor);
 		cursor.close();
@@ -45,7 +71,7 @@ public class ContentProviderTest extends ProviderTestCase2<SensAppContentProvide
 
 	public void testSensorsUri() {
 		ContentResolver resolver = getMockContentResolver();
-		Uri uri = SensAppCPContract.Sensor.CONTENT_URI;
+		Uri uri = SensAppContract.Sensor.CONTENT_URI;
 		Cursor cursor = resolver.query(uri, null, null, null, null);
 		assertNotNull(cursor);
 		cursor.close();
@@ -54,7 +80,7 @@ public class ContentProviderTest extends ProviderTestCase2<SensAppContentProvide
 	public void testSensorIdUri() {
 		int id = new Random().nextInt();
 		ContentResolver resolver = getMockContentResolver();
-		Uri uri = Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/" + String.valueOf(id));
+		Uri uri = Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + String.valueOf(id));
 		Cursor cursor = resolver.query(uri, null, null, null, null);
 		assertNotNull(cursor);
 		cursor.close();
@@ -62,7 +88,7 @@ public class ContentProviderTest extends ProviderTestCase2<SensAppContentProvide
 
 	public void testSensorNameUri() {
 		ContentResolver resolver = getMockContentResolver();
-		Uri uri = Uri.parse(SensAppCPContract.Sensor.CONTENT_URI + "/sensorName");
+		Uri uri = Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/sensorName");
 		Cursor cursor = resolver.query(uri, null, null, null, null);
 		assertNotNull(cursor);
 		cursor.close();
@@ -88,7 +114,7 @@ public class ContentProviderTest extends ProviderTestCase2<SensAppContentProvide
 	
 	public void testInsertMeasures() {
 		ContentResolver resolver = getMockContentResolver();
-		Uri uri = SensAppCPContract.Measure.CONTENT_URI;
+		Uri uri = SensAppContract.Measure.CONTENT_URI;
 		Cursor cursor = resolver.query(uri, null, null, null, null);
 		assertNotNull(cursor);
 		assertEquals(0, cursor.getCount());
@@ -102,7 +128,7 @@ public class ContentProviderTest extends ProviderTestCase2<SensAppContentProvide
 	
 	public void testInsertSensors() {
 		ContentResolver resolver = getMockContentResolver();
-		Uri uri = SensAppCPContract.Sensor.CONTENT_URI;
+		Uri uri = SensAppContract.Sensor.CONTENT_URI;
 		Cursor cursor = resolver.query(uri, null, null, null, null);
 		assertNotNull(cursor);
 		assertEquals(0, cursor.getCount());
@@ -118,7 +144,7 @@ public class ContentProviderTest extends ProviderTestCase2<SensAppContentProvide
 		ContentResolver resolver = getMockContentResolver();
 		DataManager.insertMeasures(resolver, measuresInsertNb, sensorsInsertNb);
 		int nbMeasure = 0;
-		Uri uri = SensAppCPContract.Measure.CONTENT_URI;
+		Uri uri = SensAppContract.Measure.CONTENT_URI;
 		Cursor cursor = null;
 		for (int sensorId = 0 ; sensorId < sensorsInsertNb ; sensorId ++) {
 			cursor = resolver.query(Uri.parse(uri + "/testSensor" + String.valueOf(sensorId)), null, null, null, null);

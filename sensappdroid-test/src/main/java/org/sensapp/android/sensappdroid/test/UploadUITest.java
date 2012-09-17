@@ -1,19 +1,19 @@
 package org.sensapp.android.sensappdroid.test;
 
-import org.sensapp.android.sensappdroid.activities.SensorsActivity;
+import org.sensapp.android.sensappdroid.activities.TabsActivity;
 
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class UploadUITest extends ActivityInstrumentationTestCase2<SensorsActivity> {
+public class UploadUITest extends ActivityInstrumentationTestCase2<TabsActivity> {
 
 	private Solo solo;
 	private final int nbMeasures = 20;
 	private final int nbSensors = 3;
 	
 	public UploadUITest() {
-		super(SensorsActivity.class);
+		super(TabsActivity.class);
 	}
 	
 	@Override
