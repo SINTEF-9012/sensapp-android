@@ -1,5 +1,7 @@
 package org.sensapp.android.sensappdroid.fragments;
 
+import java.util.ArrayList;
+
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.activities.SensAppService;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
@@ -120,31 +122,78 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 		return super.onContextItemSelected(item);
 	}
 	
-	
-	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		measureSelectedListener.onMeasureSelected(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + id));
 	}
 	
 	@Override
+	public void onDestroyView() {
+		if (loadMeasure != null) {
+			loadMeasure.terminate();
+		}
+		super.onDestroyView();
+	}
+
+	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		String[] projection = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_VALUE, MeasureTable.COLUMN_ICON};
+		String[] projection = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_VALUE, MeasureTable.COLUMN_ICON, MeasureTable.COLUMN_SENSOR};
 		Uri uri = getActivity().getIntent().getData();
 		if (uri == null) {
 			uri = SensAppContract.Measure.CONTENT_URI;
 		}
-		CursorLoader cursorLoader = new CursorLoader(getActivity(), uri, projection, null, null, SensAppContract.Measure.TIME + " DESC LIMIT 25");
+		CursorLoader cursorLoader = new CursorLoader(getActivity(), uri, projection, null, null, SensAppContract.Measure.TIME + " DESC LIMIT 100");
 		return cursorLoader;
 	}
 	
+	private LoadMeasureIcons loadMeasure; 
+	
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+		loadMeasure = new LoadMeasureIcons(data);
+		loadMeasure.start();
 		adapter.swapCursor(data);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
 		adapter.swapCursor(null);
+	}
+	
+	public class LoadMeasureIcons extends Thread {
+		private boolean terminate = false;
+		private ArrayList<String> names = new ArrayList<String>();
+		public LoadMeasureIcons(Cursor cursor) {
+			for (cursor.moveToFirst() ; !cursor.isAfterLast() ; cursor.moveToNext()) {			
+				names.add(cursor.getString(cursor.getColumnIndex(SensAppContract.Measure.SENSOR)));
+			}
+		}
+		public void terminate() {
+			terminate = true;
+		}
+		@Override
+		public void run() {
+			for (String name : names) {
+				if (terminate) {
+					return;
+				}
+				Cursor c = getActivity().getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + name), new String[]{SensAppContract.Sensor.ICON}, null, null, null);
+				if (c != null) {
+					if (!terminate && c.moveToFirst()) {
+						adapter.getIcons().put(name, c.getBlob(c.getColumnIndex(SensAppContract.Sensor.ICON)));
+					}
+					c.close();
+				}
+			}
+			if (terminate) {
+				return;
+			}
+			getActivity().runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					adapter.notifyDataSetChanged();	
+				}
+			});
+		}
 	}
 }

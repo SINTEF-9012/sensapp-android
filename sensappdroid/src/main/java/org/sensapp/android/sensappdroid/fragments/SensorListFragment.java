@@ -122,6 +122,14 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 	}
 	
 	@Override
+	public void onDestroyView() {
+		if (loadCounts != null) {
+			loadCounts.terminate();
+		}
+		super.onDestroyView();
+	}
+	
+	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		String[] projection = {SensAppContract.Sensor.NAME, SensAppContract.Sensor.ICON};
 		Uri uri = getActivity().getIntent().getData();
@@ -134,9 +142,12 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 		return cursorLoader;
 	}
 	
+	private LoadSensorCounts loadCounts;
+	
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		new GetCount(data).start();
+		loadCounts = new LoadSensorCounts(data);
+		loadCounts.start();
 		adapter.swapCursor(data);
 	}
 
@@ -145,25 +156,34 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 		adapter.swapCursor(null);
 	}
 	
-	public class GetCount extends Thread {
+	public class LoadSensorCounts extends Thread {
 		private ArrayList<String> names = new ArrayList<String>();
-		public GetCount(Cursor cursor) {
+		private boolean terminate = false;
+		public LoadSensorCounts(Cursor cursor) {
 			for (cursor.moveToFirst() ; !cursor.isAfterLast() ; cursor.moveToNext()) {			
 				names.add(cursor.getString(cursor.getColumnIndex(SensAppContract.Sensor.NAME)));
 			}
 		}
+		public void terminate() {
+			terminate = true;
+		}
 		@Override
 		public void run() {
 			for (String name : names) {
+				if (terminate) {
+					return;
+				}
 				Cursor c = getActivity().getContentResolver().query(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + name), new String[]{SensAppContract.Measure.ID}, null, null, null);
 				if (c != null) {
-					adapter.getCounts().put(name, c.getCount());
-					getActivity().runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							adapter.notifyDataSetChanged();	
-						}
-					});
+					if (!terminate) {
+						adapter.getCounts().put(name, c.getCount());
+						getActivity().runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								adapter.notifyDataSetChanged();	
+							}
+						});
+					}
 					c.close();
 				}
 			}
