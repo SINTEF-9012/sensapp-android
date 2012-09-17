@@ -54,7 +54,7 @@ public class SensAppHelper {
 		ContentValues values = buildMeasure(context, sensor, value, 0, System.currentTimeMillis() / 1000);
 		InsertionManager.storeMeasure(context, values);
 		return null;
-		//return context.getContentResolver().insert(SensAppContract.Measure.CONTENT_URI, values);
+//		return context.getContentResolver().insert(SensAppContract.Measure.CONTENT_URI, values);
 	}
 	
 	public static Uri insertMeasure(Context context, String sensor, int value) throws IllegalArgumentException {
