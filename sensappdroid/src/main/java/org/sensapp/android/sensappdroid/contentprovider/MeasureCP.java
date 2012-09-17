@@ -17,7 +17,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 public class MeasureCP extends TableContentProvider {
 	
@@ -89,21 +88,6 @@ public class MeasureCP extends TableContentProvider {
 		byte[] icon;
 	}
 	
-	private static IconHolder holder;
-	
-	private byte[] retrieveIcon(String sensor) {
-		Log.w("DEBUG", "__NEW_QUERY__");
-		Cursor cursor = getContext().getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + sensor), new String[]{SensorTable.COLUMN_ICON}, null, null, null);
-		byte[] icon = null;
-		if (cursor != null) {
-			if (cursor.moveToFirst()) {
-				icon = cursor.getBlob(cursor.getColumnIndex(SensorTable.COLUMN_ICON));
-			}
-			cursor.close();
-		}
-		return icon;
-	}
-	
 	@Override
 	public Uri insert(Uri uri, ContentValues values, int uid) throws IllegalStateException {
 		SQLiteDatabase db = getDatabase().getWritableDatabase();
@@ -114,30 +98,13 @@ public class MeasureCP extends TableContentProvider {
 				throw new IllegalStateException("Forbiden insertion");
 			}
 			values.put(MeasureTable.COLUMN_UPLOADED, 0);
-			// Store the sensor icon
-			String sensor = (String) values.get(MeasureTable.COLUMN_SENSOR);
-			if (holder == null) {
-				Log.w("DEBUG", "New holder");
-				holder = new IconHolder();
-				holder.sensor = sensor;
-				holder.icon = retrieveIcon(holder.sensor);
-			} else if (!holder.sensor.equals(sensor)) {
-				Log.w("DEBUG", "Maj holder");
-				holder.sensor = sensor;
-				holder.icon = retrieveIcon(holder.sensor);
-			} else {
-				Log.w("DEBUG", "__NO_COMPUTATION__ !!");
-			}
-			if (holder.icon != null) {
-				values.put(MeasureTable.COLUMN_ICON, holder.icon);
-			}
 			id = db.insert(MeasureTable.TABLE_MEASURE, null, values);
 			break;
 		default:
 			throw new IllegalArgumentException("Bad URI: " + uri);
 		}
-		getContext().getContentResolver().notifyChange(uri, null);
-		return Uri.parse("content://" + SensAppContract.AUTHORITY + "/" + BASE_PATH + "/" + id);
+		getContext().getContentResolver().notifyChange(Uri.parse(uri + "/" + (String) values.get(MeasureTable.COLUMN_SENSOR)), null);
+		return Uri.parse(uri + "/" + id);
 	}
 	
 	@Override
