@@ -26,11 +26,17 @@ public class BatteryLoggerService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		sensorName = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(getString(R.string.pref_sensorname_key), "MyDevice_battery");
-		registerSensor();
-		Intent batteryStatus = registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-		int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);	
-		insertMeasure(level);
+		if (SensAppHelper.isSensAppInstalled(getApplicationContext())) {
+			sensorName = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(getString(R.string.pref_sensorname_key), "MyDevice_battery");
+			registerSensor();
+			Intent batteryStatus = registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+			int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);	
+			insertMeasure(level);
+		} else {
+			PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean(MainActivity.SERVICE_RUNNING, false).commit();
+			AlarmHelper.cancelAlarm(getApplicationContext());
+			Log.e(TAG, "SensApp has been uninstalled");
+		}
 		stopSelf();
 	}
 	
@@ -52,7 +58,7 @@ public class BatteryLoggerService extends Service {
 	
 	private void insertMeasure(int value) {
 		try {
-		Uri measureUri = SensAppHelper.insertMeasure(getContentResolver(), sensorName, value);
+		Uri measureUri = SensAppHelper.insertMeasure(getApplicationContext(), sensorName, value);
 		Log.i(TAG, "New measure (" + value + ") available at " + measureUri);
 		} catch (IllegalArgumentException e) {
 			Log.e(TAG, e.getMessage());
