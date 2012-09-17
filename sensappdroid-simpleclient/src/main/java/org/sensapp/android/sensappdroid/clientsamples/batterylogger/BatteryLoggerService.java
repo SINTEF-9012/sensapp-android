@@ -52,7 +52,7 @@ public class BatteryLoggerService extends Service {
 	
 	private void insertMeasure(int value) {
 		try {
-		Uri measureUri = SensAppHelper.insertMeasure(getApplicationContext(), sensorName, value);
+		Uri measureUri = SensAppHelper.insertMeasure(getContentResolver(), sensorName, value);
 		Log.i(TAG, "New measure (" + value + ") available at " + measureUri);
 		} catch (IllegalArgumentException e) {
 			Log.e(TAG, e.getMessage());
