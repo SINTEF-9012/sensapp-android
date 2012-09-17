@@ -1,13 +1,17 @@
 package org.sensapp.android.sensappdroid.contentprovider;
 
+import org.sensapp.android.sensappdroid.database.MeasureTable;
 import org.sensapp.android.sensappdroid.database.SensAppDatabaseHelper;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Binder;
+import android.util.Log;
 
 public class SensAppContentProvider extends ContentProvider {
 
@@ -40,25 +44,44 @@ public class SensAppContentProvider extends ContentProvider {
 	private SensorCP sensorCP;
 	private CompositeCP compositeCP;
 	private ComposeCP composeCP;
+	private SensAppDatabaseHelper databaseHelper;
 	
 	@Override
 	public boolean onCreate() {
-		SensAppDatabaseHelper database = new SensAppDatabaseHelper(getContext());
-		measureCP = new MeasureCP(getContext(), database);
-		sensorCP = new SensorCP(getContext(), database);
-		compositeCP = new CompositeCP(getContext(), database);
-		composeCP = new ComposeCP(getContext(), database);
+		databaseHelper = new SensAppDatabaseHelper(getContext());
+		measureCP = new MeasureCP(getContext(), databaseHelper);
+		sensorCP = new SensorCP(getContext(), databaseHelper);
+		compositeCP = new CompositeCP(getContext(), databaseHelper);
+		composeCP = new ComposeCP(getContext(), databaseHelper);
 		return false;
 	}
 	
-//	private String[] getCallingPackages() {
-//	     int caller = Binder.getCallingUid();
-//	     if (caller == 0) {
-//	         return null;
-//	     }
-//	     return getContext().getPackageManager().getPackagesForUid(caller);
-//	 }
-	
+	@Override
+	public int bulkInsert(Uri uri, ContentValues[] values) {
+		SQLiteDatabase sqlDB = databaseHelper.getWritableDatabase();
+		if (sensAppURIMatcher.match(uri) == MEASURE) {
+			Log.e("Provider", "custom bulk uri: " + uri);
+			sqlDB.beginTransaction();
+			try {
+				for (ContentValues cv : values) {
+					cv.put(MeasureTable.COLUMN_UPLOADED, 0);
+					long newID = sqlDB.insertOrThrow(MeasureTable.TABLE_MEASURE, null, cv);
+					if (newID <= 0) {
+						throw new SQLException("Failed to insert row into " + uri);
+					}
+				}
+				sqlDB.setTransactionSuccessful();
+				getContext().getContentResolver().notifyChange(uri, null);
+				Log.e("Provider", "num inserted: " + values.length);
+			} finally {
+				sqlDB.endTransaction();
+			}
+			return values.length;
+		} else {
+			return super.bulkInsert(uri, values);
+		}
+	}
+
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		int uid = Binder.getCallingUid();
