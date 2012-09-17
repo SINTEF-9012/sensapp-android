@@ -24,7 +24,7 @@ public class MeasuresAdapter extends CursorAdapter {
 	private int indexValue;
 	
 	public MeasuresAdapter(Context context, Cursor c) {
-		super(context, c);
+		super(context, c, 0);
 		inflater = LayoutInflater.from(context);
 	}
 	

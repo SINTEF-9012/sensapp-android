@@ -19,6 +19,7 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -27,6 +28,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 
@@ -65,6 +68,22 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 		getLoaderManager().initLoader(0, null, this);
 		setListAdapter(adapter);
 		registerForContextMenu(getListView());
+		getListView().setOnScrollListener(new OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				// TODO Auto-generated method stub
+			}
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				if (visibleItemCount != 0 && firstVisibleItem == 0 && !getLoaderManager().getLoader(0).isStarted()) {
+					Log.e("DEBUG", "Start Loader");
+					getLoaderManager().getLoader(0).startLoading();
+				} else if (visibleItemCount != 0 && firstVisibleItem > 0 && getLoaderManager().getLoader(0).isStarted()) {
+					Log.e("DEBUG", "Stop Loader");
+					getLoaderManager().getLoader(0).stopLoading();
+				}
+			}
+		});
 	}
 
 	@Override
@@ -128,21 +147,24 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 	}
 	
 	@Override
-	public void onDestroyView() {
+	public void onStop() {
 		if (loadMeasure != null) {
 			loadMeasure.terminate();
 		}
-		super.onDestroyView();
+		super.onStop();
 	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		String[] projection = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_VALUE, MeasureTable.COLUMN_ICON, MeasureTable.COLUMN_SENSOR};
 		Uri uri = getActivity().getIntent().getData();
+		int delay = 1000;
 		if (uri == null) {
 			uri = SensAppContract.Measure.CONTENT_URI;
+			delay = 10000;
 		}
-		CursorLoader cursorLoader = new CursorLoader(getActivity(), uri, projection, null, null, SensAppContract.Measure.TIME + " DESC LIMIT 100");
+		CursorLoader cursorLoader = new CursorLoader(getActivity().getApplicationContext(), uri, projection, null, null, SensAppContract.Measure.TIME + " DESC LIMIT 100");
+		cursorLoader.setUpdateThrottle(delay);
 		return cursorLoader;
 	}
 	
@@ -174,26 +196,24 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 		@Override
 		public void run() {
 			for (String name : names) {
-				if (terminate) {
-					return;
-				}
-				Cursor c = getActivity().getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + name), new String[]{SensAppContract.Sensor.ICON}, null, null, null);
-				if (c != null) {
-					if (!terminate && c.moveToFirst()) {
-						adapter.getIcons().put(name, c.getBlob(c.getColumnIndex(SensAppContract.Sensor.ICON)));
+				if (!terminate && getActivity() != null) {
+					Cursor c = getActivity().getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + name), new String[]{SensAppContract.Sensor.ICON}, null, null, null);
+					if (c != null) {
+						if (!terminate && c.moveToFirst()) {
+							adapter.getIcons().put(name, c.getBlob(c.getColumnIndex(SensAppContract.Sensor.ICON)));
+						}
+						c.close();
 					}
-					c.close();
 				}
 			}
-			if (terminate) {
-				return;
+			if (!terminate && getActivity() != null) {
+				getActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						adapter.notifyDataSetChanged();	
+					}
+				});
 			}
-			getActivity().runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					adapter.notifyDataSetChanged();	
-				}
-			});
 		}
 	}
 }

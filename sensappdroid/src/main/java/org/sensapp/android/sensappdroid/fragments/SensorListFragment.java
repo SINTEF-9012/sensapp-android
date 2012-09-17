@@ -122,11 +122,11 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 	}
 	
 	@Override
-	public void onDestroyView() {
+	public void onStop() {
 		if (loadCounts != null) {
 			loadCounts.terminate();
 		}
-		super.onDestroyView();
+		super.onStop();
 	}
 	
 	@Override
@@ -177,12 +177,14 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 				if (c != null) {
 					if (!terminate) {
 						adapter.getCounts().put(name, c.getCount());
-						getActivity().runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								adapter.notifyDataSetChanged();	
-							}
-						});
+						if (getActivity() != null) {
+							getActivity().runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									adapter.notifyDataSetChanged();	
+								}
+							});
+						}
 					}
 					c.close();
 				}

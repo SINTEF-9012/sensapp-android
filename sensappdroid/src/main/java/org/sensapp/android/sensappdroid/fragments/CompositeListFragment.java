@@ -13,7 +13,6 @@ import org.sensapp.android.sensappdroid.restrequests.PostCompositeRestTask;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;

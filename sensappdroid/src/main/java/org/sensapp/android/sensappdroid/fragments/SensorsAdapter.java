@@ -20,7 +20,7 @@ public class SensorsAdapter extends CursorAdapter {
 	private Hashtable<String, Integer> counts =  new Hashtable<String, Integer>();
 
 	public SensorsAdapter(Context context, Cursor c) {
-		super(context, c);
+		super(context, c, 0);
 	}
 	
 	public Hashtable<String, Integer> getCounts() {
