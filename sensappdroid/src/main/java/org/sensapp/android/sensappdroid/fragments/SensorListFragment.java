@@ -1,5 +1,7 @@
 package org.sensapp.android.sensappdroid.fragments;
 
+import java.util.ArrayList;
+
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.activities.SensAppService;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
@@ -134,6 +136,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 	
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+		new GetCount(data).start();
 		adapter.swapCursor(data);
 	}
 
@@ -141,5 +144,29 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 	public void onLoaderReset(Loader<Cursor> loader) {
 		adapter.swapCursor(null);
 	}
-
+	
+	public class GetCount extends Thread {
+		private ArrayList<String> names = new ArrayList<String>();
+		public GetCount(Cursor cursor) {
+			for (cursor.moveToFirst() ; !cursor.isAfterLast() ; cursor.moveToNext()) {			
+				names.add(cursor.getString(cursor.getColumnIndex(SensAppContract.Sensor.NAME)));
+			}
+		}
+		@Override
+		public void run() {
+			for (String name : names) {
+				Cursor c = getActivity().getContentResolver().query(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + name), new String[]{SensAppContract.Measure.ID}, null, null, null);
+				if (c != null) {
+					adapter.getCounts().put(name, c.getCount());
+					getActivity().runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							adapter.notifyDataSetChanged();	
+						}
+					});
+					c.close();
+				}
+			}
+		}
+	}
 }
