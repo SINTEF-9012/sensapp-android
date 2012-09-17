@@ -60,7 +60,6 @@ public class SensAppContentProvider extends ContentProvider {
 	public int bulkInsert(Uri uri, ContentValues[] values) {
 		SQLiteDatabase sqlDB = databaseHelper.getWritableDatabase();
 		if (sensAppURIMatcher.match(uri) == MEASURE) {
-			Log.e("Provider", "custom bulk uri: " + uri);
 			sqlDB.beginTransaction();
 			try {
 				for (ContentValues cv : values) {
@@ -72,7 +71,7 @@ public class SensAppContentProvider extends ContentProvider {
 				}
 				sqlDB.setTransactionSuccessful();
 				getContext().getContentResolver().notifyChange(uri, null);
-				Log.e("Provider", "num inserted: " + values.length);
+				Log.d("SensAppProvider", "bulk insert: " + values.length);
 			} finally {
 				sqlDB.endTransaction();
 			}
