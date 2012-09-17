@@ -39,14 +39,21 @@
 	<groupId>org.sensapp.android</groupId>
 	<artifactId>sensappdroid</artifactId>
 	<type>apk</type>
-	<version>1.4-SNAPSHOT</version>
+	<version>1.5-SNAPSHOT</version>
 	<scope>provided</scope>
       </dependency>
       <dependency>
 	<groupId>org.sensapp.android</groupId>
 	<artifactId>sensappdroid</artifactId>
 	<type>jar</type>
-	<version>1.4-SNAPSHOT</version>
+	<version>1.5-SNAPSHOT</version>
+	<scope>provided</scope>
+      </dependency>
+      <dependency>
+	<groupId>org.sensapp.android</groupId>
+	<artifactId>sensappdroid-contract</artifactId>
+	<type>jar</type>
+	<version>1.5-SNAPSHOT</version>
 	<scope>provided</scope>
       </dependency>
       <dependency>
@@ -72,6 +79,8 @@
       <artifactId>sensappdroid</artifactId>
       <type>jar</type>
     </dependency>
+    <groupId>org.sensapp.android</groupId>
+	<artifactId>sensappdroid-contract</artifactId>
     <dependency>
       <groupId>com.jayway.android.robotium</groupId>
       <artifactId>robotium-solo</artifactId>
