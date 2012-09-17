@@ -7,7 +7,6 @@ import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -49,42 +48,42 @@ public class SensAppHelper {
 	 * @see insertMeasure(Context context, String sensor, int value)
 	 * @see insertMeasure(Context context, String sensor, float value) 
 	 */
-	public static Uri insertMeasure(ContentResolver cresolver, String sensor, String value) throws IllegalArgumentException {
+	public static Uri insertMeasure(Context context, String sensor, String value) throws IllegalArgumentException {
 		ContentValues values = buildMeasure(sensor, value, 0, System.currentTimeMillis() / 1000);
-		InsertionManager.storeMeasure(cresolver, values);
+		InsertionManager.storeMeasure(context, values);
 		return null;
 	}
 	
-	public static Uri insertMeasure(ContentResolver cresolver, String sensor, int value) throws IllegalArgumentException {
-		return insertMeasure(cresolver, sensor, String.valueOf(value));
+	public static Uri insertMeasure(Context context, String sensor, int value) throws IllegalArgumentException {
+		return insertMeasure(context, sensor, String.valueOf(value));
 	}
 	 
-	public static Uri insertMeasure(ContentResolver cresolver, String sensor, float value) throws IllegalArgumentException {
-		return insertMeasure(cresolver, sensor, String.valueOf(value));
+	public static Uri insertMeasure(Context context, String sensor, float value) throws IllegalArgumentException {
+		return insertMeasure(context, sensor, String.valueOf(value));
 	}
 	
-	public static Uri insertMeasure(ContentResolver cresolver, String sensor, String value, long basetime, long time) throws IllegalArgumentException {
+	public static Uri insertMeasure(Context context, String sensor, String value, long basetime, long time) throws IllegalArgumentException {
 		ContentValues values = buildMeasure(sensor, value, basetime, time);
-		InsertionManager.storeMeasure(cresolver, values);
+		InsertionManager.storeMeasure(context, values);
 		return null;
 	}
 	
-	public static Uri insertMeasure(ContentResolver cresolver, String sensor, int value, long basetime, long time) throws IllegalArgumentException {
-		return insertMeasure(cresolver, sensor, String.valueOf(value), basetime, time);
+	public static Uri insertMeasure(Context context, String sensor, int value, long basetime, long time) throws IllegalArgumentException {
+		return insertMeasure(context, sensor, String.valueOf(value), basetime, time);
 	}
 	 
-	public static Uri insertMeasure(ContentResolver cresolver, String sensor, float value, long basetime, long time) throws IllegalArgumentException {
-		return insertMeasure(cresolver, sensor, String.valueOf(value), basetime, time);
+	public static Uri insertMeasure(Context context, String sensor, float value, long basetime, long time) throws IllegalArgumentException {
+		return insertMeasure(context, sensor, String.valueOf(value), basetime, time);
 	}
 	
-	public static Uri insertMeasureForced(ContentResolver cresolver, String sensor, String value) throws IllegalArgumentException {
+	public static Uri insertMeasureForced(Context context, String sensor, String value) throws IllegalArgumentException {
 		ContentValues values = buildMeasure(sensor, value, 0, System.currentTimeMillis() / 1000);
-		return cresolver.insert(SensAppContract.Measure.CONTENT_URI, values);
+		return context.getContentResolver().insert(SensAppContract.Measure.CONTENT_URI, values);
 	}
 	
-	public static Uri insertMeasureForced(ContentResolver cresolver, String sensor, String value, long basetime, long time) throws IllegalArgumentException {
+	public static Uri insertMeasureForced(Context context, String sensor, String value, long basetime, long time) throws IllegalArgumentException {
 		ContentValues values = buildMeasure(sensor, value, basetime, time);
-		return cresolver.insert(SensAppContract.Measure.CONTENT_URI, values);
+		return context.getContentResolver().insert(SensAppContract.Measure.CONTENT_URI, values);
 	}
 	
 	public static boolean isSensAppInstalled(Context context) {

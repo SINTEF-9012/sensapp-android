@@ -8,8 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 
 public class InsertionManager {
 
@@ -20,16 +20,16 @@ public class InsertionManager {
 	private static final ArrayList<ContentValues> valuesBatch = new ArrayList<ContentValues>();
 	private static final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
 	
-	public static void storeMeasure(final ContentResolver cresolver, ContentValues values) {
+	public static void storeMeasure(final Context context, ContentValues values) {
 		//Log.w("DEBUG", "__Store__");
 		buffers.add(values);
 		if (empty) {
-			scheduleFlush(cresolver);
+			scheduleFlush(context);
 			empty = false;
 		}
 	}
 
-	private static void flushSensorMeasures(ContentResolver cresolver) {
+	private static void flushSensorMeasures(Context context) {
 		//Log.e("DEBUG", "__Flush__");
 		valuesBatch.clear();
 		ContentValues values = buffers.pollFirst(); 
@@ -38,13 +38,13 @@ public class InsertionManager {
 			values = buffers.pollFirst();
 			empty = true;
 		}
-		cresolver.bulkInsert(SensAppContract.Measure.CONTENT_URI, valuesBatch.toArray(new ContentValues[valuesBatch.size()]));
+		context.getContentResolver().bulkInsert(SensAppContract.Measure.CONTENT_URI, valuesBatch.toArray(new ContentValues[valuesBatch.size()]));
 	}
 	
-	private static void scheduleFlush(final ContentResolver cresolver) {
+	private static void scheduleFlush(final Context context) {
 		worker.schedule(new Runnable() {
 			public void run() {
-				flushSensorMeasures(cresolver);
+				flushSensorMeasures(context);
 			}
 		}, LOWEST_INTERVAL, TimeUnit.SECONDS);
 	}
