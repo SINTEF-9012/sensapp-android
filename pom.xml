@@ -259,7 +259,23 @@
 	  </execution>
 	</executions>
       </plugin>
-          
+	<plugin>
+	  <groupId>org.apache.maven.plugins</groupId>
+	  <artifactId>maven-release-plugin</artifactId>
+	  <configuration>
+	    <pushChanges>false</pushChanges>
+	    <remoteTagging>false</remoteTagging>
+        </configuration>
+	<executions>
+	  <execution>
+	    <id>update-manifest</id>
+	    <phase>prepare</phase>
+	    <goals>
+	      <goal>android:update-manifest</goal>
+	    </goals>
+	  </execution>
+	</executions>
+	</plugin>
     </plugins>
   </build>
   

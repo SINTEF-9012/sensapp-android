@@ -102,6 +102,17 @@
 	      <goal>zipalign</goal>
 	    </goals>
 	  </execution>
+	  <execution>
+	    <id>update-manifest</id>
+	    <goals>
+	      <goal>manifest-update</goal>
+	    </goals>
+	    <configuration>
+	      <manifest>
+		<versionCodeAutoIncrement>true</versionCodeAutoIncrement>
+	      </manifest>
+	    </configuration>
+	  </execution>
 	</executions>
 	<extensions>true</extensions>
       </plugin>
