@@ -9,7 +9,7 @@
     <parent>
         <groupId>org.sensapp.android</groupId>
         <artifactId>parent</artifactId>
-        <version>1.5-SNAPSHOT</version>
+        <version>1.5</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
