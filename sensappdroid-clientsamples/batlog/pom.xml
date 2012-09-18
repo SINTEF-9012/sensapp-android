@@ -3,7 +3,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>batlog</artifactId>
-  <version>1.3</version>
+  <version>1.4-SNAPSHOT</version>
   <packaging>apk</packaging>
   <name>SensApp Android :: Client :: BatLog</name>
   <description>SensApp android simple client example - Battery logger</description>  
