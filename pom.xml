@@ -32,8 +32,8 @@
   
   <scm>
     <connection>scm:git://${github.host}/${repositoryOwner}/${repositoryName}.git</connection>
-    <developerConnection>scm:git:git@${github.host}/${repositoryOwner}/${repositoryName}.git</developerConnection>
-    <url>http://${github.host}/${repositoryOwner}/${repositoryName}</url>
+    <developerConnection>scm:git:git@${github.host}:${repositoryOwner}/${repositoryName}.git</developerConnection>
+    <url>https://${github.host}/${repositoryOwner}/${repositoryName}</url>
   </scm>
   
   <ciManagement>
