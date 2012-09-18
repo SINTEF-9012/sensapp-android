@@ -63,7 +63,7 @@
   <modules>
     <module>sensappdroid</module>
     <module>sensappdroid-contract</module>
-    <module>sensappdroid-simpleclient</module>
+    <module>sensappdroid-clientsamples/batlog</module>
     <!-- <module>sensappdroid-test</module> /-->
   </modules>
 
