@@ -15,6 +15,7 @@
     <artifactId>parent</artifactId>
     <groupId>org.sensapp.android</groupId>
     <version>1.0</version>
+    <relativePath>..</relativePath>
   </parent>
 
   <ciManagement>
