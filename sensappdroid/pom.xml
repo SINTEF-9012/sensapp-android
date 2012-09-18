@@ -24,6 +24,7 @@
   </ciManagement>
   
   <properties>
+    <sensappdroid-contract.version>1.0</sensappdroid-contract.version>
     <jackson.version>1.9.7</jackson.version>
     <maven-checkstyle-plugin.configLocation>../reporting/checkstyle.xml</maven-checkstyle-plugin.configLocation>
     <maven-pmd-plugin.configLocation>../reporting/pmd.xml</maven-pmd-plugin.configLocation>
@@ -34,7 +35,7 @@
       <dependency>
 	<groupId>org.sensapp.android</groupId>
 	<artifactId>sensappdroid-contract</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>${sensappdroid-contract.version}</version>
       </dependency>
       <dependency>
 	<groupId>org.codehaus.jackson</groupId>
