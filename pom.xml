@@ -7,25 +7,36 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.sensapp.android</groupId>
   <artifactId>parent</artifactId>
-  <version>1.0</version>
+  <version>1.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>SensApp Android</name>
   <description>SensApp android application</description>
   <url>http://android.sensapp.org</url>
 
-  <distributionManagement> 
-      <repository>
-            <id>thingml-release</id>
-            <name>thingml-release</name>
-            <url>http://maven.thingml.org/archiva/repository/thingml-release/</url>
-        </repository>
-        
-        <snapshotRepository>
-            <id>thingml-snapshot</id>
-            <name>thingml-snapshot</name>
-            <url>http://maven.thingml.org/archiva/repository/thingml-snapshot/</url>
-        </snapshotRepository>
+  <distributionManagement>
+    <repository>
+      <id>thingml-release</id>
+      <name>thingml-release</name>
+      <url>http://maven.thingml.org/archiva/repository/thingml-release/</url>
+    </repository>
+    
+    <snapshotRepository>
+      <id>thingml-snapshot</id>
+      <name>thingml-snapshot</name>
+      <url>http://maven.thingml.org/archiva/repository/thingml-snapshot/</url>
+    </snapshotRepository>
   </distributionManagement>
+
+  <repositories>
+    <repository>
+      <id>thingml-release</id>
+      <name>thingml-release</name>
+      <url>http://maven.thingml.org/archiva/repository/thingml-release/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+  </repositories>
 
   <developers>
     <developer>

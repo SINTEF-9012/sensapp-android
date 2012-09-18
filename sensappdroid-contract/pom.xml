@@ -4,11 +4,21 @@
   <packaging>jar</packaging>
   <version>1.1-SNAPSHOT</version>
   <name>SensApp Android :: Contract</name>
-
-    <parent>
-        <groupId>org.sensapp.android</groupId>
-        <artifactId>parent</artifactId>
-        <version>1.0</version>
-        <relativePath>..</relativePath>
-    </parent>
+  
+  <repositories>
+    <repository>
+      <id>thingml-release</id>
+      <name>thingml-release</name>
+      <url>http://maven.thingml.org/archiva/repository/thingml-release/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+  </repositories>
+  
+  <parent>
+    <groupId>org.sensapp.android</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.0</version>
+  </parent>
 </project>

@@ -11,11 +11,21 @@
   <name>SensApp Android :: Main</name>
   <description>SensApp android application</description>
   
+  <repositories>
+    <repository>
+      <id>thingml-release</id>
+      <name>thingml-release</name>
+      <url>http://maven.thingml.org/archiva/repository/thingml-release/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+  </repositories>
+
   <parent>
     <groupId>org.sensapp.android</groupId>
     <artifactId>parent</artifactId>
     <version>1.0</version>
-    <relativePath>..</relativePath>
   </parent>
 
   <ciManagement>
