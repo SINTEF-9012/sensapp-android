@@ -265,11 +265,11 @@
 	  <configuration>
 	    <pushChanges>false</pushChanges>
 	    <remoteTagging>false</remoteTagging>
+	    <url>scm:git:git@github.com/SINTEF-9012/sensapp-android.git</url>
         </configuration>
 	<executions>
 	  <execution>
 	    <id>update-manifest</id>
-	    <phase>prepare</phase>
 	    <goals>
 	      <goal>android:update-manifest</goal>
 	    </goals>
