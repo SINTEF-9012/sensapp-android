@@ -15,7 +15,6 @@
     <artifactId>parent</artifactId>
     <groupId>org.sensapp.android</groupId>
     <version>1.0</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <ciManagement>
