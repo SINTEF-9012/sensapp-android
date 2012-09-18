@@ -271,7 +271,7 @@
 	  <execution>
 	    <id>update-manifest</id>
 	    <goals>
-	      <goal>android:update-manifest</goal>
+	      <goal>com.jayway.maven.plugins.android.generation2:android-maven-plugin:update-manifest</goal>
 	    </goals>
 	  </execution>
 	</executions>
