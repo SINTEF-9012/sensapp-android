@@ -3,10 +3,10 @@
 
 target/
 
-sensappdroid-simpleclient/bin/*
-sensappdroid-simpleclient/gen/*
-sensappdroid-simpleclient/target
-sensappdroid-simpleclient/.settings
+sensappdroid-clientsamples/*/bin/*
+sensappdroid-clientsamples/*/gen/*
+sensappdroid-clientsamples/*/target
+sensappdroid-clientsamples/*/.settings
 
 sensappdroid-contract/bin/*
 sensappdroid-contract/gen/*
@@ -18,7 +18,7 @@ sensappdroid-test/gen/*
 sensappdroid-test/target
 sensappdroid-test/.settings
 
-sensappdroid/bin/*
-sensappdroid/gen/*
-sensappdroid/.settings
-sensappdroid/target
+sensappdroid-main/bin/*
+sensappdroid-main/gen/*
+sensappdroid-main/.settings
+sensappdroid-main/target
