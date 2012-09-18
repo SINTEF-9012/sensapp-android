@@ -14,7 +14,7 @@
   <parent>
     <artifactId>parent</artifactId>
     <groupId>org.sensapp.android</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -54,7 +54,7 @@
 	<groupId>org.sensapp.android</groupId>
 	<artifactId>sensappdroid-contract</artifactId>
 	<type>jar</type>
-	<version>1.5-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<scope>provided</scope>
       </dependency>
       <dependency>

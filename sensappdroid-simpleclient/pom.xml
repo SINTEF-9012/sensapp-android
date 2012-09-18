@@ -14,7 +14,7 @@
   <parent>
     <artifactId>parent</artifactId>
     <groupId>org.sensapp.android</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -33,7 +33,7 @@
      <dependency>
       <groupId>org.sensapp.android</groupId>
       <artifactId>sensappdroid-contract</artifactId>
-      <version>${project.parent.version}</version>
+      <version>1.0-SNAPSHOT</version>
     </dependency>
     </dependencies>
   </dependencyManagement>  
