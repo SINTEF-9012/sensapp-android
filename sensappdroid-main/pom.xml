@@ -6,7 +6,7 @@
   
   <modelVersion>4.0.0</modelVersion>
   <artifactId>sensappdroid-main</artifactId>
-  <version>1.7-SNAPSHOT</version>
+  <version>1.6.5-SNAPSHOT</version>
   <packaging>apk</packaging>
   <name>SensApp Android :: Main</name>
   <description>SensApp android application</description>
