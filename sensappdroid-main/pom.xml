@@ -22,7 +22,8 @@
   <parent>
     <groupId>org.sensapp.android</groupId>
     <artifactId>parent</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
+    <relativePath>..<relativePath>
   </parent>
 
   <ciManagement>
@@ -33,8 +34,10 @@
   <properties>
     <sensappdroid-contract.version>1.0</sensappdroid-contract.version>
     <jackson.version>1.9.7</jackson.version>
-    <maven-checkstyle-plugin.configLocation>../reporting/checkstyle.xml</maven-checkstyle-plugin.configLocation>
-    <maven-pmd-plugin.configLocation>../reporting/pmd.xml</maven-pmd-plugin.configLocation>
+    <headerdir>${project.parent.basedir}</headerdir>
+    <findbugs-exclude.location>${project.parent.basedir}/reporting/findbugs-exclude.xml</findbugs-exclude.location>
+    <maven-checkstyle-plugin.configLocation>${project.parent.basedir}/reporting/checkstyle.xml</maven-checkstyle-plugin.configLocation>
+    <maven-pmd-plugin.configLocation>${project.parent.basedir}/reporting/pmd.xml</maven-pmd-plugin.configLocation>
   </properties>
 
   <dependencyManagement>

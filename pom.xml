@@ -18,8 +18,7 @@
       <id>thingml-release</id>
       <name>thingml-release</name>
       <url>http://maven.thingml.org/archiva/repository/thingml-release/</url>
-    </repository>
-    
+    </repository>    
     <snapshotRepository>
       <id>thingml-snapshot</id>
       <name>thingml-snapshot</name>
@@ -41,9 +40,23 @@
   <developers>
     <developer>
       <name>Fabien Fleurey</name>
+      <email>fabien@fleurey.org</email>
     </developer>
   </developers>
   
+  <organization>
+    <name>SINTEF</name>
+    <url>http://thingml.org</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>LGPL</name>
+      <url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
   <scm>
     <connection>scm:git://${github.host}/${repositoryOwner}/${repositoryName}.git</connection>
     <developerConnection>scm:git:git@${github.host}:${repositoryOwner}/${repositoryName}.git</developerConnection>
@@ -52,7 +65,7 @@
   
   <ciManagement>
     <system>jenkins</system>
-    <url>http://bdx.fleurey.com/jenkins/job/SensAppDroid</url>
+    <url>http://build.thingml.org/job/Build%20SensApp%20Android/modules</url>
   </ciManagement>
   
   <issueManagement>
@@ -77,35 +90,37 @@
     
     <platform.version>4.0.1.2</platform.version>
     
-    <plugin.android-maven.version>3.1.1</plugin.android-maven.version>
+    <plugin.android-maven.version>3.3.0</plugin.android-maven.version>
     <plugin.maven-jarsigner.version>1.2</plugin.maven-jarsigner.version>
     
-    <plugin.site.version>3.0</plugin.site.version>
+    <plugin.site.version>3.1</plugin.site.version>
     <plugin.project-info-reports.version>2.4</plugin.project-info-reports.version>
-    <plugin.checkstyle.version>2.8</plugin.checkstyle.version>
-    <plugin.findbugs-maven.version>2.4.0</plugin.findbugs-maven.version>
+    <plugin.checkstyle.version>2.9.1</plugin.checkstyle.version>
+    <plugin.findbugs-maven.version>2.5.2</plugin.findbugs-maven.version>
     <plugin.jxr.version>2.3</plugin.jxr.version>
     <plugin.pmd-plugin.version>2.7.1</plugin.pmd-plugin.version>
     <plugin.maven-changelog.version>2.2</plugin.maven-changelog.version>
     <plugin.versions-maven.version>1.3.1</plugin.versions-maven.version>
     <plugin.javadoc.version>2.8.1</plugin.javadoc.version>
     
+    <plugin.license.version>1.10.b1</plugin.license.version>    
     <plugin.maven-assembly.version>2.3</plugin.maven-assembly.version>
     <plugin.maven-ressource.version>2.5</plugin.maven-ressource.version>
     <plugin.maven-jar.version>2.4</plugin.maven-jar.version>
-    <plugin.compiler.version>2.3.2</plugin.compiler.version>
-    <plugin.clean.version>2.4</plugin.clean.version>
+    <plugin.compiler.version>2.5.1</plugin.compiler.version>
+    <plugin.clean.version>2.5</plugin.clean.version>
     <plugin.install.version>2.3.1</plugin.install.version>
     <plugin.dependency.version>2.4</plugin.dependency.version>
     <plugin.deploy.version>2.7</plugin.deploy.version>
     <plugin.enforcer.version>1.0.1</plugin.enforcer.version>
-    <plugin.release.version>2.2.2</plugin.release.version>
+    <plugin.release.version>2.3.2</plugin.release.version>
     <plugin.source.version>2.1.2</plugin.source.version>
-    <plugin.surefire.version>2.12</plugin.surefire.version>
+    <plugin.surefire.version>2.12.1</plugin.surefire.version>
   
-    
+    <headerdir>${project.basedir}</headerdir>
     <maven-checkstyle-plugin.configLocation>reporting/checkstyle.xml</maven-checkstyle-plugin.configLocation>
     <maven-pmd-plugin.configLocation>reporting/pmd.xml</maven-pmd-plugin.configLocation>
+    <findbugs-exclude.location>${project.basedir}/reporting/findbugs-exclude.xml</findbugs-exclude.location>
 
     <proguard.skip>false</proguard.skip>
     <checkstyle.skip>false</checkstyle.skip>
@@ -188,73 +203,110 @@
 	  <artifactId>maven-deploy-plugin</artifactId>
 	  <version>${plugin.deploy.version}</version>
 	</plugin>
-	
 	<plugin>
 	  <groupId>com.jayway.maven.plugins.android.generation2</groupId>
 	  <artifactId>android-maven-plugin</artifactId>
 	  <version>${plugin.android-maven.version}</version>
 	</plugin>
-	
 	<plugin>
 	  <groupId>org.apache.maven.plugins</groupId>
 	  <artifactId>maven-jarsigner-plugin</artifactId>
 	  <version>${plugin.maven-jarsigner.version}</version>
 	</plugin>
-	
 	<plugin>
 	  <groupId>org.apache.maven.plugins</groupId>
 	  <artifactId>maven-project-info-reports-plugin</artifactId>
 	  <version>${plugin.project-info-reports.version}</version>
 	</plugin>
-	
 	<plugin>
 	  <groupId>org.apache.maven.plugins</groupId>
 	  <artifactId>maven-changelog-plugin</artifactId>
 	  <version>${plugin.maven-changelog.version}</version>
 	</plugin>
-	
 	<plugin>
 	  <groupId>org.codehaus.mojo</groupId>
 	  <artifactId>versions-maven-plugin</artifactId>
 	  <version>${plugin.versions-maven.version}</version>
 	</plugin>
-	
 	<plugin>
 	  <groupId>org.apache.maven.plugins</groupId>
 	  <artifactId>maven-jxr-plugin</artifactId>
 	  <version>${plugin.jxr.version}</version>
 	</plugin>
-	
 	<plugin>
 	  <groupId>org.apache.maven.plugins</groupId>
 	  <artifactId>maven-checkstyle-plugin</artifactId>
 	  <version>${plugin.checkstyle.version}</version>
 	</plugin>
-	
 	<plugin>
 	  <groupId>org.apache.maven.plugins</groupId>
 	  <artifactId>maven-pmd-plugin</artifactId>
 	  <version>${plugin.pmd-plugin.version}</version>
 	</plugin>
-	
 	<plugin>
 	  <groupId>org.codehaus.mojo</groupId>
 	  <artifactId>findbugs-maven-plugin</artifactId>
 	  <version>${plugin.findbugs-maven.version}</version>
 	</plugin>
-	
 	<plugin>
 	  <groupId>org.apache.maven.plugins</groupId>
 	  <artifactId>maven-javadoc-plugin</artifactId>
 	  <version>${plugin.javadoc.version}</version>
 	</plugin>
-	
+	<plugin>
+	  <groupId>com.mycila.maven-license-plugin</groupId>
+	  <artifactId>maven-license-plugin</artifactId>
+	  <version>${plugin.license.version}</version>
+	</plugin>
       </plugins>
     </pluginManagement>
     
-    
     <plugins>   
-      
+      <plugin>
+	<groupId>com.mycila.maven-license-plugin</groupId>
+	<artifactId>maven-license-plugin</artifactId>
+	<configuration>
+	  <basedir>${headerdir}</basedir>
+	  <header>${headerdir}/HEADER</header>
+	  <strictCheck>true</strictCheck>
+	  <properties>
+	    <owner>SINTEF</owner>
+	    <year>2012</year>
+	    <email>fabien@fleurey.com</email>
+	  </properties>
+	  <excludes>
+	    <exclude>
+	      extra/**
+	    </exclude>   
+	    <exclude>
+	      HEADER
+	    </exclude>   
+	    <exclude>
+	      .gitignore
+	    </exclude>
+	    <exclude>
+	      **/.directory
+	    </exclude>
+	    <exclude>
+	      README.md
+	    </exclude>
+	    <exclude>
+	      **/project.properties
+	    </exclude>
+	    <exclude>
+	      **/proguard.cfg
+	    </exclude>
+	  </excludes>
+	</configuration>
+	<executions>
+	  <execution>
+	    <phase>process-sources</phase>
+	    <goals>
+	      <goal>format</goal>
+	    </goals>
+	  </execution>
+	</executions>
+      </plugin>
       <plugin>
 	<artifactId>maven-site-plugin</artifactId>
 	<version>${plugin.site.version}</version>
@@ -277,6 +329,14 @@
 	    <pushChanges>false</pushChanges>
 	    <remoteTagging>false</remoteTagging>
         </configuration>
+	</plugin>
+	<plugin>
+	  <groupId>org.apache.maven.plugins</groupId>
+	  <artifactId>maven-compiler-plugin</artifactId>
+	  <configuration>
+	    <source>1.6</source>
+	    <target>1.6</target>
+	  </configuration>
 	</plugin>
     </plugins>
   </build>
