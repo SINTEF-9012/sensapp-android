@@ -11,11 +11,21 @@
   <name>SensApp Android :: Test</name>
   <description>SensApp android test application</description>  
 
+  <repositories>
+    <repository>
+      <id>thingml-release</id>
+      <name>thingml-release</name>
+      <url>http://maven.thingml.org/archiva/repository/thingml-release/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+  </repositories>
+  
   <parent>
     <artifactId>parent</artifactId>
     <groupId>org.sensapp.android</groupId>
     <version>1.0</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <ciManagement>
@@ -38,23 +48,23 @@
       </dependency>
       <dependency>
 	<groupId>org.sensapp.android</groupId>
-	<artifactId>sensappdroid</artifactId>
+	<artifactId>sensappdroid-main</artifactId>
 	<type>apk</type>
-	<version>1.5-SNAPSHOT</version>
+	<version>1.6.5</version>
 	<scope>provided</scope>
       </dependency>
       <dependency>
 	<groupId>org.sensapp.android</groupId>
-	<artifactId>sensappdroid</artifactId>
+	<artifactId>sensappdroid-main</artifactId>
 	<type>jar</type>
-	<version>1.5-SNAPSHOT</version>
+	<version>1.6.5</version>
 	<scope>provided</scope>
       </dependency>
       <dependency>
 	<groupId>org.sensapp.android</groupId>
 	<artifactId>sensappdroid-contract</artifactId>
 	<type>jar</type>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<scope>provided</scope>
       </dependency>
       <dependency>
@@ -72,12 +82,12 @@
     </dependency>
     <dependency>
       <groupId>org.sensapp.android</groupId>
-      <artifactId>sensappdroid</artifactId>
+      <artifactId>sensappdroid-main</artifactId>
       <type>apk</type>
     </dependency>
     <dependency>
       <groupId>org.sensapp.android</groupId>
-      <artifactId>sensappdroid</artifactId>
+      <artifactId>sensappdroid-main</artifactId>
       <type>jar</type>
     </dependency>
     <groupId>org.sensapp.android</groupId>
