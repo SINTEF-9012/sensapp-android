@@ -296,6 +296,12 @@
 	    <exclude>
 	      **/proguard.cfg
 	    </exclude>
+	    <exclude>
+	      **/bin/**
+	    </exclude>
+	    <exclude>
+	      **/gen/**
+	    </exclude>
 	  </excludes>
 	</configuration>
 	<executions>
