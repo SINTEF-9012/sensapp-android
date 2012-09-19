@@ -28,7 +28,7 @@
   
   <parent>
     <groupId>org.sensapp.android</groupId>
-    <artifactId>parent</artifactId>
+    <artifactId>sensappdroid</artifactId>
     <version>1.1-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
