@@ -28,7 +28,7 @@
 
   <ciManagement>
     <system>jenkins</system>
-    <url>http://build.thingml.org/</url>
+    <url>http://build.thingml.org/job/Build%20SensApp%20Android/org.sensapp.android$batlog</url>
   </ciManagement>
 
   <properties>

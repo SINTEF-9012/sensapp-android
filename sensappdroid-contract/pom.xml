@@ -19,6 +19,11 @@
     </repository>
   </repositories>
 
+  <ciManagement>
+    <system>jenkins</system>
+    <url>http://build.thingml.org/job/Build%20SensApp%20Android/org.sensapp.android$sensappdroid-contract</url>
+  </ciManagement>
+
   <properties>
     <headerdir>${project.parent.basedir}</headerdir>
     <findbugs-exclude.location>${project.parent.basedir}/reporting/findbugs-exclude.xml</findbugs-exclude.location>
