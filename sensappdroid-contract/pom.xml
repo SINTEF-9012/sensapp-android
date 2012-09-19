@@ -30,6 +30,6 @@
     <groupId>org.sensapp.android</groupId>
     <artifactId>parent</artifactId>
     <version>1.1-SNAPSHOT</version>
-    <relativePath>..<relativePath>
+    <relativePath>..</relativePath>
   </parent>
 </project>
