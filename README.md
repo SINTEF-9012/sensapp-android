@@ -1,24 +1,29 @@
 SensApp Android Application
 ============================
 
-The **SensApp android** application provides a gateway between any application on the device and remote [SensApp](http://sensapp.modelbased.net) web instances. To know more about SensApp go to it's own [repository](https://github.com/SINTEF-9012/sensapp).
+The SensApp android application provides a gateway between any application on the device and remote [SensApp](http://sensapp.modelbased.net) web instances. To know more about SensApp go to it's own [repository](https://github.com/SINTEF-9012/sensapp).
 
-Main application
-------------------------
+This application provides a database shared with client applications on the android device. While the client applications can easily insert sensors and measures in the database, SensApp android maintains and upload data to remote SensApp web instances.
 
-The SensApp main application is available on the [Google Play](https://play.google.com/store/apps/details?id=org.sensapp.android.sensappdroid). This application provides a database shared with client applications on the android device. While the client applications can easily insert sensors and measures in the database, SensApp android maintains and upload data to remote SensApp web instances.
+Download
+---------------------
+* [Latest release build](https://play.google.com/store/apps/details?id=org.sensapp.android.sensappdroid): available on the Google Play.
+* [Latest snapshot build](http://build.thingml.org/job/Build%20SensApp%20Android/lastSuccessfulBuild/org.sensapp.android$sensappdroid-main): intall the *sensappdroid-main-X.X.X-SNAPSHOT-aligned.apk* file.
+
+Bugs and Feature requests
+-------------------------
+Please see and use the issue tracker at: https://github.com/SINTEF-9012/sensapp-android/issues
 
 Client application
 -------------------------
-
-A simple client application shows a basic usage of the SensApp android *API* in order to log the battery level of the device. The complete sources are available in [BatLog directory](https://github.com/SINTEF-9012/sensapp-android/tree/master/sensappdroid-clientsamples/batlog).
-This sample application is also available on the [Google Play](https://play.google.com/store/apps/details?id=org.sensapp.android.sensappdroid.clientsamples.batterylogger). 
+The complete source and documentation of a simple client application is available at https://github.com/SINTEF-9012/sensapp-android/tree/master/sensappdroid-clientsamples/batlog.
 
 Project documentation
 ------------------------
+The complete project documentation will be available soon.
 
-The project documentation is available at [](http://android.sensapp.org).
-
-
+Screenshot
+-------------------------
+![SensApp android sensors](https://raw.github.com/SINTEF-9012/sensapp-android/master/extra/screenshots/sensors.png) ![SensApp android upload](https://raw.github.com/SINTEF-9012/sensapp-android/master/extra/screenshots/pref_upload.png).
 
 
