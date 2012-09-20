@@ -30,13 +30,14 @@
   </skin>
   
   <bannerLeft>
-    <name>SensApp Android</name>
+    <name>SensApp android logo</name>
+    <src>icon/sensappdroid_logo.png</src>
     <href>http://android.sensapp.org/</href>
   </bannerLeft>
   <bannerRight>
-    <name>SensApp Logo</name>
-    <src>https://raw.github.com/SINTEF-9012/sensapp-android/master/logo/sensApp_trans.png</src>
-    <href>http://www.sensapp.org/</href>
+    <name>SensApp android icon</name>
+    <src>icon/sensappdroid_icon.png</src>
+    <href>https://play.google.com/store/apps/details?id=org.sensapp.android.sensappdroid</href>
   </bannerRight>
 
   <body>
