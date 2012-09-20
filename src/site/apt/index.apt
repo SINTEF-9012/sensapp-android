@@ -20,10 +20,28 @@
  Fabien Fleurey
  -----
 
-<<SensApp android application>>
+<<SensApp Android application>>
 
-  The SensApp android application performs a gateway between an android device and SensApp servers.
+    The SensApp android application provides a gateway between any application on the device and remote {{{http://sensapp.modelbased.net}SensApp}} web instances. To know more about SensApp go to it's GitHub {{{https://github.com/SINTEF-9012/sensapp}repository}}.
 
-=====================
+    This application provides a database shared with client applications on the android device. While the client applications can easily insert sensors and measures in the database, SensApp android maintains and upload data to remote SensApp web instances.
 
-  {{{./sensapp_overview.swf}Overview}}
+* Download
+
+    * {{{https://play.google.com/store/apps/details?id=org.sensapp.android.sensappdroid}Latest release build}}: available on the Google Play.
+    
+    * {{{http://build.thingml.org/job/Build%20SensApp%20Android/lastSuccessfulBuild/org.sensapp.android$sensappdroid-main}Latest snapshot build}}: intall the <sensappdroid-main-X.X.X-SNAPSHOT-aligned.apk> file.
+
+* Bugs and Feature requests
+
+    Please see and use the issue tracker at: {{https://github.com/SINTEF-9012/sensapp-android/issues}}
+
+* Client application
+
+    The complete source and documentation of a simple client application is available at {{https://github.com/SINTEF-9012/sensapp-android/tree/master/sensappdroid-clientsamples/batlog}}.
+
+* Screenshot
+
+[https://raw.github.com/SINTEF-9012/sensapp-android/master/extra/screenshots/sensors.png] SensApp android sensors
+    
+[https://raw.github.com/SINTEF-9012/sensapp-android/master/extra/screenshots/pref_upload.png] SensApp android upload
