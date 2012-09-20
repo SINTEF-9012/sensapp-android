@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -206,7 +207,7 @@ public final class RestRequest {
 	}
 	
 	private static String convertStreamToString(InputStream is) {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
 		StringBuilder sb = new StringBuilder();
 		String line = null;
 		try {
@@ -239,10 +240,12 @@ public final class RestRequest {
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {
-				try {
-					inputStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+				if (inputStream != null) {
+					try {
+						inputStream.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

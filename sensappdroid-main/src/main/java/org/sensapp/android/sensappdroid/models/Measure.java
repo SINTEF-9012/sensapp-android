@@ -24,7 +24,6 @@ abstract public class Measure {
 	private boolean uploaded;
 	
 	public Measure() {
-		sensor = new String();
 	}
 	
 	public Measure(int id, String sensor, long time, long basetime, boolean uploaded) {

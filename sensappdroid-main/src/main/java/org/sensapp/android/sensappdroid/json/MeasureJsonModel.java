@@ -27,8 +27,6 @@ abstract public class MeasureJsonModel {
 	private List<ValueJsonModel> e;
 	
 	public MeasureJsonModel() {
-		bn = new String();
-		bu = new String();
 		e = new ArrayList<ValueJsonModel>();
 	}
 	

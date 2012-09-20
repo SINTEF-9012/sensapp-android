@@ -118,7 +118,7 @@ public class UploadPrefFragment extends PreferenceFragment {
 	}
 	
 	private void startAutoUpload(int period) {
-		((AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), period * 60000, pendingIntent);
+		((AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), period * 60000L, pendingIntent);
 		
 		Notification notification = new Notification.Builder(getActivity())
 			.setContentTitle("SensApp")

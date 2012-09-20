@@ -31,15 +31,9 @@ public class Sensor {
 	private String backend;
 	private String template;
 	private String unit;
-	private boolean uploaded;
+	private boolean uploaded = false;
 	
 	public Sensor() {
-		name = new String();
-		description = new String();
-		backend = new String();
-		template = new String();
-		unit = new String();
-		uploaded = false;
 	}
 	
 	public Sensor(String name, Uri uri, String description, String backend, String template, String unit, boolean uploaded) {

@@ -98,11 +98,6 @@ public class MeasureCP extends TableContentProvider {
 		return cursor;
 	}
 	
-	public class IconHolder {
-		String sensor;
-		byte[] icon;
-	}
-	
 	@Override
 	public Uri insert(Uri uri, ContentValues values, int uid) throws IllegalStateException {
 		SQLiteDatabase db = getDatabase().getWritableDatabase();

@@ -27,8 +27,6 @@ public class Composite {
 	private ArrayList<Uri> sensors;
 	
 	public Composite() {
-		name = new String();
-		description = new String();
 		sensors = new ArrayList<Uri>();
 	}
 	

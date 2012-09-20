@@ -18,5 +18,6 @@
 <FindBugsFilter>
   <Match>
     <Class name="~org\.sensapp\.android\.sensappdroid\.R\$.*" />
+    <Class name="~org\.sensapp\.android\.sensappdroid\.clientsamples\.batterylogger\.R\$.*" />
   </Match>
 </FindBugsFilter>
