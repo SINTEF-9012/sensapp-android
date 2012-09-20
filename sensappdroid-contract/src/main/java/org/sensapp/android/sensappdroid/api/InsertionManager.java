@@ -26,7 +26,7 @@ import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import android.content.ContentValues;
 import android.content.Context;
 
-public class InsertionManager {
+public final class InsertionManager {
 
 	private final static int LOWEST_INTERVAL = 1;
 	
@@ -34,6 +34,8 @@ public class InsertionManager {
 	private static Boolean empty = true;
 	private static final ArrayList<ContentValues> valuesBatch = new ArrayList<ContentValues>();
 	private static final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
+	
+	private InsertionManager() {}
 	
 	public static void storeMeasure(final Context context, ContentValues values) {
 		//Log.w("DEBUG", "__Store__");

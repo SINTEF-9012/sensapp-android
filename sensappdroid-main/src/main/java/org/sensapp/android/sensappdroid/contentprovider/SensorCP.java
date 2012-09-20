@@ -87,9 +87,10 @@ public class SensorCP extends TableContentProvider {
 		case SENSOR_UID:
 			queryBuilder.setTables(SensorTable.TABLE_SENSOR);
 			queryBuilder.appendWhere(SensorTable.COLUMN_NAME + " = \"" + uri.getLastPathSegment() + "\"");
-			projection = new String[]{SensorTable.COLUMN_CLIENT_UID};
-			selection = null;
-			break;
+			SQLiteDatabase db = getDatabase().getWritableDatabase();
+			Cursor cursor = queryBuilder.query(db, new String[]{SensorTable.COLUMN_CLIENT_UID}, null, null, null, null, null);
+			cursor.setNotificationUri(getContext().getContentResolver(), uri);
+			return cursor;
 		case SENSOR_ID:
 			int sensorUID = getSensorUID(uri.getLastPathSegment());
 			if (!isSensAppUID(uid) && sensorUID != 0 && sensorUID != uid) {

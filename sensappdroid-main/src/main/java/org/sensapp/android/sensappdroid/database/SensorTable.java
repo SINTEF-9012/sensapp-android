@@ -18,7 +18,7 @@ package org.sensapp.android.sensappdroid.database;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class SensorTable {
+public final class SensorTable {
 
 	public static final String TABLE_SENSOR = "SENSOR";
 	public static final String COLUMN_NAME = "_id";
@@ -44,6 +44,8 @@ public class SensorTable {
 			+ COLUMN_ICON + " BLOB, "
 			+ COLUMN_CLIENT_UID + " INTEGER NOT NULL);"; 
 	private static final String DATABASE_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_SENSOR;
+	
+	private SensorTable() {}
 	
 	public static void onCreate(SQLiteDatabase database) {
 		database.execSQL(DATABASE_CREATE_TABLE);

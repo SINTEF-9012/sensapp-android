@@ -60,7 +60,7 @@ public class DeleteSensorRestTask extends AsyncTask<String, Void, String> {
 		super.onPostExecute(response);
 		boolean deleted = false;
 		if (response != null) {
-			deleted = response.trim().equals("true");
+			deleted = "true".equals(response.trim());
 		}
 		if (!deleted) {
 			Log.e(TAG, "Delete sensor error (" + name + ")");

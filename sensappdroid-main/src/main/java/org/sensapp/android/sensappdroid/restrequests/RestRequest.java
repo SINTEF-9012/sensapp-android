@@ -39,13 +39,15 @@ import org.sensapp.android.sensappdroid.models.Sensor;
 import android.net.Uri;
 import android.util.Log;
 
-public class RestRequest {
+public final class RestRequest {
 	
 	public static final String SENSOR_PATH = "/sensapp/registry/sensors";
 	public static final String COMPOSITE_PATH = "/sensapp/registry/composite/sensors";
 	
 	private static final String TAG = RestRequest.class.getSimpleName(); 
 	private static final String DISPATCHER_PATH = "/sensapp/dispatch";
+	
+	private RestRequest() {}
 	
 	public static boolean isSensorRegistred(Sensor sensor) throws RequestErrorException {
 		URI target;

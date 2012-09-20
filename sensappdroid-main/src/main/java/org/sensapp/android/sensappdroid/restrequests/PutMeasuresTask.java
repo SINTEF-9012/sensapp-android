@@ -211,9 +211,9 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 			}
 
 			MeasureJsonModel model = null;
-			if (sensor.getTemplate().equals("Numerical")) {
+			if ("Numerical".equals(sensor.getTemplate())) {
 				model = new NumericalMeasureJsonModel(sensorName, sensor.getUnit());
-			} else if (sensor.getTemplate().equals("String")) {
+			} else if ("String".equals(sensor.getTemplate())) {
 				model = new StringMeasureJsonModel(sensorName, sensor.getUnit());
 			} else {
 				errorMessage = "Incorrect sensor template";

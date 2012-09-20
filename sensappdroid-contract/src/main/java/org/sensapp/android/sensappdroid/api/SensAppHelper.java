@@ -36,6 +36,8 @@ import android.net.Uri;
 
 public class SensAppHelper {
 	
+	private SensAppHelper() {}
+	
 	private static ContentValues buildMeasure(String sensor, String value, long basetime, long time) throws IllegalArgumentException {
 		if (sensor == null) {
 			throw new IllegalArgumentException("The sensor is null");

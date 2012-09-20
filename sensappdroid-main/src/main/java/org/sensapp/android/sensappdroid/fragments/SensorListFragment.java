@@ -51,6 +51,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 
 	private SensorsAdapter adapter;
 	private OnSensorSelectedListener sensorSelectedListener;
+	private LoadSensorCounts loadCounts;
 	
 	public interface OnSensorSelectedListener {
 		public void onSensorSelected(Uri uri);
@@ -156,8 +157,6 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 		CursorLoader cursorLoader = new CursorLoader(getActivity(), uri, projection, null, null, null);
 		return cursorLoader;
 	}
-	
-	private LoadSensorCounts loadCounts;
 	
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {

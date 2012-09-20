@@ -22,11 +22,13 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-public class AlarmHelper {
+public final class AlarmHelper {
 
 	protected static final int REFRESH_RATE = 60; // Polling interval in seconds to start the service.
 	
 	private static final int ACTIVE_NOTIFICATION_ID = 79290;
+	
+	private AlarmHelper() {}
 	
 	protected static void setAlarm(Context context) {
 		Intent startService = new Intent(context, BatteryLoggerService.class);

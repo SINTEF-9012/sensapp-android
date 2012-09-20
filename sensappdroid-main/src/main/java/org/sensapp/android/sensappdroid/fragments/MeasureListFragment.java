@@ -55,6 +55,7 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 
 	private MeasuresAdapter adapter;
 	private OnMeasureSelectedListener measureSelectedListener;
+	private LoadMeasureIcons loadMeasure;
 	
 	public interface OnMeasureSelectedListener {
 		public void onMeasureSelected(Uri uri);
@@ -181,9 +182,7 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 		CursorLoader cursorLoader = new CursorLoader(getActivity().getApplicationContext(), uri, projection, null, null, SensAppContract.Measure.TIME + " DESC LIMIT 100");
 		cursorLoader.setUpdateThrottle(delay);
 		return cursorLoader;
-	}
-	
-	private LoadMeasureIcons loadMeasure; 
+	} 
 	
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {

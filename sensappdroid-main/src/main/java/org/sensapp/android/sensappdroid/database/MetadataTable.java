@@ -18,7 +18,7 @@ package org.sensapp.android.sensappdroid.database;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class MetadataTable {
+public final class MetadataTable {
 
 	public static final String TABLE_METADATA = "METADATA";
 	public static final String COLUMN_ID = "_id";
@@ -34,6 +34,8 @@ public class MetadataTable {
 			+ COLUMN_KEY + " TEXT NOT NULL, "
 			+ COLUMN_VALUE + " TEXT NOT NULL);";
 	private static final String DATABASE_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_METADATA;
+	
+	private MetadataTable() {}
 	
 	public static void onCreate(SQLiteDatabase database) {
 		database.execSQL(DATABASE_CREATE_TABLE);

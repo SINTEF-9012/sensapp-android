@@ -30,6 +30,17 @@ public class GeneralPrefFragment extends PreferenceFragment {
 	private EditTextServerPreference server;
 	private EditTextPreference port;
 	
+	private SharedPreferences.OnSharedPreferenceChangeListener spChanged = new SharedPreferences.OnSharedPreferenceChangeListener() {
+		@Override
+		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {	
+			if (key.equals(server.getKey())) {
+				server.setSummary(sharedPreferences.getString(server.getKey(), ""));
+			} else if (key.equals(port.getKey())) {
+				port.setSummary(sharedPreferences.getString(port.getKey(), ""));
+			} 			
+		}
+	};
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,17 +58,6 @@ public class GeneralPrefFragment extends PreferenceFragment {
 		}
 		return server + ":" + port;
 	}
-	
-	SharedPreferences.OnSharedPreferenceChangeListener spChanged = new SharedPreferences.OnSharedPreferenceChangeListener() {
-		@Override
-		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {	
-			if (key.equals(server.getKey())) {
-				server.setSummary(sharedPreferences.getString(server.getKey(), ""));
-			} else if (key.equals(port.getKey())) {
-				port.setSummary(sharedPreferences.getString(port.getKey(), ""));
-			} 			
-		}
-	};
 
 	@Override
 	public void onResume() {

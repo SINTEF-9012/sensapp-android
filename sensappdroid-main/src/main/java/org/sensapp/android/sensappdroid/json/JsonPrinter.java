@@ -28,9 +28,11 @@ import org.sensapp.android.sensappdroid.models.Sensor;
 
 import android.net.Uri;
 
-public class JsonPrinter {
+public final class JsonPrinter {
 
 	private static ObjectMapper mapper = new ObjectMapper();
+	
+	private JsonPrinter() {}
 	
 	public static String measuresToJson(MeasureJsonModel jsonModel) {
 		String jsonString = null;

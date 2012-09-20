@@ -18,7 +18,7 @@ package org.sensapp.android.sensappdroid.database;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class MeasureTable {
+public final class MeasureTable {
 
 	public static final String TABLE_MEASURE = "MEASURE";
 	public static final String COLUMN_ID = "_id";
@@ -40,6 +40,8 @@ public class MeasureTable {
 			+ COLUMN_ICON + " BLOB, "
 			+ COLUMN_UPLOADED + " INTEGER NOT NULL);";
 	private static final String DATABASE_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_MEASURE;
+	
+	private MeasureTable() {}
 	
 	public static void onCreate(SQLiteDatabase database) {
 		database.execSQL(DATABASE_CREATE_TABLE);

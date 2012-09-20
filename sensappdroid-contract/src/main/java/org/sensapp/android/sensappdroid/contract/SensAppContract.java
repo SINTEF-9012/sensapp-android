@@ -22,6 +22,8 @@ public final class SensAppContract {
 	
 	public static final String AUTHORITY = "org.sensapp.android.sensappdroid.contentprovider";
 	
+	private SensAppContract() {}
+	
 	public static class Measure {
 		public static final String BASE_PATH = "measures";
 		public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);

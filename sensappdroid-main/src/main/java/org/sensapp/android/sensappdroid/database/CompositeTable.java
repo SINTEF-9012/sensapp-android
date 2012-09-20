@@ -18,7 +18,7 @@ package org.sensapp.android.sensappdroid.database;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class CompositeTable {
+public final class CompositeTable {
 
 	public static final String TABLE_COMPOSITE = "COMPOSITE";
 	public static final String COLUMN_NAME = "_id";
@@ -32,6 +32,8 @@ public class CompositeTable {
 			+ COLUMN_DESCRIPTION + " TEXT, "
 			+ COLUMN_URI + " TEXT);";
 	private static final String DATABASE_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_COMPOSITE;
+	
+	private CompositeTable() {}
 	
 	public static void onCreate(SQLiteDatabase database) {
 		database.execSQL(DATABASE_CREATE_TABLE);
