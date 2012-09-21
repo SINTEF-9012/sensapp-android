@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="4.3" timestamp="2012-09-21T21:24:26.760">
+<file name="/var/lib/jenkins/jobs/Site SensApp Android/workspace/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/contentprovider/ComposeCP.java">
+<violation beginline="44" endline="44" begincolumn="39" endcolumn="46" rule="ImmutableField" ruleset="Design Rules" package="org.sensapp.android.sensappdroid.contentprovider" class="ComposeCP" variable="database" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#ImmutableField" priority="3">
+Private field 'database' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="45" endline="45" begincolumn="25" endcolumn="31" rule="ImmutableField" ruleset="Design Rules" package="org.sensapp.android.sensappdroid.contentprovider" class="ComposeCP" variable="context" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#ImmutableField" priority="3">
+Private field 'context' could be made final; it is only initialized in the declaration or constructor.
+</violation>
+<violation beginline="78" endline="84" begincolumn="17" endcolumn="17" rule="TooFewBranchesForASwitchStatement" ruleset="Design Rules" package="org.sensapp.android.sensappdroid.contentprovider" class="ComposeCP" method="insert" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#TooFewBranchesForASwitchStatement" priority="1">
+A switch with less than 3 branches is inefficient, use a if statement instead.
+</violation>
+</file>
+<file name="/var/lib/jenkins/jobs/Site SensApp Android/workspace/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/models/Measure.java">
+<violation beginline="18" endline="76" begincolumn="17" endcolumn="1" rule="AbstractClassWithoutAbstractMethod" ruleset="Design Rules" package="org.sensapp.android.sensappdroid.models" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#AbstractClassWithoutAbstractMethod" priority="3">
+This abstract class does not have any abstract methods
+</violation>
+</file>
+<file name="/var/lib/jenkins/jobs/Site SensApp Android/workspace/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/restrequests/RestRequest.java">
+<violation beginline="58" endline="58" begincolumn="25" endcolumn="43" rule="AvoidPrintStackTrace" ruleset="Java Logging Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="isSensorRegistred" externalInfoUrl="http://pmd.sourceforge.net/rules/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="59" endline="59" begincolumn="25" endcolumn="72" rule="PreserveStackTrace" ruleset="Design Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="isSensorRegistred" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#PreserveStackTrace" priority="3">
+New exception is thrown in catch block, original stack trace may be lost
+</violation>
+<violation beginline="68" endline="68" begincolumn="25" endcolumn="72" rule="PreserveStackTrace" ruleset="Design Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="isSensorRegistred" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#PreserveStackTrace" priority="3">
+New exception is thrown in catch block, original stack trace may be lost
+</violation>
+<violation beginline="86" endline="86" begincolumn="25" endcolumn="44" rule="AvoidPrintStackTrace" ruleset="Java Logging Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="postSensor" externalInfoUrl="http://pmd.sourceforge.net/rules/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="87" endline="87" begincolumn="25" endcolumn="73" rule="PreserveStackTrace" ruleset="Design Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="postSensor" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#PreserveStackTrace" priority="3">
+New exception is thrown in catch block, original stack trace may be lost
+</violation>
+<violation beginline="100" endline="100" begincolumn="25" endcolumn="72" rule="PreserveStackTrace" ruleset="Design Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="postSensor" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#PreserveStackTrace" priority="3">
+New exception is thrown in catch block, original stack trace may be lost
+</violation>
+<violation beginline="111" endline="111" begincolumn="25" endcolumn="43" rule="AvoidPrintStackTrace" ruleset="Java Logging Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="deleteSensor" externalInfoUrl="http://pmd.sourceforge.net/rules/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="112" endline="112" begincolumn="25" endcolumn="72" rule="PreserveStackTrace" ruleset="Design Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="deleteSensor" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#PreserveStackTrace" priority="3">
+New exception is thrown in catch block, original stack trace may be lost
+</violation>
+<violation beginline="122" endline="122" begincolumn="25" endcolumn="72" rule="PreserveStackTrace" ruleset="Design Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="deleteSensor" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#PreserveStackTrace" priority="3">
+New exception is thrown in catch block, original stack trace may be lost
+</violation>
+<violation beginline="134" endline="134" begincolumn="25" endcolumn="44" rule="AvoidPrintStackTrace" ruleset="Java Logging Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="putData" externalInfoUrl="http://pmd.sourceforge.net/rules/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="135" endline="135" begincolumn="25" endcolumn="73" rule="PreserveStackTrace" ruleset="Design Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="putData" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#PreserveStackTrace" priority="3">
+New exception is thrown in catch block, original stack trace may be lost
+</violation>
+<violation beginline="148" endline="148" begincolumn="25" endcolumn="72" rule="PreserveStackTrace" ruleset="Design Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="putData" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#PreserveStackTrace" priority="3">
+New exception is thrown in catch block, original stack trace may be lost
+</violation>
+<violation beginline="162" endline="162" begincolumn="25" endcolumn="44" rule="AvoidPrintStackTrace" ruleset="Java Logging Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="isCompositeRegistred" externalInfoUrl="http://pmd.sourceforge.net/rules/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="163" endline="163" begincolumn="25" endcolumn="73" rule="PreserveStackTrace" ruleset="Design Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="isCompositeRegistred" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#PreserveStackTrace" priority="3">
+New exception is thrown in catch block, original stack trace may be lost
+</violation>
+<violation beginline="172" endline="172" begincolumn="25" endcolumn="72" rule="PreserveStackTrace" ruleset="Design Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="isCompositeRegistred" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#PreserveStackTrace" priority="3">
+New exception is thrown in catch block, original stack trace may be lost
+</violation>
+<violation beginline="190" endline="190" begincolumn="25" endcolumn="44" rule="AvoidPrintStackTrace" ruleset="Java Logging Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="postComposite" externalInfoUrl="http://pmd.sourceforge.net/rules/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="191" endline="191" begincolumn="25" endcolumn="73" rule="PreserveStackTrace" ruleset="Design Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="postComposite" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#PreserveStackTrace" priority="3">
+New exception is thrown in catch block, original stack trace may be lost
+</violation>
+<violation beginline="204" endline="204" begincolumn="25" endcolumn="72" rule="PreserveStackTrace" ruleset="Design Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="postComposite" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#PreserveStackTrace" priority="3">
+New exception is thrown in catch block, original stack trace may be lost
+</violation>
+<violation beginline="218" endline="218" begincolumn="25" endcolumn="43" rule="AvoidPrintStackTrace" ruleset="Java Logging Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="convertStreamToString" externalInfoUrl="http://pmd.sourceforge.net/rules/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="223" endline="223" begincolumn="33" endcolumn="51" rule="AvoidPrintStackTrace" ruleset="Java Logging Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="convertStreamToString" externalInfoUrl="http://pmd.sourceforge.net/rules/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="239" endline="239" begincolumn="33" endcolumn="51" rule="AvoidPrintStackTrace" ruleset="Java Logging Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="resolveResponse" externalInfoUrl="http://pmd.sourceforge.net/rules/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="241" endline="241" begincolumn="33" endcolumn="51" rule="AvoidPrintStackTrace" ruleset="Java Logging Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="resolveResponse" externalInfoUrl="http://pmd.sourceforge.net/rules/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="247" endline="247" begincolumn="49" endcolumn="67" rule="AvoidPrintStackTrace" ruleset="Java Logging Rules" package="org.sensapp.android.sensappdroid.restrequests" class="RestRequest" method="resolveResponse" externalInfoUrl="http://pmd.sourceforge.net/rules/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+</file>
+</pmd>

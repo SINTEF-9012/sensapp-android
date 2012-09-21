@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd-cpd>
+<duplication lines="18" tokens="143">
+<file line="150" path="/var/lib/jenkins/jobs/Site SensApp Android/workspace/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/contentprovider/MeasureCP.java"/>
+<file line="210" path="/var/lib/jenkins/jobs/Site SensApp Android/workspace/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/contentprovider/MeasureCP.java"/>
+<codefragment>
+<![CDATA[
+				rowsDeleted = db.delete(MeasureTable.TABLE_MEASURE, MeasureTable.COLUMN_SENSOR + "= \"" + name + "\" AND " + selection, selectionArgs);
+			}
+			break;
+		case MEASURE_COMPOSITE:
+			if (!isSensAppUID(uid)) {
+				throw new IllegalStateException("Forbiden uri");
+			}
+			Cursor c = getContext().getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
+			ArrayList<String> names = new ArrayList<String>();
+			if (c != null) {
+					while (c.moveToNext()) {
+						names.add(c.getString(c.getColumnIndexOrThrow(SensorTable.COLUMN_NAME)));
+				}
+				c.close();
+			} else {
+				return 0;
+			}
+			if (TextUtils.isEmpty(selection)) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="14" tokens="125">
+<file line="75" path="/var/lib/jenkins/jobs/Site SensApp Android/workspace/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/contentprovider/MeasureCP.java"/>
+<file line="152" path="/var/lib/jenkins/jobs/Site SensApp Android/workspace/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/contentprovider/MeasureCP.java"/>
+<file line="212" path="/var/lib/jenkins/jobs/Site SensApp Android/workspace/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/contentprovider/MeasureCP.java"/>
+<codefragment>
+<![CDATA[
+			break;
+		case MEASURE_COMPOSITE:
+			if (!isSensAppUID(uid)) {
+				throw new IllegalStateException("Forbiden uri");
+			}
+			Cursor c = getContext().getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
+			ArrayList<String> names = new ArrayList<String>();
+			if (c != null) {
+					while (c.moveToNext()) {
+						names.add(c.getString(c.getColumnIndexOrThrow(SensorTable.COLUMN_NAME)));
+				}
+				c.close();
+			} else {
+				return null;
+]]>
+</codefragment>
+</duplication>
+<duplication lines="20" tokens="119">
+<file line="84" path="/var/lib/jenkins/jobs/Site SensApp Android/workspace/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/restrequests/RestRequest.java"/>
+<file line="188" path="/var/lib/jenkins/jobs/Site SensApp Android/workspace/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/restrequests/RestRequest.java"/>
+<codefragment>
+<![CDATA[
+			target = new URI(sensor.getUri().toString() + SENSOR_PATH);
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+			throw new RequestErrorException(e1.getMessage());
+		}
+		Log.v(TAG, "Target: " + target.toString());
+		HttpClient client = new DefaultHttpClient();
+		HttpPost request = new HttpPost(target);
+		request.setHeader("Content-type", "application/json");
+		String response = null;
+		try {
+			StringEntity seContent = new StringEntity(content);
+			seContent.setContentType("text/json");  
+			request.setEntity(seContent);  
+			response = resolveResponse(client.execute(request));
+		} catch (Exception e) {
+			throw new RequestErrorException(e.getMessage());
+		}
+		return response; 
+	}
+]]>
+</codefragment>
+</duplication>
+<duplication lines="17" tokens="116">
+<file line="209" path="/var/lib/jenkins/jobs/Site SensApp Android/workspace/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/fragments/CompositeListFragment.java"/>
+<file line="94" path="/var/lib/jenkins/jobs/Site SensApp Android/workspace/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/fragments/SensorListFragment.java"/>
+<codefragment>
+<![CDATA[
+		case R.id.upload_all:
+			i = new Intent(getActivity(), SensAppService.class);
+			i.setAction(SensAppService.ACTION_UPLOAD);
+			i.setData(SensAppContract.Measure.CONTENT_URI);
+			getActivity().startService(i);
+			return true;
+		case R.id.preferences:
+			startActivity(new Intent(getActivity(), PreferencesActivity.class));
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.add(0, MENU_DELETE_ID, 0, "Delete composite");
+]]>
+</codefragment>
+</duplication>
+</pmd-cpd>
