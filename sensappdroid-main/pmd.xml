@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.3" timestamp="2012-09-21T21:24:26.760">
+<pmd version="4.3" timestamp="2012-09-21T21:40:56.449">
 <file name="/var/lib/jenkins/jobs/Site SensApp Android/workspace/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/contentprovider/ComposeCP.java">
 <violation beginline="44" endline="44" begincolumn="39" endcolumn="46" rule="ImmutableField" ruleset="Design Rules" package="org.sensapp.android.sensappdroid.contentprovider" class="ComposeCP" variable="database" externalInfoUrl="http://pmd.sourceforge.net/rules/design.html#ImmutableField" priority="3">
 Private field 'database' could be made final; it is only initialized in the declaration or constructor.
