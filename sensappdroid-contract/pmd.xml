@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="4.3" timestamp="2012-09-21T21:26:31.822">
+<file name="/var/lib/jenkins/jobs/Site SensApp Android/workspace/sensappdroid-contract/src/main/java/org/sensapp/android/sensappdroid/api/SensAppHelper.java">
+<violation beginline="125" endline="125" begincolumn="41" endcolumn="59" rule="AvoidPrintStackTrace" ruleset="Java Logging Rules" package="org.sensapp.android.sensappdroid.api" class="SensAppHelper" method="onClick" externalInfoUrl="http://pmd.sourceforge.net/rules/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+</file>
+</pmd>
