@@ -20,7 +20,7 @@ The complete source and documentation of a simple client application is availabl
 
 Project documentation
 ------------------------
-The complete project documentation will be available soon.
+http://sintef-9012.github.com/sensapp-android
 
 Screenshot
 -------------------------
