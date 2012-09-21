@@ -38,17 +38,17 @@
     <repository>
       <id>thingml-release</id>
       <name>thingml-release</name>
-      <url>http://maven.thingml.org/archiva/repository/thingml-release/</url>
+      <url>http://maven.thingml.org/thingml-release/</url>
     </repository>    
     <snapshotRepository>
       <id>thingml-snapshot</id>
       <name>thingml-snapshot</name>
-      <url>http://maven.thingml.org/archiva/repository/thingml-snapshot/</url>
+      <url>http://maven.thingml.org/thingml-snapshot/</url>
     </snapshotRepository>
     <site>
       <id>github-pages</id>
-      <name>github-pages</name>
-      <url>http://android.sensapp.org</url>
+      <name>github-pages trought GitHub site plugin</name>
+      <url>http://sintef-9012.github.com/sensapp-android/</url>
     </site>
 </distributionManagement>
 
@@ -56,7 +56,7 @@
     <repository>
       <id>thingml-release</id>
       <name>thingml-release</name>
-      <url>http://maven.thingml.org/archiva/repository/thingml-release/</url>
+      <url>http://maven.thingml.org/thingml-release</url>
       <releases>
         <enabled>true</enabled>
       </releases>
@@ -89,7 +89,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    
+
+    <github.global.server>github</github.global.server>        
     <repositoryName>sensapp-android</repositoryName>
     <repositoryOwner>SINTEF-9012</repositoryOwner>
     <github.host>github.com</github.host>
@@ -99,6 +100,7 @@
     <plugin.android-maven.version>3.3.0</plugin.android-maven.version>
     <plugin.maven-jarsigner.version>1.2</plugin.maven-jarsigner.version>
     
+    <plugin.github.site>0.6</plugin.github.site>    
     <plugin.site.version>3.1</plugin.site.version>
     <plugin.project-info-reports.version>2.4</plugin.project-info-reports.version>
     <plugin.checkstyle.version>2.9.1</plugin.checkstyle.version>
@@ -159,6 +161,11 @@
   <build>
     <pluginManagement>
       <plugins>	
+	<plugin>
+	  <groupId>com.github.github</groupId>
+	  <artifactId>site-maven-plugin</artifactId>
+	  <version>${plugin.github.site}</version>
+	</plugin>
 	<plugin>
 	  <groupId>org.apache.maven.plugins</groupId>
 	  <artifactId>maven-assembly-plugin</artifactId>
@@ -298,7 +305,15 @@
       </plugins>
     </pluginManagement>
     
-    <plugins>   
+    <plugins> 
+      <plugin>
+	<groupId>com.github.github</groupId>
+	<artifactId>site-maven-plugin</artifactId>
+	<configuration>
+	  <message>[Maven] Updating site for ${project.version}</message>
+	  <merge>true</merge>
+	</configuration>
+      </plugin>
       <plugin>
 	<groupId>com.mycila.maven-license-plugin</groupId>
 	<artifactId>maven-license-plugin</artifactId>
@@ -355,6 +370,7 @@
 	<version>${plugin.site.version}</version>
 	<configuration>
 	  <attach>true</attach>	  
+	  <skipDeploy>true</skipDeploy>
 	</configuration>
 	<executions>
 	  <execution>

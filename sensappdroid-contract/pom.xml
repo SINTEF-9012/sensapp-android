@@ -12,7 +12,7 @@
     <repository>
       <id>thingml-release</id>
       <name>thingml-release</name>
-      <url>http://maven.thingml.org/archiva/repository/thingml-release/</url>
+      <url>http://maven.thingml.org/thingml-release</url>
       <releases>
         <enabled>true</enabled>
       </releases>
@@ -37,4 +37,18 @@
     <version>1.1-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
+
+  <build>
+    <plugins>
+      <plugin>
+	<groupId>com.github.github</groupId>
+	<artifactId>site-maven-plugin</artifactId>
+	<configuration>
+	  <message>[Maven] Updating site for ${project.version}</message>
+	  <path>${project.artifactId}</path>
+	  <merge>true</merge>
+	</configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
