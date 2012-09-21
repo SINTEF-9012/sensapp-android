@@ -119,7 +119,7 @@
 	<artifactId>site-maven-plugin</artifactId>
 	<configuration>
 	  <message>[Maven] Updating site for ${project.version}</message>
-	  <path>${project.artifactId}</path>
+	  <path>sensappdroid-clientsamples/${project.artifactId}</path>
 	  <merge>true</merge>
 	</configuration>
       </plugin>
