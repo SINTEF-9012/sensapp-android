@@ -16,19 +16,16 @@
 package org.sensapp.android.sensappdroid.api;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
-import android.content.ContentProviderOperation;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.OperationApplicationException;
 import android.content.pm.PackageManager;
 import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
@@ -36,7 +33,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.RemoteException;
 
 public class SensAppHelper {
 	
@@ -203,26 +199,13 @@ public class SensAppHelper {
 	}
 	
 	public static boolean renameSensor(Context context, String name, String newName) {
-		ArrayList<ContentProviderOperation> operations = new ArrayList<ContentProviderOperation>();
-		ContentProviderOperation updateSensor = ContentProviderOperation.newUpdate(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + name))
-				.withExpectedCount(1)
-				.withValue(SensAppContract.Sensor.NAME, newName)
-				.build();
-		operations.add(updateSensor);
-		ContentProviderOperation updateMeasures = ContentProviderOperation.newUpdate(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + name))
-				.withValue(SensAppContract.Measure.SENSOR, newName)
-				.build();
-		operations.add(updateMeasures);
-		try {
-			context.getContentResolver().applyBatch(SensAppContract.AUTHORITY, operations);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (OperationApplicationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		return false;
+		ContentValues values = new ContentValues();
+		values.put(SensAppContract.Sensor.NAME, newName);
+		context.getContentResolver().update(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + name), values, null, null);
+		values.clear();
+		values.put(SensAppContract.Measure.SENSOR, newName);
+		context.getContentResolver().update(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + name), values, null, null);
+		return true;
 	}
 	
 	public static boolean isSensorRegistered(Context context, String name) {
