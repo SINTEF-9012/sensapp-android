@@ -72,7 +72,7 @@ public class SensAppService extends Service implements PutMeasureCallback {
 					new DeleteMeasuresTask(this, intent.getData()).execute(SensAppContract.Measure.UPLOADED + " = 1");
 				}
 			} else if (intent.getAction().equals(ConnectivityReceiver.ACTION_CONNECTIVITY_FOUND)) {
-				Log.d(TAG, "Receive: ACTION_DELETE_LOCAL");
+				Log.d(TAG, "Receive: ACTION_CONNECTIVITY_FOUND");
 				if (waitForData) {
 					autoUpload();
 				} else {
@@ -121,14 +121,12 @@ public class SensAppService extends Service implements PutMeasureCallback {
 
 	@Override
 	public void onTaskFinished(int id) {
-		Log.e(TAG, "task finished: " + id + ", laststarted: " + lastTaskStarted + ", lastEnded: " + lastConsecutiveTaskEnded);
 		taskBuffer.add(id);
 		while (taskBuffer.contains(lastConsecutiveTaskEnded + 1)) {
 			lastConsecutiveTaskEnded ++;
 			taskBuffer.remove((Integer) lastConsecutiveTaskEnded);
 		}
 		if (lastTaskStarted == lastConsecutiveTaskEnded) {
-			Log.e(TAG, "__FINISH__");
 			stopSelf();
 		}
 	}
