@@ -35,7 +35,6 @@ public final class SensAppContract {
 		public static final String VALUE = "value";
 		public static final String TIME = "time";
 		public static final String BASETIME = "basetime";
-		public static final String ICON = "icon";
 		public static final String UPLOADED ="uploaded";
 	}
 	
@@ -51,6 +50,7 @@ public final class SensAppContract {
 		public static final String BACKEND = "backend";
 		public static final String TEMPLATE = "template";
 		public static final String UNIT = "unit";
+		public static final String APP_NAME = "application";
 		public static final String UPLOADED = "uploaded";
 		public static final String ICON = "icon";
 	}

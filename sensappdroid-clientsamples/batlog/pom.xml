@@ -32,7 +32,7 @@
   </ciManagement>
 
   <properties>
-    <sensappdroid-contract.version>1.0</sensappdroid-contract.version>
+    <sensappdroid-contract.version>1.1-SNAPSHOT</sensappdroid-contract.version>
     <maven-checkstyle-plugin.configLocation>../reporting/checkstyle.xml</maven-checkstyle-plugin.configLocation>
     <maven-pmd-plugin.configLocation>../reporting/pmd.xml</maven-pmd-plugin.configLocation><headerdir>${project.parent.basedir}</headerdir>
     <findbugs-exclude.location>${project.parent.basedir}/reporting/findbugs-exclude.xml</findbugs-exclude.location>

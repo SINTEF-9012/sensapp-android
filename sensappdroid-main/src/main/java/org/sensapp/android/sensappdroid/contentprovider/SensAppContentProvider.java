@@ -41,7 +41,7 @@ public class SensAppContentProvider extends ContentProvider {
 	static {
 		sensAppURIMatcher.addURI(AUTHORITY, SensorCP.BASE_PATH, SENSOR);
 		sensAppURIMatcher.addURI(AUTHORITY, SensorCP.BASE_PATH + "/composite/*", SENSOR);
-		sensAppURIMatcher.addURI(AUTHORITY, SensorCP.BASE_PATH + "/uid/*", SENSOR);
+		sensAppURIMatcher.addURI(AUTHORITY, SensorCP.BASE_PATH + "/appname/*", SENSOR);
 		sensAppURIMatcher.addURI(AUTHORITY, SensorCP.BASE_PATH + "/*", SENSOR);
 		sensAppURIMatcher.addURI(AUTHORITY, MeasureCP.BASE_PATH, MEASURE);
 		sensAppURIMatcher.addURI(AUTHORITY, MeasureCP.BASE_PATH + "/#", MEASURE);
@@ -68,20 +68,25 @@ public class SensAppContentProvider extends ContentProvider {
 		sensorCP = new SensorCP(getContext(), databaseHelper);
 		compositeCP = new CompositeCP(getContext(), databaseHelper);
 		composeCP = new ComposeCP(getContext(), databaseHelper);
-		return false;
+		return true;
 	}
 	
 	@Override
 	public int bulkInsert(Uri uri, ContentValues[] values) {
 		SQLiteDatabase sqlDB = databaseHelper.getWritableDatabase();
 		if (sensAppURIMatcher.match(uri) == MEASURE) {
+			// Optimize measure insertions
 			sqlDB.beginTransaction();
 			try {
 				for (ContentValues cv : values) {
 					cv.put(MeasureTable.COLUMN_UPLOADED, 0);
-					long newID = sqlDB.insertOrThrow(MeasureTable.TABLE_MEASURE, null, cv);
-					if (newID <= 0) {
-						throw new SQLException("Failed to insert row into " + uri);
+					try {
+						long newID = sqlDB.insertOrThrow(MeasureTable.TABLE_MEASURE, null, cv);
+						if (newID <= 0) {
+							throw new SensAppProviderException("Builk insert error at " + uri);
+						}
+					} catch (SQLException e) {
+						throw new SensAppProviderException("Builk insert error at " + uri, e);
 					}
 				}
 				sqlDB.setTransactionSuccessful();
@@ -92,6 +97,7 @@ public class SensAppContentProvider extends ContentProvider {
 			}
 			return values.length;
 		} else {
+			// Keep the default implementation in other case
 			return super.bulkInsert(uri, values);
 		}
 	}
@@ -109,7 +115,7 @@ public class SensAppContentProvider extends ContentProvider {
 		case COMPOSE:
 			return composeCP.query(uri, projection, selection, selectionArgs, sortOrder);
 		default:
-			throw new IllegalArgumentException("[0] Unknown URI: " + uri);
+			throw new SensAppProviderException("Query error: unknown URI " + uri);
 		}
 	}
 	
@@ -125,7 +131,7 @@ public class SensAppContentProvider extends ContentProvider {
 		case COMPOSE:
 			return composeCP.getType(uri);
 		default:
-			throw new IllegalArgumentException("[0] Unknown URI: " + uri);
+			throw new SensAppProviderException("getType error: unknown URI " + uri);
 		}
 	}
 	
@@ -142,7 +148,7 @@ public class SensAppContentProvider extends ContentProvider {
 		case COMPOSE:
 			return composeCP.update(uri, values, selection, selectionArgs);
 		default:
-			throw new IllegalArgumentException("[0] Unknown URI: " + uri);
+			throw new SensAppProviderException("Update error: unknown URI " + uri);
 		}
 	}
 
@@ -159,7 +165,7 @@ public class SensAppContentProvider extends ContentProvider {
 		case COMPOSE:
 			return composeCP.insert(uri, values);
 		default:
-			throw new IllegalArgumentException("[0] Unknown URI: " + uri);
+			throw new SensAppProviderException("Insert error: unknown URI " + uri);
 		}
 	}
 	
@@ -176,7 +182,7 @@ public class SensAppContentProvider extends ContentProvider {
 		case COMPOSE:
 			return composeCP.delete(uri, selection, selectionArgs);
 		default:
-			throw new IllegalArgumentException("[0] Unknown URI: " + uri);
+			throw new SensAppProviderException("Delete error: unknown URI " + uri);
 		}
 	}
 }

@@ -198,10 +198,23 @@ public class SensAppHelper {
 		return registerSensor(context, name, description, unit, SensAppBackend.raw, SensAppTemplate.STRING, icon);
 	}
 	
-	private static boolean isSensorRegistered(Context context, String name) {
+	public static boolean renameSensor(Context context, String name, String newName) {
+		ContentValues values = new ContentValues();
+		values.put(SensAppContract.Sensor.NAME, newName);
+		context.getContentResolver().update(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + name), values, null, null);
+		values.clear();
+		values.put(SensAppContract.Measure.SENSOR, newName);
+		context.getContentResolver().update(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + name), values, null, null);
+		return true;
+	}
+	
+	public static boolean isSensorRegistered(Context context, String name) {
 		Cursor c = context.getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/" + name), new String[]{SensAppContract.Sensor.NAME}, null, null, null);
-		boolean isRegistered = c.getCount() > 0;
-		c.close();
+		boolean isRegistered = false;
+		if (c != null) {
+			isRegistered = c.getCount() > 0;
+			c.close();
+		}
 		return isRegistered;
 	}
 }

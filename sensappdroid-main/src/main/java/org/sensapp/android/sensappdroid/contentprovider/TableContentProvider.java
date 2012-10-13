@@ -42,26 +42,25 @@ public abstract class TableContentProvider {
 	}
 	
 	protected boolean isSensAppUID(int uid) {
-		if (uid != 0) {
-			for (String name : getContext().getPackageManager().getPackagesForUid(uid)) {
-				if ("org.sensapp.android.sensappdroid".equals(name)) {
-					return true;
-				}
-			}
+		if (isAppUID("org.sensapp.android.sensappdroid", uid)) {
+			return true;
 		}
 		return false;
 	}
 	
-	protected int getSensorUID(String name) {
-		Cursor c = getContext().getContentResolver().query(Uri.parse("content://" + SensAppContentProvider.AUTHORITY + "/" + SensorCP.BASE_PATH + "/uid/" + name), null, null, null, null);
-		int uid = 0;
+	protected boolean isSensorOwnerUID(String sensorName, int uid) {
+		Cursor c = getContext().getContentResolver().query(Uri.parse("content://" + SensAppContentProvider.AUTHORITY + "/" + SensorCP.BASE_PATH + "/appname/" + sensorName), null, null, null, null);
+		String appName = null;
 		if (c != null) {
 			if (c.moveToFirst()) {
-				uid = c.getInt(c.getColumnIndex(SensorTable.COLUMN_CLIENT_UID));
+				appName = c.getString(c.getColumnIndexOrThrow(SensorTable.COLUMN_APP_NAME));
 			}
 			c.close();
+			if (appName != null && isAppUID(appName, uid)) {
+				return true;
+			}
 		}
-		return uid;
+		return false;
 	}
 	
 	abstract public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder, int uid) throws IllegalStateException;
@@ -73,5 +72,16 @@ public abstract class TableContentProvider {
 	
 	public String getType(Uri uri) {
 		return null;
+	}
+	
+	private boolean isAppUID(String appName, int uid) {
+		if (uid > 0) {
+			for (String name : getContext().getPackageManager().getPackagesForUid(uid)) {
+				if (appName.equals(name)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

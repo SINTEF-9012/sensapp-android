@@ -27,9 +27,9 @@ public final class SensorTable {
 	public static final String COLUMN_BACKEND = "backend";
 	public static final String COLUMN_TEMPLATE = "template";
 	public static final String COLUMN_UNIT = "unit";
-	public static final String COLUMN_UPLOADED = "uploaded";
 	public static final String COLUMN_ICON = "icon";
-	public static final String COLUMN_CLIENT_UID = "uid";
+	public static final String COLUMN_APP_NAME = "application";
+	public static final String COLUMN_UPLOADED = "uploaded";
 	
 	private static final String TAG = SensorTable.class.getSimpleName();
 	private static final String DATABASE_CREATE_TABLE = "CREATE TABLE " 
@@ -42,7 +42,7 @@ public final class SensorTable {
 			+ COLUMN_UNIT + " TEXT NOT NULL, "
 			+ COLUMN_UPLOADED + " INTEGER NOT NULL, "
 			+ COLUMN_ICON + " BLOB, "
-			+ COLUMN_CLIENT_UID + " INTEGER NOT NULL);"; 
+			+ COLUMN_APP_NAME + " TEXT NOT NULL);"; 
 	private static final String DATABASE_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_SENSOR;
 	
 	private SensorTable() {}

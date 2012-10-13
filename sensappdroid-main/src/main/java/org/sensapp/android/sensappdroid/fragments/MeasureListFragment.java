@@ -172,7 +172,7 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		String[] projection = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_VALUE, MeasureTable.COLUMN_ICON, MeasureTable.COLUMN_SENSOR};
+		String[] projection = {MeasureTable.COLUMN_ID, MeasureTable.COLUMN_VALUE, MeasureTable.COLUMN_SENSOR};
 		Uri uri = getActivity().getIntent().getData();
 		int delay = 1000;
 		if (uri == null) {

@@ -15,6 +15,8 @@
  */
 package org.sensapp.android.sensappdroid.clientsamples.batterylogger;
 
+import org.sensapp.android.sensappdroid.api.SensAppHelper;
+
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
@@ -36,6 +38,7 @@ public class Preferences extends PreferenceActivity {
 					if (((String) newValue).isEmpty()) {
 						return false;
 					}
+					SensAppHelper.renameSensor(getActivity().getApplicationContext(), ((EditTextPreference) preference).getText(), (String) newValue);
 					sensorName.setSummary((String) newValue);
 					return true;
 				}
