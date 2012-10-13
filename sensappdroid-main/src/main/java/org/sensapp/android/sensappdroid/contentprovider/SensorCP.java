@@ -140,7 +140,7 @@ public class SensorCP extends TableContentProvider {
 			break;
 		case SENSOR_ID:
 			String name = uri.getLastPathSegment();
-			if (!isSensAppUID(uid) && isSensorOwnerUID(name, uid)) {
+			if (!isSensAppUID(uid) && !isSensorOwnerUID(name, uid)) {
 				throw new SensAppProviderException("Forbiden URI: " + uri);
 			}
 			if (TextUtils.isEmpty(selection)) {
@@ -172,7 +172,7 @@ public class SensorCP extends TableContentProvider {
 			break;
 		case SENSOR_ID:
 			String name = uri.getLastPathSegment();
-			if (!isSensAppUID(uid) && isSensorOwnerUID(name, uid)) {
+			if (!isSensAppUID(uid) && !isSensorOwnerUID(name, uid)) {
 				throw new SensAppProviderException("Forbiden URI: " + uri);
 			}
 			if (TextUtils.isEmpty(selection)) {
