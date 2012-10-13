@@ -61,6 +61,14 @@
         <enabled>true</enabled>
       </releases>
     </repository>
+    <repository>
+      <id>thingml-snapshot</id>
+      <name>thingml-snapshot</name>
+      <url>http://maven.thingml.org/thingml-snapshot</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
   </repositories>
 
   <scm>
