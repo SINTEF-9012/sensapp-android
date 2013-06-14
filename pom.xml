@@ -90,8 +90,6 @@
   <modules>
     <module>sensappdroid-main</module>
     <module>sensappdroid-contract</module>
-    <module>sensappdroid-clientsamples/batlog</module>
-    <!-- <module>sensappdroid-test</module> /-->
   </modules>
 
   <properties>

@@ -16,12 +16,17 @@
 package org.sensapp.android.sensappdroid.activities;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.connectivity.ConnectivityReceiver;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask;
 import org.sensapp.android.sensappdroid.preferences.AutoUploadSensorDialog;
+import org.sensapp.android.sensappdroid.restrequests.PostCompositeRestTask;
 import org.sensapp.android.sensappdroid.restrequests.PutMeasuresTask;
 import org.sensapp.android.sensappdroid.restrequests.PutMeasuresTask.PutMeasureCallback;
 
@@ -38,20 +43,26 @@ public class SensAppService extends Service implements PutMeasureCallback {
 	
 	public static final String ACTION_UPLOAD = SensAppService.class.getName() + ".ACTION_UPLOAD";
 	public static final String ACTION_AUTO_UPLOAD = SensAppService.class.getName() + ".ACTION_AUTO_UPLOAD";
+    public static final String ACTION_AMOUNT_UPLOAD = SensAppService.class.getName() + ".ACTION_AMOUNT_UPLOAD";
 	public static final String ACTION_DELETE_LOCAL = SensAppService.class.getName() + ".ACTION_DELETE_LOCAL";
 	public static final String EXTRA_UPLOADED_FILTER = SensAppService.class.getName() + ".EXTRA_UPLOADED_FILTER";
 	
 	private static final String TAG = SensAppService.class.getSimpleName();
 	
-	private boolean waitForData = false;
+	private boolean waitForDataAuto = false;
+    private boolean waitForDataAmount = false;
 	
 	private int lastTaskStarted = 0;
 	private int lastConsecutiveTaskEnded = 0;
 	private ArrayList<Integer> taskBuffer = new ArrayList<Integer>();
+    static private int amountData;
+    static private boolean dataSent = false;
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        amountData = Integer.parseInt(sp.getString(getString(R.string.pref_autoupload_amount_key), "1000"));
 	}
 	
 	@Override
@@ -63,6 +74,9 @@ public class SensAppService extends Service implements PutMeasureCallback {
 			} else if (intent.getAction().equals(ACTION_AUTO_UPLOAD)) {
 				Log.d(TAG, "Receive: ACTION_AUTO_UPLOAD");
 				autoUpload();
+            } else if (intent.getAction().equals(ACTION_AMOUNT_UPLOAD)) {
+                Log.d(TAG, "Receive: ACTION_AMOUNT_UPLOAD");
+                amountUpload();
 			} else if (intent.getAction().equals(ACTION_DELETE_LOCAL)) {
 				Log.d(TAG, "Receive: ACTION_DELETE_LOCAL");
 				Bundle extra = intent.getExtras();
@@ -73,8 +87,11 @@ public class SensAppService extends Service implements PutMeasureCallback {
 				}
 			} else if (intent.getAction().equals(ConnectivityReceiver.ACTION_CONNECTIVITY_FOUND)) {
 				Log.d(TAG, "Receive: ACTION_CONNECTIVITY_FOUND");
-				if (waitForData) {
-					autoUpload();
+				if (waitForDataAuto || waitForDataAmount) {
+					if(waitForDataAuto)
+                        autoUpload();
+                    if(waitForDataAmount)
+                        amountUpload();
 				} else {
 					stopSelf();
 				}
@@ -95,20 +112,49 @@ public class SensAppService extends Service implements PutMeasureCallback {
 	}
 	
 	private void autoUpload() {
-		if (!ConnectivityReceiver.isDataAvailable(getApplicationContext())) {
-			Log.e(TAG, "No data connection available");
-			waitForData = true;
-		} else {
-			waitForData = false;
-			Set<String> names = PreferenceManager.getDefaultSharedPreferences(this).getStringSet(AutoUploadSensorDialog.SENSOR_MAINTAINED, null);
-			if (names != null && !names.isEmpty()) {
-				for (final String name : names) {
-					Log.d(TAG, "Put " + name + " sensor (Auto upload)");
-					new PutMeasuresTask(this, taskIdGen(), getApplicationContext(), Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + name), PutMeasuresTask.FLAG_SILENT).execute();
-				}
-			}
-		}
-	}
+        if (!ConnectivityReceiver.isDataAvailable(getApplicationContext())) {
+            Log.e(TAG, "No data connection available");
+            waitForDataAuto = true;
+        } else {
+            waitForDataAuto = false;
+            Set<String> names = PreferenceManager.getDefaultSharedPreferences(this).getStringSet(AutoUploadSensorDialog.SENSOR_MAINTAINED, null);
+            if (names != null && !names.isEmpty()) {
+                for (final String name : names) {
+                    Log.d(TAG, "Put " + name + " sensor (Auto upload)");
+                    new PutMeasuresTask(this, taskIdGen(), getApplicationContext(), Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + name), PutMeasuresTask.FLAG_SILENT).execute();
+                }
+            }
+        }
+    }
+
+    private void amountUpload() {
+        if (!ConnectivityReceiver.isDataAvailable(getApplicationContext())) {
+            Log.e(TAG, "Amount : No data connection available");
+            waitForDataAmount = true;
+        } else {
+            waitForDataAmount = false;
+            Cursor cursor = getContentResolver().query(SensAppContract.Measure.CONTENT_URI, null, null, null, null);
+
+            Log.d(TAG, "Amount : " + cursor.getCount() + "/" + amountData);
+
+            // dataSent is kind of a semaphore here.
+            if(amountData <= cursor.getCount() && !dataSent){
+                dataSent = true;
+                Log.d(TAG, "Put all measures sensor (Amount upload)");
+                //String compositeNames[] = new String[]{SensAppContract.Composite.NAME};
+                new PutMeasuresTask(this, taskIdGen(), getApplicationContext(), SensAppContract.Measure.CONTENT_URI, PutMeasuresTask.FLAG_SILENT).execute();
+                new DeleteMeasuresTask(this, SensAppContract.Measure.CONTENT_URI).execute(SensAppContract.Measure.UPLOADED + " = 1");
+                /*for(String name : compositeNames)
+                    new PostCompositeRestTask(this, name).execute(); */
+            }
+            if(cursor.getCount() < amountData)
+                dataSent = false;
+        }
+    }
+
+    static public void setAmountData(int set){
+        amountData = set;
+    }
 	
 	private int taskIdGen() {
 		return ++ lastTaskStarted;
