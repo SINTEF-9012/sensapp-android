@@ -84,16 +84,26 @@ public class GraphsListFragment extends ListFragment {
 
         GraphBuffer bufferAX = new GraphBuffer();
         Cursor cursor = getActivity().getContentResolver().query(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + "Android_Tab_AccelerometerX"), null, null, null, null);
-        cursor.moveToFirst();
-        while(!cursor.isLast()){
+        for (cursor.moveToFirst() ; !cursor.isAfterLast() ; cursor.moveToNext()) {
             bufferAX.insertData(cursor.getFloat(cursor.getColumnIndex(SensAppContract.Measure.VALUE)));
-            cursor.moveToNext();
+        }
+
+        GraphBuffer bufferAY = new GraphBuffer();
+        cursor = getActivity().getContentResolver().query(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + "Android_Tab_AccelerometerY"), null, null, null, null);
+        for (cursor.moveToFirst() ; !cursor.isAfterLast() ; cursor.moveToNext()) {
+            bufferAY.insertData(cursor.getFloat(cursor.getColumnIndex(SensAppContract.Measure.VALUE)));
         }
 
         GraphWrapper wrapper = new GraphWrapper(bufferAX);
         wrapper.setGraphOptions(Color.GRAY, 500, GraphBaseView.LINECHART, -2, 2, "X");
         wrapper.setPrinterParameters(false, false, true);
+
+        GraphWrapper wrapperY = new GraphWrapper(bufferAY);
+        wrapperY.setGraphOptions(Color.GRAY, 500, GraphBaseView.LINECHART, -2, 2, "Y");
+        wrapperY.setPrinterParameters(false, false, true);
+
         gwl.add(wrapper);
+        gwl.add(wrapperY);
         adapter = new GraphAdapter(getActivity().getApplicationContext(), gwl);
         ListView list = (ListView) getActivity().findViewById(android.R.id.list);
         list.setAdapter(adapter);
