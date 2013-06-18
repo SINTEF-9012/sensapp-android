@@ -15,6 +15,7 @@
  */
 package org.sensapp.android.sensappdroid.contentprovider;
 
+import android.database.sqlite.SQLiteOpenHelper;
 import org.sensapp.android.sensappdroid.database.SensAppDatabaseHelper;
 import org.sensapp.android.sensappdroid.database.SensorTable;
 
@@ -25,10 +26,10 @@ import android.net.Uri;
 
 public abstract class TableContentProvider {
 
-	private SensAppDatabaseHelper database;
+	private SQLiteOpenHelper database;
 	private Context context;
 	
-	public TableContentProvider(Context context, SensAppDatabaseHelper database) {
+	public TableContentProvider(Context context, SQLiteOpenHelper database) {
 		this.context = context;
 		this.database = database;
 	}
@@ -37,7 +38,7 @@ public abstract class TableContentProvider {
 		return context;
 	}
 	
-	protected SensAppDatabaseHelper getDatabase() {
+	protected SQLiteOpenHelper getDatabase() {
 		return database;
 	}
 	

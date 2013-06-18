@@ -76,6 +76,32 @@ public final class SensAppContract {
 		public static final String COMPOSITE = "composite";
 		public static final String SENSOR = "sensor";
 	}
+
+    public static class Graph {
+        public static final String BASE_PATH = "graphs";
+        public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/graphs";
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/graph";
+
+        public static final String ID = "_id";
+        public static final String TITLE = "title";
+    }
+
+    public static class GraphSensor {
+        public static final String BASE_PATH = "graphsensors";
+        public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/graphsensors";
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/graphsensor";
+
+        public static final String ID = "_id";
+        public static final String TITLE = "title";
+        public static final String GRAPH = "graph";
+        public static final String STYLE = "style";
+        public static final String COLOR = "color";
+        public static final String MAX = "max";
+        public static final String MIN = "min";
+        public static final String SENSOR = "sensor";
+    }
 	
 //	public static class Metadata {
 //		public static final String BASE_PATH = "metadata";
