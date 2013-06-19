@@ -27,7 +27,7 @@ public final class GraphSensorTable {
     public static final String COLUMN_COLOR = "color";
     public static final String COLUMN_HIGHESTVALUE = "high";
     public static final String COLUMN_LOWESTVALUE = "low";
-	public static final String COLUMN_GRAPHGROUP = "composite";
+	public static final String COLUMN_GRAPHGROUP = "graphgroup";
 	public static final String COLUMN_SENSOR = "sensor";
 
 	private static final String TAG = GraphSensorTable.class.getSimpleName();

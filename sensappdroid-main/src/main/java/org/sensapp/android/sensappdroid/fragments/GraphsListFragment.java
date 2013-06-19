@@ -39,8 +39,10 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.activities.SensAppService;
+import org.sensapp.android.sensappdroid.api.SensAppHelper;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.database.MeasureTable;
+import org.sensapp.android.sensappdroid.datarequests.DeleteGraphSensorsTask;
 import org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask;
 import org.sensapp.android.sensappdroid.graph.*;
 import org.sensapp.android.sensappdroid.preferences.GeneralPrefFragment;
@@ -53,24 +55,104 @@ import java.util.List;
 public class GraphsListFragment extends ListFragment implements LoaderCallbacks<Cursor>{
 
 	private static final int MENU_DELETE_ID = Menu.FIRST + 1;
-	private static final int MENU_UPLOAD_ID = Menu.FIRST + 2;
+	private static final int MENU_MANAGE_ID = Menu.FIRST + 2;
 
-	//private GraphAdapter adapter;
     private SimpleCursorAdapter adapter;
 	private OnGraphSelectedListener graphSelectedListener;
     private NewGraphDialogFragment newGraphDialog;
-	//private LoadMeasureIcons loadMeasure;
     private GraphDetailsView graph;
 
     public interface OnGraphSelectedListener {
 		public void onGraphSelected(Uri uri);
 	}
 
-    public static class NewGraphDialogFragment extends DialogFragment{
+    public static class ManageGraphDialogFragment extends DialogFragment {
 
-        //private ArrayList<String> sensorsAdded = new ArrayList<String>();
-        //private ArrayList<String> sensorsRemoved = new ArrayList<String>();
-        //private Cursor cursor;
+        private static final String GRAPH_NAME = "composite_name";
+        private ArrayList<String> sensorsAdded = new ArrayList<String>();
+        private ArrayList<String> sensorsRemoved = new ArrayList<String>();
+        private Cursor cursor;
+
+        public static ManageGraphDialogFragment newInstance(String graphName) {
+            ManageGraphDialogFragment frag = new ManageGraphDialogFragment();
+            Bundle args = new Bundle();
+            args.putString(GRAPH_NAME, graphName);
+            frag.setArguments(args);
+            return frag;
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final String graphName = getArguments().getString(GRAPH_NAME);
+            cursor = getActivity().getContentResolver().query(SensAppContract.Sensor.CONTENT_URI, null, null, null, SensAppContract.Sensor.NAME + " ASC");
+            Cursor cursorGraphSensor = getActivity().getContentResolver().query(Uri.parse(SensAppContract.GraphSensor.CONTENT_URI + "/graph/" + graphName), null, null, null, SensAppContract.GraphSensor.SENSOR + " ASC");
+            String[] sensorNames = new String[cursor.getCount()];
+            boolean[] sensorStatus = new boolean[cursor.getCount()];
+            cursorGraphSensor.moveToFirst();
+            int columnIDSensorName = cursor.getColumnIndexOrThrow(SensAppContract.Sensor.NAME);
+            int columnIDGraphSensor = cursorGraphSensor.getColumnIndexOrThrow(SensAppContract.GraphSensor.SENSOR);
+            for (int i = 0 ; cursor.moveToNext() ; i ++) {
+                //Init sensorNames and put sensorStatus to true if the sensor is in the graph
+                sensorNames[i] = cursor.getString(columnIDSensorName);
+                if(!cursorGraphSensor.isAfterLast() && cursor.getString(columnIDSensorName).equals(cursorGraphSensor.getString(columnIDGraphSensor))){
+                    sensorStatus[i] = true;
+                }
+                else
+                    sensorStatus[i] = false;
+                if(sensorStatus[i] == true)
+                    cursorGraphSensor.moveToNext();
+
+            }
+            //Make and display the Dialog
+            return new AlertDialog.Builder(getActivity())
+                    .setTitle("Add sensors to the graph " + graphName)
+                    .setMultiChoiceItems(sensorNames, sensorStatus,
+                            new DialogInterface.OnMultiChoiceClickListener() {
+                                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                    cursor.moveToPosition(which);
+                                    String sensorName = cursor.getString(cursor.getColumnIndexOrThrow(SensAppContract.Sensor.NAME));
+                                    if (isChecked) {
+                                        sensorsRemoved.remove(sensorName);
+                                        sensorsAdded.add(sensorName);
+                                    } else {
+                                        sensorsAdded.remove(sensorName);
+                                        sensorsRemoved.add(sensorName);
+                                    }
+                                }
+                            })
+                    .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            ContentValues values = new ContentValues();
+                            for (String name : sensorsAdded) {
+                                values.put(SensAppContract.GraphSensor.TITLE, name);
+                                values.put(SensAppContract.GraphSensor.STYLE, GraphBaseView.LINECHART);
+                                values.put(SensAppContract.GraphSensor.COLOR, Color.BLUE);
+                                values.put(SensAppContract.GraphSensor.MAX, 3);
+                                values.put(SensAppContract.GraphSensor.MIN, 3);
+                                values.put(SensAppContract.GraphSensor.GRAPH, graphName);
+                                values.put(SensAppContract.GraphSensor.SENSOR, name);
+                                getActivity().getContentResolver().insert(SensAppContract.GraphSensor.CONTENT_URI, values);
+                                values.clear();
+                            }
+                            for (String name : sensorsRemoved) {
+                                String where = SensAppContract.GraphSensor.SENSOR + " = \"" + name + "\" AND " + SensAppContract.GraphSensor.GRAPH + " = \"" + graphName + "\"";
+                                getActivity().getContentResolver().delete(SensAppContract.GraphSensor.CONTENT_URI, where, null);
+                            }
+                            cursor.close();
+                        }
+                    }).create();
+        }
+
+        @Override
+        public void onCancel(DialogInterface dialog) {
+            super.onCancel(dialog);
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    public static class NewGraphDialogFragment extends DialogFragment{
 
         public static NewGraphDialogFragment newInstance() {
             NewGraphDialogFragment frag = new NewGraphDialogFragment();
@@ -120,33 +202,6 @@ public class GraphsListFragment extends ListFragment implements LoaderCallbacks<
         getLoaderManager().initLoader(0, null, this);
         setListAdapter(adapter);
         registerForContextMenu(getListView());
-        /*List<GraphWrapper> gwl = new ArrayList<GraphWrapper>();
-
-        GraphBuffer bufferAX = new GraphBuffer();
-        Cursor cursor = getActivity().getContentResolver().query(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + "Android_Tab_AccelerometerX"), null, null, null, null);
-        for (cursor.moveToFirst() ; !cursor.isAfterLast() ; cursor.moveToNext()) {
-            bufferAX.insertData(cursor.getFloat(cursor.getColumnIndex(SensAppContract.Measure.VALUE)));
-        }
-
-        GraphBuffer bufferAY = new GraphBuffer();
-        cursor = getActivity().getContentResolver().query(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + "Android_Tab_AccelerometerY"), null, null, null, null);
-        for (cursor.moveToFirst() ; !cursor.isAfterLast() ; cursor.moveToNext()) {
-            bufferAY.insertData(cursor.getFloat(cursor.getColumnIndex(SensAppContract.Measure.VALUE)));
-        }
-
-        GraphWrapper wrapper = new GraphWrapper(bufferAX);
-        wrapper.setGraphOptions(Color.GRAY, 500, GraphBaseView.LINECHART, -2, 2, "X");
-        wrapper.setPrinterParameters(false, false, true);
-
-        GraphWrapper wrapperY = new GraphWrapper(bufferAY);
-        wrapperY.setGraphOptions(Color.GRAY, 500, GraphBaseView.LINECHART, -2, 2, "Y");
-        wrapperY.setPrinterParameters(false, false, true);
-
-        gwl.add(wrapper);
-        gwl.add(wrapperY);
-        adapter = new GraphAdapter(getActivity().getApplicationContext(), gwl);
-        ListView list = (ListView) getActivity().findViewById(android.R.id.list);
-        list.setAdapter(adapter);   */
 	}
 
 	@Override
@@ -176,20 +231,24 @@ public class GraphsListFragment extends ListFragment implements LoaderCallbacks<
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		menu.add(0, MENU_DELETE_ID, 0, R.string.menu_delete);
-		menu.add(0, MENU_UPLOAD_ID, 0, "Upload measure");
+		menu.add(0, MENU_DELETE_ID, 0, "Delete graph");
+		menu.add(0, MENU_MANAGE_ID, 0, "Manage graph sensors");
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        String title = getGraphTitleByID(info.id);
 		switch (item.getItemId()) {
-		case MENU_DELETE_ID:			
-			new DeleteMeasuresTask(getActivity(), SensAppContract.Measure.CONTENT_URI).execute(SensAppContract.Measure.ID + " = " + info.id);
-			return true;
-		case MENU_UPLOAD_ID:			
-			new PutMeasuresTask(getActivity(), Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + info.id)).execute();
-			return true;
+		case MENU_DELETE_ID:
+            //Delete the graph
+            new DeleteGraphSensorsTask(getActivity(), SensAppContract.Graph.CONTENT_URI).execute(SensAppContract.Graph.ID + " = " + info.id);
+            //Delete Graph Sensors attached
+            new DeleteGraphSensorsTask(getActivity(), SensAppContract.GraphSensor.CONTENT_URI).execute(SensAppContract.GraphSensor.GRAPH + " = \"" + title + "\"");
+            return true;
+		case MENU_MANAGE_ID:
+            ManageGraphDialogFragment.newInstance(title).show(getFragmentManager(), "ManageGraphDialog");
+            return true;
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -214,5 +273,15 @@ public class GraphsListFragment extends ListFragment implements LoaderCallbacks<
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         //adapter.swapCursor(null);
+    }
+
+    private String getGraphTitleByID(long id){
+        Cursor cursor = getActivity().getContentResolver().query(SensAppContract.Graph.CONTENT_URI, new String[]{SensAppContract.Graph.TITLE}, SensAppContract.Graph.ID + " = " + id, null, null);
+        //Only one data in the cursor
+        cursor.moveToFirst();
+        //Put the cursor on the first value then returns the first and only column
+        String s = cursor.getString(0);
+        cursor.close();
+        return s;
     }
 }
