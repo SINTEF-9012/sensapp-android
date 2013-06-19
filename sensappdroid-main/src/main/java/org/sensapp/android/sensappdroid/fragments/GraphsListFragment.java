@@ -255,7 +255,12 @@ public class GraphsListFragment extends ListFragment implements LoaderCallbacks<
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		graphSelectedListener.onGraphSelected(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + id));
+        Cursor c = getActivity().getContentResolver().query(Uri.parse(SensAppContract.Graph.CONTENT_URI + "/" + id), null, null, null, null);
+		//Only one graph
+        c.moveToFirst();
+        String graphName = c.getString(c.getColumnIndex(SensAppContract.Graph.TITLE));
+        c.close();
+        graphSelectedListener.onGraphSelected(Uri.parse(SensAppContract.Graph.CONTENT_URI + "/" + graphName));
 	}
 
     @Override
