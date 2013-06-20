@@ -69,7 +69,7 @@ public class GraphDetailsView extends GraphBaseView {
 	private void drawName(Canvas canvas) {
 		if (getWrapper().getName() != null) {
 			paint.setColor(Color.WHITE);
-			paint.setTextSize(30);
+			paint.setTextSize(25);
 			paint.setTextAlign(Paint.Align.CENTER);
 			canvas.drawText(getWrapper().getName(), getWidth() / (float) 2, 30, paint);
 		}
