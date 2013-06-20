@@ -44,7 +44,7 @@ public class GraphSensorCP extends TableContentProvider {
 		SensorURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH, SENSORS);
 		SensorURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/#", SENSOR_ID);
 		SensorURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/title/*", SENSOR_TITLE);
-        SensorURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/graph/*", GRAPH);
+        SensorURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/graph/#", GRAPH);
 	}
 
 	public GraphSensorCP(Context context, GraphGroupDatabaseHelper database) {
@@ -80,7 +80,7 @@ public class GraphSensorCP extends TableContentProvider {
             columnMap.put(GraphSensorTable.COLUMN_SENSOR, GraphSensorTable.TABLE_GRAPHSENSOR + "." + GraphSensorTable.COLUMN_SENSOR);
             queryBuilder.setProjectionMap(columnMap);
             queryBuilder.setTables(GraphSensorTable.TABLE_GRAPHSENSOR);*/
-            queryBuilder.appendWhere(/*GraphSensorTable.TABLE_GRAPHSENSOR + "." + */GraphSensorTable.COLUMN_GRAPHGROUP + " = \"" + uri.getLastPathSegment() + "\"");
+            queryBuilder.appendWhere(/*GraphSensorTable.TABLE_GRAPHSENSOR + "." + */GraphSensorTable.COLUMN_GRAPHGROUP + " = " + uri.getLastPathSegment());
             break;
 		/*case SENSOR:
 			Cursor c = getContext().getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);

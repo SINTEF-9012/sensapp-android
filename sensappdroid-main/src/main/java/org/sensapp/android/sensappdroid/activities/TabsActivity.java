@@ -181,7 +181,7 @@ public class TabsActivity extends FragmentActivity implements OnCompositeSelecte
     @Override
     public void onGraphSelected(Uri uri) {
         Intent i = new Intent(getApplicationContext(), GraphDisplayerActivity.class);
-        i.setData(Uri.parse(SensAppContract.Graph.CONTENT_URI + "/" + uri.getLastPathSegment()));
+        i.setData(uri);
         startActivity(i);
     }
 }

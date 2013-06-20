@@ -24,7 +24,7 @@ public class GraphGroupDatabaseHelper extends SQLiteOpenHelper {
 
 	private static final String TAG = GraphGroupDatabaseHelper.class.getName();
 	private static final String DATABASE_NAME = "sensapp_graph_group.db";
-	private static final int DATABASE_VERSION = 15;
+	private static final int DATABASE_VERSION = 16;
 
 	public GraphGroupDatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
