@@ -54,15 +54,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="628625e7-7a99-4f87-9acc-58a838833732" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/activities/GraphDisplayerActivity.java" afterPath="$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/activities/GraphDisplayerActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/activities/SensAppService.java" afterPath="$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/activities/SensAppService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="sensappdroid.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="628625e7-7a99-4f87-9acc-58a838833732" time="1371731008391" ignored="false" />
+    <file path="/Dummy.txt" changelist="628625e7-7a99-4f87-9acc-58a838833732" time="1371797661863" ignored="false" />
     <file path="/pref_upload_fragment.xml" changelist="628625e7-7a99-4f87-9acc-58a838833732" time="1371119241812" ignored="false" />
     <file path="/strings.xml" changelist="628625e7-7a99-4f87-9acc-58a838833732" time="1371119396888" ignored="false" />
     <file path="/UploadPrefFragment.java" changelist="628625e7-7a99-4f87-9acc-58a838833732" time="1371120214667" ignored="false" />
-    <file path="/SensAppService.java" changelist="628625e7-7a99-4f87-9acc-58a838833732" time="1371739711186" ignored="false" />
+    <file path="/SensAppService.java" changelist="628625e7-7a99-4f87-9acc-58a838833732" time="1371740471753" ignored="false" />
     <file path="/fragment.java" changelist="628625e7-7a99-4f87-9acc-58a838833732" time="1371647347715" ignored="false" />
     <file path="/pom.xml" changelist="628625e7-7a99-4f87-9acc-58a838833732" time="1371539153409" ignored="false" />
     <file path="$PROJECT_DIR$/../chestbelt-android/pom.xml" changelist="628625e7-7a99-4f87-9acc-58a838833732" time="1371196972623" ignored="false" />
@@ -124,7 +126,7 @@
     <file path="/SensAppContentProvider.java" changelist="628625e7-7a99-4f87-9acc-58a838833732" time="1371562830863" ignored="false" />
     <file path="/graph_simple_row.xml" changelist="628625e7-7a99-4f87-9acc-58a838833732" time="1371565360480" ignored="false" />
     <file path="/graph_displayer.xml" changelist="628625e7-7a99-4f87-9acc-58a838833732" time="1371714163656" ignored="false" />
-    <file path="/GraphDisplayerActivity.java" changelist="628625e7-7a99-4f87-9acc-58a838833732" time="1371738625890" ignored="false" />
+    <file path="/GraphDisplayerActivity.java" changelist="628625e7-7a99-4f87-9acc-58a838833732" time="1371802685507" ignored="false" />
     <file path="/GraphWrapper.java" changelist="628625e7-7a99-4f87-9acc-58a838833732" time="1371733637337" ignored="false" />
     <file path="/ManageGraphSensorFragment.java" changelist="628625e7-7a99-4f87-9acc-58a838833732" time="1371737445981" ignored="false" />
     <file path="/dialog_option_graph_sensor.xml" changelist="628625e7-7a99-4f87-9acc-58a838833732" time="1371727379176" ignored="false" />
@@ -191,23 +193,8 @@
       <file leaf-file-name="GraphsListFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/fragments/GraphsListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="177" column="18" selection-start="7416" selection-end="7416" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ManageGraphSensorFragment.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/fragments/ManageGraphSensorFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="63" selection-start="1236" selection-end="1236" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1023#1031#0" expanded="true" />
-                <element signature="e#1095#1103#0" expanded="true" />
-              </folding>
+            <state line="183" column="8" selection-start="7630" selection-end="7845" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -215,7 +202,18 @@
       <file leaf-file-name="MeasureListFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/fragments/MeasureListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="60" column="20" selection-start="2378" selection-end="2378" vertical-scroll-proportion="0.0">
+            <state line="182" column="46" selection-start="6652" selection-end="6652" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MeasuresAdapter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/fragments/MeasuresAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="32" column="13" selection-start="1133" selection-end="1133" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -224,20 +222,11 @@
       <file leaf-file-name="GraphDisplayerActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/activities/GraphDisplayerActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="195" column="129" selection-start="8743" selection-end="8743" vertical-scroll-proportion="0.0">
+            <state line="193" column="0" selection-start="8816" selection-end="8816" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="docComment;class#GraphDisplayerActivity#0" expanded="false" />
-                <element signature="e#3720#3728#0" expanded="true" />
-                <element signature="e#3832#3840#0" expanded="true" />
-                <element signature="e#3951#3959#0" expanded="true" />
-                <element signature="e#4309#4317#0" expanded="true" />
-                <element signature="e#4837#6151#0" expanded="true" />
-                <element signature="e#6128#6129#0" expanded="true" />
-                <element signature="e#7609#8231#0" expanded="true" />
-                <element signature="e#7907#7916#0" expanded="true" />
-                <element signature="e#8220#8221#0" expanded="true" />
-                <element signature="e#8567#8581#0" expanded="true" />
-                <element signature="e#10631#10640#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#8427#8436#0" expanded="true" />
+                <element signature="e#11135#11144#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -255,7 +244,7 @@
       <file leaf-file-name="CompositeListFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/fragments/CompositeListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="75" column="30" selection-start="3023" selection-end="3023" vertical-scroll-proportion="0.0">
+            <state line="191" column="8" selection-start="8052" selection-end="8097" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -273,7 +262,16 @@
       <file leaf-file-name="SensAppService.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/activities/SensAppService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="149" column="20" selection-start="6667" selection-end="6667" vertical-scroll-proportion="0.5753846">
+            <state line="150" column="17" selection-start="6634" selection-end="6634" vertical-scroll-proportion="0.6368876">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MeasuresActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/activities/MeasuresActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="25" column="13" selection-start="967" selection-end="967" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -283,15 +281,6 @@
         <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/contentprovider/CompositeCP.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="34" column="13" selection-start="1347" selection-end="1347" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DeleteGraphSensorsTask.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/datarequests/DeleteGraphSensorsTask.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="13" selection-start="809" selection-end="809" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -315,7 +304,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/contentprovider/GraphGroupCP.java" />
         <option value="$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/activities/GraphActivity.java" />
         <option value="$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/graph/GraphBuffer.java" />
         <option value="$PROJECT_DIR$/sensappdroid-main/res/layout/graph_displayer.xml" />
@@ -329,8 +317,9 @@
         <option value="$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/fragments/ManageGraphSensorFragment.java" />
         <option value="$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/fragments/GraphsListFragment.java" />
         <option value="$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/activities/TabsActivity.java" />
-        <option value="$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/activities/GraphDisplayerActivity.java" />
         <option value="$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/activities/SensAppService.java" />
+        <option value="$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/fragments/MeasureListFragment.java" />
+        <option value="$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/activities/GraphDisplayerActivity.java" />
       </list>
     </option>
   </component>
@@ -455,7 +444,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -665,40 +653,23 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="sensappdroid-main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sensappdroid" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sensapp-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="sensappdroid-contract" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="OverrideImplement.combined" value="true" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
-    <property name="MemberChooser.sorted" value="false" />
+    <property name="OverrideImplement.combined" value="true" />
     <property name="recentsLimit" value="5" />
-    <property name="FullScreen" value="false" />
+    <property name="MemberChooser.sorted" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="FullScreen" value="false" />
     <property name="AndroidLayoutSelectedEditor" value="text-editor" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="MemberChooser.copyJavadoc" value="false" />
@@ -726,24 +697,6 @@
       <option name="PROGRAM_PARAMETERS" />
       <method />
     </configuration>
-    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
-      <module name="" />
-      <option name="TESTING_TYPE" value="0" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <method />
-    </configuration>
     <configuration default="true" type="MavenRunConfiguration" factoryName="Maven">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -766,25 +719,30 @@
       </MavenSettings>
       <method />
     </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <method />
+    </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
       <option name="SHMEM_ADDRESS" value="javadebug" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -812,6 +770,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -922,7 +893,6 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852808" sideWeight="0.67558527" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -930,16 +900,17 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31879196" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31711408" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33409092" sideWeight="0.6795302" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33636364" sideWeight="0.6812081" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34166667" sideWeight="0.6828859" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3204698" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.6795302" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.6795302" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852808" sideWeight="0.67558527" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -1011,35 +982,14 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/sensappdroid-main/res/layout/dialog_option_graph_sensor.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="112" column="50" selection-start="4310" selection-end="4310" vertical-scroll-proportion="-10.64">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/graph/GraphWrapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="143" column="11" selection-start="3120" selection-end="3120" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/database/GraphSensorTable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="43" selection-start="1822" selection-end="1822" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="41" column="43" selection-start="1822" selection-end="1822" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/database/GraphGroupDatabaseHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="52" selection-start="1097" selection-end="1097" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="26" column="52" selection-start="1097" selection-end="1097" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/contentprovider/GraphSensorCP.java">
@@ -1056,13 +1006,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/fragments/MeasureListFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="20" selection-start="2378" selection-end="2378" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/activities/TabsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="183" column="57" selection-start="7373" selection-end="7373" vertical-scroll-proportion="0.58153844">
@@ -1070,56 +1013,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/fragments/GraphsListFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="177" column="18" selection-start="7416" selection-end="7416" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/fragments/ManageGraphSensorFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="35" column="63" selection-start="1236" selection-end="1236" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1023#1031#0" expanded="true" />
-            <element signature="e#1095#1103#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/activities/GraphDisplayerActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="195" column="129" selection-start="8743" selection-end="8743" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="docComment;class#GraphDisplayerActivity#0" expanded="false" />
-            <element signature="e#3720#3728#0" expanded="true" />
-            <element signature="e#3832#3840#0" expanded="true" />
-            <element signature="e#3951#3959#0" expanded="true" />
-            <element signature="e#4309#4317#0" expanded="true" />
-            <element signature="e#4837#6151#0" expanded="true" />
-            <element signature="e#6128#6129#0" expanded="true" />
-            <element signature="e#7609#8231#0" expanded="true" />
-            <element signature="e#7907#7916#0" expanded="true" />
-            <element signature="e#8220#8221#0" expanded="true" />
-            <element signature="e#8567#8581#0" expanded="true" />
-            <element signature="e#10631#10640#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/activities/CompositeActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="31" column="13" selection-start="1249" selection-end="1249" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/fragments/CompositeListFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="30" selection-start="3023" selection-end="3023" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1138,9 +1041,57 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/activities/MeasuresActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="13" selection-start="967" selection-end="967" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/fragments/GraphsListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="183" column="8" selection-start="7630" selection-end="7845" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/fragments/MeasuresAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="13" selection-start="1133" selection-end="1133" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/fragments/CompositeListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="191" column="8" selection-start="8052" selection-end="8097" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/fragments/MeasureListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="182" column="46" selection-start="6652" selection-end="6652" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/activities/GraphDisplayerActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="193" column="0" selection-start="8816" selection-end="8816" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#8427#8436#0" expanded="true" />
+            <element signature="e#11135#11144#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/sensappdroid-main/src/main/java/org/sensapp/android/sensappdroid/activities/SensAppService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="149" column="20" selection-start="6667" selection-end="6667" vertical-scroll-proportion="0.5753846">
+        <state line="150" column="17" selection-start="6634" selection-end="6634" vertical-scroll-proportion="0.6368876">
           <folding />
         </state>
       </provider>
