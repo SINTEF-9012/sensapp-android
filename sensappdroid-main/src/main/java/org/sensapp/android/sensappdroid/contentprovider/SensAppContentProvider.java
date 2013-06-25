@@ -15,7 +15,6 @@
  */
 package org.sensapp.android.sensappdroid.contentprovider;
 
-import org.sensapp.android.sensappdroid.database.GraphGroupDatabaseHelper;
 import org.sensapp.android.sensappdroid.database.MeasureTable;
 import org.sensapp.android.sensappdroid.database.SensAppDatabaseHelper;
 
@@ -37,8 +36,6 @@ public class SensAppContentProvider extends ContentProvider {
 	private static final int MEASURE = 20;
 	private static final int COMPOSITE = 30;
 	private static final int COMPOSE = 40;
-    private static final int GRAPH = 50;
-    private static final int GRAPHSENSOR = 60;
 	
 	private static final UriMatcher sensAppURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	static {
@@ -56,15 +53,6 @@ public class SensAppContentProvider extends ContentProvider {
 		sensAppURIMatcher.addURI(AUTHORITY, CompositeCP.BASE_PATH + "/*", COMPOSITE);
 		sensAppURIMatcher.addURI(AUTHORITY, ComposeCP.BASE_PATH, COMPOSE);
 		sensAppURIMatcher.addURI(AUTHORITY, ComposeCP.BASE_PATH + "/#", COMPOSE);
-        sensAppURIMatcher.addURI(AUTHORITY, GraphGroupCP.BASE_PATH, GRAPH);
-        sensAppURIMatcher.addURI(AUTHORITY, GraphGroupCP.BASE_PATH + "/#", GRAPH);
-        sensAppURIMatcher.addURI(AUTHORITY, GraphGroupCP.BASE_PATH + "/title/*", GRAPH);
-        sensAppURIMatcher.addURI(AUTHORITY, GraphGroupCP.BASE_PATH + "/*", GRAPH);
-        sensAppURIMatcher.addURI(AUTHORITY, GraphSensorCP.BASE_PATH, GRAPHSENSOR);
-        sensAppURIMatcher.addURI(AUTHORITY, GraphSensorCP.BASE_PATH + "/#", GRAPHSENSOR);
-        sensAppURIMatcher.addURI(AUTHORITY, GraphSensorCP.BASE_PATH + "/title/*", GRAPHSENSOR);
-        sensAppURIMatcher.addURI(AUTHORITY, GraphSensorCP.BASE_PATH + "/graph/*", GRAPHSENSOR);
-        sensAppURIMatcher.addURI(AUTHORITY, GraphSensorCP.BASE_PATH + "/*", GRAPHSENSOR);
 	}
 
 	private MeasureCP measureCP;
@@ -72,9 +60,6 @@ public class SensAppContentProvider extends ContentProvider {
 	private CompositeCP compositeCP;
 	private ComposeCP composeCP;
 	private SensAppDatabaseHelper databaseHelper;
-    private GraphGroupCP graphCP;
-    private GraphSensorCP graphSensorCP;
-    private GraphGroupDatabaseHelper graphDatabaseHelper;
 	
 	@Override
 	public boolean onCreate() {
@@ -83,9 +68,6 @@ public class SensAppContentProvider extends ContentProvider {
 		sensorCP = new SensorCP(getContext(), databaseHelper);
 		compositeCP = new CompositeCP(getContext(), databaseHelper);
 		composeCP = new ComposeCP(getContext(), databaseHelper);
-        graphDatabaseHelper = new GraphGroupDatabaseHelper(getContext());
-        graphCP = new GraphGroupCP(getContext(), graphDatabaseHelper);
-        graphSensorCP = new GraphSensorCP(getContext(), graphDatabaseHelper);
 		return true;
 	}
 	
@@ -132,10 +114,6 @@ public class SensAppContentProvider extends ContentProvider {
 			return compositeCP.query(uri, projection, selection, selectionArgs, sortOrder);
 		case COMPOSE:
 			return composeCP.query(uri, projection, selection, selectionArgs, sortOrder);
-        case GRAPH:
-            return graphCP.query(uri, projection, selection, selectionArgs, sortOrder, uid);
-        case GRAPHSENSOR:
-            return graphSensorCP.query(uri, projection, selection, selectionArgs, sortOrder, uid);
 		default:
 			throw new SensAppProviderException("Query error: unknown URI " + uri);
 		}
@@ -152,10 +130,6 @@ public class SensAppContentProvider extends ContentProvider {
 			return compositeCP.getType(uri);
 		case COMPOSE:
 			return composeCP.getType(uri);
-        case GRAPH:
-            return graphCP.getType(uri);
-        case GRAPHSENSOR:
-            return graphSensorCP.getType(uri);
 		default:
 			throw new SensAppProviderException("getType error: unknown URI " + uri);
 		}
@@ -173,10 +147,6 @@ public class SensAppContentProvider extends ContentProvider {
 			return compositeCP.update(uri, values, selection, selectionArgs);
 		case COMPOSE:
 			return composeCP.update(uri, values, selection, selectionArgs);
-        case GRAPH:
-            return graphCP.update(uri, values, selection, selectionArgs, uid);
-        case GRAPHSENSOR:
-            return graphSensorCP.update(uri, values, selection, selectionArgs, uid);
 		default:
 			throw new SensAppProviderException("Update error: unknown URI " + uri);
 		}
@@ -194,10 +164,6 @@ public class SensAppContentProvider extends ContentProvider {
 			return compositeCP.insert(uri, values);
 		case COMPOSE:
 			return composeCP.insert(uri, values);
-        case GRAPH:
-            return graphCP.insert(uri, values, uid);
-        case GRAPHSENSOR:
-            return graphSensorCP.insert(uri, values, uid);
 		default:
 			throw new SensAppProviderException("Insert error: unknown URI " + uri);
 		}
@@ -215,10 +181,6 @@ public class SensAppContentProvider extends ContentProvider {
 			return compositeCP.delete(uri, selection, selectionArgs);
 		case COMPOSE:
 			return composeCP.delete(uri, selection, selectionArgs);
-        case GRAPH:
-            return graphCP.delete(uri, selection, selectionArgs, uid);
-        case GRAPHSENSOR:
-            return graphSensorCP.delete(uri, selection, selectionArgs, uid);
 		default:
 			throw new SensAppProviderException("Delete error: unknown URI " + uri);
 		}

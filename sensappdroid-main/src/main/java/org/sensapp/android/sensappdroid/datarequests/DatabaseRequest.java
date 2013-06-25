@@ -52,20 +52,6 @@ public class DatabaseRequest {
 	private static final String C_COMPOSITE = SensAppContract.Compose.COMPOSITE;
 	
 	private static final Uri CTE_CONTENT_URI = SensAppContract.Composite.CONTENT_URI;
-
-    private static final Uri GS_CONTENT_URI = SensAppContract.GraphSensor.CONTENT_URI;
-    private static final String GS_ID = SensAppContract.GraphSensor.ID;
-    private static final String GS_TITLE = SensAppContract.GraphSensor.TITLE;
-    private static final String GS_GRAPH = SensAppContract.GraphSensor.GRAPH;
-    private static final String GS_STYLE = SensAppContract.GraphSensor.STYLE;
-    private static final String GS_COLOR = SensAppContract.GraphSensor.COLOR;
-    private static final String GS_MAX = SensAppContract.GraphSensor.MAX;
-    private static final String GS_MIN = SensAppContract.GraphSensor.MIN;
-    private static final String GS_SENSOR = SensAppContract.GraphSensor.SENSOR;
-
-    private static final Uri G_CONTENT_URI = SensAppContract.Graph.CONTENT_URI;
-    private static final String G_ID = SensAppContract.Graph.ID;
-    private static final String G_TITLE = SensAppContract.Graph.TITLE;
 	
 	private static final String TAG = DatabaseRequest.class.getSimpleName();
 	
@@ -184,7 +170,7 @@ public class DatabaseRequest {
 	public static class ComposeRQ {
 		public static int deleteCompose(Context context, String selection) {
 			int rows = context.getContentResolver().delete(C_CONTENT_URI, selection, null);
-			Log.i(TAG, "TABLE_GRAPHGROUP: " + rows + " rows deleted");
+			Log.i(TAG, "TABLE_COMPOSE: " + rows + " rows deleted");
 			return rows;
 		}
 	}
@@ -237,94 +223,4 @@ public class DatabaseRequest {
 			return rowCompose + rowComposite;
 		}
 	}
-
-    public static class GraphRQ {
-
-        public static int deleteGraph(Context context, int id) {
-            int rows = context.getContentResolver().delete(Uri.parse(G_CONTENT_URI + "/" + id), null, null);
-            Log.i(TAG, "TABLE_GRAPH: " + rows + " rows deleted");
-            return rows;
-        }
-
-        public static int deleteGraph(Context context, String selection) {
-            int rows = context.getContentResolver().delete(G_CONTENT_URI, selection, null);
-            Log.i(TAG, "TABLE_GRAPH: " + rows + " rows deleted");
-            return rows;
-        }
-
-        public static int updateGraph(Context context, int id, ContentValues values) {
-            int rows = context.getContentResolver().update(Uri.parse(G_CONTENT_URI + "/" + id), values, null, null);
-            Log.i(TAG, "TABLE_GRAPH: " + rows + " rows updated");
-            return rows;
-        }
-
-        public static int updateGraph(Context context, String selection, ContentValues values) {
-            int rows = context.getContentResolver().update(G_CONTENT_URI, values, selection, null);
-            Log.i(TAG, "TABLE_GRAPH: " + rows + " rows updated");
-            return rows;
-        }
-
-        public static Hashtable<Integer, ContentValues> getGraphValues(Context context, String selection) {
-            Hashtable<Integer, ContentValues> graphs = new Hashtable<Integer, ContentValues>();
-            Cursor cursor = context.getContentResolver().query(G_CONTENT_URI, null, selection, null, null);
-            if (cursor != null) {
-                while (cursor.moveToNext()) {
-                    ContentValues cv = new ContentValues();
-                    cv.put(G_ID, cursor.getInt(cursor.getColumnIndexOrThrow(G_ID)));
-                    cv.put(G_TITLE, cursor.getString(cursor.getColumnIndexOrThrow(G_TITLE)));
-                    graphs.put((Integer) cv.get(G_ID), cv);
-                }
-                cursor.close();
-            }
-            return graphs;
-        }
-    }
-
-    public static class GraphSensorRQ {
-
-        public static int deleteGraphSensor(Context context, int id) {
-            int rows = context.getContentResolver().delete(Uri.parse(GS_CONTENT_URI + "/" + id), null, null);
-            Log.i(TAG, "TABLE_GRAPHSENSOR: " + rows + " rows deleted");
-            return rows;
-        }
-
-        public static int deleteGraphSensor(Context context, String selection) {
-            int rows = context.getContentResolver().delete(GS_CONTENT_URI, selection, null);
-            Log.i(TAG, "TABLE_GRAPHSENSOR: " + rows + " rows deleted");
-            return rows;
-        }
-
-        public static int updateGraphSensor(Context context, int id, ContentValues values) {
-            int rows = context.getContentResolver().update(Uri.parse(GS_CONTENT_URI + "/" + id), values, null, null);
-            Log.i(TAG, "TABLE_GRAPHSENSOR: " + rows + " rows updated");
-            return rows;
-        }
-
-        public static int updateGraphSensor(Context context, String selection, ContentValues values) {
-            int rows = context.getContentResolver().update(GS_CONTENT_URI, values, selection, null);
-            Log.i(TAG, "TABLE_GRAPHSENSOR: " + rows + " rows updated");
-            return rows;
-        }
-
-        public static Hashtable<Integer, ContentValues> getGraphSensorValues(Context context, String selection) {
-            Hashtable<Integer, ContentValues> graphSensors = new Hashtable<Integer, ContentValues>();
-            Cursor cursor = context.getContentResolver().query(GS_CONTENT_URI, null, selection, null, null);
-            if (cursor != null) {
-                while (cursor.moveToNext()) {
-                    ContentValues cv = new ContentValues();
-                    cv.put(GS_ID, cursor.getInt(cursor.getColumnIndexOrThrow(GS_ID)));
-                    cv.put(GS_TITLE, cursor.getString(cursor.getColumnIndexOrThrow(GS_TITLE)));
-                    cv.put(GS_GRAPH, cursor.getString(cursor.getColumnIndexOrThrow(GS_GRAPH)));
-                    cv.put(GS_STYLE, cursor.getString(cursor.getColumnIndexOrThrow(GS_STYLE)));
-                    cv.put(GS_COLOR, cursor.getString(cursor.getColumnIndexOrThrow(GS_COLOR)));
-                    cv.put(GS_MAX, cursor.getString(cursor.getColumnIndexOrThrow(GS_MAX)));
-                    cv.put(GS_MIN, cursor.getString(cursor.getColumnIndexOrThrow(GS_MIN)));
-                    cv.put(GS_SENSOR, cursor.getString(cursor.getColumnIndexOrThrow(GS_SENSOR)));
-                    graphSensors.put((Integer) cv.get(GS_ID), cv);
-                }
-                cursor.close();
-            }
-            return graphSensors;
-        }
-    }
 }
