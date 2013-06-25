@@ -95,11 +95,11 @@ public final class SensAppContract {
 
         public static final String ID = "_id";
         public static final String TITLE = "title";
-        public static final String GRAPH = "graphgroup";
+        public static final String GRAPH = "graph";
         public static final String STYLE = "style";
         public static final String COLOR = "color";
-        public static final String MAX = "high";
-        public static final String MIN = "low";
+        public static final String MAX = "max";
+        public static final String MIN = "min";
         public static final String SENSOR = "sensor";
     }
 	

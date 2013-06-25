@@ -23,7 +23,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 import org.sensapp.android.sensappdroid.database.*;
 import org.sensapp.android.sensappdroid.database.GraphSensorTable;
 
@@ -41,10 +40,10 @@ public class GraphSensorCP extends TableContentProvider {
     private static final int GRAPH = 40;
 	private static final UriMatcher SensorURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	static {
-		SensorURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH, SENSORS);
-		SensorURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/#", SENSOR_ID);
-		SensorURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/title/*", SENSOR_TITLE);
-        SensorURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/graph/*", GRAPH);
+		SensorURIMatcher.addURI(GraphContentProvider.AUTHORITY, BASE_PATH, SENSORS);
+		SensorURIMatcher.addURI(GraphContentProvider.AUTHORITY, BASE_PATH + "/#", SENSOR_ID);
+		SensorURIMatcher.addURI(GraphContentProvider.AUTHORITY, BASE_PATH + "/title/*", SENSOR_TITLE);
+        SensorURIMatcher.addURI(GraphContentProvider.AUTHORITY, BASE_PATH + "/graph/*", GRAPH);
 	}
 
 	public GraphSensorCP(Context context, GraphGroupDatabaseHelper database) {
@@ -69,7 +68,7 @@ public class GraphSensorCP extends TableContentProvider {
 			queryBuilder.appendWhere(GraphSensorTable.COLUMN_TITLE + "= \"" + uri.getLastPathSegment() + "\"");
 			break;
         case GRAPH:
-            /*Hashtable<String, String> columnMap = new Hashtable<String, String>();
+            Hashtable<String, String> columnMap = new Hashtable<String, String>();
             columnMap.put(GraphSensorTable.COLUMN_ID, GraphSensorTable.TABLE_GRAPHSENSOR + "." + GraphSensorTable.COLUMN_ID);
             columnMap.put(GraphSensorTable.COLUMN_TITLE, GraphSensorTable.TABLE_GRAPHSENSOR + "." + GraphSensorTable.COLUMN_TITLE);
             columnMap.put(GraphSensorTable.COLUMN_STYLE, GraphSensorTable.TABLE_GRAPHSENSOR + "." + GraphSensorTable.COLUMN_STYLE);
@@ -79,8 +78,8 @@ public class GraphSensorCP extends TableContentProvider {
             columnMap.put(GraphSensorTable.COLUMN_GRAPHGROUP, GraphSensorTable.TABLE_GRAPHSENSOR + "." + GraphSensorTable.COLUMN_GRAPHGROUP);
             columnMap.put(GraphSensorTable.COLUMN_SENSOR, GraphSensorTable.TABLE_GRAPHSENSOR + "." + GraphSensorTable.COLUMN_SENSOR);
             queryBuilder.setProjectionMap(columnMap);
-            queryBuilder.setTables(GraphSensorTable.TABLE_GRAPHSENSOR);*/
-            queryBuilder.appendWhere(/*GraphSensorTable.TABLE_GRAPHSENSOR + "." + */GraphSensorTable.COLUMN_GRAPHGROUP + " = \"" + uri.getLastPathSegment() + "\"");
+            queryBuilder.setTables(GraphSensorTable.TABLE_GRAPHSENSOR);
+            queryBuilder.appendWhere(GraphSensorTable.TABLE_GRAPHSENSOR + "." + GraphSensorTable.COLUMN_GRAPHGROUP + " = \"" + uri.getLastPathSegment() + "\"");
             break;
 		/*case SENSOR:
 			Cursor c = getContext().getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
@@ -100,7 +99,7 @@ public class GraphSensorCP extends TableContentProvider {
 		}
 		SQLiteDatabase db = getDatabase().getWritableDatabase();
 		Cursor cursor = queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
-        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		return cursor;
 	}
 	
@@ -115,7 +114,6 @@ public class GraphSensorCP extends TableContentProvider {
 		case SENSORS:
 			//values.put(MeasureTable.COLUMN_UPLOADED, 0);
 			id = db.insert(GraphSensorTable.TABLE_GRAPHSENSOR, null, values);
-            //GraphSensorTable.onCreate(db);
 			break;
 		default:
 			throw new SensAppProviderException("Unknown insert URI: " + uri);
@@ -197,7 +195,7 @@ public class GraphSensorCP extends TableContentProvider {
 	
 	@Override
 	protected void checkColumns(String[] projection) {
-		String[] available = {GraphSensorTable.COLUMN_ID, GraphSensorTable.COLUMN_TITLE, GraphSensorTable.COLUMN_COLOR, GraphSensorTable.COLUMN_GRAPHGROUP, GraphSensorTable.COLUMN_SENSOR, GraphSensorTable.COLUMN_LOWESTVALUE, GraphSensorTable.COLUMN_HIGHESTVALUE, GraphSensorTable.COLUMN_STYLE};
+		String[] available = {GraphSensorTable.COLUMN_ID, GraphSensorTable.COLUMN_TITLE};
 		if (projection != null) {
 			HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
 			HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));

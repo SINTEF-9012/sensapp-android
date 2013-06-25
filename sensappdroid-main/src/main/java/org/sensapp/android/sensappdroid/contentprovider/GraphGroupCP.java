@@ -42,9 +42,9 @@ public class GraphGroupCP extends TableContentProvider {
 	private static final int GRAPH = 40;
 	private static final UriMatcher graphURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	static {
-		graphURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH, GRAPHS);
-		graphURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/#", GRAPH_ID);
-		graphURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/title/*", GRAPH_TITLE);
+		graphURIMatcher.addURI(GraphContentProvider.AUTHORITY, BASE_PATH, GRAPHS);
+		graphURIMatcher.addURI(GraphContentProvider.AUTHORITY, BASE_PATH + "/#", GRAPH_ID);
+		graphURIMatcher.addURI(GraphContentProvider.AUTHORITY, BASE_PATH + "/title/*", GRAPH_TITLE);
 		//graphURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/*", GRAPH);
 	}
 
