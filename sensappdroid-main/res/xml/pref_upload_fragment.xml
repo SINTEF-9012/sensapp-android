@@ -18,36 +18,33 @@
 <PreferenceScreen
         xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Auto upload">
+    <PreferenceCategory
+            android:title="Auto upload">
+
         <CheckBoxPreference
-            android:key="@string/pref_auto_upload_key"
-            android:title="Active"
-            android:defaultValue="false"/>
-
-            <EditTextPreference
-                android:key="@string/pref_autoupload_delay_key"
-                android:title="Interval"
-                android:dialogTitle="Set the delay between two upload"
-                android:numeric="integer"
-                android:defaultValue="10"/>
-            <Preference
-                android:key="@string/pref_choose_sensor_autoupload_key"
-                android:title="Sensors"
-                android:summary="Choose sensors to auto upload"/>
-
-            <EditTextPreference
-                android:key="@string/pref_autoupload_amount_key"
-                android:title="Amount of data"
-                android:dialogTitle="Set the amount of data stored between two upload"
-                android:numeric="integer"
-                android:defaultValue="1000"/>
+                android:key="@string/pref_auto_upload_key"
+                android:title="Active" 
+                android:defaultValue="false"/>
     
+        <EditTextPreference 
+            android:key="@string/pref_autoupload_delay_key"
+            android:title="Interval"
+            android:dialogTitle="Set the delay between two upload"
+            android:numeric="integer"
+            android:defaultValue="10"/>
+    
+    <Preference
+            android:key="@string/pref_choose_sensor_autoupload_key"
+            android:title="Sensors"
+            android:summary="Choose sensors to auto upload"/>
 
     </PreferenceCategory>
     
-    <PreferenceCategory android:title="Reset">
+    <PreferenceCategory 
+        android:title="Reset">
         <Preference
             android:key="@string/pref_undo_upload_key"
             android:title="Undo uploaded entities"/>
+            
     </PreferenceCategory>
 </PreferenceScreen>

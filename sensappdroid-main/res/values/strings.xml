@@ -36,10 +36,8 @@
 	<string name="toast_service_started">SensApp service started</string>
 	<string name="toast_service_stopped">SensApp service stopped</string>
 	<string name="status_icon_description">status_icon_description</string>
-    <string name="pref_category">pref_category</string>
 	<string name="pref_auto_upload_key">pref_auto_upload_key</string>
 	<string name="pref_choose_sensor_autoupload_key">pref_choose_sensor_autoupload_key</string>
-    <string name="pref_autoupload_amount_key">pref_autoupload_amount_key_new</string>
 	<string name="pref_autoupload_delay_key">pref_autoupload_delay_key</string>
 	<string name="pref_default_server_key">pref_default_server_key</string>
 	<string name="pref_default_port_key">pref_default_port_key</string>
@@ -47,6 +45,5 @@
 	<string name="pref_undo_upload_key">pref_undo_upload_key</string>
 	<string name="measure_icon_description">measure icon</string>
 	<string name="sensor_icon_description">sensor icon</string>
-    <string name="details_icon_description">Details activity icon descriptor</string>
 	
 </resources>

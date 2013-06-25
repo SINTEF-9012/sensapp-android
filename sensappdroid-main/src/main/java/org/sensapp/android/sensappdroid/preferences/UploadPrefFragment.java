@@ -15,7 +15,6 @@
  */
 package org.sensapp.android.sensappdroid.preferences;
 
-import android.util.Log;
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.activities.SensAppService;
 import org.sensapp.android.sensappdroid.activities.TabsActivity;
@@ -49,7 +48,6 @@ public class UploadPrefFragment extends PreferenceFragment {
 	private static final int AUTO_UPLOAD_NOTIFICATION = 974;
 	
 	private EditTextPreference delay;
-    private EditTextPreference amount;
 	private CheckBoxPreference active;
 	
 	@Override
@@ -58,7 +56,6 @@ public class UploadPrefFragment extends PreferenceFragment {
 		addPreferencesFromResource(R.xml.pref_upload_fragment);
 
 		delay = (EditTextPreference) findPreference(getString(R.string.pref_autoupload_delay_key));
-        amount = (EditTextPreference) findPreference(getString(R.string.pref_autoupload_amount_key));
 		active = (CheckBoxPreference) findPreference(getString(R.string.pref_auto_upload_key));
 		
 		active.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
@@ -66,8 +63,7 @@ public class UploadPrefFragment extends PreferenceFragment {
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				if ((Boolean) newValue) {
 					startAutoUpload(getActivity(), Integer.valueOf(delay.getSharedPreferences().getString(delay.getKey(), "10")));
-					startAmountUpload(getActivity());
-                    if (!ConnectivityReceiver.isDataAvailable(getActivity())) {
+					if (!ConnectivityReceiver.isDataAvailable(getActivity())) {
 						AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 						builder.setMessage("The auto upload will start when a data connection is available")
 						.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -77,7 +73,6 @@ public class UploadPrefFragment extends PreferenceFragment {
 					}
 				} else {
 					stopAutoUpload(getActivity());
-                    stopAmountUpload(getActivity());
 				}
 				return true;
 			}
@@ -98,20 +93,7 @@ public class UploadPrefFragment extends PreferenceFragment {
 				return true;
 			}
 		});
-
-        amount.setDependency(active.getKey());
-        amount.setSummary(amount.getSharedPreferences().getString(amount.getKey(), "1000") + " data");
-        amount.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                amount.setSummary((String) newValue + " data");
-                SensAppService.setAmountData(Integer.parseInt((String) newValue));
-                stopAmountUpload(getActivity());
-                startAmountUpload(getActivity());
-                return true;
-            }
-        });
-
+		
 		Preference sensors = findPreference(getString(R.string.pref_choose_sensor_autoupload_key));
 		sensors.setDependency(active.getKey());
 		sensors.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -152,23 +134,6 @@ public class UploadPrefFragment extends PreferenceFragment {
 		notification.flags |= Notification.FLAG_ONGOING_EVENT;
 		((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(AUTO_UPLOAD_NOTIFICATION, notification);
 	}
-
-    private static void startAmountUpload(Context context) {
-        Intent startService = new Intent(context, SensAppService.class).setAction(SensAppService.ACTION_AMOUNT_UPLOAD);
-        PendingIntent pendingIntent = PendingIntent.getService(context, 0, startService, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE)).setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 2000L, pendingIntent);
-
-        Notification notification = new Notification.Builder(context)
-                .setContentTitle("SensApp")
-                .setContentText("Amount upload is running")
-                .setTicker("Amount upload started")
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, TabsActivity.class), 0))
-                .getNotification();
-        notification.flags |= Notification.FLAG_ONGOING_EVENT;
-        ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(AUTO_UPLOAD_NOTIFICATION, notification);
-    }
 	
 	private static void stopAutoUpload(Context context) {
 		Intent startService = new Intent(context, SensAppService.class).setAction(SensAppService.ACTION_AUTO_UPLOAD);
@@ -178,14 +143,6 @@ public class UploadPrefFragment extends PreferenceFragment {
 		((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(AUTO_UPLOAD_NOTIFICATION);
 	}
 
-    private static void stopAmountUpload(Context context) {
-        Intent startService = new Intent(context, SensAppService.class).setAction(SensAppService.ACTION_AMOUNT_UPLOAD);
-        PendingIntent pendingIntent = PendingIntent.getService(context, 0, startService, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE)).cancel(pendingIntent);
-        ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(AUTO_UPLOAD_NOTIFICATION);
-    }
-
 	public static class BootReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -193,7 +150,6 @@ public class UploadPrefFragment extends PreferenceFragment {
 			if (preferences.getBoolean(context.getString(R.string.pref_auto_upload_key), false)) {
 				String delay = preferences.getString(context.getString(R.string.pref_autoupload_delay_key), "10");
 				startAutoUpload(context, Integer.valueOf(delay));
-                startAmountUpload(context);
 			}
 		}
 	}
