@@ -26,18 +26,16 @@ import java.util.concurrent.Callable;
  */
 public class ManageGraphSensorFragment extends DialogFragment {
 
-    private static final String GRAPH_NAME = "graph_name";
-    private static final String GRAPH_ID = "graph_id";
+    private static final String GRAPH_NAME = "composite_name";
     private ArrayList<String> sensorsAdded = new ArrayList<String>();
     private ArrayList<String> sensorsRemoved = new ArrayList<String>();
     private Cursor cursor;
     private Callable<Integer> toExec;
 
-    public static ManageGraphSensorFragment newInstance(String graphName, long id) {
+    public static ManageGraphSensorFragment newInstance(String graphName) {
         ManageGraphSensorFragment frag = new ManageGraphSensorFragment();
         Bundle args = new Bundle();
         args.putString(GRAPH_NAME, graphName);
-        args.putLong(GRAPH_ID, id);
         frag.setArguments(args);
         return frag;
     }
@@ -45,9 +43,8 @@ public class ManageGraphSensorFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final String graphName = getArguments().getString(GRAPH_NAME);
-        final Long graphID = getArguments().getLong(GRAPH_ID);
         cursor = getActivity().getContentResolver().query(SensAppContract.Sensor.CONTENT_URI, null, null, null, SensAppContract.Sensor.NAME + " ASC");
-        Cursor cursorGraphSensor = getActivity().getContentResolver().query(Uri.parse(SensAppContract.GraphSensor.CONTENT_URI + "/graph/" + graphID), null, null, null, SensAppContract.GraphSensor.SENSOR + " ASC");
+        Cursor cursorGraphSensor = getActivity().getContentResolver().query(Uri.parse(SensAppContract.GraphSensor.CONTENT_URI + "/graph/" + graphName), null, null, null, SensAppContract.GraphSensor.SENSOR + " ASC");
         String[] sensorNames = new String[cursor.getCount()];
         boolean[] sensorStatus = new boolean[cursor.getCount()];
         cursorGraphSensor.moveToFirst();
@@ -91,13 +88,13 @@ public class ManageGraphSensorFragment extends DialogFragment {
                             values.put(SensAppContract.GraphSensor.COLOR, Color.BLUE);
                             values.put(SensAppContract.GraphSensor.MAX, 3);
                             values.put(SensAppContract.GraphSensor.MIN, 3);
-                            values.put(SensAppContract.GraphSensor.GRAPH, graphID);
+                            values.put(SensAppContract.GraphSensor.GRAPH, graphName);
                             values.put(SensAppContract.GraphSensor.SENSOR, name);
                             getActivity().getContentResolver().insert(SensAppContract.GraphSensor.CONTENT_URI, values);
                             values.clear();
                         }
                         for (String name : sensorsRemoved) {
-                            String where = SensAppContract.GraphSensor.SENSOR + " = \"" + name + "\" AND " + SensAppContract.GraphSensor.GRAPH + " = " + graphID;
+                            String where = SensAppContract.GraphSensor.SENSOR + " = \"" + name + "\" AND " + SensAppContract.GraphSensor.GRAPH + " = \"" + graphName + "\"";
                             getActivity().getContentResolver().delete(SensAppContract.GraphSensor.CONTENT_URI, where, null);
                         }
                         cursor.close();

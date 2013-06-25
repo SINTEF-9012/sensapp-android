@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import org.sensapp.android.sensappdroid.R;
@@ -34,7 +33,6 @@ import java.util.concurrent.Callable;
  */
 public class GraphDisplayerActivity extends FragmentActivity {
     private String graphName="GRAPH";
-    private long graphID=0;
 
     public static class GraphSensorOptionsDialogFragment extends DialogFragment implements AdapterView.OnItemSelectedListener {
 
@@ -157,11 +155,7 @@ public class GraphDisplayerActivity extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.graph_displayer);
-
-        List<String> data = getIntent().getData().getPathSegments();
-        graphName = data.get(data.size()-1);
-        graphID = Long.parseLong(data.get(data.size() - 2));
-
+        graphName = getIntent().getData().getLastPathSegment();
         setTitle(graphName);
 
         ListView list = (ListView) findViewById(R.id.list_graph_displayer);
@@ -193,7 +187,7 @@ public class GraphDisplayerActivity extends FragmentActivity {
         List<GraphWrapper> gwl = new ArrayList<GraphWrapper>();
 
         //Init sensor names
-        Cursor cursorSensors = getContentResolver().query(Uri.parse(SensAppContract.GraphSensor.CONTENT_URI + "/graph/" + graphID), null, null, null, null);
+        Cursor cursorSensors = getContentResolver().query(Uri.parse(SensAppContract.GraphSensor.CONTENT_URI + "/graph/" + graphName), null, null, null, null);
         String[] sensorNames = new String[cursorSensors.getCount()];
         String[] graphTitles = new String[cursorSensors.getCount()];
         int[] graphStyles = new int[cursorSensors.getCount()];
@@ -235,7 +229,7 @@ public class GraphDisplayerActivity extends FragmentActivity {
                         return displayGraphs();
                     }
                 };
-                ManageGraphSensorFragment.newInstance(graphName, graphID).show(getSupportFragmentManager(), "ManageGraphDialog", refresh);
+                ManageGraphSensorFragment.newInstance(graphName).show(getSupportFragmentManager(), "ManageGraphDialog", refresh);
                 return true;
         }
         return super.onOptionsItemSelected(item);

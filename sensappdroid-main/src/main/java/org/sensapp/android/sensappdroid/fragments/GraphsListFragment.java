@@ -160,10 +160,10 @@ public class GraphsListFragment extends ListFragment implements LoaderCallbacks<
             //Delete the graph
             new DeleteGraphSensorsTask(getActivity(), SensAppContract.Graph.CONTENT_URI).execute(SensAppContract.Graph.ID + " = " + info.id);
             //Delete Graph Sensors attached
-            new DeleteGraphSensorsTask(getActivity(), SensAppContract.GraphSensor.CONTENT_URI).execute(SensAppContract.GraphSensor.GRAPH + " = " + info.id);
+            new DeleteGraphSensorsTask(getActivity(), SensAppContract.GraphSensor.CONTENT_URI).execute(SensAppContract.GraphSensor.GRAPH + " = \"" + title + "\"");
             return true;
 		case MENU_MANAGE_ID:
-            ManageGraphSensorFragment.newInstance(title, info.id).show(getFragmentManager(), "ManageGraphDialog");
+            ManageGraphSensorFragment.newInstance(title).show(getFragmentManager(), "ManageGraphDialog");
             return true;
 		}
 		return super.onContextItemSelected(item);
@@ -176,7 +176,7 @@ public class GraphsListFragment extends ListFragment implements LoaderCallbacks<
         c.moveToFirst();
         String graphName = c.getString(c.getColumnIndex(SensAppContract.Graph.TITLE));
         c.close();
-        graphSelectedListener.onGraphSelected(Uri.parse(SensAppContract.Graph.CONTENT_URI + "/" + id + "/" + graphName));
+        graphSelectedListener.onGraphSelected(Uri.parse(SensAppContract.Graph.CONTENT_URI + "/" + graphName));
 	}
 
     @Override

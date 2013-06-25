@@ -39,7 +39,7 @@ public final class GraphSensorTable {
             + COLUMN_COLOR + " TEXT NOT NULL, "
             + COLUMN_HIGHESTVALUE + " TEXT NOT NULL, "
             + COLUMN_LOWESTVALUE + " TEXT NOT NULL, "
-			+ COLUMN_GRAPHGROUP + " INTEGER NOT NULL, "
+			+ COLUMN_GRAPHGROUP + " TEXT NOT NULL, "
 			+ COLUMN_SENSOR + " TEXT NOT NULL);";
 	private static final String DATABASE_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_GRAPHSENSOR;
 
