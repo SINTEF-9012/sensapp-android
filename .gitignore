@@ -2,6 +2,7 @@
 .directory
 
 target/
+.idea
 
 sensappdroid-clientsamples/*/bin/*
 sensappdroid-clientsamples/*/gen/*
