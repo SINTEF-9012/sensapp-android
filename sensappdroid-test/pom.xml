@@ -42,36 +42,36 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-	<groupId>com.google.android</groupId>
-	<artifactId>android-test</artifactId>
-	<version>4.0.1.2</version>
-	<scope>provided</scope>
+        <groupId>com.google.android</groupId>
+        <artifactId>android-test</artifactId>
+        <version>4.0.1.2</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
-	<groupId>org.sensapp.android</groupId>
-	<artifactId>sensappdroid-main</artifactId>
-	<type>apk</type>
-	<version>1.6.5</version>
-	<scope>provided</scope>
+        <groupId>org.sensapp.android</groupId>
+        <artifactId>sensappdroid-main</artifactId>
+        <type>apk</type>
+        <version>1.6.5</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
-	<groupId>org.sensapp.android</groupId>
-	<artifactId>sensappdroid-main</artifactId>
-	<type>jar</type>
-	<version>1.6.5</version>
-	<scope>provided</scope>
+        <groupId>org.sensapp.android</groupId>
+        <artifactId>sensappdroid-main</artifactId>
+        <type>jar</type>
+        <version>1.6.5</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
-	<groupId>org.sensapp.android</groupId>
-	<artifactId>sensappdroid-contract</artifactId>
-	<type>jar</type>
-	<version>1.0</version>
-	<scope>provided</scope>
+        <groupId>org.sensapp.android</groupId>
+        <artifactId>sensappdroid-contract</artifactId>
+        <type>jar</type>
+        <version>1.0</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
-	<groupId>com.jayway.android.robotium</groupId>
-	<artifactId>robotium-solo</artifactId>
-	<version>3.3</version>
+        <groupId>com.jayway.android.robotium</groupId>
+        <artifactId>robotium-solo</artifactId>
+        <version>3.3</version>
       </dependency>
     </dependencies>
   </dependencyManagement>  
@@ -113,13 +113,13 @@
           </sdk>
           <undeployBeforeDeploy>true</undeployBeforeDeploy>
           <sign>
-	    <debug>false</debug>
-	  </sign>
-	  <emulator>
-            <avd>11</avd>
-            <wait>100000</wait>
-            <options>-no-window</options>
-        </emulator>
+	        <debug>false</debug>
+	      </sign>
+	        <emulator>
+              <avd>11</avd>
+              <wait>200000</wait>
+              <options>-no-window</options>
+            </emulator>
         </configuration>
 	<executions>
     <execution>
