@@ -24,7 +24,6 @@
     <ListView
         android:id="@+id/list_graph_displayer"
    	    android:layout_width="fill_parent"
-   	    android:layout_height="fill_parent"
-        android:dividerHeight="6dp">
+   	    android:layout_height="fill_parent" >
 	</ListView>
 </LinearLayout>

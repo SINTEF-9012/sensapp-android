@@ -24,8 +24,6 @@ public class GraphBuffer {
 	private boolean empty = true;
 	private float notValidNumber = Integer.MIN_VALUE;
 	private int counter = 0;
-    private float min = Integer.MAX_VALUE;
-    private float max = Integer.MIN_VALUE;
 	
 	public GraphBuffer(){
 		size = 100;
@@ -72,24 +70,21 @@ public class GraphBuffer {
 		}
 		lastValue = data;
 		empty = false;
-
-        if(data > max)
-            max = data;
-        else if(data < min)
-            min = data;
-
 		if (counter >= size) {
 			for (int i = 1 ; i < graphData.length ; i++) {
 				graphData[i-1] = graphData[i];
 			}
 			graphData[size-1] = data;
+			counter++;
 			return true;
 		} else {
-            if (graphData[counter] == notValidNumber) {
-                graphData[counter] = data;
-                counter ++;
-                return true;
-            }
+			for (int i = 0 ; i < graphData.length ; i++){
+				if (graphData[i] == notValidNumber) {
+					graphData[i] = data;
+					counter ++;
+					return true;
+				}
+			}
 		}
 		return false;
 	}
@@ -100,12 +95,4 @@ public class GraphBuffer {
 		}
 		empty = true;
 	}
-
-    public float getMaxValue(){
-        return max;
-    }
-
-    public float getMinValue(){
-        return min;
-    }
 }

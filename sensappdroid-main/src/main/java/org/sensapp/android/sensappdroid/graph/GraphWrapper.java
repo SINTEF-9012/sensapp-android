@@ -23,8 +23,8 @@ public class GraphWrapper {
 	private int color = Color.RED;
 	private long sleepTime = 1000;
 	private int drawGraphType = GraphBaseView.LINECHART;
-	private float lowestVisible = 0;
-	private float highestVisible = 1023;
+	private int lowestVisible = 0;
+	private int highestVisible = 1023;
 	private String name;
 	private boolean printName = false;
 	private boolean printValue = false;
@@ -37,8 +37,6 @@ public class GraphWrapper {
 	
 	public GraphWrapper(GraphBuffer graphBuffer) {
 		this.graphBuffer = graphBuffer;
-        this.lowestVisible = graphBuffer.getMinValue();
-        this.highestVisible = graphBuffer.getMaxValue();
 	}
 	
 	public GraphBuffer getBuffer() {
@@ -49,10 +47,12 @@ public class GraphWrapper {
 		this.graphBuffer = gb;
 	}
 
-	public void setGraphOptions(int color, long sleepTime, int drawGraphType, String name) {
+	public void setGraphOptions(int color, long sleepTime, int drawGraphType, int lowestVisible, int highestVisible, String name) {
 		this.color = color;
 		this.sleepTime = sleepTime;
 		this.drawGraphType = drawGraphType;
+		this.lowestVisible = lowestVisible;
+		this.highestVisible = highestVisible;
 		this.name = name;
 	}
 
@@ -117,7 +117,7 @@ public class GraphWrapper {
 	}
 
 
-	public float getLowestVisible() {
+	public int getLowestVisible() {
 		return lowestVisible;
 	}
 
@@ -127,7 +127,7 @@ public class GraphWrapper {
 	}
 
 
-	public float getHighestVisible() {
+	public int getHighestVisible() {
 		return highestVisible;
 	}
 	
