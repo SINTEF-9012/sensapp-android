@@ -20,7 +20,7 @@
     <item
         android:id="@+id/add_graph"
         android:showAsAction="always"
-        android:title="New graph" >
+        android:title="Add graph" >
     </item>
     <item
         android:id="@+id/preferences"
