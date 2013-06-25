@@ -2,7 +2,6 @@ package org.sensapp.android.sensappdroid.activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -11,9 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
@@ -36,17 +32,9 @@ import java.util.concurrent.Callable;
  * Time: 16:21
  * To change this template use File | Settings | File Templates.
  */
-public class GraphDisplayerActivity extends FragmentActivity implements LoaderCallbacks<Cursor>{
+public class GraphDisplayerActivity extends FragmentActivity {
     private String graphName="GRAPH";
     private long graphID=0;
-    private long graphSensorIDs[];
-    private String sensorNames[];
-    private String graphTitles[];
-    private int graphStyles[];
-    private int graphColors[];
-    private GraphAdapter adapter;
-    private List<GraphWrapper> gwl = new ArrayList<GraphWrapper>();
-    private Cursor cursorSensors;
 
     public static class GraphSensorOptionsDialogFragment extends DialogFragment implements AdapterView.OnItemSelectedListener {
 
@@ -190,7 +178,6 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
             }
         });
 
-        getSupportLoaderManager().initLoader(0, null, this);
 
         displayGraphs();
     }
@@ -201,42 +188,36 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
         return true;
     }
 
-    private void initOptionTables(Cursor c){
-        sensorNames = new String[c.getCount()];
-        graphTitles = new String[c.getCount()];
-        graphStyles = new int[c.getCount()];
-        graphColors = new int[c.getCount()];
-        graphSensorIDs = new long[c.getCount()];
-    }
+    private Integer displayGraphs(){
+        GraphAdapter adapter;
+        List<GraphWrapper> gwl = new ArrayList<GraphWrapper>();
 
-    private void refreshOptionTables(Cursor c){
-        for(int i=0; c.moveToNext(); i++){
-            graphSensorIDs[i] = c.getLong(c.getColumnIndex((SensAppContract.GraphSensor.ID)));
-            sensorNames[i] = c.getString(c.getColumnIndex(SensAppContract.GraphSensor.SENSOR));
-            graphTitles[i] = c.getString(c.getColumnIndex(SensAppContract.GraphSensor.TITLE));
-            graphStyles[i] = c.getInt(c.getColumnIndex(SensAppContract.GraphSensor.STYLE));
-            graphColors[i] = c.getInt(c.getColumnIndex(SensAppContract.GraphSensor.COLOR));
+        //Init sensor names
+        Cursor cursorSensors = getContentResolver().query(Uri.parse(SensAppContract.GraphSensor.CONTENT_URI + "/graph/" + graphID), null, null, null, null);
+        String[] sensorNames = new String[cursorSensors.getCount()];
+        String[] graphTitles = new String[cursorSensors.getCount()];
+        int[] graphStyles = new int[cursorSensors.getCount()];
+        int[] graphColors = new int[cursorSensors.getCount()];
+        long[] graphSensorIDs = new long[cursorSensors.getCount()];
+        for(int i=0; cursorSensors.moveToNext(); i++){
+            graphSensorIDs[i] = cursorSensors.getLong(cursorSensors.getColumnIndex((SensAppContract.GraphSensor.ID)));
+            sensorNames[i] = cursorSensors.getString(cursorSensors.getColumnIndex(SensAppContract.GraphSensor.SENSOR));
+            graphTitles[i] = cursorSensors.getString(cursorSensors.getColumnIndex(SensAppContract.GraphSensor.TITLE));
+            graphStyles[i] = cursorSensors.getInt(cursorSensors.getColumnIndex(SensAppContract.GraphSensor.STYLE));
+            graphColors[i] = cursorSensors.getInt(cursorSensors.getColumnIndex(SensAppContract.GraphSensor.COLOR));
         }
-    }
 
-    private void refreshGraphData(){
         Cursor cursor;
-        gwl.clear();
         for(int i=0; i<sensorNames.length; i++){
             cursor = getContentResolver().query(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + sensorNames[i]), null, null, null, null);
             addGraphToWrapperList(gwl, cursor, graphTitles[i], graphStyles[i], graphColors[i], graphSensorIDs[i]);
         }
-        adapter.notifyDataSetChanged();
-    }
 
-    private Integer displayGraphs(){
-        cursorSensors = getContentResolver().query(Uri.parse(SensAppContract.GraphSensor.CONTENT_URI + "/graph/" + graphID), null, null, null, null);
         adapter = new GraphAdapter(getApplicationContext(), gwl);
         ListView list = (ListView) findViewById(R.id.list_graph_displayer);
         list.setAdapter(adapter);
-        initOptionTables(cursorSensors);
-        refreshOptionTables(cursorSensors);
-        refreshGraphData();
+        adapter.notifyDataSetChanged();
+
         return 1;
     }
 
@@ -294,24 +275,5 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
         if(color.equals("Yellow"))
             return Color.YELLOW;
         return -1;
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        String[] projection = {SensAppContract.Measure.ID, SensAppContract.Measure.VALUE, SensAppContract.Measure.SENSOR};
-        CursorLoader cursorLoader = new CursorLoader(this, SensAppContract.Measure.CONTENT_URI, projection, null, null, null);
-        cursorLoader.setUpdateThrottle(1000);
-        return cursorLoader;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        refreshGraphData();
-        return;
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-        return;
     }
 }
