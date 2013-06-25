@@ -37,6 +37,7 @@
   <properties>
     <maven-checkstyle-plugin.configLocation>../reporting/checkstyle.xml</maven-checkstyle-plugin.configLocation>
     <maven-pmd-plugin.configLocation>../reporting/pmd.xml</maven-pmd-plugin.configLocation>
+	<headerdir>${project.parent.basedir}</headerdir>
   </properties>
 
   <dependencyManagement>
