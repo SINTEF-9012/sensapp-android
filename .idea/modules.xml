@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/sensappdroid-clientsamples/batlog/batlog.iml" filepath="$PROJECT_DIR$/sensappdroid-clientsamples/batlog/batlog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sensappdroid.iml" filepath="$PROJECT_DIR$/sensappdroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sensappdroid-contract/sensappdroid-contract.iml" filepath="$PROJECT_DIR$/sensappdroid-contract/sensappdroid-contract.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sensappdroid-main/sensappdroid-main.iml" filepath="$PROJECT_DIR$/sensappdroid-main/sensappdroid-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sensappdroid-test/sensappdroid-test.iml" filepath="$PROJECT_DIR$/sensappdroid-test/sensappdroid-test.iml" />
+    </modules>
+  </component>
+</project>
+

@@ -17,6 +17,7 @@ package org.sensapp.android.sensappdroid.test;
 
 import java.util.Random;
 
+import android.content.Context;
 import org.sensapp.android.sensappdroid.api.SensAppHelper;
 import org.sensapp.android.sensappdroid.contentprovider.SensAppContentProvider;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
@@ -35,25 +36,25 @@ public class ContentProviderTest extends ProviderTestCase2<SensAppContentProvide
 	
 	public void testStressInsert() {
 		final int nbInserts = 100;
-		ContentResolver resolver = getContext().getContentResolver();
+		Context context = getContext();
 		for (int i = 0 ; i < nbInserts ; i ++) {
-			SensAppHelper.insertMeasureForced(resolver, "sensor1", "300");
-			SensAppHelper.insertMeasureForced(resolver, "sensor2", "300");
-			SensAppHelper.insertMeasureForced(resolver, "sensor3", "300");
-			SensAppHelper.insertMeasureForced(resolver, "sensor4", "300");
-			SensAppHelper.insertMeasureForced(resolver, "sensor5", "300");
+			SensAppHelper.insertMeasureForced(context, "sensor1", "300");
+			SensAppHelper.insertMeasureForced(context, "sensor2", "300");
+			SensAppHelper.insertMeasureForced(context, "sensor3", "300");
+			SensAppHelper.insertMeasureForced(context, "sensor4", "300");
+			SensAppHelper.insertMeasureForced(context, "sensor5", "300");
 		}
 	}
 	
 	public void testStressBatchInsert() {
 		final int nbInserts = 1000;
-		ContentResolver resolver = getMockContentResolver();
+        Context context = getContext();
 		for (int i = 0 ; i < nbInserts ; i ++) {
-			SensAppHelper.insertMeasure(resolver, "sensor1", "300");
-			SensAppHelper.insertMeasure(resolver, "sensor2", "300");
-			SensAppHelper.insertMeasure(resolver, "sensor3", "300");
-			SensAppHelper.insertMeasure(resolver, "sensor4", "300");
-			SensAppHelper.insertMeasure(resolver, "sensor5", "300");
+			SensAppHelper.insertMeasure(context, "sensor1", "300");
+			SensAppHelper.insertMeasure(context, "sensor2", "300");
+			SensAppHelper.insertMeasure(context, "sensor3", "300");
+			SensAppHelper.insertMeasure(context, "sensor4", "300");
+			SensAppHelper.insertMeasure(context, "sensor5", "300");
 		}
 	}
 	
