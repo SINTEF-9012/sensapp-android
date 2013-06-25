@@ -141,13 +141,7 @@ public class SensAppService extends Service implements PutMeasureCallback {
             if(amountData <= cursor.getCount() && !dataSent){
                 dataSent = true;
                 Log.d(TAG, "Put all measures sensor (Amount upload)");
-                /*Cursor composites = getContentResolver().query(SensAppContract.Composite.CONTENT_URI, new String[]{SensAppContract.Composite.NAME}, null, null, null);
-                String compositeNames[] = new String[composites.getCount()];
-                composites.moveToFirst();
-                for(int i=0; i<composites.getCount(); i++){
-                    compositeNames[i] = getString(composites.getColumnIndex(SensAppContract.Composite.NAME));
-                    composites.moveToNext();
-                } */
+                //String compositeNames[] = new String[]{SensAppContract.Composite.NAME};
                 new PutMeasuresTask(this, taskIdGen(), getApplicationContext(), SensAppContract.Measure.CONTENT_URI, PutMeasuresTask.FLAG_SILENT).execute();
                 new DeleteMeasuresTask(this, SensAppContract.Measure.CONTENT_URI).execute(SensAppContract.Measure.UPLOADED + " = 1");
                 /*for(String name : compositeNames)
