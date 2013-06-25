@@ -17,7 +17,6 @@ package org.sensapp.android.sensappdroid.activities;
 
 import java.util.HashMap;
 
-import android.util.Log;
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.fragments.CompositeListFragment;
@@ -180,8 +179,8 @@ public class TabsActivity extends FragmentActivity implements OnCompositeSelecte
 
     @Override
     public void onGraphSelected(Uri uri) {
-        Intent i = new Intent(getApplicationContext(), GraphDisplayerActivity.class);
-        i.setData(Uri.parse(SensAppContract.Graph.CONTENT_URI + "/" + uri.getLastPathSegment()));
+        Intent i = new Intent(this, MeasuresActivity.class);
+        i.setData(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + uri.getLastPathSegment()));
         startActivity(i);
     }
 }
