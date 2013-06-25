@@ -26,7 +26,6 @@ public class GraphWrapper {
 	private float lowestVisible = 0;
 	private float highestVisible = 1023;
 	private String name;
-    private long ID;
 	private boolean printName = false;
 	private boolean printValue = false;
 	private boolean printScale = false;
@@ -36,9 +35,8 @@ public class GraphWrapper {
 		this.graphBuffer = new GraphBuffer();
 	}
 	
-	public GraphWrapper(long ID, GraphBuffer graphBuffer) {
-		this.ID = ID;
-        this.graphBuffer = graphBuffer;
+	public GraphWrapper(GraphBuffer graphBuffer) {
+		this.graphBuffer = graphBuffer;
         this.lowestVisible = graphBuffer.getMinValue();
         this.highestVisible = graphBuffer.getMaxValue();
 	}
@@ -140,8 +138,4 @@ public class GraphWrapper {
 	public void setName(String name){
 		this.name = name;
 	}
-
-    public long getID(){
-        return ID;
-    }
 }

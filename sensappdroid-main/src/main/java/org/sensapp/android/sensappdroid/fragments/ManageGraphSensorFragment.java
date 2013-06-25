@@ -121,7 +121,7 @@ public class ManageGraphSensorFragment extends DialogFragment {
         try {
             toExec.call();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         super.onStop();
     }
