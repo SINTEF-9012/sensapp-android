@@ -118,7 +118,7 @@
 	      </sign>
 	        <emulator>
               <avd>11</avd>
-              <wait>200000</wait>
+              <wait>10000</wait>
               <options>-no-window</options>
             </emulator>
         </configuration>
