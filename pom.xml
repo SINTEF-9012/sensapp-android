@@ -103,14 +103,14 @@
     <repositoryOwner>SINTEF-9012</repositoryOwner>
     <github.host>github.com</github.host>
     
-    <platform.version>4.0.1.2</platform.version>
+    <platform.version>4.1.1.4</platform.version>
     
     <plugin.android-maven.version>3.3.0</plugin.android-maven.version>
     <plugin.maven-jarsigner.version>1.2</plugin.maven-jarsigner.version>
     
     <plugin.github.site>0.6</plugin.github.site>    
     <plugin.site.version>3.1</plugin.site.version>
-    <plugin.project-info-reports.version>2.4</plugin.project-info-reports.version>
+    <plugin.project-info-reports.version>2.7</plugin.project-info-reports.version>
     <plugin.checkstyle.version>2.9.1</plugin.checkstyle.version>
     <plugin.findbugs-maven.version>2.5.2</plugin.findbugs-maven.version>
     <plugin.jxr.version>2.3</plugin.jxr.version>
@@ -408,7 +408,7 @@
     </plugins>
   </build>
   
-  <reporting> 
+  <reporting>
     <plugins>
       <plugin>
 	<groupId>org.apache.maven.plugins</groupId>
@@ -479,7 +479,7 @@
 	<version>${plugin.pmd-plugin.version}</version>
 	<configuration>
 	  <skip>${pmd.skip}</skip>
-	  <targetJdk>${maven.compiler.source}</targetJdk>
+	  <targetJdk>$<!--{maven.compiler.source}-->1.6</targetJdk>
 	  <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
 	  <rulesets>
 	    <ruleset>${maven-pmd-plugin.configLocation}</ruleset>
