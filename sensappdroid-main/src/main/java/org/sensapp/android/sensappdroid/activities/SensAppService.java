@@ -95,20 +95,56 @@ public class SensAppService extends Service implements PutMeasureCallback {
 	}
 	
 	private void autoUpload() {
-		if (!ConnectivityReceiver.isDataAvailable(getApplicationContext())) {
-			Log.e(TAG, "No data connection available");
-			waitForData = true;
-		} else {
-			waitForData = false;
-			Set<String> names = PreferenceManager.getDefaultSharedPreferences(this).getStringSet(AutoUploadSensorDialog.SENSOR_MAINTAINED, null);
-			if (names != null && !names.isEmpty()) {
-				for (final String name : names) {
-					Log.d(TAG, "Put " + name + " sensor (Auto upload)");
-					new PutMeasuresTask(this, taskIdGen(), getApplicationContext(), Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + name), PutMeasuresTask.FLAG_SILENT).execute();
-				}
-			}
-		}
-	}
+        if (!ConnectivityReceiver.isDataAvailable(getApplicationContext())) {
+            Log.e(TAG, "No data connection available");
+            waitForDataAuto = true;
+        } else {
+            waitForDataAuto = false;
+            Set<String> names = PreferenceManager.getDefaultSharedPreferences(this).getStringSet(AutoUploadSensorDialog.SENSOR_MAINTAINED, null);
+            if (names != null && !names.isEmpty()) {
+                for (final String name : names) {
+                    Log.d(TAG, "Put " + name + " sensor (Auto upload)");
+                    new PutMeasuresTask(this, taskIdGen(), getApplicationContext(), Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + name), PutMeasuresTask.FLAG_SILENT).execute();
+                }
+            }
+        }
+    }
+
+    private void amountUpload() {
+        if (!ConnectivityReceiver.isDataAvailable(getApplicationContext())) {
+            Log.e(TAG, "Amount : No data connection available");
+            waitForDataAmount = true;
+        } else {
+            waitForDataAmount = false;
+            Cursor cursor = getContentResolver().query(SensAppContract.Measure.CONTENT_URI, null, null, null, null);
+
+            //Log.d(TAG, "Amount : " + cursor.getCount() + "/" + amountData);
+
+            // dataSent is kind of a semaphore here.
+            if(amountData <= cursor.getCount() && !dataSent){
+                dataSent = true;
+                Log.d(TAG, "Put all measures sensor (Amount upload)");
+                Cursor composites = getContentResolver().query(SensAppContract.Composite.CONTENT_URI, null, null, null, null);
+                String compositeNames[] = new String[composites.getCount()];
+                composites.moveToFirst();
+
+                for(int i=0; i<composites.getCount(); i++){
+                    compositeNames[i] = composites.getString(composites.getColumnIndex(SensAppContract.Composite.NAME));
+                    composites.moveToNext();
+                }
+                new PutMeasuresTask(this, taskIdGen(), getApplicationContext(), SensAppContract.Measure.CONTENT_URI, PutMeasuresTask.FLAG_SILENT).execute();
+                new DeleteMeasuresTask(this, SensAppContract.Measure.CONTENT_URI).execute(SensAppContract.Measure.UPLOADED + " = 1");
+                for(String name : compositeNames)
+                    new PostCompositeRestTask(this, name).execute();
+            }
+            if(cursor.getCount() < amountData)
+                dataSent = false;
+        }
+    }
+
+    static public void setAmountData(int set){
+        amountData = set;
+    }
 	
 	private int taskIdGen() {
 		return ++ lastTaskStarted;
