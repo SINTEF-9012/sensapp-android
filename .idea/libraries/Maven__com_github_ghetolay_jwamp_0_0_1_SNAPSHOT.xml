@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.github.ghetolay:jwamp:0.0.1-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/ghetolay/jwamp/0.0.1-SNAPSHOT/jwamp-0.0.1-20130521.124324-8.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/ghetolay/jwamp/0.0.1-SNAPSHOT/jwamp-0.0.1-20130521.124324-8-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/ghetolay/jwamp/0.0.1-SNAPSHOT/jwamp-0.0.1-20130521.124324-8-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

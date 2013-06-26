@@ -169,16 +169,6 @@
       <artifactId>android</artifactId>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>com.github.ghetolay</groupId>
-      <artifactId>jwamp</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty.websocket</groupId>
-      <artifactId>websocket-client</artifactId>
-      <version>9.0.0.RC2</version>
-    </dependency>
   </dependencies>
 
   <build>
@@ -428,7 +418,7 @@
       <plugin>
 	<groupId>org.apache.maven.plugins</groupId>
 	<artifactId>maven-project-info-reports-plugin</artifactId>
-	<version>${plugin.project-info-reports.version}</version>
+	<version>2.1<!--${plugin.project-info-reports.version}--></version>
 	<configuration>
 	  <dependencyDetailsEnabled>true</dependencyDetailsEnabled>
 	  <dependencyLocationsEnabled>true</dependencyLocationsEnabled>
@@ -482,7 +472,7 @@
 	<artifactId>findbugs-maven-plugin</artifactId>
 	<version>${plugin.findbugs-maven.version}</version>
 	<configuration>
-          <targetJdk>1.6</targetJdk>
+          <!--<targetJdk>1.6</targetJdk>-->
 	  <skip>${findbugs.skip}</skip>
 	  <xmlOutput>true</xmlOutput>
 	</configuration>
@@ -494,7 +484,7 @@
 	<version>${plugin.pmd-plugin.version}</version>
 	<configuration>
 	  <skip>${pmd.skip}</skip>
-	  <targetJdk>${maven.compiler.source}</targetJdk>
+	  <targetJdk>1.6<!--${maven.compiler.source}--></targetJdk>
 	  <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
 	  <rulesets>
 	    <ruleset>${maven-pmd-plugin.configLocation}</ruleset>

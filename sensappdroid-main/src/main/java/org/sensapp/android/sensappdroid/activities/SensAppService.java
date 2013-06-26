@@ -135,7 +135,7 @@ public class SensAppService extends Service implements PutMeasureCallback {
             waitForDataAmount = false;
             Cursor cursor = getContentResolver().query(SensAppContract.Measure.CONTENT_URI, null, null, null, null);
 
-            Log.d(TAG, "Amount : " + cursor.getCount() + "/" + amountData);
+            //Log.d(TAG, "Amount : " + cursor.getCount() + "/" + amountData);
 
             // dataSent is kind of a semaphore here.
             if(amountData <= cursor.getCount() && !dataSent){
