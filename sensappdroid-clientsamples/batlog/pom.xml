@@ -94,7 +94,7 @@
 	</executions>
         <extensions>true</extensions>
       </plugin>
-       <!--<plugin>
+    <plugin>
 	<groupId>org.apache.maven.plugins</groupId>
 	<artifactId>maven-jarsigner-plugin</artifactId>
 	<executions>
@@ -113,7 +113,7 @@
 	  <storepass>${sign.storepass}</storepass>
 	  <keypass>${sign.keypass}</keypass>
 	</configuration>
-      </plugin>-->
+      </plugin>
       <plugin>
 	<groupId>com.github.github</groupId>
 	<artifactId>site-maven-plugin</artifactId>
