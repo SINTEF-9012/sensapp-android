@@ -16,12 +16,17 @@
 package org.sensapp.android.sensappdroid.activities;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.connectivity.ConnectivityReceiver;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask;
 import org.sensapp.android.sensappdroid.preferences.AutoUploadSensorDialog;
+import org.sensapp.android.sensappdroid.restrequests.PostCompositeRestTask;
 import org.sensapp.android.sensappdroid.restrequests.PutMeasuresTask;
 import org.sensapp.android.sensappdroid.restrequests.PutMeasuresTask.PutMeasureCallback;
 
@@ -38,20 +43,26 @@ public class SensAppService extends Service implements PutMeasureCallback {
 	
 	public static final String ACTION_UPLOAD = SensAppService.class.getName() + ".ACTION_UPLOAD";
 	public static final String ACTION_AUTO_UPLOAD = SensAppService.class.getName() + ".ACTION_AUTO_UPLOAD";
+    public static final String ACTION_AMOUNT_UPLOAD = SensAppService.class.getName() + ".ACTION_AMOUNT_UPLOAD";
 	public static final String ACTION_DELETE_LOCAL = SensAppService.class.getName() + ".ACTION_DELETE_LOCAL";
 	public static final String EXTRA_UPLOADED_FILTER = SensAppService.class.getName() + ".EXTRA_UPLOADED_FILTER";
 	
 	private static final String TAG = SensAppService.class.getSimpleName();
 	
-	private boolean waitForData = false;
+	private boolean waitForDataAuto = false;
+    private boolean waitForDataAmount = false;
 	
 	private int lastTaskStarted = 0;
 	private int lastConsecutiveTaskEnded = 0;
 	private ArrayList<Integer> taskBuffer = new ArrayList<Integer>();
+    static private int amountData;
+    static private boolean dataSent = false;
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        amountData = Integer.parseInt(sp.getString(getString(R.string.pref_autoupload_amount_key), "1000"));
 	}
 	
 	@Override
@@ -63,6 +74,9 @@ public class SensAppService extends Service implements PutMeasureCallback {
 			} else if (intent.getAction().equals(ACTION_AUTO_UPLOAD)) {
 				Log.d(TAG, "Receive: ACTION_AUTO_UPLOAD");
 				autoUpload();
+            } else if (intent.getAction().equals(ACTION_AMOUNT_UPLOAD)) {
+                Log.d(TAG, "Receive: ACTION_AMOUNT_UPLOAD");
+                amountUpload();
 			} else if (intent.getAction().equals(ACTION_DELETE_LOCAL)) {
 				Log.d(TAG, "Receive: ACTION_DELETE_LOCAL");
 				Bundle extra = intent.getExtras();
@@ -73,8 +87,11 @@ public class SensAppService extends Service implements PutMeasureCallback {
 				}
 			} else if (intent.getAction().equals(ConnectivityReceiver.ACTION_CONNECTIVITY_FOUND)) {
 				Log.d(TAG, "Receive: ACTION_CONNECTIVITY_FOUND");
-				if (waitForData) {
-					autoUpload();
+				if (waitForDataAuto || waitForDataAmount) {
+					if(waitForDataAuto)
+                        autoUpload();
+                    if(waitForDataAmount)
+                        amountUpload();
 				} else {
 					stopSelf();
 				}

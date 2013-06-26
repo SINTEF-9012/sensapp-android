@@ -52,7 +52,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 	private SensorsAdapter adapter;
 	private OnSensorSelectedListener sensorSelectedListener;
 	private LoadSensorCounts loadCounts;
-	
+
 	public interface OnSensorSelectedListener {
 		public void onSensorSelected(Uri uri);
 	}
@@ -169,7 +169,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 	public void onLoaderReset(Loader<Cursor> loader) {
 		adapter.swapCursor(null);
 	}
-	
+
 	public class LoadSensorCounts extends Thread {
 		private ArrayList<String> names = new ArrayList<String>();
 		private boolean terminate = false;

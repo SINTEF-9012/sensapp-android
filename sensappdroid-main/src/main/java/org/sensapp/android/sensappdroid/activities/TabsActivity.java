@@ -17,10 +17,13 @@ package org.sensapp.android.sensappdroid.activities;
 
 import java.util.HashMap;
 
+import android.util.Log;
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.fragments.CompositeListFragment;
 import org.sensapp.android.sensappdroid.fragments.CompositeListFragment.OnCompositeSelectedListener;
+import org.sensapp.android.sensappdroid.fragments.GraphsListFragment;
+import org.sensapp.android.sensappdroid.fragments.GraphsListFragment.OnGraphSelectedListener;
 import org.sensapp.android.sensappdroid.fragments.MeasureListFragment;
 import org.sensapp.android.sensappdroid.fragments.MeasureListFragment.OnMeasureSelectedListener;
 import org.sensapp.android.sensappdroid.fragments.SensorListFragment;
@@ -36,7 +39,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TabHost;
 
-public class TabsActivity extends FragmentActivity implements OnCompositeSelectedListener, OnSensorSelectedListener, OnMeasureSelectedListener {
+public class TabsActivity extends FragmentActivity implements OnCompositeSelectedListener, OnSensorSelectedListener, OnMeasureSelectedListener, OnGraphSelectedListener{
     
 	private TabHost tabHost;
     private TabManager tabManager;
@@ -53,6 +56,7 @@ public class TabsActivity extends FragmentActivity implements OnCompositeSelecte
 
         tabManager.addTab(tabHost.newTabSpec("Composites").setIndicator("Composites"), CompositeListFragment.class, null);
         tabManager.addTab(tabHost.newTabSpec("Sensors").setIndicator("Sensors"), SensorListFragment.class, null);
+        tabManager.addTab(tabHost.newTabSpec("Graphs").setIndicator("Graphs"), GraphsListFragment.class, null);
         tabManager.addTab(tabHost.newTabSpec("Measures").setIndicator("Measures"), MeasureListFragment.class, null);
 
         if (savedInstanceState != null) {
@@ -173,5 +177,12 @@ public class TabsActivity extends FragmentActivity implements OnCompositeSelecte
 		i.setData(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()));
 		startActivity(i);
 	}
+
+    @Override
+    public void onGraphSelected(Uri uri) {
+        Intent i = new Intent(getApplicationContext(), GraphDisplayerActivity.class);
+        i.setData(uri);
+        startActivity(i);
+    }
 }
 
