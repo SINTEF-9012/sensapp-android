@@ -74,6 +74,20 @@
         <artifactId>robotium-solo</artifactId>
         <version>3.3</version>
       </dependency>
+        <dependency>
+            <groupId>org.sensapp.android.sensappdroid.clientsamples.sensorlogger</groupId>
+            <artifactId>sensorlog</artifactId>
+            <version>1.4-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.sensapp.android.sensappdroid.clientsamples.sensorlogger</groupId>
+            <artifactId>sensorlog</artifactId>
+            <version>1.4-SNAPSHOT</version>
+            <type>apk</type>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
   </dependencyManagement>  
 
@@ -100,6 +114,16 @@
       <groupId>com.jayway.android.robotium</groupId>
       <artifactId>robotium-solo</artifactId>
     </dependency>
+      <dependency>
+          <groupId>org.sensapp.android.sensappdroid.clientsamples.sensorlogger</groupId>
+          <artifactId>sensorlog</artifactId>
+          <type>jar</type>
+      </dependency>
+      <dependency>
+          <groupId>org.sensapp.android.sensappdroid.clientsamples.sensorlogger</groupId>
+          <artifactId>sensorlog</artifactId>
+          <type>apk</type>
+      </dependency>
   </dependencies>
 
   <build>

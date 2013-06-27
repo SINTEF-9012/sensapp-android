@@ -69,16 +69,16 @@ public class SensAppService extends Service implements PutMeasureCallback {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		if (intent.getAction() != null) {
 			if (intent.getAction().equals(ACTION_UPLOAD)) {
-				Log.d(TAG, "Receive: ACTION_UPLOAD");
+				//Log.d(TAG, "Receive: ACTION_UPLOAD");
 				uploadMeasureUri(intent.getData());
 			} else if (intent.getAction().equals(ACTION_AUTO_UPLOAD)) {
-				Log.d(TAG, "Receive: ACTION_AUTO_UPLOAD");
+				//Log.d(TAG, "Receive: ACTION_AUTO_UPLOAD");
 				autoUpload();
             } else if (intent.getAction().equals(ACTION_AMOUNT_UPLOAD)) {
-                Log.d(TAG, "Receive: ACTION_AMOUNT_UPLOAD");
+                //Log.d(TAG, "Receive: ACTION_AMOUNT_UPLOAD");
                 amountUpload();
 			} else if (intent.getAction().equals(ACTION_DELETE_LOCAL)) {
-				Log.d(TAG, "Receive: ACTION_DELETE_LOCAL");
+				//Log.d(TAG, "Receive: ACTION_DELETE_LOCAL");
 				Bundle extra = intent.getExtras();
 				if (extra == null) {
 					new DeleteMeasuresTask(this, intent.getData()).execute();
@@ -86,7 +86,7 @@ public class SensAppService extends Service implements PutMeasureCallback {
 					new DeleteMeasuresTask(this, intent.getData()).execute(SensAppContract.Measure.UPLOADED + " = 1");
 				}
 			} else if (intent.getAction().equals(ConnectivityReceiver.ACTION_CONNECTIVITY_FOUND)) {
-				Log.d(TAG, "Receive: ACTION_CONNECTIVITY_FOUND");
+				//Log.d(TAG, "Receive: ACTION_CONNECTIVITY_FOUND");
 				if (waitForDataAuto || waitForDataAmount) {
 					if(waitForDataAuto)
                         autoUpload();
@@ -120,7 +120,7 @@ public class SensAppService extends Service implements PutMeasureCallback {
             Set<String> names = PreferenceManager.getDefaultSharedPreferences(this).getStringSet(AutoUploadSensorDialog.SENSOR_MAINTAINED, null);
             if (names != null && !names.isEmpty()) {
                 for (final String name : names) {
-                    Log.d(TAG, "Put " + name + " sensor (Auto upload)");
+                    //Log.d(TAG, "Put " + name + " sensor (Auto upload)");
                     new PutMeasuresTask(this, taskIdGen(), getApplicationContext(), Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + name), PutMeasuresTask.FLAG_SILENT).execute();
                 }
             }
@@ -140,7 +140,7 @@ public class SensAppService extends Service implements PutMeasureCallback {
             // dataSent is kind of a semaphore here.
             if(amountData <= cursor.getCount() && !dataSent){
                 dataSent = true;
-                Log.d(TAG, "Put all measures sensor (Amount upload)");
+                //Log.d(TAG, "Put all measures sensor (Amount upload)");
                 Cursor composites = getContentResolver().query(SensAppContract.Composite.CONTENT_URI, null, null, null, null);
                 String compositeNames[] = new String[composites.getCount()];
                 composites.moveToFirst();
