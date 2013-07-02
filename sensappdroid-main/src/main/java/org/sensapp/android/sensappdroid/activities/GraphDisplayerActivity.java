@@ -59,6 +59,8 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
     private String graphTitles[];
     private int graphStyles[];
     private int graphColors[];
+    private float graphHighests[];
+    private float graphLowests[];
     private GraphAdapter adapter;
     private List<GraphWrapper> gwl = new ArrayList<GraphWrapper>();
     private Cursor cursorSensors;
@@ -222,6 +224,8 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
         graphStyles = new int[c.getCount()];
         graphColors = new int[c.getCount()];
         graphSensorIDs = new long[c.getCount()];
+        graphHighests = new float[c.getCount()];
+        graphLowests = new float[c.getCount()];
     }
 
     private void refreshOptionTables(Cursor c){
@@ -231,6 +235,8 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
             graphTitles[i] = c.getString(c.getColumnIndex(SensAppContract.GraphSensor.TITLE));
             graphStyles[i] = c.getInt(c.getColumnIndex(SensAppContract.GraphSensor.STYLE));
             graphColors[i] = c.getInt(c.getColumnIndex(SensAppContract.GraphSensor.COLOR));
+            graphHighests[i] = c.getInt(c.getColumnIndex(SensAppContract.GraphSensor.MAX));
+            graphLowests[i] = c.getInt(c.getColumnIndex(SensAppContract.GraphSensor.MIN));
         }
     }
 
@@ -239,7 +245,7 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
         gwl.clear();
         for(int i=0; i<sensorNames.length; i++){
             cursor = getContentResolver().query(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + sensorNames[i]), null, null, null, null);
-            addGraphToWrapperList(gwl, cursor, graphTitles[i], graphStyles[i], graphColors[i], graphSensorIDs[i]);
+            addGraphToWrapperList(gwl, cursor, graphTitles[i], graphStyles[i], graphColors[i], graphSensorIDs[i], graphLowests[i], graphHighests[i]);
         }
         adapter.notifyDataSetChanged();
     }
@@ -275,7 +281,7 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
         return super.onOptionsItemSelected(item);
     }
 
-    private void addGraphToWrapperList(List<GraphWrapper> gwl, Cursor cursor, String title, int style, int color, long graphSensorID){
+    private void addGraphToWrapperList(List<GraphWrapper> gwl, Cursor cursor, String title, int style, int color, long graphSensorID, float min, float max){
         GraphBuffer buffer = new GraphBuffer();
         //Cursor cursor = getContentResolver().query(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + "Android_Tab_AccelerometerY"), null, null, null, null);
         for (cursor.moveToFirst() ; !cursor.isAfterLast() ; cursor.moveToNext()) {
@@ -283,7 +289,7 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
         }
 
         GraphWrapper wrapper = new GraphWrapper(graphSensorID, buffer);
-        wrapper.setGraphOptions(color, 500, style, title);
+        wrapper.setGraphOptions(color, 500, style, title, min, max);
         wrapper.setPrinterParameters(true, false, true);
 
         gwl.add(wrapper);

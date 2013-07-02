@@ -60,7 +60,7 @@
         android:layout_marginRight="20dip"
         android:scrollHorizontally="true"
         android:hint="Lowest value visible"
-        android:inputType="numberDecimal"
+        android:inputType="numberDecimal|numberSigned"
         android:gravity="fill_horizontal"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -81,7 +81,7 @@
         android:layout_marginRight="20dip"
         android:scrollHorizontally="true"
         android:hint="Highest value visible"
-        android:inputType="numberDecimal"
+        android:inputType="numberDecimal|numberSigned"
         android:gravity="fill_horizontal"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 

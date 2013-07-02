@@ -84,10 +84,12 @@ public class GraphsListFragment extends ListFragment implements LoaderCallbacks<
                     .setView(v)
                     .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            ContentValues values = new ContentValues();
-                            values.put(SensAppContract.Graph.TITLE, graphName.getText().toString());
-                            getActivity().getContentResolver().insert(SensAppContract.Graph.CONTENT_URI, values);
-                            values.clear();
+                            if(!graphName.getText().toString().isEmpty()){
+                                ContentValues values = new ContentValues();
+                                values.put(SensAppContract.Graph.TITLE, graphName.getText().toString());
+                                getActivity().getContentResolver().insert(SensAppContract.Graph.CONTENT_URI, values);
+                                values.clear();
+                            }
                         }
                     }).create();
         }

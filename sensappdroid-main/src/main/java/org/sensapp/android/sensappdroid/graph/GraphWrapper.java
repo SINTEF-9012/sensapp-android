@@ -51,6 +51,15 @@ public class GraphWrapper {
 		this.graphBuffer = gb;
 	}
 
+    public void setGraphOptions(int color, long sleepTime, int drawGraphType, String name, float min, float max) {
+        this.color = color;
+        this.sleepTime = sleepTime;
+        this.drawGraphType = drawGraphType;
+        this.name = name;
+        this.lowestVisible = min;
+        this.highestVisible = max;
+    }
+
 	public void setGraphOptions(int color, long sleepTime, int drawGraphType, String name) {
 		this.color = color;
 		this.sleepTime = sleepTime;

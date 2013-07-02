@@ -18,8 +18,8 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.sensapp.android.sensappdroid"
-    android:versionCode="11"
-    android:versionName="1.6.5" >
+    android:versionCode="12"
+    android:versionName="1.7.0" >
 
     <uses-sdk 
         android:minSdkVersion="11" 
