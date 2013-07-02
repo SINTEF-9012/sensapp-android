@@ -289,7 +289,10 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
         }
 
         GraphWrapper wrapper = new GraphWrapper(graphSensorID, buffer);
-        wrapper.setGraphOptions(color, 500, style, title, min, max);
+        if(min == max)
+            wrapper.setGraphOptions(color, 500, style, title);
+        else
+            wrapper.setGraphOptions(color, 500, style, title, min, max);
         wrapper.setPrinterParameters(true, false, true);
 
         gwl.add(wrapper);
