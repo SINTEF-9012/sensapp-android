@@ -104,8 +104,8 @@ public class ManageGraphSensorFragment extends DialogFragment {
                             values.put(SensAppContract.GraphSensor.TITLE, name);
                             values.put(SensAppContract.GraphSensor.STYLE, GraphBaseView.LINECHART);
                             values.put(SensAppContract.GraphSensor.COLOR, Color.BLUE);
-                            values.put(SensAppContract.GraphSensor.MAX, 3);
-                            values.put(SensAppContract.GraphSensor.MIN, 3);
+                            values.put(SensAppContract.GraphSensor.MAX, Integer.MAX_VALUE);
+                            values.put(SensAppContract.GraphSensor.MIN, Integer.MIN_VALUE);
                             values.put(SensAppContract.GraphSensor.GRAPH, graphID);
                             values.put(SensAppContract.GraphSensor.SENSOR, name);
                             getActivity().getContentResolver().insert(SensAppContract.GraphSensor.CONTENT_URI, values);

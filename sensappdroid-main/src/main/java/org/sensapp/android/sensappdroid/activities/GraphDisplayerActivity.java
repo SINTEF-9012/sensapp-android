@@ -138,9 +138,9 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
                             if(!(title.getText().length() == 0))
                                 values.put(SensAppContract.GraphSensor.TITLE, title.getText().toString());
                             if(!(min.getText().length() == 0))
-                                values.put(SensAppContract.GraphSensor.MIN, Integer.parseInt(min.getText().toString()));
+                                values.put(SensAppContract.GraphSensor.MIN, Float.parseFloat(min.getText().toString()));
                             if(!(max.getText().length() == 0))
-                                values.put(SensAppContract.GraphSensor.MAX, Integer.parseInt(max.getText().toString()));
+                                values.put(SensAppContract.GraphSensor.MAX, Float.parseFloat(max.getText().toString()));
                             if(colorSelected != -1)
                                 values.put(SensAppContract.GraphSensor.COLOR, colorSelected);
                             if(styleSelected != -1)
@@ -235,8 +235,8 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
             graphTitles[i] = c.getString(c.getColumnIndex(SensAppContract.GraphSensor.TITLE));
             graphStyles[i] = c.getInt(c.getColumnIndex(SensAppContract.GraphSensor.STYLE));
             graphColors[i] = c.getInt(c.getColumnIndex(SensAppContract.GraphSensor.COLOR));
-            graphHighests[i] = c.getInt(c.getColumnIndex(SensAppContract.GraphSensor.MAX));
-            graphLowests[i] = c.getInt(c.getColumnIndex(SensAppContract.GraphSensor.MIN));
+            graphHighests[i] = c.getFloat(c.getColumnIndex(SensAppContract.GraphSensor.MAX));
+            graphLowests[i] = c.getFloat(c.getColumnIndex(SensAppContract.GraphSensor.MIN));
         }
     }
 
@@ -289,8 +289,13 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
         }
 
         GraphWrapper wrapper = new GraphWrapper(graphSensorID, buffer);
-        if(min == max)
+        if((min == Integer.MIN_VALUE) || (max == Integer.MAX_VALUE)){
             wrapper.setGraphOptions(color, 500, style, title);
+            if(min != Integer.MIN_VALUE)
+                wrapper.setLowestVisible(min);
+            if(max != Integer.MAX_VALUE)
+                wrapper.setHighestVisible(max);
+        }
         else
             wrapper.setGraphOptions(color, 500, style, title, min, max);
         wrapper.setPrinterParameters(true, false, true);

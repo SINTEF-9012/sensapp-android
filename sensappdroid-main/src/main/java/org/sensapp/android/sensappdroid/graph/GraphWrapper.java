@@ -123,7 +123,7 @@ public class GraphWrapper {
 	}
 
 
-	public void setLowestVisible(int lowestVisible) {
+	public void setLowestVisible(float lowestVisible) {
 		this.lowestVisible = lowestVisible;
 	}
 
@@ -133,7 +133,7 @@ public class GraphWrapper {
 	}
 
 
-	public void setHighestVisible(int highestVisible) {
+	public void setHighestVisible(float highestVisible) {
 		this.highestVisible = highestVisible;
 	}
 
