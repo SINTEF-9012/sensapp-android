@@ -113,6 +113,8 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
             final EditText title = (EditText) dialogOptionGraphSensor.findViewById(R.id.graph_sensor_title);
             final EditText min = (EditText) dialogOptionGraphSensor.findViewById(R.id.graph_sensor_lowest);
             final EditText max = (EditText) dialogOptionGraphSensor.findViewById(R.id.graph_sensor_highest);
+            final CheckBox default_min = (CheckBox) dialogOptionGraphSensor.findViewById(R.id.checkBoxLowest);
+            final CheckBox default_max = (CheckBox) dialogOptionGraphSensor.findViewById(R.id.checkBoxHighest);
 
             ArrayList<String> colorStrings = new ArrayList<String>();
             initColorArray(colorStrings);
@@ -139,8 +141,12 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
                                 values.put(SensAppContract.GraphSensor.TITLE, title.getText().toString());
                             if(!(min.getText().length() == 0))
                                 values.put(SensAppContract.GraphSensor.MIN, Float.parseFloat(min.getText().toString()));
+                            else if(default_min.isChecked())
+                                values.put(SensAppContract.GraphSensor.MIN, Integer.MIN_VALUE);
                             if(!(max.getText().length() == 0))
                                 values.put(SensAppContract.GraphSensor.MAX, Float.parseFloat(max.getText().toString()));
+                            else if(default_max.isChecked())
+                                values.put(SensAppContract.GraphSensor.MAX, Integer.MAX_VALUE);
                             if(colorSelected != -1)
                                 values.put(SensAppContract.GraphSensor.COLOR, colorSelected);
                             if(styleSelected != -1)
