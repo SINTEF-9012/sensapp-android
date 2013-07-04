@@ -87,7 +87,10 @@ public class GraphsListFragment extends ListFragment implements LoaderCallbacks<
                             if(!graphName.getText().toString().isEmpty()){
                                 ContentValues values = new ContentValues();
                                 values.put(SensAppContract.Graph.TITLE, graphName.getText().toString());
-                                getActivity().getContentResolver().insert(SensAppContract.Graph.CONTENT_URI, values);
+                                Cursor c = getActivity().getContentResolver().query(Uri.parse(SensAppContract.Graph.CONTENT_URI + "/title/" + graphName.getText().toString()), null, null, null, null);
+                                if(c.getCount()==0)
+                                    getActivity().getContentResolver().insert(SensAppContract.Graph.CONTENT_URI, values);
+                                c.close();
                                 values.clear();
                             }
                         }
@@ -120,6 +123,7 @@ public class GraphsListFragment extends ListFragment implements LoaderCallbacks<
         getLoaderManager().initLoader(0, null, this);
         setListAdapter(adapter);
         registerForContextMenu(getListView());
+        //cursor.close();
 	}
 
 	@Override

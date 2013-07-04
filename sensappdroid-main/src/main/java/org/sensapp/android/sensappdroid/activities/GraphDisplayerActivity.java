@@ -247,13 +247,15 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
     }
 
     private void refreshGraphData(){
-        Cursor cursor;
+        Cursor cursor = null;
         gwl.clear();
         for(int i=0; i<sensorNames.length; i++){
             cursor = getContentResolver().query(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + sensorNames[i]), null, null, null, null);
             addGraphToWrapperList(gwl, cursor, graphTitles[i], graphStyles[i], graphColors[i], graphSensorIDs[i], graphLowests[i], graphHighests[i]);
         }
         adapter.notifyDataSetChanged();
+        if(cursor != null)
+            cursor.close();
     }
 
     private Integer displayGraphs(){
@@ -264,6 +266,7 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
         initOptionTables(cursorSensors);
         refreshOptionTables(cursorSensors);
         refreshGraphData();
+        cursorSensors.close();
         return 1;
     }
 
