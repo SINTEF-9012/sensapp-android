@@ -35,10 +35,7 @@ import android.widget.*;
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.fragments.ManageGraphSensorFragment;
-import org.sensapp.android.sensappdroid.graph.GraphAdapter;
-import org.sensapp.android.sensappdroid.graph.GraphBaseView;
-import org.sensapp.android.sensappdroid.graph.GraphBuffer;
-import org.sensapp.android.sensappdroid.graph.GraphWrapper;
+import org.sensapp.android.sensappdroid.graph.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +49,9 @@ import java.util.concurrent.Callable;
  * To change this template use File | Settings | File Templates.
  */
 public class GraphDisplayerActivity extends FragmentActivity implements LoaderCallbacks<Cursor>{
+
+    private static final int MENU_DELETE_ID = Menu.FIRST + 1;
+
     private String graphName="GRAPH";
     private long graphID=0;
     private long graphSensorIDs[];
@@ -213,6 +213,17 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
             }
         });
 
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                GraphWrapper gw = (GraphWrapper)adapterView.getItemAtPosition(i);
+                String where = SensAppContract.GraphSensor.ID + " = \"" + gw.getID() + "\" AND " + SensAppContract.GraphSensor.GRAPH + " = " + graphID;
+                getApplication().getContentResolver().delete(SensAppContract.GraphSensor.CONTENT_URI, where, null);
+                displayGraphs();
+                return true;
+            }
+        });
+
         getSupportLoaderManager().initLoader(0, null, this);
 
         displayGraphs();
@@ -261,6 +272,7 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
     private Integer displayGraphs(){
         cursorSensors = getContentResolver().query(Uri.parse(SensAppContract.GraphSensor.CONTENT_URI + "/graph/" + graphID), null, null, null, null);
         adapter = new GraphAdapter(getApplicationContext(), gwl);
+
         ListView list = (ListView) findViewById(R.id.list_graph_displayer);
         list.setAdapter(adapter);
         initOptionTables(cursorSensors);
