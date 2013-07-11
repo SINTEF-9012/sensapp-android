@@ -15,11 +15,11 @@
  */
 package org.sensapp.android.sensappdroid.datarequests;
 
-import java.util.Hashtable;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
+
+import java.util.Hashtable;
 
 public class QuerySensorsTask extends AsyncTask<Void, Void, Hashtable<String, ContentValues>> {
 
@@ -33,6 +33,6 @@ public class QuerySensorsTask extends AsyncTask<Void, Void, Hashtable<String, Co
 
 	@Override
 	protected Hashtable<String, ContentValues> doInBackground(Void... params) {
-		return DatabaseRequest.SensorRQ.getSensorsValues(context, selection);
+		return (Hashtable<String, ContentValues>) DatabaseRequest.SensorRQ.getSensorsValues(context, selection);
 	}
 }

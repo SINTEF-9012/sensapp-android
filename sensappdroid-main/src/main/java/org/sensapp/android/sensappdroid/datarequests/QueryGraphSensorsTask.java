@@ -33,6 +33,6 @@ public class QueryGraphSensorsTask extends AsyncTask<Void, Void, Hashtable<Integ
 
 	@Override
 	protected Hashtable<Integer, ContentValues> doInBackground(Void... params) {
-		return DatabaseRequest.GraphSensorRQ.getGraphSensorValues(context, selection);
+		return (Hashtable<Integer, ContentValues>) DatabaseRequest.GraphSensorRQ.getGraphSensorValues(context, selection);
 	}
 }

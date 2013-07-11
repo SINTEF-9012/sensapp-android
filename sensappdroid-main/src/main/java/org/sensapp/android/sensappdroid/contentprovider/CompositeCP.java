@@ -15,14 +15,6 @@
  */
 package org.sensapp.android.sensappdroid.contentprovider;
 
-import java.util.Hashtable;
-
-import org.sensapp.android.sensappdroid.database.ComposeTable;
-import org.sensapp.android.sensappdroid.database.CompositeTable;
-import org.sensapp.android.sensappdroid.database.MeasureTable;
-import org.sensapp.android.sensappdroid.database.SensAppDatabaseHelper;
-import org.sensapp.android.sensappdroid.database.SensorTable;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
@@ -31,6 +23,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
+import org.sensapp.android.sensappdroid.database.*;
+
+import java.util.Hashtable;
+import java.util.Map;
 
 public class CompositeCP {
 	
@@ -80,7 +76,7 @@ public class CompositeCP {
 				queryBuilder.setTables(CompositeTable.TABLE_COMPOSITE);
 				break;
 			case SENSOR_COMPOSITES:
-				Hashtable<String, String> columnMap = new Hashtable<String, String>();
+				Map<String, String> columnMap = new Hashtable<String, String>();
 				columnMap.put(CompositeTable.COLUMN_NAME, CompositeTable.TABLE_COMPOSITE + "." + CompositeTable.COLUMN_NAME);
 				columnMap.put(CompositeTable.COLUMN_DESCRIPTION, CompositeTable.TABLE_COMPOSITE + "." + CompositeTable.COLUMN_DESCRIPTION);
 				queryBuilder.setProjectionMap(columnMap);

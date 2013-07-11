@@ -62,8 +62,7 @@ public class GraphBuffer {
 	}
 	
 	public synchronized float[] getGraphData() {
-		float[] result = graphData.clone();
-		return result;
+		return graphData.clone();
 	}
 
 	public synchronized boolean insertData(float data) {
@@ -79,9 +78,7 @@ public class GraphBuffer {
             min = data;
 
 		if (counter >= size) {
-			for (int i = 1 ; i < graphData.length ; i++) {
-				graphData[i-1] = graphData[i];
-			}
+            System.arraycopy(graphData, 1, graphData, 0, graphData.length - 1);
 			graphData[size-1] = data;
 			return true;
 		} else {

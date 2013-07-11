@@ -15,11 +15,6 @@
  */
 package org.sensapp.android.sensappdroid.fragments;
 
-import java.util.Hashtable;
-
-import org.sensapp.android.sensappdroid.R;
-import org.sensapp.android.sensappdroid.contract.SensAppContract;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
@@ -29,10 +24,15 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import org.sensapp.android.sensappdroid.R;
+import org.sensapp.android.sensappdroid.contract.SensAppContract;
+
+import java.util.Hashtable;
+import java.util.Map;
 
 public class MeasuresAdapter extends CursorAdapter {
 
-	private Hashtable<String, byte[]> icons =  new Hashtable<String, byte[]>();
+	private Map<String, byte[]> icons =  new Hashtable<String, byte[]>();
 	
 	private LayoutInflater inflater;
 	private int indexSensor;
@@ -43,7 +43,7 @@ public class MeasuresAdapter extends CursorAdapter {
 		inflater = LayoutInflater.from(context);
 	}
 	
-	public Hashtable<String, byte[]> getIcons() {
+	public Map<String, byte[]> getIcons() {
 		return icons;
 	}
 	

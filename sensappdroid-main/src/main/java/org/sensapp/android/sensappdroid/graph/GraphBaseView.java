@@ -90,7 +90,6 @@ public class GraphBaseView extends View {
 	protected void onDraw(Canvas canvas) {
 		if (graphValues != null) {
 			paint.setColor(wrapper.getColor());
-			//paint.setAntiAlias(true);
 			switch (wrapper.getDrawGraphType()) {
 			case BARCHART:
 				drawBarGraph(canvas);

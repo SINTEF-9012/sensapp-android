@@ -15,14 +15,6 @@
  */
 package org.sensapp.android.sensappdroid.fragments;
 
-import java.util.ArrayList;
-
-import org.sensapp.android.sensappdroid.R;
-import org.sensapp.android.sensappdroid.activities.SensAppService;
-import org.sensapp.android.sensappdroid.contract.SensAppContract;
-import org.sensapp.android.sensappdroid.datarequests.DeleteSensorsTask;
-import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -32,17 +24,19 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.view.ContextMenu;
+import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.TextView;
+import org.sensapp.android.sensappdroid.R;
+import org.sensapp.android.sensappdroid.activities.SensAppService;
+import org.sensapp.android.sensappdroid.contract.SensAppContract;
+import org.sensapp.android.sensappdroid.datarequests.DeleteSensorsTask;
+import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SensorListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
 
@@ -154,8 +148,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 		} else {
 			((TextView) getActivity().findViewById(android.R.id.empty)).setText(getString(R.string.no_sensors) + " in " + uri.getLastPathSegment() + " composite");
 		}
-		CursorLoader cursorLoader = new CursorLoader(getActivity(), uri, projection, null, null, null);
-		return cursorLoader;
+		return new CursorLoader(getActivity(), uri, projection, null, null, null);
 	}
 	
 	@Override
@@ -171,7 +164,7 @@ public class SensorListFragment extends ListFragment implements LoaderCallbacks<
 	}
 
 	public class LoadSensorCounts extends Thread {
-		private ArrayList<String> names = new ArrayList<String>();
+		private List<String> names = new ArrayList<String>();
 		private boolean terminate = false;
 		public LoadSensorCounts(Cursor cursor) {
 			for (cursor.moveToFirst() ; !cursor.isAfterLast() ; cursor.moveToNext()) {			

@@ -15,14 +15,6 @@
  */
 package org.sensapp.android.sensappdroid.contentprovider;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Hashtable;
-
-import org.sensapp.android.sensappdroid.database.ComposeTable;
-import org.sensapp.android.sensappdroid.database.SensAppDatabaseHelper;
-import org.sensapp.android.sensappdroid.database.SensorTable;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
@@ -31,6 +23,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
+import org.sensapp.android.sensappdroid.database.ComposeTable;
+import org.sensapp.android.sensappdroid.database.SensAppDatabaseHelper;
+import org.sensapp.android.sensappdroid.database.SensorTable;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Map;
 
 public class SensorCP extends TableContentProvider {
 	
@@ -69,7 +69,7 @@ public class SensorCP extends TableContentProvider {
 			if (!isSensAppUID(uid)) {
 				throw new IllegalStateException("Forbiden uri" + uri);
 			}
-			Hashtable<String, String> columnMap = new Hashtable<String, String>();
+			Map<String, String> columnMap = new Hashtable<String, String>();
 			columnMap.put(SensorTable.COLUMN_NAME, SensorTable.TABLE_SENSOR + "." + SensorTable.COLUMN_NAME);
 			columnMap.put(SensorTable.COLUMN_BACKEND, SensorTable.TABLE_SENSOR + "." + SensorTable.COLUMN_BACKEND);
 			columnMap.put(SensorTable.COLUMN_DESCRIPTION, SensorTable.TABLE_SENSOR + "." + SensorTable.COLUMN_DESCRIPTION);

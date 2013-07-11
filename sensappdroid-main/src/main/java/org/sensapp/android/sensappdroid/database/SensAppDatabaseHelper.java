@@ -37,7 +37,6 @@ public class SensAppDatabaseHelper extends SQLiteOpenHelper {
 		SensorTable.onCreate(database);
 		CompositeTable.onCreate(database);
 		ComposeTable.onCreate(database);
-		//MetadataTable.onCreate(database);
 	}
 
 	@Override
@@ -47,6 +46,5 @@ public class SensAppDatabaseHelper extends SQLiteOpenHelper {
 		SensorTable.onUpgrade(database, oldVersion, newVersion);
 		CompositeTable.onUpgrade(database, oldVersion, newVersion);
 		ComposeTable.onUpgrade(database, oldVersion, newVersion);
-		//MetadataTable.onUpgrade(database, oldVersion, newVersion);
 	}
 }

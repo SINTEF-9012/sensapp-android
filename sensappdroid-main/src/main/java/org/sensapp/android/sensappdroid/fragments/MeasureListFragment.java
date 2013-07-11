@@ -15,16 +15,6 @@
  */
 package org.sensapp.android.sensappdroid.fragments;
 
-import java.util.ArrayList;
-
-import org.sensapp.android.sensappdroid.R;
-import org.sensapp.android.sensappdroid.activities.SensAppService;
-import org.sensapp.android.sensappdroid.contract.SensAppContract;
-import org.sensapp.android.sensappdroid.database.MeasureTable;
-import org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask;
-import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;
-import org.sensapp.android.sensappdroid.restrequests.PutMeasuresTask;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -35,18 +25,22 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
-import android.view.ContextMenu;
+import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
+import org.sensapp.android.sensappdroid.R;
+import org.sensapp.android.sensappdroid.activities.SensAppService;
+import org.sensapp.android.sensappdroid.contract.SensAppContract;
+import org.sensapp.android.sensappdroid.database.MeasureTable;
+import org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask;
+import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;
+import org.sensapp.android.sensappdroid.restrequests.PutMeasuresTask;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MeasureListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
 
@@ -198,7 +192,7 @@ public class MeasureListFragment extends ListFragment implements LoaderCallbacks
 	
 	public class LoadMeasureIcons extends Thread {
 		private boolean terminate = false;
-		private ArrayList<String> names = new ArrayList<String>();
+		private List<String> names = new ArrayList<String>();
 		public LoadMeasureIcons(Cursor cursor) {
 			for (cursor.moveToFirst() ; !cursor.isAfterLast() ; cursor.moveToNext()) {			
 				names.add(cursor.getString(cursor.getColumnIndex(SensAppContract.Measure.SENSOR)));

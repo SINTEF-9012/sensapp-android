@@ -15,21 +15,6 @@
  */
 package org.sensapp.android.sensappdroid.restrequests;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
-import org.sensapp.android.sensappdroid.R;
-import org.sensapp.android.sensappdroid.activities.TabsActivity;
-import org.sensapp.android.sensappdroid.contract.SensAppContract;
-import org.sensapp.android.sensappdroid.datarequests.DatabaseRequest;
-import org.sensapp.android.sensappdroid.json.JsonPrinter;
-import org.sensapp.android.sensappdroid.json.MeasureJsonModel;
-import org.sensapp.android.sensappdroid.json.NumericalMeasureJsonModel;
-import org.sensapp.android.sensappdroid.json.StringMeasureJsonModel;
-import org.sensapp.android.sensappdroid.models.Sensor;
-import org.sensapp.android.sensappdroid.preferences.GeneralPrefFragment;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -43,6 +28,20 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+import org.sensapp.android.sensappdroid.R;
+import org.sensapp.android.sensappdroid.activities.TabsActivity;
+import org.sensapp.android.sensappdroid.contract.SensAppContract;
+import org.sensapp.android.sensappdroid.datarequests.DatabaseRequest;
+import org.sensapp.android.sensappdroid.json.JsonPrinter;
+import org.sensapp.android.sensappdroid.json.MeasureJsonModel;
+import org.sensapp.android.sensappdroid.json.NumericalMeasureJsonModel;
+import org.sensapp.android.sensappdroid.json.StringMeasureJsonModel;
+import org.sensapp.android.sensappdroid.models.Sensor;
+import org.sensapp.android.sensappdroid.preferences.GeneralPrefFragment;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 	
@@ -172,7 +171,6 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 		for (String sensorName : sensorNames) {
 
 			if (!sensorExists(sensorName)) {
-				Log.e(TAG, "Incorrect database: sensor " + sensorName + " does not exit");
 				return null;
 			}
 
@@ -200,7 +198,6 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 						e.printStackTrace();
 					}
 					if (postSensorResult == null) {
-						Log.e(TAG, "Post sensor failed");
 						return null;
 					}
 				}
@@ -254,10 +251,6 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 								RestRequest.putData(sensor.getUri(), JsonPrinter.measuresToJson(model));
 							} catch (RequestErrorException e) {
 								errorMessage = e.getMessage();
-								Log.e(TAG, errorMessage);
-								if (e.getCause() != null) {
-									Log.e(TAG, e.getCause().getMessage());
-								}
 								cursor.close();
 								return null;
 							}
@@ -290,7 +283,6 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 	protected void onPostExecute(Integer result) {
 		notificationManager.cancel(NOTIFICATION_ID);
 		if (result == null) {
-			Log.e(TAG, "Put data error");
 			if (flag != FLAG_SILENT) {
 				if (errorMessage == null) {
 					Toast.makeText(context, "Upload failed", Toast.LENGTH_LONG).show();
@@ -299,7 +291,6 @@ public class PutMeasuresTask extends AsyncTask<Integer, Integer, Integer> {
 				}
 			}
 		} else {
-			Log.i(TAG, "Put data succed: " + result + " measures uploaded");
 			if (flag != FLAG_SILENT) {
 				final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, TabsActivity.class), 0);
 				Notification notificationFinal = new Notification(R.drawable.ic_launcher, "Upload finished", System.currentTimeMillis());

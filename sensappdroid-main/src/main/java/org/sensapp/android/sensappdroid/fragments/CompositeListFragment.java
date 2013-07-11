@@ -15,16 +15,6 @@
  */
 package org.sensapp.android.sensappdroid.fragments;
 
-import java.util.ArrayList;
-
-import org.sensapp.android.sensappdroid.R;
-import org.sensapp.android.sensappdroid.activities.SensAppService;
-import org.sensapp.android.sensappdroid.contract.SensAppContract;
-import org.sensapp.android.sensappdroid.datarequests.DeleteCompositeTask;
-import org.sensapp.android.sensappdroid.preferences.GeneralPrefFragment;
-import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;
-import org.sensapp.android.sensappdroid.restrequests.PostCompositeRestTask;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -40,18 +30,22 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.view.ContextMenu;
+import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import org.sensapp.android.sensappdroid.R;
+import org.sensapp.android.sensappdroid.activities.SensAppService;
+import org.sensapp.android.sensappdroid.contract.SensAppContract;
+import org.sensapp.android.sensappdroid.datarequests.DeleteCompositeTask;
+import org.sensapp.android.sensappdroid.preferences.GeneralPrefFragment;
+import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;
+import org.sensapp.android.sensappdroid.restrequests.PostCompositeRestTask;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CompositeListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
 
@@ -70,8 +64,8 @@ public class CompositeListFragment extends ListFragment implements LoaderCallbac
 	public static class ManageCompositeDialogFragment extends DialogFragment {
 
 		private static final String COMPOSITE_NAME = "composite_name";
-		private ArrayList<String> sensorsAdded = new ArrayList<String>();
-		private ArrayList<String> sensorsRemoved = new ArrayList<String>();
+		private List<String> sensorsAdded = new ArrayList<String>();
+		private List<String> sensorsRemoved = new ArrayList<String>();
 		private Cursor cursor;
 		
 		public static ManageCompositeDialogFragment newInstance(String compositeName) {
@@ -256,8 +250,7 @@ public class CompositeListFragment extends ListFragment implements LoaderCallbac
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		String[] projection = {SensAppContract.Composite.NAME};
-		CursorLoader cursorLoader = new CursorLoader(getActivity(), SensAppContract.Composite.CONTENT_URI, projection, null, null, null);
-		return cursorLoader;
+		return new CursorLoader(getActivity(), SensAppContract.Composite.CONTENT_URI, projection, null, null, null);
 	}
 
 	@Override

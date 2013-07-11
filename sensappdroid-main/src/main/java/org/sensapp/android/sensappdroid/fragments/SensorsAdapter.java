@@ -15,11 +15,6 @@
  */
 package org.sensapp.android.sensappdroid.fragments;
 
-import java.util.Hashtable;
-
-import org.sensapp.android.sensappdroid.R;
-import org.sensapp.android.sensappdroid.contract.SensAppContract;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
@@ -29,22 +24,26 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import org.sensapp.android.sensappdroid.R;
+import org.sensapp.android.sensappdroid.contract.SensAppContract;
+
+import java.util.Hashtable;
+import java.util.Map;
 
 public class SensorsAdapter extends CursorAdapter {
 	
-	private Hashtable<String, Integer> counts =  new Hashtable<String, Integer>();
+	private Map<String, Integer> counts =  new Hashtable<String, Integer>();
 
 	public SensorsAdapter(Context context, Cursor c) {
 		super(context, c, 0);
 	}
 	
-	public Hashtable<String, Integer> getCounts() {
+	public Map<String, Integer> getCounts() {
 		return counts;
 	}
 	
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
-		//Log.e("DEBUG", "Bind: " + cursor.getString(cursor.getColumnIndex(SensAppContract.Sensor.NAME)));
 		byte[] byteIcon = cursor.getBlob(cursor.getColumnIndex(SensAppContract.Sensor.ICON));
 		ImageView icon = (ImageView) view.findViewById(R.id.icon);
 		if (byteIcon != null) {
@@ -63,8 +62,6 @@ public class SensorsAdapter extends CursorAdapter {
 
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
-		View v = LayoutInflater.from(context).inflate(R.layout.sensor_row, parent, false);
-		//bindView(v, context, cursor);
-		return v;
+		return LayoutInflater.from(context).inflate(R.layout.sensor_row, parent, false);
 	}
 }

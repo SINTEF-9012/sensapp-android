@@ -30,9 +30,9 @@ import java.util.List;
 
 public class TabsActivity extends FragmentActivity implements OnCompositeSelectedListener, OnSensorSelectedListener, OnMeasureSelectedListener, OnGraphSelectedListener{
 
-    SectionsPagerAdapter mSectionsPagerAdapter;
-    ViewPager mViewPager;
-    PagerTitleStrip mPagerTitle;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ViewPager mViewPager;
+    private PagerTitleStrip mPagerTitle;
     final static int NB_FRAGMENTS = 4;
     final static List<Fragment> fragmentList = new ArrayList<Fragment>(){{
         add(new CompositeListFragment());

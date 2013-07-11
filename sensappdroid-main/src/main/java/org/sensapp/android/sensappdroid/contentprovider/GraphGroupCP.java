@@ -23,14 +23,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
-import org.sensapp.android.sensappdroid.contract.SensAppContract;
-import org.sensapp.android.sensappdroid.database.*;
+import org.sensapp.android.sensappdroid.database.GraphGroupDatabaseHelper;
+import org.sensapp.android.sensappdroid.database.GraphGroupTable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Hashtable;
 
 public class GraphGroupCP extends TableContentProvider {
 
@@ -39,13 +36,11 @@ public class GraphGroupCP extends TableContentProvider {
 	private static final int GRAPHS = 10;
 	private static final int GRAPH_ID = 20;
 	private static final int GRAPH_TITLE = 30;
-	private static final int GRAPH = 40;
 	private static final UriMatcher graphURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	static {
 		graphURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH, GRAPHS);
 		graphURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/#", GRAPH_ID);
 		graphURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/title/*", GRAPH_TITLE);
-		//graphURIMatcher.addURI(SensAppContentProvider.AUTHORITY, BASE_PATH + "/*", GRAPH);
 	}
 
 	public GraphGroupCP(Context context, GraphGroupDatabaseHelper database) {
@@ -69,19 +64,6 @@ public class GraphGroupCP extends TableContentProvider {
 		case GRAPH_TITLE:
 			queryBuilder.appendWhere(GraphGroupTable.COLUMN_TITLE + "= \"" + uri.getLastPathSegment() + "\"");
 			break;
-		/*case GRAPH:
-			Cursor c = getContext().getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
-			ArrayList<String> names = new ArrayList<String>();
-			if (c != null) {
-					while (c.moveToNext()) {
-						names.add(c.getString(c.getColumnIndexOrThrow(SensorTable.COLUMN_NAME)));
-				}
-				c.close();
-			} else {
-				return null;
-			}
-			queryBuilder.appendWhere(MeasureTable.COLUMN_SENSOR + " IN " + names.toString().replace("[", "(\"").replace(", ", "\", \"").replace("]", "\")"));
-			break;*/
 		default:
 			throw new SensAppProviderException("Unknown measure URI: " + uri);
 		}
@@ -100,13 +82,11 @@ public class GraphGroupCP extends TableContentProvider {
         }
 		switch (graphURIMatcher.match(uri)) {
 		case GRAPHS:
-			//values.put(MeasureTable.COLUMN_UPLOADED, 0);
 			id = db.insert(GraphGroupTable.TABLE_GRAPHGROUP, null, values);
 			break;
 		default:
 			throw new SensAppProviderException("Unknown insert URI: " + uri);
-		}
-		//getContext().getContentResolver().notifyChange(Uri.parse(uri + "/" + (String) values.get(MeasureTable.COLUMN_SENSOR)), null);
+        }
         getContext().getContentResolver().notifyChange(uri, null);
         return Uri.parse(uri + "/" + id);
 	}

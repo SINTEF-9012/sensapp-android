@@ -15,19 +15,12 @@
  */
 package org.sensapp.android.sensappdroid.preferences;
 
-import java.util.List;
-
+import android.preference.PreferenceActivity;
 import org.sensapp.android.sensappdroid.R;
 
-import android.os.Bundle;
-import android.preference.PreferenceActivity;
+import java.util.List;
 
 public class PreferencesActivity extends PreferenceActivity {
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
 
 	@Override
 	public void onBuildHeaders(List<Header> target) {

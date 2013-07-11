@@ -30,7 +30,7 @@ public class GraphAdapter extends BaseAdapter {
 	private List<GraphWrapper> wrappers;
 	
 	private static class ViewHolder {
-		GraphDetailsView graph;
+		private GraphDetailsView graph;
 	}
 	
 	public GraphAdapter(Context context, List<GraphWrapper> wrappers) {

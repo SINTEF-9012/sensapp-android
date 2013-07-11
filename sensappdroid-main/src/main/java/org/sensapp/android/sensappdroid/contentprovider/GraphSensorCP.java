@@ -23,13 +23,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
-import org.sensapp.android.sensappdroid.database.*;
+import org.sensapp.android.sensappdroid.database.GraphGroupDatabaseHelper;
 import org.sensapp.android.sensappdroid.database.GraphSensorTable;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Hashtable;
 
 public class GraphSensorCP extends TableContentProvider {
 
@@ -69,32 +67,9 @@ public class GraphSensorCP extends TableContentProvider {
 			queryBuilder.appendWhere(GraphSensorTable.COLUMN_TITLE + "= \"" + uri.getLastPathSegment() + "\"");
 			break;
         case GRAPH:
-            /*Hashtable<String, String> columnMap = new Hashtable<String, String>();
-            columnMap.put(GraphSensorTable.COLUMN_ID, GraphSensorTable.TABLE_GRAPHSENSOR + "." + GraphSensorTable.COLUMN_ID);
-            columnMap.put(GraphSensorTable.COLUMN_TITLE, GraphSensorTable.TABLE_GRAPHSENSOR + "." + GraphSensorTable.COLUMN_TITLE);
-            columnMap.put(GraphSensorTable.COLUMN_STYLE, GraphSensorTable.TABLE_GRAPHSENSOR + "." + GraphSensorTable.COLUMN_STYLE);
-            columnMap.put(GraphSensorTable.COLUMN_COLOR, GraphSensorTable.TABLE_GRAPHSENSOR + "." + GraphSensorTable.COLUMN_COLOR);
-            columnMap.put(GraphSensorTable.COLUMN_HIGHESTVALUE, GraphSensorTable.TABLE_GRAPHSENSOR + "." + GraphSensorTable.COLUMN_HIGHESTVALUE);
-            columnMap.put(GraphSensorTable.COLUMN_LOWESTVALUE, GraphSensorTable.TABLE_GRAPHSENSOR + "." + GraphSensorTable.COLUMN_LOWESTVALUE);
-            columnMap.put(GraphSensorTable.COLUMN_GRAPHGROUP, GraphSensorTable.TABLE_GRAPHSENSOR + "." + GraphSensorTable.COLUMN_GRAPHGROUP);
-            columnMap.put(GraphSensorTable.COLUMN_SENSOR, GraphSensorTable.TABLE_GRAPHSENSOR + "." + GraphSensorTable.COLUMN_SENSOR);
-            queryBuilder.setProjectionMap(columnMap);
-            queryBuilder.setTables(GraphSensorTable.TABLE_GRAPHSENSOR);*/
-            queryBuilder.appendWhere(/*GraphSensorTable.TABLE_GRAPHSENSOR + "." + */GraphSensorTable.COLUMN_GRAPHGROUP + " = " + uri.getLastPathSegment());
+
+            queryBuilder.appendWhere(GraphSensorTable.COLUMN_GRAPHGROUP + " = " + uri.getLastPathSegment());
             break;
-		/*case SENSOR:
-			Cursor c = getContext().getContentResolver().query(Uri.parse(SensAppContract.Sensor.CONTENT_URI + "/composite/" + uri.getLastPathSegment()), new String[]{SensorTable.COLUMN_NAME}, null, null, null);
-			ArrayList<String> names = new ArrayList<String>();
-			if (c != null) {
-					while (c.moveToNext()) {
-						names.add(c.getString(c.getColumnIndexOrThrow(SensorTable.COLUMN_NAME)));
-				}
-				c.close();
-			} else {
-				return null;
-			}
-			queryBuilder.appendWhere(MeasureTable.COLUMN_SENSOR + " IN " + names.toString().replace("[", "(\"").replace(", ", "\", \"").replace("]", "\")"));
-			break;*/
 		default:
 			throw new SensAppProviderException("Unknown measure URI: " + uri);
 		}
@@ -113,14 +88,11 @@ public class GraphSensorCP extends TableContentProvider {
         }
 		switch (SensorURIMatcher.match(uri)) {
 		case SENSORS:
-			//values.put(MeasureTable.COLUMN_UPLOADED, 0);
 			id = db.insert(GraphSensorTable.TABLE_GRAPHSENSOR, null, values);
-            //GraphSensorTable.onCreate(db);
 			break;
 		default:
 			throw new SensAppProviderException("Unknown insert URI: " + uri);
 		}
-		//getContext().getContentResolver().notifyChange(Uri.parse(uri + "/" + (String) values.get(MeasureTable.COLUMN_SENSOR)), null);
         getContext().getContentResolver().notifyChange(uri, null);
         return Uri.parse(uri + "/" + id);
 	}

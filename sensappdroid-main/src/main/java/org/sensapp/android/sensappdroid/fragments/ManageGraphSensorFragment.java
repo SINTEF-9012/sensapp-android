@@ -17,19 +17,19 @@ package org.sensapp.android.sensappdroid.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.DialogFragment;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.graph.GraphBaseView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 /**
@@ -43,8 +43,8 @@ public class ManageGraphSensorFragment extends DialogFragment {
 
     private static final String GRAPH_NAME = "graph_name";
     private static final String GRAPH_ID = "graph_id";
-    private ArrayList<String> sensorsAdded = new ArrayList<String>();
-    private ArrayList<String> sensorsRemoved = new ArrayList<String>();
+    private List<String> sensorsAdded = new ArrayList<String>();
+    private List<String> sensorsRemoved = new ArrayList<String>();
     private Cursor cursor;
     private Callable<Integer> toExec;
 
@@ -76,7 +76,7 @@ public class ManageGraphSensorFragment extends DialogFragment {
             }
             else
                 sensorStatus[i] = false;
-            if(sensorStatus[i] == true)
+            if(sensorStatus[i])
                 cursorGraphSensor.moveToNext();
 
         }

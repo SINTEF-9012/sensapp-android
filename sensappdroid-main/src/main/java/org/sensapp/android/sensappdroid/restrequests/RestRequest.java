@@ -15,14 +15,8 @@
  */
 package org.sensapp.android.sensappdroid.restrequests;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
-
+import android.net.Uri;
+import android.util.Log;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -37,8 +31,13 @@ import org.sensapp.android.sensappdroid.json.JsonPrinter;
 import org.sensapp.android.sensappdroid.models.Composite;
 import org.sensapp.android.sensappdroid.models.Sensor;
 
-import android.net.Uri;
-import android.util.Log;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 
 public final class RestRequest {
 	
@@ -58,7 +57,6 @@ public final class RestRequest {
 			e.printStackTrace();
 			throw new RequestErrorException(e.getMessage());
 		}
-		Log.v(TAG, "Target: " + target.toString());
 		HttpClient client = new DefaultHttpClient();
 		HttpGet request = new HttpGet(target);
 		StatusLine status;
@@ -68,17 +66,13 @@ public final class RestRequest {
 			throw new RequestErrorException(e.getMessage());
 		}
 		if (status.getStatusCode() == 200) {
-			Log.i(TAG, "Sensor " + sensor.getName() + " already registered");
 			return true;
 		}
-		Log.w(TAG, "Sensor " + sensor.getName() + " not yet registered");
 		return false;
 	}
 	
 	public static String postSensor(Sensor sensor) throws RequestErrorException {
 		String content = JsonPrinter.sensorToJson(sensor);
-		Log.i(TAG, "POST Sensor");
-		Log.v(TAG, "Content: " + content);
 		URI target;
 		try {
 			target = new URI(sensor.getUri().toString() + SENSOR_PATH);
@@ -86,7 +80,6 @@ public final class RestRequest {
 			e1.printStackTrace();
 			throw new RequestErrorException(e1.getMessage());
 		}
-		Log.v(TAG, "Target: " + target.toString());
 		HttpClient client = new DefaultHttpClient();
 		HttpPost request = new HttpPost(target);
 		request.setHeader("Content-type", "application/json");
@@ -103,7 +96,6 @@ public final class RestRequest {
 	}
 	
 	public static String deleteSensor(Uri uri, Sensor sensor) throws RequestErrorException {
-		Log.i(TAG, "DELETE Sensor " + sensor.getName());
 		URI target;
 		try {
 			target = new URI(uri.toString() + SENSOR_PATH + "/" + sensor.getName());
@@ -111,7 +103,6 @@ public final class RestRequest {
 			e.printStackTrace();
 			throw new RequestErrorException(e.getMessage());
 		}
-		Log.v(TAG, "Target: " + target.toString());
 		HttpClient client = new DefaultHttpClient();
 		HttpDelete request = new HttpDelete(target);
 		request.setHeader("Content-type", "application/json");
@@ -125,8 +116,6 @@ public final class RestRequest {
 	}
 	
 	public static String putData(Uri uri, String data) throws RequestErrorException {
-		Log.i(TAG, "PUT Data");
-		Log.v(TAG, "Content: " + data);
 		URI target;
 		try {
 			target = new URI(uri.toString() + DISPATCHER_PATH);
@@ -134,7 +123,6 @@ public final class RestRequest {
 			e1.printStackTrace();
 			throw new RequestErrorException(e1.getMessage());
 		}
-		Log.v(TAG, "Target: " + target.toString());
 		HttpClient client = new DefaultHttpClient();
 		HttpPut request = new HttpPut(target);
 		request.setHeader("Content-type", "application/json");
@@ -147,7 +135,6 @@ public final class RestRequest {
 		} catch (Exception e) {
 			throw new RequestErrorException(e.getMessage());
 		}
-		Log.i(TAG, "Put data result: " + response);
 		if (response.trim().length() > 2) {
 			throw new RequestErrorException("Sensor not registred: " + response);
 		}
@@ -162,7 +149,6 @@ public final class RestRequest {
 			e1.printStackTrace();
 			throw new RequestErrorException(e1.getMessage());
 		}
-		Log.v(TAG, "Target: " + target.toString());
 		HttpClient client = new DefaultHttpClient();
 		HttpGet request = new HttpGet(target);
 		StatusLine status;
@@ -172,17 +158,13 @@ public final class RestRequest {
 			throw new RequestErrorException(e.getMessage());
 		}
 		if (status.getStatusCode() == 200) {
-			Log.i(TAG, "Sensor " + composite.getName() + " already registered");
 			return true;
 		}
-		Log.w(TAG, "Sensor " + composite.getName() + " not yet registered");
 		return false;
 	}
 	
 	public static String postComposite(Composite composite) throws RequestErrorException {
 		String content = JsonPrinter.compositeToJson(composite);
-		Log.i(TAG, "POST Composite");
-		Log.v(TAG, "Content: " + content);
 		URI target;
 		try {
 			target = new URI(composite.getUri().toString() + COMPOSITE_PATH);
@@ -190,7 +172,6 @@ public final class RestRequest {
 			e1.printStackTrace();
 			throw new RequestErrorException(e1.getMessage());
 		}
-		Log.v(TAG, "Target: " + target.toString());
 		HttpClient client = new DefaultHttpClient();
 		HttpPost request = new HttpPost(target);
 		request.setHeader("Content-type", "application/json");

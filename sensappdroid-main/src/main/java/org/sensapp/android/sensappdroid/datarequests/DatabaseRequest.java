@@ -15,19 +15,18 @@
  */
 package org.sensapp.android.sensappdroid.datarequests;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.models.Composite;
 import org.sensapp.android.sensappdroid.models.Sensor;
 import org.sensapp.android.sensappdroid.restrequests.RestRequest;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
-import android.util.Log;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Map;
 
 public class DatabaseRequest {
 	
@@ -72,31 +71,23 @@ public class DatabaseRequest {
 	public static class MeasureRQ {
 		
 		public static int deleteMeasure(Context context, int id) {
-			int rows = context.getContentResolver().delete(Uri.parse(M_CONTENT_URI + "/" + id), null, null);
-			Log.i(TAG, "TABLE_MEASURE: " + rows + " rows deleted");
-			return rows;
+			return context.getContentResolver().delete(Uri.parse(M_CONTENT_URI + "/" + id), null, null);
 		}
 
 		public static int deleteMeasures(Context context, String selection) {
-			int rows = context.getContentResolver().delete(M_CONTENT_URI, selection, null);
-			Log.i(TAG, "TABLE_MEASURE: " + rows + " rows deleted");
-			return rows;
+			return context.getContentResolver().delete(M_CONTENT_URI, selection, null);
 		}
 
 		public static int updateMeasure(Context context, int id, ContentValues values) {
-			int rows = context.getContentResolver().update(Uri.parse(M_CONTENT_URI + "/" + id), values, null, null);
-			Log.i(TAG, "TABLE_MEASURE: " + rows + " rows updated");
-			return rows;
+			return context.getContentResolver().update(Uri.parse(M_CONTENT_URI + "/" + id), values, null, null);
 		}
 		
 		public static int updateMeasures(Context context, String selection, ContentValues values) {
-			int rows = context.getContentResolver().update(M_CONTENT_URI, values, selection, null);
-			Log.i(TAG, "TABLE_MEASURE: " + rows + " rows updated");
-			return rows;
+			return context.getContentResolver().update(M_CONTENT_URI, values, selection, null);
 		}
 
-		public static Hashtable<Integer, ContentValues> getMeasuresValues(Context context, String selection) {
-			Hashtable<Integer, ContentValues> measures = new Hashtable<Integer, ContentValues>();
+		public static Map<Integer, ContentValues> getMeasuresValues(Context context, String selection) {
+			Map<Integer, ContentValues> measures = new Hashtable<Integer, ContentValues>();
 			Cursor cursor = context.getContentResolver().query(M_CONTENT_URI, null, selection, null, null);
 			if (cursor != null) {
 				while (cursor.moveToNext()) {
@@ -120,24 +111,19 @@ public class DatabaseRequest {
 		public static int deleteSensor(Context context, String name) {
 			int rowMeasures = MeasureRQ.deleteMeasures(context, M_SENSOR + " = \"" + name + "\"");
 			int rowSensors = context.getContentResolver().delete(Uri.parse(S_CONTENT_URI + "/" + name), null, null);
-			Log.i(TAG, "TABLE_SENSOR: " + rowSensors + " rows deleted");
 			return rowMeasures + rowSensors;
 		}
 
 		public static int updateSensor(Context context, String name, ContentValues values) {
-			int rows = context.getContentResolver().update(Uri.parse(S_CONTENT_URI + "/" + name), values, null, null);
-			Log.i(TAG, "TABLE_SENSOR: " + rows + " rows updated");
-			return rows;
+			return context.getContentResolver().update(Uri.parse(S_CONTENT_URI + "/" + name), values, null, null);
 		}
 		
 		public static int updateSensors(Context context, String selection, ContentValues values) {
-			int rows = context.getContentResolver().update(S_CONTENT_URI, values, selection, null);
-			Log.i(TAG, "TABLE_SENSOR: " + rows + " rows updated");
-			return rows;
+			return context.getContentResolver().update(S_CONTENT_URI, values, selection, null);
 		}
 
-		public static Hashtable<String, ContentValues> getSensorsValues(Context context, String selection) {
-			Hashtable<String, ContentValues> sensors = new Hashtable<String, ContentValues>();
+		public static Map<String, ContentValues> getSensorsValues(Context context, String selection) {
+			Map<String, ContentValues> sensors = new Hashtable<String, ContentValues>();
 			Cursor cursor = context.getContentResolver().query(S_CONTENT_URI, null, selection, null, null);
 			if (cursor != null) {
 				while (cursor.moveToNext()) {
@@ -183,9 +169,7 @@ public class DatabaseRequest {
 	
 	public static class ComposeRQ {
 		public static int deleteCompose(Context context, String selection) {
-			int rows = context.getContentResolver().delete(C_CONTENT_URI, selection, null);
-			Log.i(TAG, "TABLE_GRAPHGROUP: " + rows + " rows deleted");
-			return rows;
+			return context.getContentResolver().delete(C_CONTENT_URI, selection, null);
 		}
 	}
 	
@@ -233,7 +217,6 @@ public class DatabaseRequest {
 		public static int deleteComposite(Context context, String name) {
 			int rowCompose = ComposeRQ.deleteCompose(context, C_COMPOSITE + " = \"" + name + "\"");
 			int rowComposite = context.getContentResolver().delete(Uri.parse(CTE_CONTENT_URI + "/" + name), null, null);
-			Log.i(TAG, "TABLE_COMPOSITE: " + rowComposite + " rows deleted");
 			return rowCompose + rowComposite;
 		}
 	}
@@ -241,31 +224,23 @@ public class DatabaseRequest {
     public static class GraphRQ {
 
         public static int deleteGraph(Context context, int id) {
-            int rows = context.getContentResolver().delete(Uri.parse(G_CONTENT_URI + "/" + id), null, null);
-            Log.i(TAG, "TABLE_GRAPH: " + rows + " rows deleted");
-            return rows;
+            return context.getContentResolver().delete(Uri.parse(G_CONTENT_URI + "/" + id), null, null);
         }
 
         public static int deleteGraph(Context context, String selection) {
-            int rows = context.getContentResolver().delete(G_CONTENT_URI, selection, null);
-            Log.i(TAG, "TABLE_GRAPH: " + rows + " rows deleted");
-            return rows;
+            return context.getContentResolver().delete(G_CONTENT_URI, selection, null);
         }
 
         public static int updateGraph(Context context, int id, ContentValues values) {
-            int rows = context.getContentResolver().update(Uri.parse(G_CONTENT_URI + "/" + id), values, null, null);
-            Log.i(TAG, "TABLE_GRAPH: " + rows + " rows updated");
-            return rows;
+            return context.getContentResolver().update(Uri.parse(G_CONTENT_URI + "/" + id), values, null, null);
         }
 
         public static int updateGraph(Context context, String selection, ContentValues values) {
-            int rows = context.getContentResolver().update(G_CONTENT_URI, values, selection, null);
-            Log.i(TAG, "TABLE_GRAPH: " + rows + " rows updated");
-            return rows;
+            return context.getContentResolver().update(G_CONTENT_URI, values, selection, null);
         }
 
-        public static Hashtable<Integer, ContentValues> getGraphValues(Context context, String selection) {
-            Hashtable<Integer, ContentValues> graphs = new Hashtable<Integer, ContentValues>();
+        public static Map<Integer, ContentValues> getGraphValues(Context context, String selection) {
+            Map<Integer, ContentValues> graphs = new Hashtable<Integer, ContentValues>();
             Cursor cursor = context.getContentResolver().query(G_CONTENT_URI, null, selection, null, null);
             if (cursor != null) {
                 while (cursor.moveToNext()) {
@@ -283,31 +258,23 @@ public class DatabaseRequest {
     public static class GraphSensorRQ {
 
         public static int deleteGraphSensor(Context context, int id) {
-            int rows = context.getContentResolver().delete(Uri.parse(GS_CONTENT_URI + "/" + id), null, null);
-            Log.i(TAG, "TABLE_GRAPHSENSOR: " + rows + " rows deleted");
-            return rows;
+            return context.getContentResolver().delete(Uri.parse(GS_CONTENT_URI + "/" + id), null, null);
         }
 
         public static int deleteGraphSensor(Context context, String selection) {
-            int rows = context.getContentResolver().delete(GS_CONTENT_URI, selection, null);
-            Log.i(TAG, "TABLE_GRAPHSENSOR: " + rows + " rows deleted");
-            return rows;
+            return context.getContentResolver().delete(GS_CONTENT_URI, selection, null);
         }
 
         public static int updateGraphSensor(Context context, int id, ContentValues values) {
-            int rows = context.getContentResolver().update(Uri.parse(GS_CONTENT_URI + "/" + id), values, null, null);
-            Log.i(TAG, "TABLE_GRAPHSENSOR: " + rows + " rows updated");
-            return rows;
+            return context.getContentResolver().update(Uri.parse(GS_CONTENT_URI + "/" + id), values, null, null);
         }
 
         public static int updateGraphSensor(Context context, String selection, ContentValues values) {
-            int rows = context.getContentResolver().update(GS_CONTENT_URI, values, selection, null);
-            Log.i(TAG, "TABLE_GRAPHSENSOR: " + rows + " rows updated");
-            return rows;
+            return context.getContentResolver().update(GS_CONTENT_URI, values, selection, null);
         }
 
-        public static Hashtable<Integer, ContentValues> getGraphSensorValues(Context context, String selection) {
-            Hashtable<Integer, ContentValues> graphSensors = new Hashtable<Integer, ContentValues>();
+        public static Map<Integer, ContentValues> getGraphSensorValues(Context context, String selection) {
+            Map<Integer, ContentValues> graphSensors = new Hashtable<Integer, ContentValues>();
             Cursor cursor = context.getContentResolver().query(GS_CONTENT_URI, null, selection, null, null);
             if (cursor != null) {
                 while (cursor.moveToNext()) {

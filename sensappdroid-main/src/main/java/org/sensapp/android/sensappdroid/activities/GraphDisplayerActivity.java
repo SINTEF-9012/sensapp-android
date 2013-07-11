@@ -17,7 +17,6 @@ package org.sensapp.android.sensappdroid.activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -29,13 +28,15 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.fragments.ManageGraphSensorFragment;
-import org.sensapp.android.sensappdroid.graph.*;
+import org.sensapp.android.sensappdroid.graph.GraphAdapter;
+import org.sensapp.android.sensappdroid.graph.GraphBaseView;
+import org.sensapp.android.sensappdroid.graph.GraphBuffer;
+import org.sensapp.android.sensappdroid.graph.GraphWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +50,6 @@ import java.util.concurrent.Callable;
  * To change this template use File | Settings | File Templates.
  */
 public class GraphDisplayerActivity extends FragmentActivity implements LoaderCallbacks<Cursor>{
-
-    private static final int MENU_DELETE_ID = Menu.FIRST + 1;
 
     private String graphName="GRAPH";
     private long graphID=0;
@@ -83,7 +82,7 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
             return frag;
         }
 
-        private void initColorArray(ArrayList<String> strings){
+        private void initColorArray(List<String> strings){
             strings.add("Edit color");
             strings.add("Blue");
             strings.add("Cyan");
@@ -96,7 +95,7 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
             strings.add("Yellow");
         }
 
-        private void initStyleArray( ArrayList<String> strings){
+        private void initStyleArray(List<String> strings){
             strings.add("Edit style");
             strings.add("Linechart");
             strings.add("Barchart");
@@ -113,8 +112,8 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
             final EditText title = (EditText) dialogOptionGraphSensor.findViewById(R.id.graph_sensor_title);
             final EditText min = (EditText) dialogOptionGraphSensor.findViewById(R.id.graph_sensor_lowest);
             final EditText max = (EditText) dialogOptionGraphSensor.findViewById(R.id.graph_sensor_highest);
-            final CheckBox default_min = (CheckBox) dialogOptionGraphSensor.findViewById(R.id.checkBoxLowest);
-            final CheckBox default_max = (CheckBox) dialogOptionGraphSensor.findViewById(R.id.checkBoxHighest);
+            final CheckBox defaultMin = (CheckBox) dialogOptionGraphSensor.findViewById(R.id.checkBoxLowest);
+            final CheckBox defaultMax = (CheckBox) dialogOptionGraphSensor.findViewById(R.id.checkBoxHighest);
 
             ArrayList<String> colorStrings = new ArrayList<String>();
             initColorArray(colorStrings);
@@ -141,11 +140,11 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
                                 values.put(SensAppContract.GraphSensor.TITLE, title.getText().toString());
                             if(!(min.getText().length() == 0))
                                 values.put(SensAppContract.GraphSensor.MIN, Float.parseFloat(min.getText().toString()));
-                            else if(default_min.isChecked())
+                            else if(defaultMin.isChecked())
                                 values.put(SensAppContract.GraphSensor.MIN, Integer.MIN_VALUE);
                             if(!(max.getText().length() == 0))
                                 values.put(SensAppContract.GraphSensor.MAX, Float.parseFloat(max.getText().toString()));
-                            else if(default_max.isChecked())
+                            else if(defaultMax.isChecked())
                                 values.put(SensAppContract.GraphSensor.MAX, Integer.MAX_VALUE);
                             if(colorSelected != -1)
                                 values.put(SensAppContract.GraphSensor.COLOR, colorSelected);
@@ -304,7 +303,6 @@ public class GraphDisplayerActivity extends FragmentActivity implements LoaderCa
 
     private void addGraphToWrapperList(List<GraphWrapper> gwl, Cursor cursor, String title, int style, int color, long graphSensorID, float min, float max){
         GraphBuffer buffer = new GraphBuffer();
-        //Cursor cursor = getContentResolver().query(Uri.parse(SensAppContract.Measure.CONTENT_URI + "/" + "Android_Tab_AccelerometerY"), null, null, null, null);
         for (cursor.moveToFirst() ; !cursor.isAfterLast() ; cursor.moveToNext()) {
             buffer.insertData(cursor.getFloat(cursor.getColumnIndex(SensAppContract.Measure.VALUE)));
         }

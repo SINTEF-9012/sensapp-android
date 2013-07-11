@@ -15,16 +15,17 @@
  */
 package org.sensapp.android.sensappdroid.models;
 
-import java.util.ArrayList;
-
 import android.net.Uri;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Composite {
 	
 	private String name;
 	private String description;
 	private Uri uri; 
-	private ArrayList<Uri> sensors;
+	private List<Uri> sensors;
 	
 	public Composite() {
 		sensors = new ArrayList<Uri>();
@@ -36,7 +37,7 @@ public class Composite {
 		this.uri = uri;
 	}
 	
-	public Composite(String name, String description, Uri uri, ArrayList<Uri> sensors) {
+	public Composite(String name, String description, Uri uri, List<Uri> sensors) {
 		this.name = name;
 		this.description = description;
 		this.uri = uri;
@@ -67,11 +68,11 @@ public class Composite {
 		this.uri = uri;
 	}
 	
-	public ArrayList<Uri> getSensors() {
+	public List<Uri> getSensors() {
 		return sensors;
 	}
 	
-	public void setSensors(ArrayList<Uri> sensors) {
+	public void setSensors(List<Uri> sensors) {
 		this.sensors = sensors;
 	}
 }

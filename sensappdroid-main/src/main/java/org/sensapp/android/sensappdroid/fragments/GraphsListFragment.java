@@ -18,41 +18,28 @@ package org.sensapp.android.sensappdroid.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.FragmentManager;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.*;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.activities.SensAppService;
-import org.sensapp.android.sensappdroid.api.SensAppHelper;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
-import org.sensapp.android.sensappdroid.database.MeasureTable;
 import org.sensapp.android.sensappdroid.datarequests.DeleteGraphSensorsTask;
-import org.sensapp.android.sensappdroid.datarequests.DeleteMeasuresTask;
-import org.sensapp.android.sensappdroid.graph.*;
-import org.sensapp.android.sensappdroid.preferences.GeneralPrefFragment;
 import org.sensapp.android.sensappdroid.preferences.PreferencesActivity;
-import org.sensapp.android.sensappdroid.restrequests.PutMeasuresTask;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GraphsListFragment extends ListFragment implements LoaderCallbacks<Cursor>{
 
@@ -61,8 +48,6 @@ public class GraphsListFragment extends ListFragment implements LoaderCallbacks<
 
     private SimpleCursorAdapter adapter;
 	private OnGraphSelectedListener graphSelectedListener;
-    private NewGraphDialogFragment newGraphDialog;
-    private GraphDetailsView graph;
 
     public interface OnGraphSelectedListener {
 		public void onGraphSelected(Uri uri);
@@ -71,8 +56,7 @@ public class GraphsListFragment extends ListFragment implements LoaderCallbacks<
     public static class NewGraphDialogFragment extends DialogFragment{
 
         public static NewGraphDialogFragment newInstance() {
-            NewGraphDialogFragment frag = new NewGraphDialogFragment();
-            return frag;
+            return new NewGraphDialogFragment();
         }
 
         @Override
@@ -117,13 +101,11 @@ public class GraphsListFragment extends ListFragment implements LoaderCallbacks<
 	public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
-        newGraphDialog = new NewGraphDialogFragment();
         Cursor cursor = getActivity().getContentResolver().query(SensAppContract.Graph.CONTENT_URI, null, null, null, null);
         adapter = new SimpleCursorAdapter(getActivity(), R.layout.graph_simple_row, cursor, new String[]{SensAppContract.Graph.TITLE}, new int[]{R.id.graph_name});
         getLoaderManager().initLoader(0, null, this);
         setListAdapter(adapter);
         registerForContextMenu(getListView());
-        //cursor.close();
 	}
 
 	@Override
@@ -188,18 +170,15 @@ public class GraphsListFragment extends ListFragment implements LoaderCallbacks<
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {SensAppContract.Graph.TITLE};
-        CursorLoader cursorLoader = new CursorLoader(getActivity(), SensAppContract.Graph.CONTENT_URI, projection, null, null, null);
-        return cursorLoader;
+        return new CursorLoader(getActivity(), SensAppContract.Graph.CONTENT_URI, projection, null, null, null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        //adapter.swapCursor(cursor);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
-        //adapter.swapCursor(null);
     }
 
     private String getGraphTitleByID(long id){
