@@ -1,23 +1,19 @@
-/**
- * Copyright (C) 2012 SINTEF <fabien@fleurey.com>
- *
- * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE, Version 3, 29 June 2007;
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.sensapp.android.sensappdroid.activities;
 
-import java.util.HashMap;
-
-import android.util.Log;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerTitleStrip;
+import android.support.v4.view.ViewPager;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import org.sensapp.android.sensappdroid.R;
 import org.sensapp.android.sensappdroid.contract.SensAppContract;
 import org.sensapp.android.sensappdroid.fragments.CompositeListFragment;
@@ -29,135 +25,163 @@ import org.sensapp.android.sensappdroid.fragments.MeasureListFragment.OnMeasureS
 import org.sensapp.android.sensappdroid.fragments.SensorListFragment;
 import org.sensapp.android.sensappdroid.fragments.SensorListFragment.OnSensorSelectedListener;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.widget.TabHost;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TabsActivity extends FragmentActivity implements OnCompositeSelectedListener, OnSensorSelectedListener, OnMeasureSelectedListener, OnGraphSelectedListener{
-    
-	private TabHost tabHost;
-    private TabManager tabManager;
+
+    SectionsPagerAdapter mSectionsPagerAdapter;
+    ViewPager mViewPager;
+    PagerTitleStrip mPagerTitle;
+    final static int NB_FRAGMENTS = 4;
+    final static List<Fragment> fragmentList = new ArrayList<Fragment>(){{
+        add(new CompositeListFragment());
+        add(new SensorListFragment());
+        add(new GraphsListFragment());
+        add(new MeasureListFragment());
+    }};
+    final static List<String> fragmentNames = new ArrayList<String>(){{
+        add("Composites");
+        add("Sensors");
+        add("Graphs");
+        add("Measures");
+    }};
+    final static int COMPOSITES = 0;
+    final static int SENSORS = 1;
+    final static int GRAPHS = 2;
+    final static int MEASURES = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_tabs);
-        
-        tabHost = (TabHost) findViewById(android.R.id.tabhost);
-        tabHost.setup();
+        setContentView(R.layout.activity_main);
 
-        tabManager = new TabManager(this, tabHost, R.id.realtabcontent);
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the app.
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        tabManager.addTab(tabHost.newTabSpec("Composites").setIndicator("Composites"), CompositeListFragment.class, null);
-        tabManager.addTab(tabHost.newTabSpec("Sensors").setIndicator("Sensors"), SensorListFragment.class, null);
-        tabManager.addTab(tabHost.newTabSpec("Graphs").setIndicator("Graphs"), GraphsListFragment.class, null);
-        tabManager.addTab(tabHost.newTabSpec("Measures").setIndicator("Measures"), MeasureListFragment.class, null);
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mPagerTitle = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
 
-        if (savedInstanceState != null) {
-            tabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
-        } else {
-        	tabHost.setCurrentTabByTag("Sensors");
+        for(int i=0; i< mPagerTitle.getChildCount(); i++){
+            if (mPagerTitle.getChildAt(i) instanceof TextView){
+                ((TextView)mPagerTitle.getChildAt(i)).setTextSize(20);
+                ((TextView)mPagerTitle.getChildAt(i)).setHeight(40);
+                ((TextView)mPagerTitle.getChildAt(i)).setWidth(125);
+                ((TextView)mPagerTitle.getChildAt(i)).setGravity(Gravity.CENTER);
+                final int finalI = i;
+                ((TextView)mPagerTitle.getChildAt(i)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int current = mViewPager.getCurrentItem();
+                        int clicked = finalI;
+                        if(clicked == 0 && current > 0){
+                            mViewPager.setCurrentItem(current-1);
+                        }
+                        else if(clicked == 2 && current < NB_FRAGMENTS){
+                            mViewPager.setCurrentItem(current+1);
+                        }
+                    }
+                });
+            }
+        }
+
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i2) {
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                for(int j=0; j<mPagerTitle.getChildCount(); j++){
+                    final int clicked = j;
+                    final int current = i;
+                    ((TextView)mPagerTitle.getChildAt(j)).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(clicked == 0 && current > 0){
+                                mViewPager.setCurrentItem(current-1);
+                            }
+                            else if(clicked == 2 && current < NB_FRAGMENTS){
+                                mViewPager.setCurrentItem(current+1);
+                            }
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+            }
+        });
+
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        return fragmentList.get(mViewPager.getCurrentItem()).onContextItemSelected(item);
+    }
+
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            Fragment fragment = new Fragment();
+            switch (position) {
+                case COMPOSITES:
+                    return fragmentList.get(COMPOSITES);
+                case SENSORS:
+                    return fragmentList.get(SENSORS);
+                case GRAPHS:
+                    return fragmentList.get(GRAPHS);
+                case MEASURES:
+                    return fragmentList.get(MEASURES);
+                default:
+                    break;
+            }
+            return fragment;
+        }
+
+        @Override
+        public int getCount() {
+            return NB_FRAGMENTS;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case COMPOSITES:
+                    return fragmentNames.get(COMPOSITES);
+                case SENSORS:
+                    return fragmentNames.get(SENSORS);
+                case GRAPHS:
+                    return fragmentNames.get(GRAPHS);
+                case MEASURES:
+                    return fragmentNames.get(MEASURES);
+            }
+            return null;
         }
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("tab", tabHost.getCurrentTabTag());
-    }
-
-    public static class TabManager implements TabHost.OnTabChangeListener {
-        
-    	private final FragmentActivity tabActivity;
-        private final TabHost tabHost;
-        private final int containerId;
-        private final HashMap<String, TabInfo> tabs = new HashMap<String, TabInfo>();
-        private TabInfo lastTab;
-
-        static final class TabInfo {
-            private final String tag;
-            private final Class<?> clss;
-            private final Bundle args;
-            private Fragment fragment;
-            TabInfo(String tag, Class<?> clss, Bundle args) {
-                this.tag = tag;
-                this.clss = clss;
-                this.args = args;
-            }
-        }
-
-        static class DummyTabFactory implements TabHost.TabContentFactory {
-        	private final Context context;
-            public DummyTabFactory(Context context) {
-                this.context = context;
-            }
-            @Override
-            public View createTabContent(String tag) {
-                View v = new View(context);
-                v.setMinimumWidth(0);
-                v.setMinimumHeight(0);
-                return v;
-            }
-        }
-
-        public TabManager(FragmentActivity activity, TabHost tabHost, int containerId) {
-            this.tabActivity = activity;
-            this.tabHost = tabHost;
-            this.containerId = containerId;
-            this.tabHost.setOnTabChangedListener(this);
-        }
-
-        public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
-            tabSpec.setContent(new DummyTabFactory(tabActivity));
-            String tag = tabSpec.getTag();
-
-            TabInfo info = new TabInfo(tag, clss, args);
-            info.fragment = tabActivity.getSupportFragmentManager().findFragmentByTag(tag);
-
-            // Check to see if we already have a fragment for this tab, probably
-            // from a previously saved state.  If so, deactivate it, because our
-            // initial state is that a tab isn't shown.
-            if (info.fragment != null && !info.fragment.isDetached()) {
-                FragmentTransaction ft = tabActivity.getSupportFragmentManager().beginTransaction();
-                ft.detach(info.fragment);
-                ft.commit();
-            }
-
-            tabs.put(tag, info);
-            tabHost.addTab(tabSpec);
-        }
-
-        @Override
-        public void onTabChanged(String tabId) {
-            TabInfo newTab = tabs.get(tabId);
-            if (lastTab != newTab) {
-                FragmentTransaction ft = tabActivity.getSupportFragmentManager().beginTransaction();
-                if (lastTab != null && lastTab.fragment != null) {
-                        ft.detach(lastTab.fragment);
-                }
-                if (newTab != null) {
-                    if (newTab.fragment == null) {
-                        newTab.fragment = Fragment.instantiate(tabActivity, newTab.clss.getName(), newTab.args);
-                        ft.add(containerId, newTab.fragment, newTab.tag);
-                    } else {
-                        ft.attach(newTab.fragment);
-                    }
-                }
-
-                lastTab = newTab;
-                ft.commit();
-                tabActivity.getFragmentManager().executePendingTransactions();
-            }
-        }
-    }
-
-	@Override
 	public void onMeasureSelected(Uri uri) {
 		Intent i = new Intent(this, MeasureActivity.class);
 		i.setData(uri);
@@ -178,11 +202,13 @@ public class TabsActivity extends FragmentActivity implements OnCompositeSelecte
 		startActivity(i);
 	}
 
+
     @Override
     public void onGraphSelected(Uri uri) {
         Intent i = new Intent(getApplicationContext(), GraphDisplayerActivity.class);
         i.setData(uri);
         startActivity(i);
     }
-}
 
+
+}
