@@ -27,3 +27,7 @@ Screenshot
 ![SensApp android sensors](https://raw.github.com/SINTEF-9012/sensapp-android/master/extra/screenshots/sensors.png) ![SensApp android upload](https://raw.github.com/SINTEF-9012/sensapp-android/master/extra/screenshots/pref_upload.png).
 
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/SINTEF-9012/sensapp-android/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
